@@ -2,32 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+.gradient-button {
+  display: inline-block;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: linear-gradient(to right, #ED75A7, #43517A, #3194BB);
+  transition: all 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.gradient-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.banner-text,
+.banner-text > * {
+  background: linear-gradient(to right, #ED75A7,#43517A, #3194BB);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 45px;
+  font-weight: 900;
+  line-height: 1;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.card-container {
+  width: 80%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: space-between;
 }
+
+.card-container .box {
+  width: calc((100% / 4));
+  background-color: #FFFFFF;
+  position: relative;
+  padding: 0px, 0px, 18.73px, 0px;
+  
+}
+
+.card-container .box .top {
+  position: relative;
+  background-color: red;
+}
+
+
+.card-container .box .top img {
+  width: 100%;
+  margin-bottom: -4px;
+}
+
+.card-container .box .top span {
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+  color: white;
+  font-size: 20px;
+}
+
+.card-container .box .top span i {
+  margin-left: 5px;
+}
+
+.card-container .box .bottom {
+  padding: 20px 15px;
+  position: relative;
+}
+
+
+.card-container .box .bottom h3 {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.card-container .box .bottom > p {
+  margin: 15px 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #777;
+}
+
+.card-container .box .bottom .advants {
+  display: flex;
+}
+
+.card-container .box .bottom .advants > div {
+  margin-right: 15px;
+}
+
+.card-container .box .bottom .advants > div > span {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.card-container .box .bottom .advants > div > div {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+.card-container .box .bottom  {
+  margin-top: 20px;
+}
+
+
