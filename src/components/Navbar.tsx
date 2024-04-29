@@ -1,19 +1,22 @@
 "use client";
 import React from "react";
 import { FaWallet } from "react-icons/fa";
+import Image from "next/image";
+import logo from "../../public/assets/logo.png";
 const Navbar = () => {
   return (
     <>
       <nav className="bg-white  w-full z-20 start-0 border-b  ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
-            href="https://flowbite.com/"
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
+            <Image
+              src={logo}
+              width={150}
+              height={150}
+              alt="Picture of the author"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Flowbite
@@ -22,8 +25,8 @@ const Navbar = () => {
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
               type="button"
-              className="text-black font-light uppercase border focus:ring-4  rounded-lg text-sm px-4 py-3 gradient-button text-center bg-gradient-to-r"
-            > 
+              className="text-black font-light uppercase border focus:ring-4  rounded-2xl text-sm px-4 py-2.5 gradient-button text-center bg-gradient-to-r"
+            >
               Connect <FaWallet className="inline-block text-white ml-2" />
             </button>
             <button

@@ -1,24 +1,38 @@
-import React from "react";
+import React, { FC } from "react";
 import { FaRegHeart } from "react-icons/fa6";
-const PropertyCard = () => {
+import Image, { StaticImageData } from "../../node_modules/next/image";
+import property4 from "../../public/assets/property4.jpg";
+interface PropertyCardProps {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  img: StaticImageData;
+}
+const PropertyCard: FC<PropertyCardProps> = ({
+  id,
+  title,
+  description,
+  price,
+  img,
+}) => {
   return (
     <div className="box mb-20 border-3 rounded-md shadow-lg">
       <div className="top">
-        <img
-          src="https://cdn.pixabay.com/photo/2014/07/31/00/30/vw-beetle-405876__340.jpg"
-          alt=""
+        <Image
+          src={property4}
+          width={150}
+          height={150}
+          alt="Picture of the author"
         />
         <span>
           <FaRegHeart />
         </span>
       </div>
       <div className="bottom">
-        <h3>Villa In Alexandria</h3>
-        <p>
-          Enjoy serenity of Deering Bay whole day from this spectacular North
-          and...
-        </p>
-        <p>$245,890</p>
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <p>{price}</p>
       </div>
     </div>
   );
