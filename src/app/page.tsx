@@ -7,6 +7,8 @@ import property3 from "@/assets/property3.jpg";
 import property4 from "@/assets/property4.jpg";
 import buildings from "@/assets/buildings.png";
 import Image from "../../node_modules/next/image";
+import FeatureCard from "@/ui/feature-card";
+import Footer from "@/components/Footer";
 const dummyPropertyData = [
   {
     id: 1,
@@ -58,11 +60,11 @@ export default function Home() {
           </button>
         </div>
         <div className="flex justify-between items-center px-20 mt-20 mb-20">
-          <div className="flex justify-center flex-col items-center">
-            <h2 className="text-3xl font-extrabold font-mona text-black">
-              Making property investment simple
+          <div className="flex text-left justify-center flex-col  px-10">
+            <h2 className="text-[38px] font-extrabold font-mona text-black">
+              Making property investment <br/> simple
             </h2>
-            <p className="text-gray-500 text-center mt-4">
+            <p className="text-gray-500 text-left text-xl mt-4">
               Aligning the incentives of the real estate developer, investors &
               tenants
             </p>
@@ -72,6 +74,13 @@ export default function Home() {
             <Image src={buildings} width={500} height={500} alt="property" />
           </div>
         </div>
+        <div className="px-20 grid grid-cols-2 gap-3 gap-y-4">
+            <FeatureCard/>
+            <FeatureCard/>
+            <FeatureCard/>
+            <FeatureCard/>
+        </div>
+        <Footer/>
       </div>
     </main>
   );
