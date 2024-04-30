@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { FaRegHeart } from "react-icons/fa6";
 import Image, { StaticImageData } from "../../node_modules/next/image";
-import property4 from "../../public/assets/property4.jpg";
+import property4 from "@/assets/property4.jpg";
 interface PropertyCardProps {
   id: number;
   title: string;
@@ -17,7 +17,7 @@ const PropertyCard: FC<PropertyCardProps> = ({
   img,
 }) => {
   return (
-    <div className="box mb-20 border-3 rounded-md shadow-lg">
+    <div className="box mb-10 border-3 rounded-md shadow-lg">
       <div className="top">
         <Image
           src={property4}

@@ -2,7 +2,7 @@
 import React from "react";
 import { FaWallet } from "react-icons/fa";
 import Image from "next/image";
-import logo from "../../public/assets/logo.png";
+import logo from "@/assets/logo.png";
 const Navbar = () => {
   return (
     <>
@@ -56,7 +56,7 @@ const Navbar = () => {
           </div>
           <div
             className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-            id="navbar-sticky"
+          
           >
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-DM font-normal border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
               <li>
