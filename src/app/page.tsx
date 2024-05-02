@@ -9,6 +9,27 @@ import buildings from "@/assets/buildings.png";
 import Image from "../../node_modules/next/image";
 import FeatureCard from "@/ui/feature-card";
 import Footer from "@/components/Footer";
+import ID from "@/assets/ID-white.png";
+import propertyIcon from "@/assets/Property Portfolio-white.png";
+import verifyingIcon from "@/assets/Verify your identity-white.png";
+import capitalIcon from "@/assets/Capital - Purchase-white.png";
+const dummyFeatureData=[{
+  id:1,
+  title:"Connect digital identity & verify your credentials",
+  img:ID,
+},{
+  id:2,
+  title:"Choose a property and number of fractions ",
+  img:propertyIcon,
+},{
+  id:3,
+  title:"Agree to the terms of the smart contract & digitally sign",
+  img:verifyingIcon,
+},{
+  id:4,
+  title:"Make payment & receive your property tokens",
+  img:capitalIcon,
+}];
 const dummyPropertyData = [
   {
     id: 1,
@@ -74,11 +95,10 @@ export default function Home() {
             <Image src={buildings} width={500} height={500} alt="property" />
           </div>
         </div>
-        <div className="px-20 grid grid-cols-2 gap-3 gap-y-4">
-            <FeatureCard/>
-            <FeatureCard/>
-            <FeatureCard/>
-            <FeatureCard/>
+        <div className="px-20 grid grid-cols-2 gap-1 gap-y-6 ml-20">
+            {dummyFeatureData.map((feature) => {
+              return <FeatureCard key={feature.id} {...feature} />;
+            })}
         </div>
         <Footer/>
       </div>

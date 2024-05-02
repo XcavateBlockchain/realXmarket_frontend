@@ -3,6 +3,7 @@ import React from "react";
 import { FaWallet } from "react-icons/fa";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import { IoWalletOutline } from "react-icons/io5";
 const Navbar = () => {
   return (
     <>
@@ -23,9 +24,9 @@ const Navbar = () => {
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
               type="button"
-              className="text-black font-light uppercase border focus:ring-4  rounded-2xl text-sm px-4 py-2.5 gradient-button text-center bg-gradient-to-r"
+              className="text-black shadow-md font-light uppercase border focus:ring-4  rounded-2xl text-sm px-4 py-2.5 gradient-button text-center bg-gradient-to-r"
             >
-              Connect <FaWallet className="inline-block text-white ml-2" />
+              Connect <IoWalletOutline size={20} className="inline-block text-white ml-2" />
             </button>
             <button
               data-collapse-toggle="navbar-sticky"
@@ -60,24 +61,24 @@ const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 text-black  "
+                  className="block py-2 px-3 text-black  font-thin "
                   aria-current="page"
                 >
                   MARKETPLACE
                 </a>
               </li>
               <li>
-                <a href="#" className="block py-2 px-3  text-black ">
+                <a href="#" className="block py-2 px-3  text-black font-thin ">
                   LOANS
                 </a>
               </li>
               <li>
-                <a href="#" className="block py-2 px-3  text-black ">
+                <a href="#" className="block py-2 px-3  text-black font-thin ">
                   STAKING
                 </a>
               </li>
               <li>
-                <a href="#" className="block py-2 px-3  text-black ">
+                <a href="#" className="block py-2 px-3  text-black font-thin ">
                   DOCUMENTS
                 </a>
               </li>
