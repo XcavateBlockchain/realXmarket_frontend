@@ -1,7 +1,13 @@
 import React from "react";
-import Image from "next/image";
-import ID from "@/assets/ID-white.png";
-const FeatureCard = ({ id, title, img }) => {
+import Image, { StaticImageData } from "next/image";
+import { FC } from "react";
+
+interface FeatureCardProps {
+  id: number;
+  title: string;
+  img: StaticImageData;
+}
+const FeatureCard: FC<FeatureCardProps> = ({ id, title, img }) => {
   return (
     <>
       <div className="flex feature-card-bg ">
