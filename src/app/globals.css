@@ -115,3 +115,10 @@
   width: 80%;
   position: relative;
 }
+
+.profile-logo{
+  background-image: url("../assets/profile-logo.png");
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+  background-position: center;
+}
