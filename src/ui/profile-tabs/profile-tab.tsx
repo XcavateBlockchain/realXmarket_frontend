@@ -10,7 +10,7 @@ const ProfileTab = () => {
         </p>
       </div>
       <div className="flex mt-10 flex-col gap-y-8">
-        <div className="flex  w-full items-center">
+        <div className="flex  w-full items-center justify-between">
           <label
             htmlFor="full_name"
             className="block mb-2 w-1/3 text-md font-medium text-gray-900 dark:text-black"
@@ -21,20 +21,20 @@ const ProfileTab = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-1/2  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-1/2  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="Neeraj"
               required
             />
             <input
               type="text"
               id="last_name"
-              className="bg-[#4E4E4E1A] w-1/2  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-1/2  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="Choubisa"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center">
+        <div className="flex  w-full items-center justify-between">
           <label
             htmlFor="full_name"
             className="block mb-2 w-1/3 text-md font-medium text-gray-900 dark:text-black"
@@ -45,14 +45,14 @@ const ProfileTab = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="Neeraj"
               required
             />
            
           </div>
         </div>
-        <div className="flex  w-full items-center">
+        <div className="flex  w-full items-center justify-between">
           <label
             htmlFor="full_name"
             className="block mb-2 w-1/3 text-md font-medium text-gray-900 dark:text-black"
@@ -63,14 +63,14 @@ const ProfileTab = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="+9087968686"
               required
             />
            
           </div>
         </div>
-        <div className="flex  w-full items-center">
+        <div className="flex  w-full items-center justify-between">
           <label
             htmlFor="full_name"
             className="block mb-2 w-1/3 text-md font-medium text-gray-900 dark:text-black"
@@ -81,14 +81,14 @@ const ProfileTab = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="+9087968686"
               required
             />
            
           </div>
         </div>
-        <div className="flex  w-full items-center">
+        <div className="flex  w-full items-center justify-between">
           <label
             htmlFor="full_name"
             className="block mb-2 w-1/3 text-md font-medium text-gray-900 dark:text-black"
@@ -99,14 +99,14 @@ const ProfileTab = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="+9087968686"
               required
             />
            
           </div>
         </div>
-        <div className="flex  w-full items-center">
+        <div className="flex  w-full items-center justify-between">
           <label
             htmlFor="full_name"
             className="block mb-2 w-1/3 text-md font-medium text-gray-900 dark:text-black"
@@ -117,7 +117,7 @@ const ProfileTab = () => {
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-md"
+              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
               placeholder="+9087968686"
               required
             />
