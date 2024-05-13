@@ -49,7 +49,7 @@ export default function Profile() {
                     <span
                       key={i}
                       onClick={() => setTabIndex(i)}
-                      className="inline-flex cursor-pointer whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-purple-600 hover:text-purple-600"
+                      className="inline-flex cursor-pointer whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-md font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-purple-600 hover:text-purple-600"
                     >
                       {" "}
                       {item}
