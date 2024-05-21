@@ -223,7 +223,7 @@ const CompanyTab = () => {
 
       <section className="py-12 font-mona">
         <h1 className="mt-3 font-bold text-2xl">Users</h1>
-        <div className="mt-6 overflow-hidden rounded-xl border">
+        <div className="mt-6 overflow-hidden">
           <table className="min-w-full border-separate border-spacing-y-2 border-spacing-x-2">
             <thead className="hidden border-b lg:table-header-group">
               <tr className="">
