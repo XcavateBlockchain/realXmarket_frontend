@@ -1,8 +1,13 @@
 "use client";
 import React from "react";
+import ConfirmMintingModal from "../modals/confirm-minting";
+import SuccessMintingModal from "../modals/success-minting";
 
 const CompanyTab = () => {
   const [showInviteModal, setShowInviteModal] = React.useState(false);
+  const [showMintingModal, setShowMintingModal] = React.useState(false);
+  const [showSuccessMintingModal, setShowSuccessMintingModal] =
+    React.useState(false);
   const ModalCard = () => {
     return (
       <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center backdrop-blur-md backdrop-brightness-90 items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -62,6 +67,20 @@ const CompanyTab = () => {
             className="px-4 py-2 mt-4 text-sm font-medium text-black border rounded-sm"
           >
             Add Members
+          </button>
+
+          <button
+            onClick={() => setShowMintingModal(true)}
+            className="px-4 py-2 mt-4 text-sm font-medium text-black border rounded-sm"
+          >
+            Minting Modal
+          </button>
+
+          <button
+            onClick={() => setShowSuccessMintingModal(true)}
+            className="px-4 py-2 mt-4 text-sm font-medium text-black border rounded-sm"
+          >
+            Success Minting Modal
           </button>
         </div>
       </div>
@@ -223,7 +242,7 @@ const CompanyTab = () => {
 
       <section className="py-12 font-mona">
         <h1 className="mt-3 font-bold text-2xl">Users</h1>
-        <div className="mt-6 overflow-hidden">
+        <div className="mt-6 overflow-hidden rounded-xl border">
           <table className="min-w-full border-separate border-spacing-y-2 border-spacing-x-2">
             <thead className="hidden border-b lg:table-header-group">
               <tr className="">
@@ -409,6 +428,14 @@ const CompanyTab = () => {
       </section>
 
       {showInviteModal && <ModalCard />}
+      {showMintingModal && (
+        <ConfirmMintingModal setShowMintingModal={setShowMintingModal} />
+      )}
+      {showSuccessMintingModal && (
+        <SuccessMintingModal
+          setShowSuccessMintingModal={setShowSuccessMintingModal}
+        />
+      )}
     </>
   );
 };
