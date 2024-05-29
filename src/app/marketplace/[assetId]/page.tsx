@@ -115,10 +115,9 @@ const page = () => {
                 <div className="relative mb-6">
                   <input
                     type="range"
-                    value="200000"
-                    min="200000"
-                    max="270000"
-                    step="1"
+                    min={200000}
+                    max={270000}
+                    step={1}
                     className="w-full h-1 bg-gray-200 rounded-md range-sm appearance-none cursor-pointer "
                   />
                   <span className="text-xs text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">
@@ -144,7 +143,6 @@ const page = () => {
                 <div className="relative mb-6">
                   <input
                     type="range"
-                    value="200000"
                     min="200000"
                     max="270000"
                     step="1"
@@ -169,7 +167,156 @@ const page = () => {
           </div>
         </div>
       </div>
-      
+      <div className="bg-[#F4F4F4] px-20 py-10 border mt-8">
+        <div className="flex gap-8 mt-10 px-8">
+          <div className="w-1/2 flex flex-col">
+            <h1 className="text-[#4E4E4E]">Property Description</h1>
+            <p className="text-md text-[#191A1BD9] mt-2">
+              Welcome to this stunning 3-bedroom, 2-bathroom condo located in
+              the heart of downtown. This spacious corner unit boasts
+              breathtaking city views and features a modern open floor plan,
+              perfect for entertaining. The condo has been recently renovated
+              with brand new hardwood floors, stainless steel appliances, and a
+              state-of-the-art security system.
+            </p>
+            <h1 className="text-[#4E4E4E] mt-10">Details</h1>
+
+            <div className="flex justify-between text-[#4E4E4E] py-2 mt-4 border-t-2 px-1 border-gray-200">
+              <span className="text-sm ">Bedroom</span>
+              <p className="text-sm font-normal mt-2">$1,00,000</p>
+            </div>
+            <div className="flex justify-between text-[#4E4E4E] py-2 mt-0 border-t-2 px-1 border-gray-200">
+              <span className="text-sm ">Bathroom</span>
+              <p className="text-sm font-normal mt-2">$1,00,000</p>
+            </div>
+            <div className="flex justify-between text-[#4E4E4E] py-2 mt-0 border-t-2 px-1 border-gray-200">
+              <span className="text-sm ">Location</span>
+              <p className="text-sm font-normal mt-2">$1,00,000</p>
+            </div>
+            <div className="flex justify-between text-[#4E4E4E] py-2 mt-0 border-t-2 px-1 border-gray-200">
+              <span className="text-sm ">Type</span>
+              <p className="text-sm font-normal mt-2">$1,00,000</p>
+            </div>
+            <div className="flex justify-between text-[#4E4E4E] py-2 mt-0 border-t-2 px-1 border-gray-200">
+              <span className="text-sm ">Location</span>
+              <p className="text-sm font-normal mt-2">$1,00,000</p>
+            </div>
+          </div>
+          <div className="w-1/2 flex flex-col">
+            <h1 className="font-bold">MAP</h1>
+            <div className="bg-gray-300 w-full h-full mt-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-20 flex flex-col mt-10">
+        <h1 className="text-[#4E4E4E] text-xl mb-4">Item Activity</h1>
+        <table className="min-w-full border-separate border-spacing-y-2 border-t-2 border-spacing-x-2">
+          <thead className="hidden border-b lg:table-header-group">
+            <tr className="">
+              <td
+           
+                className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-6"
+              >
+                Action
+              </td>
+
+              <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-6">
+                From
+              </td>
+
+              <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-6">
+                Trade Price
+              </td>
+
+              <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-6">
+                To
+              </td>
+              <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-6">
+                Date
+              </td>
+            </tr>
+          </thead>
+
+          <tbody className="lg:border-gray-300">
+            <tr className="">
+              <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                07 February, 2022
+              </td>
+
+              <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                07 February, 2022
+              </td>
+
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $59.00
+              </td>
+
+              <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                07 February, 2022
+              </td>
+              <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                07 February, 2022
+              </td>
+            </tr>
+
+            <tr className="">
+              <td
+               
+                className="whitespace-no-wrap py-4 text-sm font-bold text-gray-900 sm:px-6"
+              >
+                Basic Plan - Nov 2021
+               
+              </td>
+
+              <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                14 November, 2021
+              </td>
+
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $29.00
+               
+              </td>
+
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $29.00
+               
+              </td>
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $29.00
+               
+              </td>
+            </tr>
+
+            <tr className="">
+              <td
+               
+                className="whitespace-no-wrap py-4 text-sm font-bold text-gray-900 sm:px-6"
+              >
+                Basic Plan - Oct 2021
+                
+              </td>
+
+              <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-500 sm:px-6 lg:table-cell">
+                15 October, 2021
+              </td>
+
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $29.00
+               
+              </td>
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $29.00
+               
+              </td>
+              <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                $29.00
+               
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
