@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 
-const ConfirmMintingModal = ({setShowMintingModal}) => {
+const ConfirmMintingModal = ({ setShowMintingModal }) => {
   return (
     <>
-      <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center backdrop-blur-md backdrop-brightness-90 items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div className="relative w-full p-4 flex justify-center h-[100%]">
-          <div className="relative  w-1/3 h-[320px] bg-white rounded-lg shadow">
-            <div className="flex items-center justify-between md:py-5 px-5 rounded-t ">
+      <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
+        <div className="relative flex h-[100%] w-full justify-center p-4">
+          <div className="relative h-[320px] w-1/3 rounded-lg bg-white shadow">
+            <div className="flex items-center justify-between rounded-t px-5 md:py-5">
               <h1 className="font-mona">Confirm minting</h1>
               <button
                 onClick={() => setShowMintingModal(false)}
                 type="button"
-                className="text-gray-400 bg-transparent   rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center border"
+                className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-transparent text-sm text-gray-400"
               >
                 <svg
-                  className="w-3 h-3"
+                  className="h-3 w-3"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 14 14"
@@ -30,18 +30,15 @@ const ConfirmMintingModal = ({setShowMintingModal}) => {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <div className="p-4 md:p-5 py-1 space-y-4 flex flex-col items-center">
+            <div className="flex flex-col items-center space-y-4 p-4 py-1 md:p-5">
               <p>
-                You are about to mint 10X tokens of PLOT 1 - Lea Wharf property
-                by clicking continue you verify that the details provided are
-                correct.
+                You are about to mint 10X tokens of PLOT 1 - Lea Wharf property by clicking
+                continue you verify that the details provided are correct.
               </p>
-              <button className=" text-black shadow-md w-[200px] uppercase border focus:ring-4  rounded-2xl text-sm px-4 py-3 gradient-button text-center bg-gradient-to-r">
+              <button className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
                 Continue
               </button>
-              <button className="mt-4 px-4 py-3 bg-transparent">
-                Verify Details
-              </button>
+              <button className="mt-4 bg-transparent px-4 py-3">Verify Details</button>
             </div>
           </div>
         </div>
