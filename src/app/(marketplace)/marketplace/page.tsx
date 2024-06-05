@@ -1,12 +1,12 @@
 'use client';
 
 import MarketplaceCard from '@/components/MarketplaceCard';
-import Navbar from '@/components/Navbar';
+import { useState } from 'react';
+export default function Marketplace() {
 
-export default function Profile() {
   return (
     <>
-      <div className="border-b-2 border-gray-300 px-4 py-10 sm:px-6 lg:px-10">
+      <div className="border-b-2 border-gray-300 px-4 py-10 sm:mt-20 mt-12 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
           <div className="col-span-1 flex flex-col">
             <label className="mb-1 ml-0 uppercase text-gray-500">Property Price</label>
@@ -47,10 +47,10 @@ export default function Profile() {
       </div>
 
       <div className="px-4 sm:px-6 lg:px-10">
-        <h1 className="banner-text mt-20 text-center font-mona text-lg uppercase sm:mt-40 sm:text-2xl lg:text-3xl">
+        <h1 className="banner-text mt-20 text-center font-mona text-lg uppercase sm:mt-40 sm:text-5xl lg:text-6xl">
           Market Place
         </h1>
-        <p className="sm:text-md mt-2 text-center text-sm">
+        <p className="sm:text-md mt-2 text-center sm:text-3xl text-sm">
           Find the investment that’s right for you
         </p>
         <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-40 sm:grid-cols-2 lg:grid-cols-4">
