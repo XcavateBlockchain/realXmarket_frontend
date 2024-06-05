@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function OverviewCard({ title, value }: { title: string; value: string | number }) {
   return (
-    <div className="shadow-profile-card relative flex h-full w-full shrink-0 flex-col items-start gap-4 bg-white/[0.71] p-3 font-mona md:h-[182px] md:gap-12 md:p-6">
+    <div className="relative flex h-full w-full shrink-0 flex-col items-start gap-4 bg-white/[0.71] p-3 font-mona shadow-profile-card md:h-[182px] md:gap-12 md:p-6">
       <dt className="text-[0.75rem]/[1.5rem] font-semibold md:text-[1.125rem]/[1.5rem]">
         {title}
       </dt>

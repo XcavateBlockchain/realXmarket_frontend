@@ -1,27 +1,26 @@
-"use client";
-import React from "react";
-import ConfirmMintingModal from "../modals/confirm-minting";
-import SuccessMintingModal from "../modals/success-minting";
+'use client';
+import React from 'react';
+import ConfirmMintingModal from '../modals/confirm-minting';
+import SuccessMintingModal from '../modals/success-minting';
 
 const CompanyTab = () => {
   const [showInviteModal, setShowInviteModal] = React.useState(false);
   const [showMintingModal, setShowMintingModal] = React.useState(false);
-  const [showSuccessMintingModal, setShowSuccessMintingModal] =
-    React.useState(false);
+  const [showSuccessMintingModal, setShowSuccessMintingModal] = React.useState(false);
   const ModalCard = () => {
     return (
-      <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center backdrop-blur-md backdrop-brightness-90 items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div className="relative w-full p-4 flex justify-center h-[100%]">
-          <div className="relative  w-1/3 h-1/3 bg-white rounded-lg shadow">
-            <div className="flex items-center justify-between md:py-5 px-5 rounded-t ">
+      <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
+        <div className="relative flex h-[100%] w-full justify-center p-4">
+          <div className="relative h-1/3 w-1/3 rounded-lg bg-white shadow">
+            <div className="flex items-center justify-between rounded-t px-5 md:py-5">
               <h1 className="font-mona">Add Team Members</h1>
               <button
                 onClick={() => setShowInviteModal(false)}
                 type="button"
-                className="text-gray-400 bg-transparent   rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center border"
+                className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-transparent text-sm text-gray-400"
               >
                 <svg
-                  className="w-3 h-3"
+                  className="h-3 w-3"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 14 14"
@@ -37,13 +36,13 @@ const CompanyTab = () => {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <div className="p-4 md:p-5 py-1 space-y-4 flex flex-col items-center">
+            <div className="flex flex-col items-center space-y-4 p-4 py-1 md:p-5">
               <input
                 type="text"
                 placeholder="Enter | Wallet"
-                className="w-full px-4 py-4 border border-gray-300 rounded-md text-gray-900 text-sm"
+                className="w-full rounded-md border border-gray-300 px-4 py-4 text-sm text-gray-900"
               />
-              <button className=" text-black shadow-md w-[200px] uppercase border focus:ring-4  rounded-2xl text-sm px-4 py-3.5 gradient-button text-center bg-gradient-to-r">
+              <button className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3.5 text-center text-sm uppercase text-black shadow-md focus:ring-4">
                 Invite
               </button>
             </div>
@@ -55,7 +54,7 @@ const CompanyTab = () => {
   return (
     <>
       <div className="flex justify-between">
-        <div className="flex flex-col font-DM">
+        <div className="font-DM flex flex-col">
           <h1 className="font-bold text-gray-900">Company credentials</h1>
           <p className="text-sm text-gray-400">
             This information was pre-filled from deloitte
@@ -64,175 +63,175 @@ const CompanyTab = () => {
         <div>
           <button
             onClick={() => setShowInviteModal(true)}
-            className="px-4 py-2 mt-4 text-sm font-medium text-black border rounded-sm"
+            className="mt-4 rounded-sm border px-4 py-2 text-sm font-medium text-black"
           >
             Add Members
           </button>
 
           <button
             onClick={() => setShowMintingModal(true)}
-            className="px-4 py-2 mt-4 text-sm font-medium text-black border rounded-sm"
+            className="mt-4 rounded-sm border px-4 py-2 text-sm font-medium text-black"
           >
             Minting Modal
           </button>
 
           <button
             onClick={() => setShowSuccessMintingModal(true)}
-            className="px-4 py-2 mt-4 text-sm font-medium text-black border rounded-sm"
+            className="mt-4 rounded-sm border px-4 py-2 text-sm font-medium text-black"
           >
             Success Minting Modal
           </button>
         </div>
       </div>
-      <div className="flex mt-10 flex-col gap-y-8 border-t py-8 border-b">
-        <div className="flex  w-full items-center justify-between">
+      <div className="mt-10 flex flex-col gap-y-8 border-b border-t py-8">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Company Name:
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-[100%]  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-[100%] rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="Neeraj"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Registeration Number:
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="Neeraj"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Company Phone Number :
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Company Email Address :
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Phone Number :
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Address:
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Association Website:
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Association membership Number:
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
           </div>
         </div>
-        <div className="flex  w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <label
             htmlFor="full_name"
-            className="block mb-2 w-1/3 text-md font-medium text-[#4E4E4E]"
+            className="text-md mb-2 block w-1/3 font-medium text-[#4E4E4E]"
           >
             Passport/Driver license:
           </label>
-          <div className="flex  w-1/2 gap-3 ">
+          <div className="flex w-1/2 gap-3">
             <input
               type="text"
               id="first_name"
-              className="bg-[#4E4E4E1A] w-full  px-4 py-2 border border-gray-300 text-gray-900 text-sm rounded-sm"
+              className="w-full rounded-sm border border-gray-300 bg-[#4E4E4E1A] px-4 py-2 text-sm text-gray-900"
               placeholder="+9087968686"
               required
             />
@@ -241,9 +240,9 @@ const CompanyTab = () => {
       </div>
 
       <section className="py-12 font-mona">
-        <h1 className="mt-3 font-bold text-2xl">Users</h1>
+        <h1 className="mt-3 text-2xl font-bold">Users</h1>
         <div className="mt-6 overflow-hidden rounded-xl border">
-          <table className="min-w-full border-separate border-spacing-y-2 border-t-2 border-spacing-x-2">
+          <table className="min-w-full border-separate border-spacing-x-2 border-spacing-y-2 border-t-2">
             <thead className="hidden border-b lg:table-header-group">
               <tr className="">
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-6">
@@ -277,7 +276,7 @@ const CompanyTab = () => {
                   07 February, 2022
                 </td>
 
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $59.00
                 </td>
 
@@ -298,14 +297,14 @@ const CompanyTab = () => {
                   14 November, 2021
                 </td>
 
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $29.00
                 </td>
 
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $29.00
                 </td>
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $29.00
                 </td>
               </tr>
@@ -319,13 +318,13 @@ const CompanyTab = () => {
                   15 October, 2021
                 </td>
 
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $29.00
                 </td>
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $29.00
                 </td>
-                <td className="whitespace-no-wrap py-4 px-6 text-right text-sm text-gray-600 lg:text-left">
+                <td className="whitespace-no-wrap px-6 py-4 text-right text-sm text-gray-600 lg:text-left">
                   $29.00
                 </td>
               </tr>
@@ -335,13 +334,9 @@ const CompanyTab = () => {
       </section>
 
       {showInviteModal && <ModalCard />}
-      {showMintingModal && (
-        <ConfirmMintingModal setShowMintingModal={setShowMintingModal} />
-      )}
+      {showMintingModal && <ConfirmMintingModal setShowMintingModal={setShowMintingModal} />}
       {showSuccessMintingModal && (
-        <SuccessMintingModal
-          setShowSuccessMintingModal={setShowSuccessMintingModal}
-        />
+        <SuccessMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} />
       )}
     </>
   );

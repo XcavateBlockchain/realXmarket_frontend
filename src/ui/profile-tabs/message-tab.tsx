@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const MessageTab = () => {
-  return (
-    <div>MessageTab</div>
-  )
-}
+  return <div>MessageTab</div>;
+};
 
-export default MessageTab
+export default MessageTab;

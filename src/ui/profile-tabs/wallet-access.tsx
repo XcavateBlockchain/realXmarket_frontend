@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const WalletAccessTab = () => {
-  return (
-    <div>WalletAccessTab</div>
-  )
-}
+  return <div>WalletAccessTab</div>;
+};
 
-export default WalletAccessTab
+export default WalletAccessTab;

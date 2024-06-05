@@ -1,14 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export type SubstrateContext = {
   isConnected: boolean;
@@ -19,7 +13,7 @@ export type SubstrateContext = {
 const SubstrateContext = createContext<SubstrateContext>({
   isConnected: false,
   handleConnect: async () => {}, // Dummy function for handleConnect
-  disconnectWallet: () => {}, // Dummy function for disconnectWallet
+  disconnectWallet: () => {} // Dummy function for disconnectWallet
 });
 
 export function useSubstrateContext() {
@@ -48,7 +42,7 @@ export default function SubstrateContextProvider({ children }: SubstrateProps) {
         isConnected,
 
         handleConnect,
-        disconnectWallet,
+        disconnectWallet
       }}
     >
       {children}

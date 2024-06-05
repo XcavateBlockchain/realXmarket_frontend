@@ -1,9 +1,9 @@
-import localFont from "next/font/local";
+import localFont from 'next/font/local';
 
 export const fontMonaSans = localFont({
-  src: "../assets/fonts/Mona-Sans.woff2",
-  style: "normal",
-  variable: "--font-mona-sans",
+  src: '../assets/fonts/Mona-Sans.woff2',
+  style: 'normal',
+  variable: '--font-mona-sans'
 });
 
 // export const fontMona = localFont({

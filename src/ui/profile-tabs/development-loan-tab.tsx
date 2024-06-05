@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const DevelopmentLoanTab = () => {
-  return (
-    <div>DevelopmentLoanTab</div>
-  )
-}
+  return <div>DevelopmentLoanTab</div>;
+};
 
-export default DevelopmentLoanTab
+export default DevelopmentLoanTab;

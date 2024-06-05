@@ -4,16 +4,11 @@ export type WalletIconType = keyof typeof WalletIcon;
 
 export const WalletIcon = {
   talismanWallet: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 48 48"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" {...props}>
       <g clipPath="url(#clip0_460_7450)">
         <mask
           id="mask0_460_7450"
-          style={{ maskType: "luminance" }}
+          style={{ maskType: 'luminance' }}
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
@@ -31,7 +26,7 @@ export const WalletIcon = {
           />
           <mask
             id="mask1_460_7450"
-            style={{ maskType: "luminance" }}
+            style={{ maskType: 'luminance' }}
             maskUnits="userSpaceOnUse"
             x="8"
             y="8"
@@ -69,13 +64,7 @@ export const WalletIcon = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...props}
     >
-      <circle
-        cx="21"
-        cy="21"
-        r="20.5"
-        fill="url(#pattern0_755_9648)"
-        stroke="white"
-      />
+      <circle cx="21" cy="21" r="20.5" fill="url(#pattern0_755_9648)" stroke="white" />
       <defs>
         <pattern
           id="pattern0_755_9648"
@@ -95,13 +84,8 @@ export const WalletIcon = {
     </svg>
   ),
   account: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 48 48"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" {...props}>
       <circle cx="24" cy="24" r="23.5" stroke="#4E4E4E" />
     </svg>
-  ),
+  )
 };

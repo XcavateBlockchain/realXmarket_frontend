@@ -33,7 +33,7 @@ export default function Page({
       </div>
 
       <div className="grid w-full gap-5">
-        <div className="shadow-property-card relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6">
+        <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
           <Image
             src={'/images/property_one.png'}
             alt=""
