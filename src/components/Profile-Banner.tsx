@@ -1,11 +1,18 @@
-import React from 'react'
+import Image from 'next/image';
 
-const ProfileBanner = () => {
+export default function ProfileBanner() {
   return (
-    <div className='w-full h-[180px] relative bg-gradient-to-r from-[#ED75A7] via-[#43517A] to-[#3194BB]'>
-        <div className='absolute profile-logo bottom-[-40px] bg-white overflow-hidden left-[50px] border-8 border-white  w-[130px] h-[130px] rounded-full'></div>
+    <div className="relative h-[297px] w-full">
+      <Image
+        src={'/images/banner-profile.png'}
+        alt="cover-photo"
+        placeholder={`data:image/images/banner-profile.png`}
+        quality={100}
+        sizes="100vw"
+        fill
+        className="absolute h-auto w-full"
+        priority
+      />
     </div>
-  )
+  );
 }
-
-export default ProfileBanner

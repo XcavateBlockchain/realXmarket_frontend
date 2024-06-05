@@ -1,7 +1,9 @@
+import { fontFamily } from 'tailwindcss/defaultTheme';
 import type { Config } from 'tailwindcss';
 
-const config: Config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+const config = {
+  content: ['./src/**/*.{ts,tsx}'],
+  prefix: '',
   theme: {
     container: {
       center: true,
@@ -10,50 +12,82 @@ const config: Config = {
       }
     },
     extend: {
-      fontFamily: {
-        unbounded: ['Unbounded', 'sans-serif'],
-        DM: ['DM Sans', 'sans-serif'],
-        mona: ['Mona-Sans', 'sans-serif']
-      },
       colors: {
-        background: '#F6F7F9',
-        foreground: 'hsl(0, 0%, 31%)',
+        border: '#4E4E4E',
+        caption: '#A6A6A6',
+        background: '#FFFFFF',
+        foreground: '#717171',
         primary: {
-          DEFAULT: 'hsl(33, 100%, 50%)',
-          light: 'hsl(0, 0%, 95%)'
+          DEFAULT: '#3B4F74',
+          200: '#DC7DA6',
+          300: '#57A0C5',
+          400: '#ECB278',
+          foreground: '#4E4E4E'
+        },
+        x: 'var(linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%))',
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
-          DEFAULT: 'hsl(202, 100%, 34%)',
-          error: 'hsl(353, 74%, 62%)'
+          DEFAULT: '#9678AE',
+          200: '#457461',
+          300: '#78B36E',
+          400: '#DF8985',
+          foreground: 'hsl(var(--accent-foreground))'
         },
-        gradient1 : "#ED75A7",
-        gradient2 : "#43517A",
-        gradient3 : "#3194BB",
+        grey: {
+          DEFAULT: '#F4F4F4'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
+        }
+      },
+      fontFamily: {
+        sans: ['var(--font-dm-sans)'],
+        mona: ['var(--font-mona-sans)']
       },
       boxShadow: {
-        modal: '0px 0px 16px 0px rgba(0, 0, 0, 0.40)',
-        disclosure: ' 0px 0px 8px 0px rgba(78, 78, 78, 0.24)',
-        connect: '0px 0px 16px 0px rgba(0, 0, 0, 0.40)',
-        activity: '0px 0.846px 6.772px 0px rgba(0, 0, 0, 0.10)',
-        'nav-header': ' 0px -1px 4px 0px rgba(0, 0, 0, 0.42)',
-        'feature-card': '0px 0.84649px 6.77189px 0px rgba(0, 0, 0, 0.10)'
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+        filled: '0px 4px 0px 0px #3B4F74',
+        outlined: '0px 4px 0px 0px rgba(59, 79, 116, 0.80)',
+        'profile-card': '0px 1.532px 12.253px 0px rgba(0, 0, 0, 0.08)',
+        'property-card': '0px 0px 4px 0px rgba(0, 0, 0, 0.25)'
       },
       keyframes: {
-        marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-100%)' }
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' }
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' }
         }
       },
       animation: {
-        carousel: 'marquee 60s linear infinite'
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out'
+      },
+      backgroundImage: {
+        'x-gradient':
+          'linear-gradient(90deg, #ecb278 -25.47%, #dc7da6 35.16%, #3b4f74 69.39%, #57a0c5 103.47%)',
+        profile: 'linear-gradient(90deg, #ED75A7 -16.18%, #43517A 60.86%, #3194BB 119.03%)'
       }
     }
   },
-  plugins: []
-};
+  plugins: [require('tailwindcss-animate')]
+} satisfies Config;
+
 export default config;
