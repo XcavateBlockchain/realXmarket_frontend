@@ -15,12 +15,12 @@ export const tabConfig: DashboardConfig = {
     {
       title: 'portfolio',
       href: '/profile/portfolio',
-      icon: '/icons/profile.svg'
+      icon: '/icons/portfolio.svg'
     },
     {
       title: 'loan',
       href: '/profile/loan',
-      icon: '/icons/profile.svg'
+      icon: '/icons/loan-pool.svg'
     },
     {
       title: 'transactions',
