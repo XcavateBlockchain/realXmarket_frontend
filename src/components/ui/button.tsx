@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'flex items-center justify-center gap-1 rounded-lg transition-colors duration-300 uppercase',
+  'flex items-center justify-center gap-1 rounded-lg transition-all duration-500 uppercase',
   {
     variants: {
       variant: {
@@ -19,7 +19,7 @@ const buttonVariants = cva(
         default: 'lg:py-3 lg:px-7 py-2 px-4 text-[0.875rem]/[1.5rem] font-bold',
         lg: 'py-2 px-7 text-[ 0.875rem]/[1.5rem] font-bold',
         md: 'p-2',
-        icon: 'h-10 w-10'
+        icon: 'p-[5px]'
       },
       fullWidth: {
         true: 'w-full'
