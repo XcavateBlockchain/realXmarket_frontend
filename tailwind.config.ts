@@ -24,7 +24,7 @@ const config = {
           400: '#ECB278',
           foreground: '#4E4E4E'
         },
-        x: 'var(linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%))',
+        x: 'linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)',
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))'
@@ -83,7 +83,8 @@ const config = {
       backgroundImage: {
         'x-gradient':
           'linear-gradient(90deg, #ecb278 -25.47%, #dc7da6 35.16%, #3b4f74 69.39%, #57a0c5 103.47%)',
-        profile: 'linear-gradient(90deg, #ED75A7 -16.18%, #43517A 60.86%, #3194BB 119.03%)'
+        profile: 'linear-gradient(90deg, #ED75A7 -16.18%, #43517A 60.86%, #3194BB 119.03%)',
+        feature: '/images/feature_card.png'
       }
     }
   },

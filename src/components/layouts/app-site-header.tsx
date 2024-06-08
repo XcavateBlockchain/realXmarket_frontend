@@ -9,6 +9,7 @@ import ConnectedWalletDropDown from './connected-wallet';
 import { useSubstrateContext } from '@/context/polkadot-contex';
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { ConnectCredentialWallet } from './connect-credential-wallet';
 
 export function AppSiteHeader() {
   const { isConnected } = useSubstrateContext();
@@ -46,7 +47,10 @@ export function AppSiteHeader() {
           ))}
         </nav>
         <MobileNav />
-        {isConnected ? <ConnectedWalletDropDown /> : <ConnectWallet />}
+        <div className="flex items-center gap-2">
+          {isConnected ? <ConnectedWalletDropDown /> : <ConnectWallet />}
+          {isConnected ? <ConnectCredentialWallet /> : null}
+        </div>
       </div>
     </header>
   );

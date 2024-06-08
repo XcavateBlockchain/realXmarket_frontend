@@ -23,7 +23,7 @@ export default function ProfileHeaderOverview() {
                 Richard Grey
               </h1>
               <div className="flex items-center gap-2 rounded-lg bg-primary-200/10 px-2 py-[2px]">
-                <span className="text-[0.875rem] text-primary-200">Developer</span>
+                <span className="text-[0.875rem] text-primary-200">Investor</span>
               </div>
             </div>
             <span className="font-mona text-[0.875rem]/[1.5rem]">
