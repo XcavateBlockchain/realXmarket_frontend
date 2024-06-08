@@ -1,8 +1,15 @@
+'use client';
 import { OverviewCard } from '@/components/cards/overview-card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-
+import PropertyModalCard from '@/ui/modals/property-modal-card';
+import ConfirmMintingModal from '@/ui/modals/confirm-minting';
+import SuccessMintingModal from '@/ui/modals/success-minting';
+import { useState } from 'react';
 export default function ProfileHeaderOverview() {
+  const [addPropertyModal, setAddPropertyModal] = useState(false);
+  const [showMintingModal, setShowMintingModal] = useState(false);
+  const [showSuccessMintingModal, setShowSuccessMintingModal] = useState(false);
   return (
     <>
       <div className="flex w-full flex-col gap-6">
@@ -33,7 +40,7 @@ export default function ProfileHeaderOverview() {
 
           <div className="hidden gap-2 md:flex">
             <Button variant={'outline'}>EDIT PROFILE</Button>
-            <Button>ADD PROPERTY</Button>
+            <Button onClick={() => setAddPropertyModal(true)}>ADD PROPERTY</Button>
           </div>
         </div>
       </div>
@@ -44,6 +51,10 @@ export default function ProfileHeaderOverview() {
         <OverviewCard title="Total sales" value={0} />
         <OverviewCard title="Average sale time" value={0} />
       </div>
+
+      {addPropertyModal && <PropertyModalCard setShowMintingModal={setShowMintingModal} setAddPropertyModal={setAddPropertyModal} />}
+      {showMintingModal && <ConfirmMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} setShowMintingModal={setShowMintingModal} />}
+      {showSuccessMintingModal && <SuccessMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} />}
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import PropertyModalCard from '../property-modal-card';
+import PropertyModalCard from '../modals/property-modal-card';
 
 const PropertiesTab = () => {
   const [showPropertyModal, setShowPropertyModal] = React.useState(false);

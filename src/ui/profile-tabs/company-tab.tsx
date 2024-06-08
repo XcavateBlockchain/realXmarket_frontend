@@ -5,8 +5,7 @@ import SuccessMintingModal from '../modals/success-minting';
 
 const CompanyTab = () => {
   const [showInviteModal, setShowInviteModal] = React.useState(false);
-  const [showMintingModal, setShowMintingModal] = React.useState(false);
-  const [showSuccessMintingModal, setShowSuccessMintingModal] = React.useState(false);
+
   const ModalCard = () => {
     return (
       <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
@@ -334,10 +333,7 @@ const CompanyTab = () => {
       </section>
 
       {showInviteModal && <ModalCard />}
-      {showMintingModal && <ConfirmMintingModal setShowMintingModal={setShowMintingModal} />}
-      {showSuccessMintingModal && (
-        <SuccessMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} />
-      )}
+    
     </>
   );
 };

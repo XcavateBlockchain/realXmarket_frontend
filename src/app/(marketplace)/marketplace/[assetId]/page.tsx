@@ -144,9 +144,9 @@ const page = () => {
                 profile.
               </p>
               <button className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
-                PROFILE
+                <a href='/profile'>PROFILE</a>
               </button>
-              <button className="mt-4 bg-transparent px-4 py-3">MARKETPLACE</button>
+              <button className="mt-4 bg-transparent px-4 py-3"><a href='/marketplace'>MARKETPLACE</a></button>
             </div>
           </div>
         </div>

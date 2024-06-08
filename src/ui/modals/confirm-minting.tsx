@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ConfirmMintingModal = ({ setShowMintingModal }) => {
+const ConfirmMintingModal = ({ setShowMintingModal,setShowSuccessMintingModal }) => {
   return (
     <>
       <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
@@ -35,7 +35,10 @@ const ConfirmMintingModal = ({ setShowMintingModal }) => {
                 You are about to mint 10X tokens of PLOT 1 - Lea Wharf property by clicking
                 continue you verify that the details provided are correct.
               </p>
-              <button className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
+              <button onClick={()=>{
+                setShowSuccessMintingModal(true);
+                setShowMintingModal(false);
+              }} className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
                 Continue
               </button>
               <button className="mt-4 bg-transparent px-4 py-3">Verify Details</button>
