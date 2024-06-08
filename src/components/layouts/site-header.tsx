@@ -30,7 +30,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <MobileNav />
-        <div className="flex items-center gap-2">
+        <div className="hidden shrink-0 items-center gap-2 md:flex">
           {isConnected ? <ConnectedWalletDropDown /> : <ConnectWallet />}
           {isConnected ? <ConnectCredentialWallet /> : null}
         </div>

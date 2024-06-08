@@ -1,13 +1,14 @@
 'use client';
 import React from 'react';
 import { MdSwapHoriz } from 'react-icons/md';
-const PropertyModalCard = () => {
+const PropertyModalCard = ({ setAddPropertyModal ,setShowMintingModal}) => {
   const [step, setStep] = React.useState(1);
+
   return (
     <>
-      <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
-        <div className="relative flex h-[100%] w-full justify-center p-4">
-          <section className="shadow-black-50 mx-auto h-[100vh] max-w-screen-md rounded-md bg-white text-gray-600 sm:my-10">
+      <div className="fixed left-0 right-0 top-0 z-50 h-auto max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
+        <div className="relative flex h-auto w-full justify-center p-4">
+          <section className="shadow-black-50 mx-auto h-auto max-w-screen-md rounded-md bg-white text-gray-600 sm:my-10">
             <div className="container mx-auto flex flex-col flex-wrap px-5 pb-12">
               <div className="mx-auto mb-10 mt-4 flex w-full flex-wrap items-center space-x-4 py-4 md:mb-10 md:justify-center md:px-4">
                 <span className="hidden h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white shadow md:inline-flex">
@@ -166,10 +167,16 @@ const PropertyModalCard = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="mt-8 flex flex-col items-center justify-between">
+                    <div className="mt-8 flex items-center justify-between">
+                      <button
+                        onClick={() => setAddPropertyModal(false)}
+                        className="group my-2 mb-3 rounded-lg border py-2 text-center font-bold text-black outline-none focus:ring sm:order-1 sm:w-40"
+                      >
+                        Back
+                      </button>
                       <button
                         onClick={() => setStep(2)}
-                        className="gradient-button group my-2 mb-3 rounded-lg bg-blue-700 py-2 text-center font-bold text-white outline-none focus:ring sm:order-1 sm:w-40"
+                        className="gradient-button group my-2 mb-3 rounded-lg bg-blue-700 py-3 text-center font-bold text-white outline-none focus:ring sm:order-1 sm:w-40"
                       >
                         Continue
                       </button>
@@ -203,7 +210,7 @@ const PropertyModalCard = () => {
                         <label className="mb-1 ml-0 text-gray-500">Listing Price :</label>
                         <input
                           type="number"
-                          className="rounded-md border border-black px-2 py-3 outline-none focus:ring"
+                          className="rounded-md border border-black px-2 py-2 outline-none focus:ring"
                           placeholder="20"
                         />
                       </div>
@@ -213,7 +220,7 @@ const PropertyModalCard = () => {
                       <div className="col-span-5 flex flex-col">
                         <input
                           type="number"
-                          className="mt-7 rounded-md border border-black px-2 py-3 outline-none focus:ring"
+                          className="mt-7 rounded-md border border-black px-2 py-2 outline-none focus:ring"
                           placeholder="20"
                         />
                       </div>
@@ -226,7 +233,7 @@ const PropertyModalCard = () => {
                         </label>
                         <input
                           type="number"
-                          className="rounded-md border border-black px-2 py-3 outline-none focus:ring"
+                          className="rounded-md border border-black px-2 py-2 outline-none focus:ring"
                           placeholder="20"
                         />
                       </div>
@@ -236,13 +243,19 @@ const PropertyModalCard = () => {
                       <div className="col-span-5 flex flex-col">
                         <input
                           type="number"
-                          className="mt-7 rounded-md border border-black px-2 py-3 outline-none focus:ring"
+                          className="mt-7 rounded-md border border-black px-2 py-2 outline-none focus:ring"
                           placeholder="20"
                         />
                       </div>
                     </div>
 
-                    <div className="mt-12 flex flex-col items-center justify-between">
+                    <div className="mt-12 flex items-center justify-between">
+                      <button
+                        onClick={() => setStep(1)}
+                        className="group my-2 mb-3 rounded-lg border py-2 text-center font-bold text-black outline-none focus:ring sm:order-1 sm:w-40"
+                      >
+                        Back
+                      </button>
                       <button
                         onClick={() => setStep(3)}
                         className="gradient-button group my-2 mb-3 rounded-lg bg-blue-700 py-3 text-center font-bold text-white outline-none focus:ring sm:order-1 sm:w-40"
@@ -393,10 +406,20 @@ const PropertyModalCard = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="mt-8 flex flex-col items-center justify-between">
+                  <div className="mt-8 flex items-center justify-between">
                     <button
                       onClick={() => setStep(2)}
-                      className="gradient-button group my-2 mb-3 rounded-lg bg-blue-700 py-2 text-center font-bold text-white outline-none focus:ring sm:order-1 sm:w-40"
+                      className="group my-2 mb-3 rounded-lg border py-2 text-center font-bold text-black outline-none focus:ring sm:order-1 sm:w-40"
+                    >
+                      Back
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMintingModal(true);
+                        setAddPropertyModal(false);
+                        setStep(1);
+                      }}
+                      className="gradient-button group my-2 mb-3 rounded-lg bg-blue-700 py-3 text-center font-bold text-white outline-none focus:ring sm:order-1 sm:w-40"
                     >
                       Submit
                     </button>

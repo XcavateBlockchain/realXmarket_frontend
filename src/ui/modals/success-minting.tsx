@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { FaCheckDouble } from "react-icons/fa6";
 const SuccessMintingModal = ({ setShowSuccessMintingModal }) => {
   return (
     <>
@@ -7,11 +7,7 @@ const SuccessMintingModal = ({ setShowSuccessMintingModal }) => {
         <div className="relative flex h-[100%] w-full justify-center p-8">
           <div className="relative h-[420px] w-1/3 rounded-lg bg-white p-2 shadow">
             <div className="flex flex-col items-center justify-center space-y-8 rounded-t px-5 md:py-5">
-              <img
-                className="h-24 w-24 overflow-hidden rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                alt="Default avatar"
-              />
+              <div className='flex justify-center items-center w-28 h-28 border-4  border-gray-400  rounded-full'><FaCheckDouble size={70} /></div>
               <h1 className="text-center font-mona text-xl font-bold text-[#4E4E4E]">
                 You have minted 100X tokens of Plot 1 - Plea Wharf successfully
               </h1>
