@@ -24,7 +24,7 @@ export function ProfileTabs({ items }: ProfileTabsProps) {
             key={item.href}
             href={item.href}
             className={cn(
-              'duration-00 flex items-center justify-center gap-2 border-b-2 px-2 pb-2 text-[1rem]/[1.5rem] uppercase transition-all',
+              'flex items-center justify-center gap-2 border-b-2 px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase transition-all duration-300 lg:text-[1rem]/[1.5rem]',
               pathname === item.href
                 ? 'border-primary text-primary hover:text-primary/80'
                 : 'border-transparent text-caption hover:text-primary'

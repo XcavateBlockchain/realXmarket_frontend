@@ -11,7 +11,7 @@ export default function MarketplaceLayout({
     <SubstrateContextProvider>
       <div className="relative flex min-h-screen flex-col">
         <MarketPlaceHeader />
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">{children}</div>
         <SiteFooter />
       </div>
     </SubstrateContextProvider>
