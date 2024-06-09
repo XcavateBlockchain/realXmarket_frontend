@@ -4,6 +4,33 @@ import * as React from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 
 import { cn } from '@/lib/utils';
+import { VariantProps, cva } from 'class-variance-authority';
+
+const tabTriggerVariants = cva('disabled:pointer-events-none disabled:opacity-50', {
+  variants: {
+    variant: {
+      default:
+        'py-3 text-[14px]/[130%] font-medium text-grey-400 lg:text-[16px]/[21px] data-[state=active]:text-grey transition-all duration-500 border-transparent border-b-4 data-[state=active]:border-primary',
+      text: 'flex items-center justify-center gap-2.5 px-4 py-2 text-[12px]/[17px] text-primary-500 font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-300'
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
+});
+
+const tabListVariants = cva('', {
+  variants: {
+    variant: {
+      default:
+        'flex w-full items-center gap-6 lg:border-b border-[#E0E0E0] px-4 lg:px-0 lg:gap-8',
+      text: 'md:mx-[64px] mx-4 my-[20px] md:my-[43px] inline-flex items-start gap-2 bg-grey-600 p-2'
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
+});
 
 const Tabs = TabsPrimitive.Root;
 

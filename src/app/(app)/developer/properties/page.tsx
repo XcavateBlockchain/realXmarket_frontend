@@ -12,7 +12,7 @@ export default function Page({
 }) {
   const types = ['minted', 'listed', 'purchased'];
 
-  const BASE_URL = '/profile/properties';
+  const BASE_URL = '/developer/properties';
   const selected = status === undefined ? 'minted' : status;
   const [listModal, setListModal] = useState(false);
   const ListModal = () => {

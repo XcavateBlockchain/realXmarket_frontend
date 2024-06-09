@@ -3,6 +3,7 @@ import { TabNavItem } from '@/types';
 export interface DashboardConfig {
   developer: TabNavItem[];
   invertor: TabNavItem[];
+  agent: TabNavItem[];
 }
 
 export const tabConfig: DashboardConfig = {
@@ -72,6 +73,38 @@ export const tabConfig: DashboardConfig = {
     {
       title: 'message',
       href: '/developer/wallet',
+      icon: '/icons/id.svg'
+    }
+  ],
+  agent: [
+    {
+      title: 'profile',
+      href: '/agent',
+      icon: '/icons/profile.svg'
+    },
+    {
+      title: 'company',
+      href: '/agent/company',
+      icon: '/icons/company.svg'
+    },
+    {
+      title: 'properties',
+      href: '/agent/properties',
+      icon: '/icons/portfolio.svg'
+    },
+    {
+      title: 'transactions',
+      href: '/agent/transactions',
+      icon: '/icons/capital_purchase.svg'
+    },
+    {
+      title: 'wallet access',
+      href: '/agent/wallet',
+      icon: '/icons/bank.svg'
+    },
+    {
+      title: 'message',
+      href: '/agent/wallet',
       icon: '/icons/id.svg'
     }
   ]

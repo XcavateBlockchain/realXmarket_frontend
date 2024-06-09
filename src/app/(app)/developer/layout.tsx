@@ -2,6 +2,7 @@ import { ProfileTabs } from '@/components/profile-tabs';
 import { tabConfig } from '@/config/tab';
 import ProfileHeaderOverview from './_components/profile-overview';
 import ProfileBanner from '@/components/profile-banner';
+// import ProfileBanner from '@/components/profile-banner';
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
