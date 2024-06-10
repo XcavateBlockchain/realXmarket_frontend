@@ -1,5 +1,4 @@
 'use client';
-import Navbar from '@/components/Navbar';
 import React, { useState } from 'react';
 import { FaRegHeart } from 'react-icons/fa6';
 import { RiShareForwardBoxLine } from 'react-icons/ri';
@@ -30,9 +29,9 @@ const page = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
@@ -124,9 +123,9 @@ const page = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
@@ -144,9 +143,11 @@ const page = () => {
                 profile.
               </p>
               <button className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
-                <a href='/profile'>PROFILE</a>
+                <a href="/profile">PROFILE</a>
               </button>
-              <button className="mt-4 bg-transparent px-4 py-3"><a href='/marketplace'>MARKETPLACE</a></button>
+              <button className="mt-4 bg-transparent px-4 py-3">
+                <a href="/marketplace">MARKETPLACE</a>
+              </button>
             </div>
           </div>
         </div>
@@ -173,9 +174,9 @@ const page = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
@@ -288,9 +289,9 @@ const page = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
@@ -338,7 +339,7 @@ const page = () => {
         <div className="mt-10 flex w-full flex-col gap-8 px-4 md:flex-row md:px-8">
           <div className="flex w-full flex-col overflow-hidden md:w-1/2">
             <img
-              src="https://flowbite.com/docs/images/blog/image-2.jpg"
+              src="/images/property_one.png"
               alt="Property Image"
               className="h-full w-full border border-black object-cover"
             />
@@ -346,7 +347,7 @@ const page = () => {
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="h-12 w-12 overflow-hidden rounded-sm border shadow-md">
                   <img
-                    src="https://flowbite.com/docs/images/blog/image-2.jpg"
+                    src="/images/property_one.png"
                     alt="Property Image"
                     className="h-full w-full object-cover"
                   />

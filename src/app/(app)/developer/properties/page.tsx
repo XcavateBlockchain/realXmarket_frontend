@@ -19,7 +19,7 @@ export default function Page({
     return (
       <div className="backdrop-brightness-10 fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md md:inset-0">
         <div className="relative flex h-auto w-full justify-center p-4">
-          <div className="relative h-auto w-1/4 px-4 rounded-lg bg-white shadow">
+          <div className="relative h-auto w-1/4 rounded-lg bg-white px-4 shadow">
             <div className="flex items-center justify-between rounded-t px-5 md:py-5">
               <button
                 onClick={() => setListModal(false)}
@@ -36,7 +36,7 @@ export default function Page({
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
@@ -47,13 +47,13 @@ export default function Page({
               <div className="mb-3 h-28 w-28 overflow-hidden rounded-full bg-green-300">
                 <img src="" />
               </div>
-              <h1 className="text-center text-md font-bold text-black">
+              <h1 className="text-md text-center font-bold text-black">
                 Plot 1 - Plea Wharf has been listed on the marketplace
               </h1>
               <p className="text-center text-sm">
                 Others will be able tom see this property in the marketplace.
               </p>
-              <button className="mt-4 gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
+              <button className="gradient-button mt-4 w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
                 <a href="/">DONE</a>
               </button>
             </div>

@@ -52,9 +52,21 @@ export default function ProfileHeaderOverview() {
         <OverviewCard title="Average sale time" value={0} />
       </div>
 
-      {addPropertyModal && <PropertyModalCard setShowMintingModal={setShowMintingModal} setAddPropertyModal={setAddPropertyModal} />}
-      {showMintingModal && <ConfirmMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} setShowMintingModal={setShowMintingModal} />}
-      {showSuccessMintingModal && <SuccessMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} />}
+      {addPropertyModal && (
+        <PropertyModalCard
+          setShowMintingModal={setShowMintingModal}
+          setAddPropertyModal={setAddPropertyModal}
+        />
+      )}
+      {showMintingModal && (
+        <ConfirmMintingModal
+          setShowSuccessMintingModal={setShowSuccessMintingModal}
+          setShowMintingModal={setShowMintingModal}
+        />
+      )}
+      {showSuccessMintingModal && (
+        <SuccessMintingModal setShowSuccessMintingModal={setShowSuccessMintingModal} />
+      )}
     </>
   );
 }

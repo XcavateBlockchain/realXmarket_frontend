@@ -35,7 +35,7 @@ const MarketplaceCard = () => {
           </p>
         </div>
         <button className="gradient-button mt-4 w-full rounded-md bg-[#3B4F74] px-4 py-3 text-sm font-medium text-white">
-         <a href='/marketplace/11'>View Details</a>
+          <a href="/marketplace/11">View Details</a>
         </button>
       </div>
     </div>

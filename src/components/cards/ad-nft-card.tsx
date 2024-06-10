@@ -28,7 +28,7 @@ export default function AdNFTCard() {
           viewBox="0 0 8 8"
           fill="none"
         >
-          <circle cx="4" cy="4" r="3.6" stroke="white" stroke-width="0.8" />
+          <circle cx="4" cy="4" r="3.6" stroke="white" strokeWidth="0.8" />
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@ export default function AdNFTCard() {
           viewBox="0 0 8 8"
           fill="none"
         >
-          <circle cx="4" cy="4" r="3.6" stroke="white" stroke-width="0.8" />
+          <circle cx="4" cy="4" r="3.6" stroke="white" strokeWidth="0.8" />
         </svg>
       </div>
 
