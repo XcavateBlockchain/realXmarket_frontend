@@ -2,6 +2,8 @@ import Image from 'next/image';
 import AdNFTCard from '@/components/cards/ad-nft-card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { ad_properties, properties } from '@/config/property';
+import { Property } from '@/types';
 
 const how_it_works = [
   {
@@ -41,15 +43,16 @@ export default function Home() {
       </div>
       {/* NFT section */}
       <div className="hidden w-full items-center gap-5 lg:flex">
+        {ad_properties.map((property: Property) => (
+          <AdNFTCard key={property.id} {...property} />
+        ))}
+        {/* <AdNFTCard />
         <AdNFTCard />
         <AdNFTCard />
-        <AdNFTCard />
-        <AdNFTCard />
+        <AdNFTCard /> */}
       </div>
 
-      <div className="lg:hidden">
-        <AdNFTCard />
-      </div>
+      <div className="lg:hidden">{/* <AdNFTCard /> */}</div>
 
       <div className="flex items-center justify-center">
         <Button asChild variant={'outline'} className="px-[102px]">

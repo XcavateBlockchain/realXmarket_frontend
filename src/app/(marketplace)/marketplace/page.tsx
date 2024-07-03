@@ -1,10 +1,51 @@
 'use client';
 
 import PropertyCard from '@/components/cards/property-card';
+import { properties } from '@/config/property';
+import { getItemMetadata, getProjectDetails } from '@/lib/queries';
+import { hexDecode } from '@/lib/utils';
+import { Property } from '@/types';
+import { useEffect, useState } from 'react';
 // import MarketplaceCard from '@/components/MarketplaceCard';
 // import PropertyCard from '@/ui/property-card';
 // import { useState } from 'react';
+const ids = [1, 2, 3];
 export default function Marketplace() {
+  const [data, setData] = useState<any>();
+  const [item, setItem] = useState<any>();
+
+  // async function getItems() {
+  //   const results = ids.map(async id => {
+  //     const item = await getItemMetadata(0, id);
+  //     if ( item !== null) {
+
+  //       const itemData = item as { data: any };
+  //       if (itemData.data !== null) {
+  //        return hexDecode(itemData.data);
+  //       }
+  //     }
+  //     return results
+  //   })
+  // }
+
+  // async function getItemData() {
+  //   const item = await getItemMetadata(0, 1);
+  //   const data = await getProjectDetails(1);
+  //   if (data !== null || item !== null) {
+  //     setData(data);
+  //     const itemData = item as { data: any };
+  //     if (itemData.data !== null) {
+  //       setItem(hexDecode(itemData.data));
+  //     }
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getItemData();
+  // }, []);
+
+  // console.log(item);
+
   return (
     <>
       <div className="mt-12 border-b-2 border-gray-300 px-4 py-10 sm:mt-20 sm:px-6 lg:px-10">
@@ -55,9 +96,13 @@ export default function Marketplace() {
           Find the investment that’s right for you
         </p>
         <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-40 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 16 }).map((_, i) => (
-            <PropertyCard key={i} />
+          {properties.map((property: Property) => (
+            <PropertyCard key={property.id} {...property} />
+
+            // <AdNFTCard key={property.id} {...property} />
           ))}
+          {/* {Array.from({ length: 16 }).map((_, i) => (
+          ))} */}
         </div>
       </div>
     </>

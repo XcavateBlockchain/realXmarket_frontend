@@ -1,14 +1,15 @@
+import { Property } from '@/types';
 import Image from 'next/image';
 
-export default function AdNFTCard() {
+export default function AdNFTCard({ ...data }: Property) {
   return (
     <div className="relative flex h-full w-full flex-col gap-6 bg-white pb-6 shadow-property-card">
       <Image
-        src={'/images/property_img_home.png'}
+        src={data.property_image}
         alt=""
         width={295}
         height={190}
-        className="w-full"
+        className="h-[190px] w-full"
         priority
       />
       <div className="absolute left-[130px] top-[165px] flex gap-1">
@@ -50,15 +51,17 @@ export default function AdNFTCard() {
             height={24}
             className="pointer-events-none"
           />
-          <h3 className="text-[1rem]/[1.5rem]">Hertford, Hertfordshire UK</h3>
+          <h3 className="text-[1rem]/[1.5rem]">
+            {data.address_street} {data.address_town_city}
+          </h3>
         </div>
         <div className="flex items-center justify-between">
-          <dt>Plot 1 - Lea Wharf</dt>
+          <dt>{data.property_name}</dt>
           <dd className="">APY 10%</dd>
         </div>
         <div className="flex items-center justify-between">
           <dt>Token 100</dt>
-          <dd className="">Price £250,000</dd>
+          <dd className="">Price {data.property_price}</dd>
         </div>
       </div>
     </div>

@@ -3,13 +3,21 @@ import React, { useState } from 'react';
 import { FaRegHeart } from 'react-icons/fa6';
 import { RiShareForwardBoxLine } from 'react-icons/ri';
 import { CiLocationOn } from 'react-icons/ci';
-const page = () => {
+import { properties } from '@/config/property';
+import { Property } from '@/types';
+const page = ({ params }: { params: { assetId: string } }) => {
+  const property = properties.find((property: Property) => property.id === params.assetId);
+  if (!property) {
+    return <div></div>;
+  }
+
+  const { images } = property;
   const [fundModal, setFundModal] = useState(false);
   const [numberOfTokensModal, setNumberOfTokensModal] = useState(false);
   const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
   const [paymentSummaryModal, setPaymentSummaryModal] = useState(false);
 
-  const NumberOfTokensModal = () => {
+  const NumberOfTokensModal = ({ params }: { params: { assetId: string } }) => {
     return (
       <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
         <div className="relative flex h-auto w-full justify-center p-4">
@@ -339,12 +347,24 @@ const page = () => {
         <div className="mt-10 flex w-full flex-col gap-8 px-4 md:flex-row md:px-8">
           <div className="flex w-full flex-col overflow-hidden md:w-1/2">
             <img
-              src="/images/property_one.png"
+              src={property.property_image}
               alt="Property Image"
               className="h-full w-full border border-black object-cover"
             />
             <div className="mx-auto mt-4 flex gap-3">
-              {Array.from({ length: 6 }).map((_, i) => (
+              {images.map((image: any) => (
+                <div
+                  key={image}
+                  className="h-12 w-12 overflow-hidden rounded-sm border shadow-md"
+                >
+                  <img
+                    src={image}
+                    alt="Property Image"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ))}
+              {/* {.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="h-12 w-12 overflow-hidden rounded-sm border shadow-md">
                   <img
                     src="/images/property_one.png"
@@ -352,7 +372,7 @@ const page = () => {
                     className="h-full w-full object-cover"
                   />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
           <div className="w-full md:w-1/2">
@@ -372,9 +392,10 @@ const page = () => {
             </div>
             <div className="mt-4 flex flex-col">
               <p className="text-md flex items-center">
-                <CiLocationOn size={20} className="text-black" /> Hertford UK
+                <CiLocationOn size={20} className="text-black" />{' '}
+                {`${property.address_street} ${property.address_town_city}`}
               </p>
-              <p className="mt-2 text-xl font-normal text-black">Plot 1 - Lea Wharf</p>
+              <p className="mt-2 text-xl font-normal text-black">{property.property_name}</p>
             </div>
             <div className="mt-4 flex flex-col">
               <span className="text-xs">Price per token</span>
@@ -459,14 +480,23 @@ const page = () => {
           <div className="flex w-full flex-col md:w-1/2">
             <h1 className="text-[#4E4E4E]">Property Description</h1>
             <p className="text-md mt-2 text-[#191A1BD9]">
-              Welcome to this stunning 3-bedroom, 2-bathroom condo located in the heart of
+              {property.description}
+              {/* Welcome to this stunning 3-bedroom, 2-bathroom condo located in the heart of
               downtown. This spacious corner unit boasts breathtaking city views and features a
               modern open floor plan, perfect for entertaining. The condo has been recently
               renovated with brand new hardwood floors, stainless steel appliances, and a
-              state-of-the-art security system.
+              state-of-the-art security system. */}
             </p>
             <h1 className="mt-10 text-[#4E4E4E]">Details</h1>
-            {['Bedroom', 'Bathroom', 'Location', 'Type', 'Location'].map((detail, i) => (
+            <div className="mt-0 flex justify-between border-t-2 border-gray-200 px-1 py-2 text-[#4E4E4E]">
+              <span className="text-sm">Bedroom</span>
+              <p className="mt-2 text-sm font-normal">{property.no_of_Bedrooms}</p>
+            </div>
+            <div className="mt-0 flex justify-between border-t-2 border-gray-200 px-1 py-2 text-[#4E4E4E]">
+              <span className="text-sm">Bathroom</span>
+              <p className="mt-2 text-sm font-normal">{property.number_of_bathrooms}</p>
+            </div>
+            {['Location', 'Type', 'Location'].map((detail, i) => (
               <div
                 key={i}
                 className="mt-0 flex justify-between border-t-2 border-gray-200 px-1 py-2 text-[#4E4E4E]"
@@ -544,7 +574,7 @@ const page = () => {
       </div>
 
       {fundModal && <AddFundModal />}
-      {numberOfTokensModal && <NumberOfTokensModal />}
+      {numberOfTokensModal && <NumberOfTokensModal params={params} />}
       {paymentSuccessModal && <PaymentSuccessModal />}
       {paymentSummaryModal && <PaymentSummaryModal />}
     </>
