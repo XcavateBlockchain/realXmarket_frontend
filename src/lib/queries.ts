@@ -1,5 +1,3 @@
-'use client';
-
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 export async function getApi() {
@@ -22,4 +20,24 @@ export async function getProjectDetails(itemId: number) {
   const result = await api.query.nftMarketplace.ongoingObjectListing(itemId);
   const output = result.toHuman();
   return output;
+}
+
+export async function getActiveProperties() {
+  const api = await getApi();
+  const nextId = (await api.query.nftMarketplace.nextListingId()).toHuman();
+  const idsToCheck = getIntegersLessThan(nextId);
+  let allData = [];
+  for (const id of idsToCheck) {
+    const data = await api.query.nftMarketplace.ongoingObjectListing(id);
+    if (data.isSome) {
+      const tokenRemaining = await api.query.nftMarketplace.listedToken(id);
+      const property = data.unwrap().toHuman();
+      property['remainingTokens'] = tokenRemaining.toHuman();
+      allData.push(property);
+    }
+  }
+}
+
+function getIntegersLessThan(n: number) {
+  return Array.from({ length: n }, (_, i) => i);
 }

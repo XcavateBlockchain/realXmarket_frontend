@@ -1,18 +1,21 @@
-'use client';
+'use server';
 
 import PropertyCard from '@/components/cards/property-card';
 import { properties } from '@/config/property';
-import { getItemMetadata, getProjectDetails } from '@/lib/queries';
+import { getItemMetadata, getProjectDetails, getActiveProperties } from '@/lib/queries';
 import { hexDecode } from '@/lib/utils';
 import { Property } from '@/types';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+
 // import MarketplaceCard from '@/components/MarketplaceCard';
 // import PropertyCard from '@/ui/property-card';
 // import { useState } from 'react';
 const ids = [1, 2, 3];
-export default function Marketplace() {
-  const [data, setData] = useState<any>();
-  const [item, setItem] = useState<any>();
+export default async function Marketplace() {
+  const propData = await getActiveProperties();
+  // console.log(propData);
+  // const [data, setData] = useState<any>();
+  // const [item, setItem] = useState<any>();
 
   // async function getItems() {
   //   const results = ids.map(async id => {
