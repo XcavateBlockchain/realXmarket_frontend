@@ -162,7 +162,7 @@ function SelectAmount({ amount, setIndex, tokens, property, setAmount }: AmountP
             <Button
               size={'md'}
               type="submit"
-              onClick={() => setIndex(1)}
+              onClick={() => setIndex(2)}
               disabled={amount === 0}
             >
               Continue
@@ -192,7 +192,7 @@ function PurchaseSummary({ listingId, amount, property }: SummaryProps) {
         // const address = '5Di7RnyX8TXwM9C9RCVHWTuXemwmRiJLiX3wapYgN588qB2E';
         await buyNft(address, listingId, amount);
         console.log(amount);
-        router.push('/portfolio');
+        // router.push('/portfolio');
       } catch (error) {
         console.log(error);
       }

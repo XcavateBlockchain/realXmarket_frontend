@@ -75,6 +75,7 @@ export default function Home() {
           height={388}
           alt="property"
           className="md:w-[353px] lg:w-[445px]"
+          priority
         />
       </div>
       {/* Features */}
