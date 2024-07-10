@@ -1,7 +1,15 @@
 'use client';
 import React from 'react';
 import { MdSwapHoriz } from 'react-icons/md';
-const PropertyModalCard = ({ setAddPropertyModal, setShowMintingModal }) => {
+interface PropertyModalCardProps {
+  setAddPropertyModal: any;
+  setShowMintingModal: any;
+}
+
+const PropertyModalCard = ({
+  setAddPropertyModal,
+  setShowMintingModal
+}: PropertyModalCardProps) => {
   const [step, setStep] = React.useState(1);
 
   return (

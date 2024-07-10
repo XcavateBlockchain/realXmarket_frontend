@@ -4,6 +4,17 @@ export type TabNavItem = {
   icon: string;
 };
 
+export interface FetchedProperty {
+  realEstateDeveloper: string;
+  tokenPrice: string;
+  collectedFunds: string;
+  assetId: string;
+  itemId: string;
+  collectionId: string;
+  tokenAmount: string;
+  remainingTokens: string;
+}
+
 export type Property = {
   property_name: string;
   id: string;

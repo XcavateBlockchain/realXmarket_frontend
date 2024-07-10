@@ -1,345 +1,30 @@
-'use client';
-import React, { useState } from 'react';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/button';
+import { properties } from '@/config/property';
+import { getPropertyDetails, getTokenRemaining } from '@/lib/queries';
+import { Property } from '@/types';
+import Image from 'next/image';
+import Link from 'next/link';
+import BuyToken from './_components/buy-token';
 import { FaRegHeart } from 'react-icons/fa6';
 import { RiShareForwardBoxLine } from 'react-icons/ri';
 import { CiLocationOn } from 'react-icons/ci';
-import { properties } from '@/config/property';
-import { Property } from '@/types';
-const page = ({ params }: { params: { assetId: string } }) => {
+interface FetchedProperty {
+  [key: string]: any;
+}
+
+export default async function Page({ params }: { params: { assetId: string } }) {
+  const tokensRemaining = await getTokenRemaining(Number(params.assetId));
+  const propertyIfo = (await getPropertyDetails(Number(params.assetId))) as FetchedProperty;
   const property = properties.find((property: Property) => property.id === params.assetId);
   if (!property) {
     return <div></div>;
   }
 
+  console.log(propertyIfo);
+  console.log(tokensRemaining);
   const { images } = property;
-  const [fundModal, setFundModal] = useState(false);
-  const [numberOfTokensModal, setNumberOfTokensModal] = useState(false);
-  const [paymentSuccessModal, setPaymentSuccessModal] = useState(false);
-  const [paymentSummaryModal, setPaymentSummaryModal] = useState(false);
 
-  const NumberOfTokensModal = ({ params }: { params: { assetId: string } }) => {
-    return (
-      <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
-        <div className="relative flex h-auto w-full justify-center p-4">
-          <div className="relative w-1/3 rounded-lg bg-white shadow">
-            <div className="flex items-center justify-between rounded-t px-5 md:py-2">
-              <h1 className="font-mona text-xl">Payment Summary</h1>
-              <button
-                type="button"
-                onClick={() => setNumberOfTokensModal(false)}
-                className="ms-auto inline-flex h-6 w-6 items-center justify-center rounded-sm border bg-transparent text-sm text-black"
-              >
-                <svg
-                  className="h-2 w-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="flex flex-col space-y-4 p-4 py-1 md:p-5">
-              <div className="flex">
-                <div className="flex h-20 w-20 flex-col items-center justify-center overflow-hidden border">
-                  <img
-                    src="https://flowbite.com/docs/images/blog/image-2.jpg"
-                    alt="Property Image"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="ml-4 flex flex-col">
-                  <h1 className="font-mona text-xs">Gade Homes</h1>
-                  <p className="text-xl text-black">Plot 1 - Lea Wharf</p>
-                  <p className="mt-1 flex items-baseline text-sm text-gray-400">
-                    <CiLocationOn size={20} className="text-black" /> Hertford UK
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-md border border-gray-400 px-2 py-4">
-                <div className="flex justify-between px-2">
-                  <p className="text-md text-black">Number of Tokens</p>
-                  <p className="text-md text-gray-500">0</p>
-                </div>
-                <div className="mt-2 flex justify-between px-2">
-                  <p className="text-md text-black">Price Per Token</p>
-                  <p className="text-md text-gray-500">31253.43 USDT</p>
-                </div>
-                <div className="flex justify-between px-2">
-                  <p className="text-md text-black"></p>
-                  <p className="text-sm text-gray-500">£250,00</p>
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <p className="text-xs text-black">Wallet Balance:</p>
-                <p className="text-xs text-red-500">0.00 USDT</p>
-              </div>
-              <input
-                type="text"
-                placeholder="XXXXXXXXXXXXXXXXXXXX..."
-                className="rounded-sm border p-2"
-              />
-              <div className="flex justify-between">
-                <p className="text-xs text-black">Tokens</p>
-                <p className="text-xs text-gray-500">30 of 100</p>
-              </div>
-
-              <div className="flex justify-between">
-                <button className="rounded-md border bg-transparent px-4 py-2">CANCEL</button>
-                <button
-                  onClick={() => {
-                    setNumberOfTokensModal(false);
-                    setPaymentSummaryModal(true);
-                  }}
-                  className="gradient-button rounded-xl border bg-gradient-to-r px-6 py-2 text-center text-sm uppercase text-black shadow-md focus:ring-4"
-                >
-                  CONTINUE
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const PaymentSuccessModal = () => {
-    return (
-      <div className="backdrop-brightness-10 fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md md:inset-0">
-        <div className="relative flex h-auto w-full justify-center p-4">
-          <div className="relative h-auto w-1/3 rounded-lg bg-white shadow">
-            <div className="flex items-center justify-between rounded-t px-5 md:py-5">
-              <button
-                onClick={() => setPaymentSuccessModal(false)}
-                type="button"
-                className="ms-auto inline-flex h-6 w-6 items-center justify-center rounded-md border bg-transparent text-sm text-gray-400"
-              >
-                <svg
-                  className="h-3 w-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="flex flex-col items-center space-y-4 p-4 py-1 md:p-5">
-              <div className="mb-3 h-28 w-28 overflow-hidden rounded-full bg-green-300">
-                <img src="" />
-              </div>
-              <h1 className="text-center text-xl font-bold text-black">Successful</h1>
-              <p className="text-center">
-                Congratulations! Your NFT purchase was successful. You now own a fraction of
-                Plot - Plea Wharf. Please note it might take a few minutes to reflect in your
-                profile.
-              </p>
-              <button className="gradient-button w-[200px] rounded-2xl border bg-gradient-to-r px-4 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4">
-                <a href="/profile">PROFILE</a>
-              </button>
-              <button className="mt-4 bg-transparent px-4 py-3">
-                <a href="/marketplace">MARKETPLACE</a>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const PaymentSummaryModal = () => {
-    return (
-      <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
-        <div className="relative flex h-auto w-full justify-center p-4">
-          <div className="relative w-1/3 rounded-lg bg-white shadow">
-            <div className="flex items-center justify-between rounded-t px-5 md:py-2">
-              <h1 className="font-mona text-xl">Payment Summary</h1>
-              <button
-                type="button"
-                onClick={() => setPaymentSummaryModal(false)}
-                className="ms-auto inline-flex h-6 w-6 items-center justify-center rounded-sm border bg-transparent text-sm text-black"
-              >
-                <svg
-                  className="h-2 w-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="flex flex-col space-y-4 p-4 py-1 md:p-5">
-              <div className="flex">
-                <div className="flex h-20 w-20 flex-col items-center justify-center overflow-hidden border">
-                  <img
-                    src="https://flowbite.com/docs/images/blog/image-2.jpg"
-                    alt="Property Image"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="ml-4 flex flex-col">
-                  <h1 className="font-mona text-xs">Gade Homes</h1>
-                  <p className="text-xl text-black">Plot 1 - Lea Wharf</p>
-                  <p className="mt-1 flex items-baseline text-sm text-gray-400">
-                    <CiLocationOn size={20} className="text-black" /> Hertford UK
-                  </p>
-                </div>
-              </div>
-              <div className="mt-2 flex justify-between px-2">
-                <p className="text-md text-black">Payment Method</p>
-                <p className="text-md text-black">Victor (0xabccvee...)</p>
-              </div>
-              <div className="flex justify-between px-2">
-                <p className="text-md text-black">Payment Currency</p>
-                <p className="text-md text-black">31253.43 USDT</p>
-              </div>
-              <div className="flex justify-between px-2">
-                <p className="text-md text-black"></p>
-                <p className="text-md text-gray-500">⁓£250,00</p>
-              </div>
-
-              <div className="rounded-md border border-gray-400 px-2 py-4">
-                <div className="flex justify-between px-2">
-                  <p className="text-md text-black">Number of Tokens</p>
-                  <p className="text-md text-gray-500">0</p>
-                </div>
-                <div className="flex justify-between px-2">
-                  <p className="text-md text-black">Price Per Token</p>
-                  <p className="text-md text-gray-500">31253.43 USDT</p>
-                </div>
-                <div className="flex justify-between px-2">
-                  <p className="text-md text-black"></p>
-                  <p className="text-sm text-gray-500">£250,00</p>
-                </div>
-                <div className="flex flex-col justify-between rounded-md bg-[#3B4F741A] px-2 py-2">
-                  <div className="flex justify-between">
-                    <p className="text-md text-black">Total</p>
-                    <p className="text-md text-gray-500">£250,00</p>
-                  </div>
-                  <div className="flex justify-between">
-                    <p className="text-md"></p>
-                    <p className="text-sm text-gray-500">£250,00</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-2 flex justify-between px-2">
-                <p className="text-md text-black">Payment Method</p>
-                <p className="text-md text-black">Victor (0xabccvee...)</p>
-              </div>
-              <div className="flex justify-between px-2">
-                <p className="text-md text-black">Payment Currency</p>
-                <p className="text-md text-black">31253.43 USDT</p>
-              </div>
-              <div className="flex justify-between px-2">
-                <p className="text-md text-black"></p>
-                <p className="text-md text-gray-500">⁓£250,00</p>
-              </div>
-              <div className="flex justify-between">
-                <button className="rounded-xl border bg-transparent px-4 py-1">Back</button>
-                <button
-                  onClick={() => {
-                    setPaymentSummaryModal(false);
-                    setPaymentSuccessModal(true);
-                  }}
-                  className="gradient-button rounded-xl border bg-gradient-to-r px-6 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4"
-                >
-                  PROCEED
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const AddFundModal = () => {
-    return (
-      <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
-        <div className="relative flex h-auto w-full justify-center p-4">
-          <div className="relative w-1/3 rounded-lg bg-white shadow">
-            <div className="flex items-center justify-between rounded-t px-5 md:py-5">
-              <h1 className="font-mona text-xl">Fund or change wallet</h1>
-              <button
-                type="button"
-                onClick={() => setFundModal(false)}
-                className="ms-auto inline-flex h-6 w-6 items-center justify-center rounded-sm border bg-transparent text-sm text-black"
-              >
-                <svg
-                  className="h-2 w-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="flex flex-col space-y-4 p-4 py-1 md:p-5">
-              <p>
-                You don’t have up to the required amount needed to make this purchase please
-                transfer funds to your wallet.{' '}
-              </p>
-
-              <div className="flex justify-between">
-                <p className="text-xs text-black">Wallet Balance:</p>
-                <p className="text-xs text-red-500">0.00 USDT</p>
-              </div>
-              <input
-                type="text"
-                placeholder="XXXXXXXXXXXXXXXXXXXX..."
-                className="rounded-sm border p-2"
-              />
-
-              <div className="flex justify-between">
-                <button className="rounded-xl border bg-transparent px-4 py-1">Back</button>
-                <button
-                  onClick={() => {
-                    setFundModal(false);
-                    setNumberOfTokensModal(true);
-                  }}
-                  className="gradient-button rounded-xl border bg-gradient-to-r px-6 py-3 text-center text-sm uppercase text-black shadow-md focus:ring-4"
-                >
-                  ADD FUNDS
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
   return (
     <>
       <div className="container mx-auto px-4 py-4 sm:mt-20 md:px-20">
@@ -465,13 +150,20 @@ const page = ({ params }: { params: { assetId: string } }) => {
                 </div>
               </div>
             </div>
-            <button
+            <BuyToken
+              listingId={Number(params.assetId)}
+              tokens={tokensRemaining}
+              property={propertyIfo}
+              data={property}
+            />
+
+            {/* <button
               type="button"
               onClick={() => setFundModal(true)}
               className="gradient-button mt-3 rounded-2xl border bg-gradient-to-r px-4 py-2.5 text-center text-sm font-light uppercase text-black shadow-md focus:ring-4"
             >
               Buy
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -572,13 +264,84 @@ const page = ({ params }: { params: { assetId: string } }) => {
           </tbody>
         </table>
       </div>
-
-      {fundModal && <AddFundModal />}
-      {numberOfTokensModal && <NumberOfTokensModal params={params} />}
-      {paymentSuccessModal && <PaymentSuccessModal />}
-      {paymentSummaryModal && <PaymentSummaryModal />}
+      {/* <div className="w-full space-y-16">
+        <div className="container mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col items-start justify-start gap-10  px-4 py-20 md:px-10">
+          <Button variant={'text'} asChild>
+            <Link href={'/marketplace'}>
+              <Icons.arrowRight className="size-2.5" /> Back
+            </Link>
+          </Button>
+          <div className="flex flex-col gap-8 md:flex-row md:gap-16">
+            <div className="flex w-full flex-col overflow-hidden md:w-1/2">
+              <img
+                src={property.property_image}
+                alt="Property Image"
+                className="h-full w-full rounded-lg object-cover"
+              />
+              <div className="mx-auto mt-4 flex gap-3">
+                {images.map((image: any) => (
+                  <div
+                    key={image}
+                    className="h-12 w-12 overflow-hidden rounded-sm border shadow-md"
+                  >
+                    <img
+                      src={image}
+                      alt="Property Image"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex  w-full flex-col items-start justify-start gap-5 md:w-1/2">
+              <div className="flex w-full items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Image
+                    src={'/images/company_logo.png'}
+                    alt="logo"
+                    width={54}
+                    height={54}
+                    className="border-spacing-3 rounded-full border-[#A6A6A6]"
+                    priority
+                  />
+                  <h3 className="font-mona text-[18px]/[24px] font-semibold">Gade homes</h3>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Button variant={'text'} size={'icon'}>
+                    <Icons.heart className="size-5" />
+                  </Button>
+                  <Button variant={'text'} size={'icon'}>
+                    <Icons.share className="size-5" />
+                  </Button>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <Image
+                  src={'/icons/pin_location.svg'}
+                  alt="loc"
+                  width={24}
+                  height={24}
+                  className="pointer-events-none"
+                />
+                <h3 className="font-mona text-[16px]/[24px] font-semibold">
+                  {property.address_street} {property.address_town_city}
+                </h3>
+              </div>
+              <h1 className="font-mona text-[24px]/[32px] font-bold">
+                {property.property_name}
+              </h1>
+              <div className="space-y-2">
+                <p className="text-[14px]/[24px]">Price per token</p>
+                <div className="flex items-center gap-1 text-[16px]/[24px] font-medium">
+                  <h4 className="font-mona text-[24px]/[32px] font-bold">£2,000</h4> {'~'}{' '}
+                  <h4>31253.43 USDT</h4>
+                </div>
+              </div>
+              <BuyToken tokens={tokensRemaining} property={propertyIfo} data={property} />
+            </div>
+          </div>
+        </div>
+      </div> */}
     </>
   );
-};
-
-export default page;
+}

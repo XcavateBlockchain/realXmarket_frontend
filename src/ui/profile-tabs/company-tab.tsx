@@ -68,14 +68,14 @@ const CompanyTab = () => {
           </button>
 
           <button
-            onClick={() => setShowMintingModal(true)}
+            onClick={() => setShowInviteModal(true)}
             className="mt-4 rounded-sm border px-4 py-2 text-sm font-medium text-black"
           >
             Minting Modal
           </button>
 
           <button
-            onClick={() => setShowSuccessMintingModal(true)}
+            onClick={() => setShowInviteModal(true)}
             className="mt-4 rounded-sm border px-4 py-2 text-sm font-medium text-black"
           >
             Success Minting Modal

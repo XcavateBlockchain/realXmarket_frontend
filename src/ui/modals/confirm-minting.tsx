@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const ConfirmMintingModal = ({ setShowMintingModal, setShowSuccessMintingModal }) => {
+interface ConfirmMintingModalProps {
+  setShowMintingModal: any;
+  setShowSuccessMintingModal: any;
+}
+
+const ConfirmMintingModal: FC<ConfirmMintingModalProps> = ({
+  setShowMintingModal,
+  setShowSuccessMintingModal
+}) => {
   return (
     <>
       <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
