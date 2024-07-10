@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function ProfileBanner() {
+export default function ProfileBannerImage() {
   return (
     <div className="relative h-[297px] w-full">
       <Image
