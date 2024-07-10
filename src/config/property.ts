@@ -25,7 +25,7 @@ export const properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -56,7 +56,7 @@ export const properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -87,7 +87,7 @@ export const properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -118,7 +118,7 @@ export const properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -149,7 +149,7 @@ export const properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -180,7 +180,7 @@ export const properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -213,7 +213,7 @@ export const ad_properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -244,7 +244,7 @@ export const ad_properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -275,7 +275,7 @@ export const ad_properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
@@ -306,7 +306,7 @@ export const ad_properties: Property[] = [
       '/images/properties/prop1-4.jpg'
     ],
     property_price: '£250,000',
-    estimated_rental_income: '£1200 pcm',
+    estimated_rental_income: 1200,
     property_development_Code: '4564SXZ1',
     planning_permission_Code: '3/22/1700/HH1',
     local_authority: 'East Herts',
