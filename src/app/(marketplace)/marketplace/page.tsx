@@ -20,7 +20,7 @@ export default async function Marketplace() {
 
   const properties = (await getActiveProperties()) as FetchedProperty[];
 
-  console.log(properties);
+  // console.log(properties);
 
   return (
     <>
