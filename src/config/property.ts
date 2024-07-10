@@ -127,7 +127,7 @@ export const properties: Property[] = [
   },
   {
     property_name: 'Plot 6 - Lime House',
-    id: '7',
+    id: '5',
     address_street: 'The Avenue',
     address_town_city: 'Hertford',
     post_code: 'SG23 5TH',

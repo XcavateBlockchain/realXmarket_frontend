@@ -1,53 +1,26 @@
 'use server';
 
 import PropertyCard from '@/components/cards/property-card';
-import { properties } from '@/config/property';
-import { getItemMetadata, getProjectDetails, getActiveProperties } from '@/lib/queries';
-import { hexDecode } from '@/lib/utils';
-import { Property } from '@/types';
-// import { useEffect, useState } from 'react';
+import { getActiveProperties } from '@/lib/queries';
+// import { connectWebSocket } from '@/lib/websocket';
 
-// import MarketplaceCard from '@/components/MarketplaceCard';
-// import PropertyCard from '@/ui/property-card';
-// import { useState } from 'react';
-const ids = [1, 2, 3];
+import { FetchedProperty, Property } from '@/types';
+
 export default async function Marketplace() {
-  const propData = await getActiveProperties();
-  // console.log(propData);
-  // const [data, setData] = useState<any>();
-  // const [item, setItem] = useState<any>();
-
-  // async function getItems() {
-  //   const results = ids.map(async id => {
-  //     const item = await getItemMetadata(0, id);
-  //     if ( item !== null) {
-
-  //       const itemData = item as { data: any };
-  //       if (itemData.data !== null) {
-  //        return hexDecode(itemData.data);
-  //       }
-  //     }
-  //     return results
-  //   })
+  // function handleWebSocketMessage(event: MessageEvent) {
+  //   const data = JSON.parse(event.data);
+  //   console.log('Received data:', data);
+  //   // Handle the received data
   // }
 
-  // async function getItemData() {
-  //   const item = await getItemMetadata(0, 1);
-  //   const data = await getProjectDetails(1);
-  //   if (data !== null || item !== null) {
-  //     setData(data);
-  //     const itemData = item as { data: any };
-  //     if (itemData.data !== null) {
-  //       setItem(hexDecode(itemData.data));
-  //     }
-  //   }
-  // }
+  // connectWebSocket(
+  //   `${process.env.NEXT_PUBLIC_RPC_URL}`,
+  //   handleWebSocketMessage
+  // );
 
-  // useEffect(() => {
-  //   getItemData();
-  // }, []);
+  const properties = (await getActiveProperties()) as FetchedProperty[];
 
-  // console.log(item);
+  console.log(properties);
 
   return (
     <>
@@ -99,10 +72,8 @@ export default async function Marketplace() {
           Find the investment that’s right for you
         </p>
         <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-40 sm:grid-cols-2 lg:grid-cols-4">
-          {properties.map((property: Property) => (
-            <PropertyCard key={property.id} {...property} />
-
-            // <AdNFTCard key={property.id} {...property} />
+          {properties.map((property: FetchedProperty) => (
+            <PropertyCard key={property.itemId} {...property} />
           ))}
           {/* {Array.from({ length: 16 }).map((_, i) => (
           ))} */}
