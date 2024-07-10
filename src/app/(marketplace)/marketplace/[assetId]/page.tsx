@@ -21,8 +21,6 @@ export default async function Page({ params }: { params: { assetId: string } }) 
     return <div></div>;
   }
 
-  console.log(propertyIfo);
-  console.log(tokensRemaining);
   const { images } = property;
 
   return (
@@ -49,15 +47,6 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                   />
                 </div>
               ))}
-              {/* {.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-12 w-12 overflow-hidden rounded-sm border shadow-md">
-                  <img
-                    src="/images/property_one.png"
-                    alt="Property Image"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))} */}
             </div>
           </div>
           <div className="w-full md:w-1/2">
@@ -156,14 +145,6 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               property={propertyIfo}
               data={property}
             />
-
-            {/* <button
-              type="button"
-              onClick={() => setFundModal(true)}
-              className="gradient-button mt-3 rounded-2xl border bg-gradient-to-r px-4 py-2.5 text-center text-sm font-light uppercase text-black shadow-md focus:ring-4"
-            >
-              Buy
-            </button> */}
           </div>
         </div>
       </div>
@@ -173,11 +154,11 @@ export default async function Page({ params }: { params: { assetId: string } }) 
             <h1 className="text-[#4E4E4E]">Property Description</h1>
             <p className="text-md mt-2 text-[#191A1BD9]">
               {property.description}
-              {/* Welcome to this stunning 3-bedroom, 2-bathroom condo located in the heart of
+              Welcome to this stunning 3-bedroom, 2-bathroom condo located in the heart of
               downtown. This spacious corner unit boasts breathtaking city views and features a
               modern open floor plan, perfect for entertaining. The condo has been recently
               renovated with brand new hardwood floors, stainless steel appliances, and a
-              state-of-the-art security system. */}
+              state-of-the-art security system.
             </p>
             <h1 className="mt-10 text-[#4E4E4E]">Details</h1>
             <div className="mt-0 flex justify-between border-t-2 border-gray-200 px-1 py-2 text-[#4E4E4E]">
@@ -337,7 +318,12 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                   <h4>31253.43 USDT</h4>
                 </div>
               </div>
-              <BuyToken tokens={tokensRemaining} property={propertyIfo} data={property} />
+              <BuyToken
+                listingId={Number(params.assetId)}
+                tokens={tokensRemaining}
+                property={propertyIfo}
+                data={property}
+              />
             </div>
           </div>
         </div>

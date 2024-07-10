@@ -64,8 +64,26 @@ export default async function Marketplace() {
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 lg:px-10">
-        <h1 className="banner-text mt-20 text-center font-mona text-lg uppercase sm:mt-40 sm:text-5xl lg:text-6xl">
+      <div className="container mx-auto flex w-full flex-col space-y-20 px-4 py-20 md:px-10 lg:max-w-screen-2xl">
+        <div className="flex w-full flex-col items-center justify-center gap-4">
+          <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
+            Market Place
+          </h1>
+          <p className="text-[1.125rem]/[1.5rem] md:text-center lg:text-balance">
+            Find the investment that’s right for you
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:mt-40 sm:grid-cols-2 lg:grid-cols-4">
+          {properties.map((property: FetchedProperty) => (
+            <MarketCard key={property.itemId} {...property} />
+          ))}
+          {/* {Array.from({ length: 16 }).map((_, i) => (
+          ))} */}
+        </div>
+      </div>
+
+      {/* <div className="px-4 sm:px-6 lg:px-10">
+        <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text  text-center font-mona  text-[40px]/[48px] uppercase">
           Market Place
         </h1>
         <p className="sm:text-md mt-2 text-center text-sm sm:text-3xl">
@@ -75,10 +93,9 @@ export default async function Marketplace() {
           {properties.map((property: FetchedProperty) => (
             <MarketCard key={property.itemId} {...property} />
           ))}
-          {/* {Array.from({ length: 16 }).map((_, i) => (
-          ))} */}
+    
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

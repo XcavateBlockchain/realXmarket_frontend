@@ -35,7 +35,7 @@ export type Property = {
   property_image: string;
   images: string[];
   property_price: string;
-  estimated_rental_income: string;
+  estimated_rental_income: number;
   property_development_Code: string;
   planning_permission_Code: string;
   local_authority: string;

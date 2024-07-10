@@ -49,7 +49,7 @@ export default function MarketCard({ ...data }: FetchedProperty) {
           </div>
           <div className="flex items-center justify-between">
             <dt>Token {data.remainingTokens}</dt>
-            <dd className="">Price {property.property_type}</dd>
+            <dd className="">Price {data.tokenPrice} XCAV</dd>
           </div>
         </div>
       </Link>
