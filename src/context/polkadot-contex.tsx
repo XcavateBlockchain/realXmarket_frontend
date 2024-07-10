@@ -16,7 +16,7 @@ export type SubstrateContext = {
 
 const SubstrateContext = createContext<SubstrateContext>({
   isConnected: false,
-  address: "",
+  address: '',
   userType: '',
   onSelectUserType: () => {},
   handleConnect: async () => {}, // Dummy function for handleConnect

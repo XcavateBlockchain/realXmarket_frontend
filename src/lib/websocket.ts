@@ -13,7 +13,7 @@ export function connectWebSocket(url: string, onMessage: (event: MessageEvent) =
 
     ws.onmessage = onMessage;
 
-    ws.onclose = (event) => {
+    ws.onclose = event => {
       if (event.code === 1006) {
         console.error('WebSocket connection closed abnormally');
         if (retryCount < maxRetries) {
@@ -26,7 +26,7 @@ export function connectWebSocket(url: string, onMessage: (event: MessageEvent) =
       }
     };
 
-    ws.onerror = (error) => {
+    ws.onerror = error => {
       console.error('WebSocket error:', error);
     };
   }
