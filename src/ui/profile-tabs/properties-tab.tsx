@@ -19,7 +19,12 @@ const PropertiesTab = () => {
           Add Property
         </button>
       </section>
-      {showPropertyModal && <PropertyModalCard />}
+      {showPropertyModal && (
+        <PropertyModalCard
+          setAddPropertyModal={setShowPropertyModal}
+          setShowMintingModal={setShowPropertyModal}
+        />
+      )}
     </>
   );
 };

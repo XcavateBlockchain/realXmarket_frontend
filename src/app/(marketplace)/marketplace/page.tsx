@@ -1,6 +1,6 @@
 'use server';
 
-import PropertyCard from '@/components/cards/property-card';
+import MarketCard from '@/components/cards/market-card';
 import { getActiveProperties } from '@/lib/queries';
 // import { connectWebSocket } from '@/lib/websocket';
 
@@ -73,7 +73,7 @@ export default async function Marketplace() {
         </p>
         <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-40 sm:grid-cols-2 lg:grid-cols-4">
           {properties.map((property: FetchedProperty) => (
-            <PropertyCard key={property.itemId} {...property} />
+            <MarketCard key={property.itemId} {...property} />
           ))}
           {/* {Array.from({ length: 16 }).map((_, i) => (
           ))} */}
