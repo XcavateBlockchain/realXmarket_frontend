@@ -23,6 +23,9 @@ export default async function Page({ params }: { params: { assetId: string } }) 
 
   const { images } = property;
 
+  const ARI = property.estimated_rental_income * 12;
+  const APY = ARI / property.property_price;
+
   return (
     <>
       <div className="w-full space-y-16">
@@ -102,7 +105,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Listing price" value={propertyIfo.tokenPrice} />
-                <PropertyStats title="APY per NFT" value={'5%'} />
+                <PropertyStats title="APY per NFT" value={`${APY}%`} />
                 <PropertyStats
                   title="Tokens available"
                   value={`${tokensRemaining} / ${propertyIfo.tokenAmount}`}

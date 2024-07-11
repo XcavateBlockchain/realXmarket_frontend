@@ -98,8 +98,8 @@ export const Icons = {
       <path
         d="M15.4973 5.00114L0.500009 5.00402M0.500009 5.00402L4.53773 9.04318M0.500009 5.00402L4.53773 0.964823"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )
