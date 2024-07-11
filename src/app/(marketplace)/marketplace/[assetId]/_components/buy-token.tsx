@@ -280,6 +280,7 @@ export default function BuyToken({
   property: FetchedProperty;
   data: Property;
 }) {
+  const router = useRouter();
   const [openDialog, setIsDialogOpen] = useState(false);
   const [index, setIndex] = useState(1);
   const [amount, setAmount] = useState(0);
@@ -287,7 +288,7 @@ export default function BuyToken({
   function closeModal() {
     setIndex(1);
     setAmount(0);
-    const router = useRouter();
+    router.refresh();
     setIsDialogOpen(false);
   }
 
@@ -319,7 +320,7 @@ export default function BuyToken({
   return (
     <AlertDialog open={openDialog} onOpenChange={setIsDialogOpen}>
       <AlertDialogTrigger asChild>
-        <Button>BUY</Button>
+        <Button className="h-[48px] w-[153px] px-[55px] py-3">BUY</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-lg p-6">{actions[index]}</AlertDialogContent>
     </AlertDialog>
