@@ -92,5 +92,15 @@ export const Icons = {
         stroke="currentColor"
       />
     </svg>
+  ),
+  back: (props: IconProps) => (
+    <svg viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M15.4973 5.00114L0.500009 5.00402M0.500009 5.00402L4.53773 9.04318M0.500009 5.00402L4.53773 0.964823"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   )
 };
