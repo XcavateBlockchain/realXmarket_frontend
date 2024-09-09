@@ -29,7 +29,13 @@ export function AppSiteHeader() {
     <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px]">
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-[50px]">
         <Link href={'/'}>
-          <Image src={'/images/logo.svg'} alt="logo" width={133} height={48} priority />
+          <Image
+            src={'/images/company_logo.png'}
+            alt="logo"
+            width={200}
+            height={56}
+            priority
+          />
         </Link>
 
         <nav className="lg::gap-5 hidden items-center lg:flex lg:gap-10">
