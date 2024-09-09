@@ -111,7 +111,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Property type " value={property.property_type} />
-                <PropertyStatsWithInput title="Area prices" min={200000} max={270000} start="£200,000" end="£270,000"/>
+                <PropertyStatsWithInput title="Area prices" min={200000} max={270000} start="£200,000" mid="" end="£270,000"/>
                 <PropertyStats
                   title="Rental income"
                   value={`${property.estimated_rental_income} pcm`}
