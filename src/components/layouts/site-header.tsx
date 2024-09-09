@@ -15,9 +15,8 @@ export function SiteHeader() {
     <header className="fixed z-30 w-full bg-white/[0.40] backdrop-blur-[12px]">
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between border-b border-b-foreground/[0.10] px-4 py-4 lg:px-[50px] xl:px-[100px]">
         <Link href={'/'}>
-          <Image src={'/images/logo.svg'} alt="logo" width={133} height={48} priority />
+          <Image src={'/images/company_logo.png'} alt="logo" width={200} height={56} priority />
         </Link>
-
         <nav className="hidden items-center md:flex md:gap-5 lg:gap-10">
           {siteConfig.mainNav.map((nav: any) => (
             <Link

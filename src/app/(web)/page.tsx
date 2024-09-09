@@ -30,31 +30,33 @@ const how_it_works = [
 
 export default function Home() {
   return (
-    <div className="w-full space-y-12 md:space-y-10">
+    <div className="flex w-full flex-col items-center space-y-12 md:space-y-10">
       {/* HERO section */}
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
-          WELCOME TO THE LARGEST DECENTRALIZED GLOBAL WEB3 REAL ESTATE INVESTOR COMMUNITY
+          REAL ESTATE INVESTMENT MADE SIMPLE
         </h1>
         <p className="text-[1.125rem]/[1.5rem] md:text-center lg:text-balance">
-          Buy, sell & trade real world rental real estate through NFTs in a trustless, fully
-          decentralized way
+          All properties are independently verified prior to listing on the marketplace
         </p>
       </div>
       {/* NFT section */}
-      <div className="hidden w-full items-center gap-5 lg:flex">
-        {ad_properties.map((property: Property) => (
+      <div className="mb-5 mt-5 hidden w-[70%] items-center justify-between gap-5 lg:flex">
+        {/* {ad_properties.map((property: Property) => (
           <AdNFTCard key={property.id} {...property} />
         ))}
-        {/* <AdNFTCard />
-        <AdNFTCard />
-        <AdNFTCard />
-        <AdNFTCard /> */}
+         */}
+
+        <Image src={'/images/Frame2.png'} alt="hero" width={180} height={180} />
+        <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
+        <Image src={'/images/Frame1.png'} alt="hero" width={300} height={300} />
+        <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
+        <Image src={'/images/Frame3.png'} alt="hero" width={180} height={180} />
       </div>
 
       <div className="lg:hidden">{/* <AdNFTCard /> */}</div>
 
-      <div className="flex items-center justify-center">
+      <div className="mt-10 flex items-center justify-center">
         <Button asChild variant={'outline'} className="px-[102px]">
           <Link href={'/marketplace'}>EXPLORE MARKETPLACE</Link>
         </Button>
