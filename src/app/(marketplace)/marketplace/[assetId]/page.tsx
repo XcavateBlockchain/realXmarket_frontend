@@ -6,9 +6,7 @@ import { Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import BuyToken from './_components/buy-token';
-import { FaRegHeart } from 'react-icons/fa6';
-import { RiShareForwardBoxLine } from 'react-icons/ri';
-import { CiLocationOn } from 'react-icons/ci';
+import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
 interface FetchedProperty {
   [key: string]: any;
 }
@@ -113,12 +111,12 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Property type " value={property.property_type} />
-                <PropertyStatsWithInput title="Area prices" />
+                <PropertyStatsWithInput title="Area prices" min={200000} max={270000} start="£200,000" end="£270,000"/>
                 <PropertyStats
                   title="Rental income"
                   value={`${property.estimated_rental_income} pcm`}
                 />
-                <PropertyStatsWithInput title="Rental demand" />
+                <PropertyStatsWithInput title="Rental demand" min={1} max={3} start="Low" end="High" mid="Medium"/>
               </div>
               <BuyToken
                 listingId={Number(params.assetId)}
@@ -231,22 +229,7 @@ const PropertyStats = ({ title, value }: { title: string; value: any }) => (
   </dl>
 );
 
-const PropertyStatsWithInput = ({ title }: { title: string }) => (
-  <div className="col-span-2 flex w-full flex-col items-start gap-2 border-t border-gray-200 pt-3.5 text-[14px]/[24px]">
-    <span className="text-[#4E4E4E]">{title}</span>
-    <div className="relative mb-6 w-full">
-      <input
-        type="range"
-        min="200000"
-        max="270000"
-        step="1"
-        className="h-1 w-full cursor-pointer appearance-none rounded-md bg-gray-200"
-      />
-      <span className="absolute -bottom-6 start-0 text-xs text-gray-500">£200,000</span>
-      <span className="absolute -bottom-6 end-0 text-xs text-gray-500">£270,000</span>
-    </div>
-  </div>
-);
+
 
 const PropertyInfo = ({ title, value }: { title: string; value: any }) => (
   <ul className="flex w-full items-center justify-between border-t border-gray-200 p-3.5 text-[18px]/[24px]">
