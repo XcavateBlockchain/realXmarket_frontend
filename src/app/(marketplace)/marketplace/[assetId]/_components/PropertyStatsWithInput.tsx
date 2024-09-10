@@ -39,7 +39,9 @@ export const PropertyStatsWithInput = ({
           className="h-1 w-full cursor-pointer appearance-none rounded-md"
         />
         <span className="absolute -bottom-6 start-0 text-xs text-gray-500">{start}</span>
-        <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-gray-500">{mid}</span>
+        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 transform text-xs text-gray-500">
+          {mid}
+        </span>
         <span className="absolute -bottom-6 end-0 text-xs text-gray-500">{end}</span>
       </div>
     </div>

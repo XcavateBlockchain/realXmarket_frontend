@@ -24,7 +24,13 @@ export default function SiteFooter() {
       <hr />
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex flex-col items-center gap-3 md:flex-row">
-        <Image src={'/images/company_logo.png'} alt="logo" width={200} height={56} priority />
+          <Image
+            src={'/images/company_logo.png'}
+            alt="logo"
+            width={200}
+            height={56}
+            priority
+          />
 
           <span className="text-[1rem] text-[#191A1B]/[0.355]">
             © {date.getFullYear()} Xcavate. All rights reserved.

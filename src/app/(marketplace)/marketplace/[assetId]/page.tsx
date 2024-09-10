@@ -111,12 +111,26 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Property type " value={property.property_type} />
-                <PropertyStatsWithInput title="Area prices" min={200000} max={270000} start="£200,000" mid="" end="£270,000"/>
+                <PropertyStatsWithInput
+                  title="Area prices"
+                  min={200000}
+                  max={270000}
+                  start="£200,000"
+                  mid=""
+                  end="£270,000"
+                />
                 <PropertyStats
                   title="Rental income"
                   value={`${property.estimated_rental_income} pcm`}
                 />
-                <PropertyStatsWithInput title="Rental demand" min={1} max={3} start="Low" end="High" mid="Medium"/>
+                <PropertyStatsWithInput
+                  title="Rental demand"
+                  min={1}
+                  max={3}
+                  start="Low"
+                  end="High"
+                  mid="Medium"
+                />
               </div>
               <BuyToken
                 listingId={Number(params.assetId)}
@@ -228,8 +242,6 @@ const PropertyStats = ({ title, value }: { title: string; value: any }) => (
     <dd className="text-[#717171]">{value}</dd>
   </dl>
 );
-
-
 
 const PropertyInfo = ({ title, value }: { title: string; value: any }) => (
   <ul className="flex w-full items-center justify-between border-t border-gray-200 p-3.5 text-[18px]/[24px]">

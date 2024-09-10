@@ -19,9 +19,15 @@ export function MarketPlaceHeader() {
     <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px] backdrop-filter">
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-10">
         <Link href={'/'}>
-          <Image src={'/images/company_logo.png'} alt="logo" width={200} height={56} priority />
+          <Image
+            src={'/images/company_logo.png'}
+            alt="logo"
+            width={200}
+            height={56}
+            priority
+          />
         </Link>
-      
+
         <nav className="hidden items-center md:flex md:gap-5 lg:gap-10">
           {siteConfig.mainNav.map((nav: any) => (
             <Link
