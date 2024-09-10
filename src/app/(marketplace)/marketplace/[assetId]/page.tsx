@@ -59,7 +59,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Image
-                    src={'/images/company_logo.png'}
+                    src={'/images/New_coin.png'}
                     alt="logo"
                     width={54}
                     height={54}
@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                 </div>
                 <div className="flex items-center gap-4">
                   <Button variant={'text'} size={'icon'}>
-                    <Icons.heart className="size-5" />
+                    <Icons.heart className="size-8" />
                   </Button>
                   <Button variant={'text'} size={'icon'}>
                     <Icons.share className="size-5" />
@@ -93,17 +93,17 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                 {property.property_name}
               </h1>
               <div className="space-y-2">
-                <p className="text-[14px]/[24px]">Price per token</p>
+                <p className="text-[14px]/[24px]">Price</p>
                 <div className="flex items-center gap-1 text-[16px]/[24px] font-medium">
                   <h4 className="font-mona text-[24px]/[32px] font-bold">
                     £{propertyIfo.tokenPrice}
                   </h4>{' '}
-                  {'~'} <h4>31253.43 USDT</h4>
+                
                 </div>
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
-                <PropertyStats title="Listing price" value={propertyIfo.tokenPrice} />
-                <PropertyStats title="APY per NFT" value={`${APY}%`} />
+                <PropertyStats title="Price per Token" value={propertyIfo.tokenPrice} />
+                <PropertyStats title="Rental Yield" value={`${APY}%`} />
                 <PropertyStats
                   title="Tokens available"
                   value={`${tokensRemaining} / ${propertyIfo.tokenAmount}`}
@@ -111,12 +111,12 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Property type " value={property.property_type} />
-                <PropertyStatsWithInput title="Area prices" min={200000} max={270000} start="£200,000" mid="" end="£270,000"/>
+                <PropertyStatsWithInput title="Similar property prices"  start="£200,000" mid="" end="£270,000"/>
                 <PropertyStats
                   title="Rental income"
                   value={`${property.estimated_rental_income} pcm`}
                 />
-                <PropertyStatsWithInput title="Rental demand" min={1} max={3} start="Low" end="High" mid="Medium"/>
+                <PropertyStatsWithInput title="Area rental demand" start="Low" end="High" mid="Medium"/>
               </div>
               <BuyToken
                 listingId={Number(params.assetId)}
