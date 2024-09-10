@@ -10,9 +10,13 @@ import { useSubstrateContext } from '@/context/polkadot-contex';
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ConnectCredentialWallet } from './connect-credential-wallet';
+import { useWalletContext } from '@/context/wallet-context';
+import ConnectWalletButton from '../wallet/connect-wallet';
 
 export function AppSiteHeader() {
-  const { isConnected } = useSubstrateContext();
+  // const { isConnected } = useSubstrateContext();
+  const { selectedAccount } = useWalletContext();
+  const isConnected = selectedAccount?.[0]?.address;
 
   const [isScrolled, setIsScrolled] = React.useState(false);
 
@@ -54,7 +58,7 @@ export function AppSiteHeader() {
         </nav>
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
-          {isConnected ? <ConnectedWalletDropDown /> : <ConnectWallet />}
+          <ConnectWalletButton />
           {isConnected ? <ConnectCredentialWallet /> : null}
         </div>
       </div>

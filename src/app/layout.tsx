@@ -3,6 +3,7 @@ import { DM_Sans } from 'next/font/google';
 import './globals.css';
 import { fontMonaSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
+import { NodeSocketProvider, WalletProvider } from '@/context';
 
 const dm_sans = DM_Sans({
   weight: ['400', '700'],
@@ -29,7 +30,9 @@ export default function RootLayout({
           fontMonaSans.variable
         )}
       >
-        {children}
+        <NodeSocketProvider>
+          <WalletProvider>{children}</WalletProvider>
+        </NodeSocketProvider>
       </body>
     </html>
   );

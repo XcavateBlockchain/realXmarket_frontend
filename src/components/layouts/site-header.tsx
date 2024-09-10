@@ -4,13 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
 import MobileNav from './mobile-nav';
-import { ConnectWallet } from './connect-wallet';
+// import { ConnectWallet } from './connect-wallet';
 import ConnectedWalletDropDown from './connected-wallet';
 import { useSubstrateContext } from '@/context/polkadot-contex';
 import { ConnectCredentialWallet } from './connect-credential-wallet';
+import ConnectWalletButton from '../wallet/connect-wallet';
+import { useWalletContext } from '@/context/wallet-context';
 
 export function SiteHeader() {
-  const { isConnected } = useSubstrateContext();
+  // const { isConnected } = useSubstrateContext();
+  const { selectedAccount } = useWalletContext();
+  const isConnected = selectedAccount?.[0]?.address;
   return (
     <header className="fixed z-30 w-full bg-white/[0.40] backdrop-blur-[12px]">
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between border-b border-b-foreground/[0.10] px-4 py-4 lg:px-[50px] xl:px-[100px]">
@@ -30,7 +34,7 @@ export function SiteHeader() {
         </nav>
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
-          {isConnected ? <ConnectedWalletDropDown /> : <ConnectWallet />}
+          <ConnectWalletButton />
           {isConnected ? <ConnectCredentialWallet /> : null}
         </div>
       </div>
