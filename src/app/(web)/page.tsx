@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import AdNFTCard from '@/components/cards/ad-nft-card';
+// import AdNFTCard from '@/components/cards/ad-nft-card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ad_properties, properties } from '@/config/property';
-import { Property } from '@/types';
+// import { ad_properties, properties } from '@/config/property';
+// import { Property } from '@/types';
 
 const how_it_works = [
   {
@@ -48,17 +48,17 @@ export default function Home() {
          */}
         <div className="flex flex-col items-center justify-center">
           <Image src={'/images/FRAME1.png'} alt="hero" width={180} height={180} />
-          <p className="mt-2 text-gray-700 text-sm text-bold">Browse And Buy</p>
+          <p className="text-bold mt-2 text-sm text-gray-700">Browse And Buy</p>
         </div>
         <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
         <div className="flex flex-col items-center  justify-center">
           <Image src={'/images/FRAME2.png'} alt="hero" width={300} height={300} />
-          <p className="mt-2 text-gray-700 text-sm text-bold">Property Management</p>
+          <p className="text-bold mt-2 text-sm text-gray-700">Property Management</p>
         </div>
         <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
         <div className="flex flex-col items-center justify-center">
-        <Image src={'/images/FRAME3.png'} alt="hero" width={180} height={180} />
-        <p className="mt-2 text-gray-700 text-sm text-bold">Relist & Sell</p>
+          <Image src={'/images/FRAME3.png'} alt="hero" width={180} height={180} />
+          <p className="text-bold mt-2 text-sm text-gray-700">Relist & Sell</p>
         </div>
       </div>
 
