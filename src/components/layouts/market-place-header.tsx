@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
@@ -10,7 +9,6 @@ import { useSubstrateContext } from '@/context/polkadot-contex';
 import { ConnectCredentialWallet } from './connect-credential-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
-
 export function MarketPlaceHeader() {
   // const { isConnected } = useSubstrateContext();
   const { selectedAccount } = useWalletContext();
