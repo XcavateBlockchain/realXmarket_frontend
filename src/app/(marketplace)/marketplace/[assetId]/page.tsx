@@ -5,6 +5,7 @@ import { getPropertyDetails, getTokenRemaining } from '@/lib/queries';
 import { Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import NewCoin from "@/assets/New_coin.png";
 import BuyToken from './_components/buy-token';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
 interface FetchedProperty {
@@ -59,7 +60,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Image
-                    src={'/images/New_coin.png'}
+                    src={NewCoin}
                     alt="logo"
                     width={54}
                     height={54}
@@ -92,13 +93,18 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <h1 className="font-mona text-[24px]/[32px] font-bold">
                 {property.property_name}
               </h1>
-              <div className="space-y-2">
+              <div className="space-y-2 w-full ">
                 <p className="text-[14px]/[24px]">Price</p>
-                <div className="flex items-center gap-1 text-[16px]/[24px] font-medium">
+                <div className="flex items-center w-full justify-between  gap-1 text-[16px]/[24px] font-medium">
                   <h4 className="font-mona text-[24px]/[32px] font-bold">
-                    £{propertyIfo.tokenPrice}
+                    £{propertyIfo.tokenPrice} 
                   </h4>{' '}
-                
+                  <BuyToken
+                listingId={Number(params.assetId)}
+                tokens={tokensRemaining}
+                property={propertyIfo}
+                data={property}
+              />
                 </div>
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
@@ -118,12 +124,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                 />
                 <PropertyStatsWithInput title="Area rental demand" start="Low" end="High" mid="Medium"/>
               </div>
-              <BuyToken
-                listingId={Number(params.assetId)}
-                tokens={tokensRemaining}
-                property={propertyIfo}
-                data={property}
-              />
+              
             </div>
           </div>
         </div>
