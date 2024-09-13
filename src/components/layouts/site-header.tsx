@@ -12,8 +12,8 @@ import { ConnectCredentialWallet } from './connect-credential-wallet';
 export function SiteHeader() {
   const { isConnected } = useSubstrateContext();
   return (
-    <header className="fixed z-30 w-full bg-white/[0.40] backdrop-blur-[12px]">
-      <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between border-b border-b-foreground/[0.10] px-4 py-4 lg:px-[50px] xl:px-[100px]">
+    <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px] backdrop-filter">
+      <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-10">
         <Link href={'/'}>
           <Image src={'/images/company_logo.png'} alt="logo" width={200} height={56} priority />
         </Link>
