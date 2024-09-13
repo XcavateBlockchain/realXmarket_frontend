@@ -7,4 +7,5 @@
     ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["tw=\"([^\"]*)\""]
   ],
+  "typescript.tsdk": "node_modules/typescript/lib",
 }
