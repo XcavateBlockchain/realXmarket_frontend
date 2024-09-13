@@ -1,3 +1,10 @@
+import {
+  InjectedExtension,
+  InjectedMetadata,
+  InjectedProvider
+} from '@polkadot/extension-inject/types';
+import { Signer } from '@polkadot/types/types';
+
 export type TabNavItem = {
   title: string;
   href: string;
@@ -42,3 +49,41 @@ export type Property = {
   title_deed_number: string;
   map: string;
 };
+
+export interface WalletAccount {
+  address: string;
+  source: string;
+  name?: string;
+  wallet?: Wallet;
+  signer?: unknown;
+}
+
+export interface WalletLogoProps {
+  src: string;
+  alt: string;
+}
+
+export interface WalletInfo {
+  extensionName: string;
+  title: string;
+  installUrl: string;
+  logo: WalletLogoProps;
+}
+
+export interface WalletMethods {
+  enable: () => Promise<unknown>;
+
+  getAccounts: (ss58Format: number) => Promise<WalletAccount[] | null>;
+}
+
+export interface Wallet extends WalletInfo, WalletMethods {
+  installed: boolean | undefined;
+
+  extension: InjectedExtension | undefined;
+
+  signer: Signer | undefined;
+
+  metadata: InjectedMetadata | undefined;
+
+  provider: InjectedProvider | undefined;
+}

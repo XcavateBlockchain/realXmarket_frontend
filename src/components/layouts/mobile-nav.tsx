@@ -42,7 +42,13 @@ export default function MobileNav() {
       <SheetContent side="right" className="w-full">
         <div className="grid gap-6">
           <Link href={'/'} className="flex">
-          <Image src={'/images/company_logo.png'} alt="logo" width={200} height={56} priority />
+            <Image
+              src={'/images/company_logo.png'}
+              alt="logo"
+              width={200}
+              height={56}
+              priority
+            />
           </Link>
           {isConnected ? <ConnectedWalletDetails /> : null}
 
