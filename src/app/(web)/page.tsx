@@ -40,23 +40,23 @@ export default function Home() {
         </p>
       </div>
       {/* NFT section */}
-      <div className="mb-5 mt-5 hidden w-[70%] items-center justify-between gap-5 lg:flex">
+      <div className="mb-5 mt-24 hidden w-[70%] items-center justify-between gap-5 lg:flex">
         {/* {ad_properties.map((property: Property) => (
           <AdNFTCard key={property.id} {...property} />
         ))}
          */}
         <div className="flex flex-col items-center justify-center">
-          <Image src={Image1} alt="hero" width={180} height={180} />
+          <Image src={Image1} alt="hero" width={250} height={250} />
           <p className="mt-2 text-gray-700 text-sm text-bold">Browse And Buy</p>
         </div>
         <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
         <div className="flex flex-col items-center  justify-center">
-          <Image src={Image2} alt="hero" width={300} height={300} />
+          <Image src={Image2} alt="hero" width={400} height={400} />
           <p className="mt-2 text-gray-700 text-sm text-bold">Property Management</p>
         </div>
         <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
         <div className="flex flex-col items-center justify-center">
-        <Image src={Image3} alt="hero" width={180} height={180} />
+        <Image src={Image3} alt="hero" width={250} height={250} />
         <p className="mt-2 text-gray-700 text-sm text-bold">Relist & Sell</p>
         </div>
       </div>
