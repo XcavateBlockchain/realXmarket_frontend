@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image1 from '@/assets/FRAME1.png';
 import Image2 from '@/assets/FRAME2.png';
 import Image3 from '@/assets/FRAME3.png';
-import Arrorw from '@/assets/arrow.svg';
+import { FaArrowDown } from "react-icons/fa";
 const how_it_works = [
   {
     id: 1,
@@ -99,6 +99,8 @@ export default function Home() {
           <Link href={'/marketplace'}>EXPLORE MARKETPLACE</Link>
         </Button>
       </div>
+
+      <FaArrowDown className='text-[#3B4F74]' />
       {/* About  */}
       <div className="flex flex-col-reverse items-center justify-between gap-10 md:flex-row md:gap-2 md:py-[100px] lg:gap-20">
         <div className="flex flex-col items-start justify-start gap-4">
