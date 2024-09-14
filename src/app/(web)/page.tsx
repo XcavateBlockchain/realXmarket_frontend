@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Image1 from '@/assets/FRAME1.png';
-import Image2 from '@/assets/FRAME2.png';
-import Image3 from '@/assets/FRAME3.png';
+// import Image1 from '@/assets/FRAME1.png';
+// import Image2 from '@/assets/FRAME2.png';
+// import Image3 from '@/assets/FRAME3.png';
 const how_it_works = [
   {
     id: 1,
@@ -46,18 +46,18 @@ export default function Home() {
         ))}
          */}
         <div className="flex flex-col items-center justify-center">
-          <Image src={Image1} alt="hero" width={250} height={250} />
-          <p className="mt-2 text-gray-700 text-sm text-bold">Browse And Buy</p>
+          <Image src={'/images/frame_1.png'} alt="hero" width={250} height={250} />
+          <p className="text-bold mt-2 text-sm text-gray-700">Browse And Buy</p>
         </div>
         <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
         <div className="flex flex-col items-center  justify-center">
-          <Image src={Image2} alt="hero" width={400} height={400} />
-          <p className="mt-2 text-gray-700 text-sm text-bold">Property Management</p>
+          <Image src={'/images/frame_2.png'} alt="hero" width={400} height={400} />
+          <p className="text-bold mt-2 text-sm text-gray-700">Property Management</p>
         </div>
         <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
         <div className="flex flex-col items-center justify-center">
-        <Image src={Image3} alt="hero" width={250} height={250} />
-        <p className="mt-2 text-gray-700 text-sm text-bold">Relist & Sell</p>
+          <Image src={'/images/frame_3.png'} alt="hero" width={250} height={250} />
+          <p className="text-bold mt-2 text-sm text-gray-700">Relist & Sell</p>
         </div>
       </div>
 

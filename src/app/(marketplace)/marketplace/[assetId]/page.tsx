@@ -5,7 +5,7 @@ import { getPropertyDetails, getTokenRemaining } from '@/lib/queries';
 import { Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import NewCoin from "@/assets/New_coin.png";
+// import "/public/images/new_coin.png" from "@/assets/New_coin.png";
 import BuyToken from './_components/buy-token';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
 interface FetchedProperty {
@@ -60,7 +60,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Image
-                    src={NewCoin}
+                    src={'/images/new_coin.png'}
                     alt="logo"
                     width={54}
                     height={54}
@@ -93,18 +93,18 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <h1 className="font-mona text-[24px]/[32px] font-bold">
                 {property.property_name}
               </h1>
-              <div className="space-y-2 w-full ">
+              <div className="w-full space-y-2 ">
                 <p className="text-[14px]/[24px]">Price</p>
-                <div className="flex items-center w-full justify-between  gap-1 text-[16px]/[24px] font-medium">
+                <div className="flex w-full items-center justify-between  gap-1 text-[16px]/[24px] font-medium">
                   <h4 className="font-mona text-[24px]/[32px] font-bold">
-                    £{propertyIfo.tokenPrice} 
+                    £{propertyIfo.tokenPrice}
                   </h4>{' '}
                   <BuyToken
-                listingId={Number(params.assetId)}
-                tokens={tokensRemaining}
-                property={propertyIfo}
-                data={property}
-              />
+                    listingId={Number(params.assetId)}
+                    tokens={tokensRemaining}
+                    property={propertyIfo}
+                    data={property}
+                  />
                 </div>
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
@@ -118,18 +118,25 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Property type " value={property.property_type} />
 
-                <PropertyStatsWithInput title="Similar property prices"  start="£200,000" mid="" end="£270,000"/>
+                <PropertyStatsWithInput
+                  title="Similar property prices"
+                  start="£200,000"
+                  mid=""
+                  end="£270,000"
+                />
 
                 <PropertyStats
                   title="Rental income"
                   value={`${property.estimated_rental_income} pcm`}
                 />
 
-                <PropertyStatsWithInput title="Area rental demand" start="Low" end="High" mid="Medium"/>
-
-
+                <PropertyStatsWithInput
+                  title="Area rental demand"
+                  start="Low"
+                  end="High"
+                  mid="Medium"
+                />
               </div>
-              
             </div>
           </div>
         </div>
