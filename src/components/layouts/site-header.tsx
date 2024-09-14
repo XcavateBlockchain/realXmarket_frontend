@@ -20,7 +20,7 @@ export function SiteHeader() {
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-10">
         <Link href={'/'}>
           <Image
-            src={'/images/company_logo.png'}
+            src={'/images/Real_Market_logo.svg'}
             alt="logo"
             width={200}
             height={56}

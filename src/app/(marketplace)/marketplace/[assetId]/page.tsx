@@ -5,7 +5,6 @@ import { getPropertyDetails, getTokenRemaining } from '@/lib/queries';
 import { Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-// import "/public/images/new_coin.png" from "@/assets/New_coin.png";
 import BuyToken from './_components/buy-token';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
 interface FetchedProperty {
@@ -60,7 +59,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Image
-                    src={'/images/new_coin.png'}
+                    src={'/images/NEW_coin.svg'}
                     alt="logo"
                     width={54}
                     height={54}
