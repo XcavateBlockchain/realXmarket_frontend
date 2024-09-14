@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image1 from '@/assets/FRAME1.png';
 import Image2 from '@/assets/FRAME2.png';
 import Image3 from '@/assets/FRAME3.png';
+import Arrorw from '@/assets/arrow.svg';
 const how_it_works = [
   {
     id: 1,
@@ -29,7 +30,7 @@ const how_it_works = [
 
 export default function Home() {
   return (
-    <div className="flex w-full flex-col items-center space-y-12 md:space-y-10">
+    <div className="flex w-full  flex-col items-center space-y-12 md:space-y-10">
       {/* HERO section */}
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
@@ -40,24 +41,54 @@ export default function Home() {
         </p>
       </div>
       {/* NFT section */}
-      <div className="mb-5 mt-24 hidden w-[70%] items-center justify-between gap-5 lg:flex">
+      <div className="mb-5 mt-24  hidden w-[80%] items-center justify-between gap-5 lg:flex">
         {/* {ad_properties.map((property: Property) => (
           <AdNFTCard key={property.id} {...property} />
         ))}
          */}
         <div className="flex flex-col items-center justify-center">
           <Image src={Image1} alt="hero" width={250} height={250} />
-          <p className="mt-2 text-gray-700 text-sm text-bold">Browse And Buy</p>
+          <p className="text-bold mt-2 text-sm text-gray-700">Browse And Buy</p>
         </div>
-        <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
-        <div className="flex flex-col items-center  justify-center">
+        <div className='mb-20'> <svg
+          width="70"
+          height="110"
+          viewBox="0 0 70 110"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
+            stroke="#3B4F74"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg></div>
+
+        <div className="flex flex-col items-center  justify-center mb-12">
           <Image src={Image2} alt="hero" width={400} height={400} />
-          <p className="mt-2 text-gray-700 text-sm text-bold">Property Management</p>
+          <p className="text-bold mt-2 text-sm text-gray-700">Property Management</p>
         </div>
-        <Image src={'/images/ChevronsRight.png'} alt="hero" width={80} height={80} />
+        <div className='mb-20'><svg
+          width="70"
+          height="110"
+          viewBox="0 0 70 110"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
+            stroke="#3B4F74"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg></div>
+
         <div className="flex flex-col items-center justify-center">
-        <Image src={Image3} alt="hero" width={250} height={250} />
-        <p className="mt-2 text-gray-700 text-sm text-bold">Relist & Sell</p>
+          <Image src={Image3} alt="hero" width={250} height={250} />
+          <p className="text-bold mt-2 text-sm text-gray-700">Relist & Sell</p>
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import { getPropertyDetails, getTokenRemaining } from '@/lib/queries';
 import { Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import NewCoin from "@/assets/New_coin.png";
+import NewCoin from "@/assets/New_coin.svg";
 import BuyToken from './_components/buy-token';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
 interface FetchedProperty {
