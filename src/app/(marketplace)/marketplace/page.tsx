@@ -77,7 +77,6 @@ export default async function Marketplace() {
           {properties.map((property: FetchedProperty) => (
             <MarketCard key={property.itemId} {...property} />
           ))}
-         
         </div>
       </div>
 
