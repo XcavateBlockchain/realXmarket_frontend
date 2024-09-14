@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image1 from '@/assets/FRAME1.png';
 import Image2 from '@/assets/FRAME2.png';
 import Image3 from '@/assets/FRAME3.png';
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown } from 'react-icons/fa';
 const how_it_works = [
   {
     id: 1,
@@ -50,41 +50,46 @@ export default function Home() {
           <Image src={Image1} alt="hero" width={250} height={250} />
           <p className="text-bold mt-2 text-sm text-gray-700">Browse And Buy</p>
         </div>
-        <div className='mb-20'> <svg
-          width="70"
-          height="110"
-          viewBox="0 0 70 110"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
-            stroke="#3B4F74"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg></div>
+        <div className="mb-20">
+          {' '}
+          <svg
+            width="70"
+            height="110"
+            viewBox="0 0 70 110"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
+              stroke="#3B4F74"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
 
-        <div className="flex flex-col items-center  justify-center mb-12">
+        <div className="mb-12 flex flex-col  items-center justify-center">
           <Image src={Image2} alt="hero" width={400} height={400} />
           <p className="text-bold mt-2 text-sm text-gray-700">Property Management</p>
         </div>
-        <div className='mb-20'><svg
-          width="70"
-          height="110"
-          viewBox="0 0 70 110"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
-            stroke="#3B4F74"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg></div>
+        <div className="mb-20">
+          <svg
+            width="70"
+            height="110"
+            viewBox="0 0 70 110"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
+              stroke="#3B4F74"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
 
         <div className="flex flex-col items-center justify-center">
           <Image src={Image3} alt="hero" width={250} height={250} />
@@ -100,7 +105,7 @@ export default function Home() {
         </Button>
       </div>
 
-      <FaArrowDown className='text-[#3B4F74]' />
+      <FaArrowDown className="text-[#3B4F74]" />
       {/* About  */}
       <div className="flex flex-col-reverse items-center justify-between gap-10 md:flex-row md:gap-2 md:py-[100px] lg:gap-20">
         <div className="flex flex-col items-start justify-start gap-4">

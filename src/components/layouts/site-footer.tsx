@@ -25,7 +25,7 @@ export default function SiteFooter() {
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex flex-col items-center gap-3 md:flex-row">
           <Image
-            src={'/images/company_logo.png'}
+            src={'/images/Real_Market_logo.svg'}
             alt="logo"
             width={200}
             height={56}
