@@ -22,7 +22,6 @@ export const hexDecode = (hexString: string) => {
 // const decodedString = hexDecode('0x48656c6c6f20576f726c64');
 // console.log(decodedString); // Outputs: Hello World
 
-
 export function formatNumber(number: number | string, options: Intl.NumberFormatOptions = {}) {
   return new Intl.NumberFormat('en-UK', {
     style: options.style ?? 'decimal',
