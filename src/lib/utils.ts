@@ -21,3 +21,13 @@ export const hexDecode = (hexString: string) => {
 // // Example usage
 // const decodedString = hexDecode('0x48656c6c6f20576f726c64');
 // console.log(decodedString); // Outputs: Hello World
+
+export function formatNumber(number: number | string, options: Intl.NumberFormatOptions = {}) {
+  return new Intl.NumberFormat('en-UK', {
+    style: options.style ?? 'decimal',
+    notation: options.notation ?? 'standard',
+    minimumFractionDigits: options.minimumFractionDigits ?? 0,
+    maximumFractionDigits: options.maximumFractionDigits ?? 2,
+    ...options
+  }).format(Number(number));
+}

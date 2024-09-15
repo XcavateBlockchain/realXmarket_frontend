@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import BuyToken from './_components/buy-token';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
+import { formatNumber } from '@/lib/utils';
 interface FetchedProperty {
   [key: string]: any;
 }
@@ -96,7 +97,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                 <p className="text-[14px]/[24px]">Price</p>
                 <div className="flex w-full items-center justify-between  gap-1 text-[16px]/[24px] font-medium">
                   <h4 className="font-mona text-[24px]/[32px] font-bold">
-                    £{propertyIfo.tokenPrice}
+                    £{formatNumber(property.property_price)}
                   </h4>{' '}
                   <BuyToken
                     listingId={Number(params.assetId)}
