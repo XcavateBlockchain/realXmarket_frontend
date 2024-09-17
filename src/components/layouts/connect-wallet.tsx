@@ -126,7 +126,7 @@ export function ConnectWallet() {
       <Popover open={showDropdown} onOpenChange={setShowDropdown}>
         <PopoverTrigger asChild>
           <Button className="hidden shrink-0 md:flex">
-            Connect <Icons.wallet className="size-6" />
+            CONNECT <Icons.wallet className="size-6" />
             <span className="sr-only">Toggle Connect Wallet</span>
           </Button>
         </PopoverTrigger>

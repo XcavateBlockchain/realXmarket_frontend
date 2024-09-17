@@ -8,22 +8,22 @@ export default function SiteFooter() {
   return (
     <footer className="container mx-auto flex w-full flex-col justify-between gap-3 p-6">
       <div className="flex items-center justify-center gap-4">
-        <Link href={'#'} className="text-[1.25rem] text-[#191A1B]/[0.85] hover:underline">
+        <Link href={'#'} className="text-[1rem] text-[#191A1B]/[0.85] hover:underline">
           About Us
         </Link>
-        <Link href={'#'} className="text-[1.25rem] text-[#191A1B]/[0.85] hover:underline">
+        <Link href={'#'} className="text-[1rem] text-[#191A1B]/[0.85] hover:underline">
           FAQs
         </Link>
-        <Link href={'#'} className="text-[1.25rem] text-[#191A1B]/[0.85] hover:underline">
+        <Link href={'#'} className="text-[1rem] text-[#191A1B]/[0.85] hover:underline">
           Team
         </Link>
-        <Link href={'#'} className="text-[1.25rem] text-[#191A1B]/[0.85] hover:underline">
+        <Link href={'#'} className="text-[1rem] text-[#191A1B]/[0.85] hover:underline">
           Blog
         </Link>
       </div>
       <hr />
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <div className="flex flex-col items-center gap-3 md:flex-row">
+        <div className="flex flex-col items-center justify-center gap-3 md:flex-row">
           <Image
             src={'/images/Real_Market_logo.svg'}
             alt="logo"
