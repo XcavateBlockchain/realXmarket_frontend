@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <div className="flex w-[90%] container flex-col items-center space-y-12 md:space-y-10">
       {/* HERO section */}
-      <div className="flex w-full flex-col items-center justify-center gap-4">
+      <div className="flex w-full flex-col items-center justify-center gap-4 mt-0">
         <h1 style={{
           lineHeight: '56px',
           wordSpacing: '0.25em'
@@ -50,7 +50,7 @@ export default function Home() {
         ))}
          */}
         <div className="flex flex-col items-center justify-center">
-          <Image src={Image1} alt="hero" width={250} height={250} />
+          <Image src={Image1} alt="hero" width={257} height={242} />
           <p className="text-bold mt-2 text-sm text-gray-700">Browse And Buy</p>
         </div>
         <div className="mb-20">
@@ -73,8 +73,8 @@ export default function Home() {
         </div>
 
         <div className="mb-12 flex flex-col  items-center justify-center">
-          <Image src={Image2} alt="hero" width={400} height={400} />
-          <p className="text-bold mt-2 text-sm text-gray-700">Property Management</p>
+          <Image src={Image2} alt="hero" width={361} height={290} />
+          <p className="text-bold mt-3 text-sm text-gray-700">Property Management</p>
         </div>
         <div className="mb-20">
           <svg
@@ -95,7 +95,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <Image src={Image3} alt="hero" width={250} height={250} />
+          <Image src={Image3} alt="hero" width={257} height={242} />
           <p className="text-bold mt-2 text-sm text-gray-700">Relist & Sell</p>
         </div>
       </div>
