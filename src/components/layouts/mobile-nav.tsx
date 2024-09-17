@@ -71,7 +71,7 @@ export default function MobileNav() {
             <Sheet open={showWalletAction} onOpenChange={setShowWalletAction}>
               <SheetTrigger asChild>
                 <Button fullWidth>
-                  Connect <Icons.wallet className="size-6" />
+                  CONNECT <Icons.wallet className="size-6" />
                   <span className="sr-only">Toggle Connect Wallet</span>
                 </Button>
               </SheetTrigger>

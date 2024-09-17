@@ -24,38 +24,38 @@ export default async function Marketplace() {
 
   return (
     <>
-      <div className="mt-12 border-b-2 border-gray-300 px-4 py-10 sm:mt-20 sm:px-6 lg:px-10">
+      <div className="mt-12 w-[95%] container py-10 sm:mt-20 ">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
           <div className="col-span-1 flex flex-col">
-            <label className="mb-1 ml-0 uppercase text-gray-500">Property Price</label>
+            <label className="mb-1 ml-0 uppercase text-gray-800">Property Price</label>
             <select className="rounded-md border border-gray-500 px-2 py-3 shadow-sm outline-none focus:ring">
               <option value="all">Show all</option>
               <option value="bello">Bello</option>
             </select>
           </div>
           <div className="col-span-1 flex flex-col">
-            <label className="mb-1 ml-0 uppercase text-gray-500">Property Type</label>
+            <label className="mb-1 ml-0 uppercase text-gray-800">Property Type</label>
             <select className="rounded-md border border-gray-500 px-2 py-3 shadow-sm outline-none focus:ring">
               <option value="all">Show all</option>
               <option value="bello">Bello</option>
             </select>
           </div>
           <div className="col-span-1 flex flex-col">
-            <label className="mb-1 ml-0 uppercase text-gray-500">Token Price</label>
+            <label className="mb-1 ml-0 uppercase text-gray-800">Token Price</label>
             <select className="rounded-md border border-gray-500 px-2 py-3 shadow-sm outline-none focus:ring">
               <option value="all">Show all</option>
               <option value="bello">Bello</option>
             </select>
           </div>
           <div className="col-span-1 flex flex-col">
-            <label className="mb-1 ml-0 uppercase text-gray-500">Country</label>
+            <label className="mb-1 ml-0 uppercase text-gray-800">Country</label>
             <select className="rounded-md border border-gray-500 px-2 py-3 shadow-sm outline-none focus:ring">
               <option value="all">Show all</option>
               <option value="bello">Bello</option>
             </select>
           </div>
           <div className="col-span-1 flex flex-col">
-            <label className="mb-1 ml-0 uppercase text-gray-500">Town/City</label>
+            <label className="mb-1 ml-0 uppercase text-gray-800">Town/City</label>
             <select className="rounded-md border border-gray-500 px-2 py-3 shadow-sm outline-none focus:ring">
               <option value="all">Show all</option>
               <option value="bello">Bello</option>
@@ -64,7 +64,7 @@ export default async function Marketplace() {
         </div>
       </div>
 
-      <div className="container mx-auto flex w-full flex-col px-4 py-10 md:px-10 lg:max-w-screen-2xl">
+      <div className="container mx-auto flex w-[95%] flex-col py-10 lg:max-w-screen-2xl">
         {/* <div className="flex w-full flex-col items-center justify-center gap-4">
           <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
             Market Place
