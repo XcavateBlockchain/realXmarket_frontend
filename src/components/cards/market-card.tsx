@@ -27,29 +27,30 @@ export default function MarketCard({ ...data }: FetchedProperty) {
       </div>
 
       <Link href={`/marketplace/${property.id}`} className="relative flex flex-col gap-4 px-4">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex gap-1">
+        <div className="flex w-full items-center justify-between px-0">
+          <div className="flex">
             <Image
               src={'/icons/pin_location.svg'}
               alt="loc"
-              width={24}
-              height={24}
+              width={32}
+              height={32}
               className="pointer-events-none"
             />
-            <h3 className="text-[0.875rem]/[1.5rem]">
+            <h3 className="text-md mt-1">
               {property.address_street} {property.address_town_city}
             </h3>
           </div>
-          <Icons.heart className="size-6" />
+          <Icons.heart className="size-8" />
         </div>
         <div className="w-full space-y-2">
+    
           <div className="flex items-center justify-between">
-            <dt>{property.property_name}</dt>
-            <dd className="">APY 10%</dd>
+            <dt className='font-bold text-black text-md'>{property.property_name}</dt>
+            <dd className="">APY <span className='font-bold text-black text-md'>10%</span></dd>
           </div>
           <div className="flex items-center justify-between">
-            <dt>Token {data.remainingTokens}</dt>
-            <dd className="">Price {data.tokenPrice} XCAV</dd>
+            <dt className='text-md'>Token <span className='font-bold text-black'>{data.remainingTokens}</span></dt>
+            <dd className="text-md">Price <span className='font-bold text-black'>£{data.tokenPrice}</span></dd>
           </div>
         </div>
       </Link>

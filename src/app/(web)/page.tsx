@@ -30,7 +30,7 @@ const how_it_works = [
 
 export default function Home() {
   return (
-    <div className="flex w-[90%] container flex-col items-center space-y-12 md:space-y-10">
+    <div className="flex w-[90%] container flex-col items-center space-y-12 md:space-y-12">
       {/* HERO section */}
       <div className="flex w-full flex-col items-center justify-center gap-4 mt-0">
         <h1 style={{
@@ -39,12 +39,13 @@ export default function Home() {
         }} className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
           REAL ESTATE INVESTMENT MADE SIMPLE
         </h1>
-        <p className="text-[1.125rem]/[1.5rem] md:text-center lg:text-balance">
+        <p className="text-[1.
+           md:text-center lg:text-balance">
           All properties are independently verified prior to listing on the marketplace
         </p>
       </div>
       {/* NFT section */}
-      <div className="mb-5 mt-24  hidden w-[80%] items-center justify-between gap-5 lg:flex">
+      <div className="mb-5 mt-28  hidden w-[80%] items-center justify-between gap-5 lg:flex">
         {/* {ad_properties.map((property: Property) => (
           <AdNFTCard key={property.id} {...property} />
         ))}
@@ -102,7 +103,7 @@ export default function Home() {
 
       <div className="lg:hidden">{/* <AdNFTCard /> */}</div>
 
-      <div className="mt-10 flex items-center justify-center">
+      <div className="mt-4 flex items-center justify-center">
         <Button asChild variant={'outline'} className="px-[102px]">
           <Link href={'/marketplace'}>EXPLORE MARKETPLACE</Link>
         </Button>
@@ -133,7 +134,7 @@ export default function Home() {
         {how_it_works.map(steps => (
           <div
             key={steps.title}
-            className='flex h-full rounded-lg w-full shrink-0 bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat lg:h-[235px]'
+            className='flex h-full rounded-xl w-full shrink-0 bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat lg:h-[235px]'
           >
             <div className="inline-flex flex-col items-start gap-3.5 px-8 py-7 md:gap-4 lg:px-[54px] lg:pb-[57px] lg:pt-[46px]">
               <Image

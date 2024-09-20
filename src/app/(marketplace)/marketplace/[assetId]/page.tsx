@@ -26,14 +26,14 @@ export default async function Page({ params }: { params: { assetId: string } }) 
 
   return (
     <>
-      <div className="w-full space-y-16">
-        <div className="container mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col items-start justify-start gap-16  px-4 py-20 md:px-10">
+      <div className="w-full">
+        <div className="container mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col items-start justify-start gap-4 px-4 pt-36 md:px-10">
           <Button variant={'text'} asChild>
             <Link href={'/marketplace'}>
               <Icons.back className="size-2.5" /> Back
             </Link>
           </Button>
-          <div className="flex flex-col gap-8 md:flex-row md:gap-16">
+          <div className="flex  flex-col gap-8 md:flex-row md:gap-4">
             <div className="flex w-full flex-col overflow-hidden md:w-1/2">
               <img
                 src={property.property_image}
@@ -139,8 +139,8 @@ export default async function Page({ params }: { params: { assetId: string } }) 
             </div>
           </div>
         </div>
-        <div className="container mx-auto flex w-full max-w-screen-2xl flex-col items-start justify-start gap-8 bg-[#F4F4F4] px-4 py-16 md:px-10 lg:flex-row">
-          <div className="flex w-full flex-col items-start gap-[45px] md:w-1/2">
+        <div className="container mx-auto flex w-full max-w-screen-2xl flex-col items-start justify-start gap-4 bg-[#F4F4F4] px-4 py-16 md:px-10 lg:flex-row">
+          <div className="flex w-full flex-col items-start gap-[20px] md:w-1/2">
             <div className="space-y-4 text-[18px]/[24px]">
               <h1 className="font-mona  font-semibold text-[#4E4E4E]">Property Description</h1>
               <p className=" text-[#191A1BD9]">{property.description}</p>
@@ -169,63 +169,62 @@ export default async function Page({ params }: { params: { assetId: string } }) 
             />
           </div>
         </div>
-        <div className="mt-10 flex w-full flex-col overflow-x-scroll px-4 md:px-20">
-          <h1 className="mb-4 text-xl text-[#4E4E4E]">Item Activity</h1>
-          <table className="min-w-full border-separate border-spacing-x-2 border-spacing-y-2 border-t-2 border-gray-200">
+        <div className="mt-10 flex w-full flex-col overflow-x-scroll px-4 md:px-10">
+          <h1 className="mb-4 text-xl font-bold text-[#4E4E4E]">Item Activity</h1>
+          <table className="min-w-full border-separate border-spacing-y-2 border-t-2 border-gray-200 bg-[#FAFAFA] px-4">
             <thead className="border-b lg:table-header-group">
               <tr>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-xl">
+                <td className="whitespace-normal px-4 py-4 text-sm font-medium text-gray-500 sm:text-sm">
+                  No
+                </td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-sm">
                   Action
                 </td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-xl">
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-sm">
                   From
                 </td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-xl">
-                  Trade Price
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-sm">
+                  Token Price
                 </td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-xl">
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-sm">
+                  Price
+                </td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-sm">
                   To
                 </td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-xl">
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:text-sm">
                   Date
                 </td>
               </tr>
             </thead>
-            <tbody className="lg:border-gray-300">
-              <tr>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $59.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $59.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $59.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $29.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $29.00
-                </td>
-              </tr>
-              <tr>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $59.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $59.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $59.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $29.00
-                </td>
-                <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-lg">
-                  $29.00
-                </td>
-              </tr>
+            <tbody className="bg-[#E2E2E2] lg:border-gray-300">
+              {[1,23,4,6,7,8].map((_, index) => {
+                return (
+                  <tr key={index} className="rounded-lg bg-[#E2E2E2]">
+                    <td className="whitespace-no-wrap rounded-l-md px-4 py-4 text-sm text-gray-600 sm:text-sm">
+                      01
+                    </td>
+                    <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-sm">
+                      $59.00
+                    </td>
+                    <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-sm">
+                      $59.00
+                    </td>
+                    <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-sm">
+                      $29.00
+                    </td>
+                    <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-sm">
+                      $29.00
+                    </td>
+                    <td className="whitespace-no-wrap py-4 text-sm text-gray-600 sm:text-sm">
+                      $29.00
+                    </td>
+                    <td className="whitespace-no-wrap rounded-r-md py-4 text-sm text-gray-600 sm:text-sm">
+                      $29.00
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -22,8 +22,8 @@ export default function SiteFooter() {
         </Link>
       </div>
       <hr />
-      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <div className="flex flex-col items-center justify-center gap-3 md:flex-row">
+      <div className="flex flex-col w-[100%] items-center justify-between gap-4 md:flex-row">
+        <div className="flex flex-col items-center justify-items-center gap-3 md:flex-row">
           <Image
             src={'/images/Real_Market_logo.svg'}
             alt="logo"
@@ -32,10 +32,10 @@ export default function SiteFooter() {
             priority
           />
 
-          <span className="text-[1rem] text-[#191A1B]/[0.355]">
+          <span className="text-[1rem] mt-2 text-[#191A1B]/[0.355]">
             © {date.getFullYear()} Xcavate. All rights reserved.
           </span>
-          <span className="text-[1rem] text-[#191A1B]/[0.355]">
+          <span className="text-[1rem] mt-2 text-[#191A1B]/[0.355]">
             | Terms of service and privacy policy
           </span>
         </div>
