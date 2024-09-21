@@ -1,9 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Image1 from '@/assets/FRAME1.png';
-import Image2 from '@/assets/FRAME2.png';
-import Image3 from '@/assets/FRAME3.png';
 import { FaArrowDown } from 'react-icons/fa';
 const how_it_works = [
   {
@@ -30,17 +27,22 @@ const how_it_works = [
 
 export default function Home() {
   return (
-    <div className="flex w-[90%] container flex-col items-center space-y-12 md:space-y-12">
+    <div className="container flex w-[90%] flex-col items-center space-y-12 md:space-y-12">
       {/* HERO section */}
-      <div className="flex w-full flex-col items-center justify-center gap-4 mt-0">
-        <h1 style={{
-          lineHeight: '56px',
-          wordSpacing: '0.25em'
-        }} className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
+      <div className="mt-0 flex w-full flex-col items-center justify-center gap-4">
+        <h1
+          style={{
+            lineHeight: '56px',
+            wordSpacing: '0.25em'
+          }}
+          className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]"
+        >
           REAL ESTATE INVESTMENT MADE SIMPLE
         </h1>
-        <p className="text-[1.
-           md:text-center lg:text-balance">
+        <p
+          className="text-[1.
+           md:text-center lg:text-balance"
+        >
           All properties are independently verified prior to listing on the marketplace
         </p>
       </div>
@@ -51,7 +53,7 @@ export default function Home() {
         ))}
          */}
         <div className="flex flex-col items-center justify-center">
-          <Image src={Image1} alt="hero" width={257} height={242} />
+          <Image src={'/images/frame_1.png'} alt="hero" width={257} height={242} />
           <p className="text-bold mt-2 text-sm text-gray-700">Browse And Buy</p>
         </div>
         <div className="mb-20">
@@ -66,15 +68,15 @@ export default function Home() {
             <path
               d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
               stroke="#3B4F74"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>
 
         <div className="mb-12 flex flex-col  items-center justify-center">
-          <Image src={Image2} alt="hero" width={361} height={290} />
+          <Image src={'/images/frame_2.png'} alt="hero" width={361} height={290} />
           <p className="text-bold mt-3 text-sm text-gray-700">Property Management</p>
         </div>
         <div className="mb-20">
@@ -88,15 +90,15 @@ export default function Home() {
             <path
               d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
               stroke="#3B4F74"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <Image src={Image3} alt="hero" width={257} height={242} />
+          <Image src={'/images/frame_3.png'} alt="hero" width={257} height={242} />
           <p className="text-bold mt-2 text-sm text-gray-700">Relist & Sell</p>
         </div>
       </div>
@@ -134,7 +136,7 @@ export default function Home() {
         {how_it_works.map(steps => (
           <div
             key={steps.title}
-            className='flex h-full rounded-xl w-full shrink-0 bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat lg:h-[235px]'
+            className='flex h-full w-full shrink-0 rounded-xl bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat lg:h-[235px]'
           >
             <div className="inline-flex flex-col items-start gap-3.5 px-8 py-7 md:gap-4 lg:px-[54px] lg:pb-[57px] lg:pt-[46px]">
               <Image

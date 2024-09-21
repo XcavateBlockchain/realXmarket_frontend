@@ -45,7 +45,7 @@ function SelectAmount({
   return (
     <>
       <div className="flex w-full items-center justify-between">
-        <h1 className='font-bold'>Buy Tokens</h1>
+        <h1 className="font-bold">Buy Tokens</h1>
         <Button variant={'text'} size={'icon'} onClick={close}>
           <Icons.close className="size-6" />
         </Button>
@@ -78,23 +78,22 @@ function SelectAmount({
       <div className="w-full space-y-4 divide-y-2">
         <div className="flex items-center justify-between text-[16px]/[24px]">
           <span className="font-mona font-medium text-[#4E4E4E]">Price per Tokens :</span>
-          <span className='font-bold'>£2000</span>
+          <span className="font-bold">£2000</span>
         </div>
-        <div className="flex flex-col bg-gray-100 rounded-sm p-2">
-         
+        <div className="flex flex-col rounded-sm bg-gray-100 p-2">
           <div className="flex justify-between">
             <span>Pay with:</span>
-            <span className='font-bold'>£{property.tokenPrice}</span>
+            <span className="font-bold">£{property.tokenPrice}</span>
           </div>
           <div className="flex justify-between">
             <span>Balance</span>
-            <span className='font-bold'>£{property.tokenPrice}</span>
+            <span className="font-bold">£{property.tokenPrice}</span>
           </div>
         </div>
       </div>
       <div className="flex w-full flex-col gap-1">
         <div className="flex justify-between">
-          <span>Tokens left:</span> <span className='text-[#78B36E]'>{tokens} of 100</span>
+          <span>Tokens left:</span> <span className="text-[#78B36E]">{tokens} of 100</span>
         </div>
 
         <div className="space-y-5">
@@ -124,7 +123,7 @@ function SelectAmount({
               size={'md'}
               type="submit"
               onClick={() => setIndex(2)}
-              className='text-white px-4'
+              className="px-4 text-white"
               // disabled={amount === 0}
             >
               Buy
@@ -226,7 +225,6 @@ function PurchaseSummary({
           type="submit"
           onClick={onSubmit}
           disabled={isPending}
-          className='text-white'
         >
           Continue
         </Button>
