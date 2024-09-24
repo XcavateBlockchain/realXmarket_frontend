@@ -102,5 +102,15 @@ export const Icons = {
         strokeLinejoin="round"
       />
     </svg>
+  ),
+  uploadIcon: (props: IconProps) => (
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M19.5 12.927V16.5808C19.5 18.1952 18.1913 19.5039 16.5769 19.5039L3.42308 19.5039C1.80871 19.5039 0.5 18.1952 0.5 16.5808L0.5 12.927M10 15.1193L10 0.503906M10 0.503906L5.61538 4.88852M10 0.503906L14.3846 4.88852"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   )
 };

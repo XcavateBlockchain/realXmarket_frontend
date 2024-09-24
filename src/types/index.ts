@@ -87,3 +87,8 @@ export interface Wallet extends WalletInfo, WalletMethods {
 
   provider: InjectedProvider | undefined;
 }
+
+export type Option = {
+  label: string;
+  value: string;
+};
