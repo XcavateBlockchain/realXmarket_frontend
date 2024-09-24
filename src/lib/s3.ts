@@ -30,7 +30,7 @@ export async function uploadFileToS3(
   return fileKey;
 }
 
-export async function generatePresignedUrl(fileKey: string, expiresIn = 300): Promise<string> {
+export async function generatePresignedUrl(fileKey: string, expiresIn = 3600): Promise<string> {
     const command = new GetObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: fileKey,

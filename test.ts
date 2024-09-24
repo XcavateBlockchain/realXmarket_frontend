@@ -6,9 +6,9 @@ dotenv.config();
 
 async function testFunctions() {
     const accountAddress = '5FEda1GYvjMYcBiuRE7rb85QbD5bQNHuZajhRvHYTxm4PPz5';
-    const propertyId = 2;
+    const propertyId = 3;
     const propertyData = {
-      propertyName: 'Test Property 2',
+      propertyName: 'Test Property 3',
       address: '123 Test Street',
       city: 'Test City',
       postCode: '12345',
