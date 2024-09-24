@@ -6,6 +6,7 @@ import { getActiveProperties } from '@/lib/queries';
 
 import { FetchedProperty, Property } from '@/types';
 
+export const maxDuration = 300;
 export default async function Marketplace() {
   // function handleWebSocketMessage(event: MessageEvent) {
   //   const data = JSON.parse(event.data);
