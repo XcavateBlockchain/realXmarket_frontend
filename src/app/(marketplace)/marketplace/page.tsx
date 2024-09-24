@@ -1,5 +1,3 @@
-'use server';
-
 import MarketCard from '@/components/cards/market-card';
 import { getActiveProperties } from '@/lib/queries';
 // import { connectWebSocket } from '@/lib/websocket';
