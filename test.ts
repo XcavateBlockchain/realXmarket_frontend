@@ -6,9 +6,9 @@ dotenv.config();
 
 async function testFunctions() {
     const accountAddress = '5FEda1GYvjMYcBiuRE7rb85QbD5bQNHuZajhRvHYTxm4PPz5';
-    const propertyId = 1;
+    const propertyId = 2;
     const propertyData = {
-      propertyName: 'Test Property',
+      propertyName: 'Test Property 2',
       address: '123 Test Street',
       city: 'Test City',
       postCode: '12345',
@@ -20,12 +20,13 @@ async function testFunctions() {
   
       // Read the file content from a local file (e.g., test-image.jpg)
       const filePath = 'QmaPV59rfYbcvBMBW561oPTvAwgbhLKFersMZMdGUrMDdn.png'; 
+      const fieldName = 'document'; 
       const fileName = 'test-image.jpg';
       const fileType = 'image/jpeg'; 
       const fileBody = fs.readFileSync(filePath); 
   
       // Upload the file to S3
-      const fileKey = await uploadFileToS3(accountAddress, propertyId, fileName, fileType, fileBody);
+      const fileKey = await uploadFileToS3(accountAddress, propertyId, fieldName, fileName, fileType, fileBody);
       console.log('File uploaded to S3 with key:', fileKey);
   
       console.log('--- Step 2: Creating/updating the property in DynamoDB ---');

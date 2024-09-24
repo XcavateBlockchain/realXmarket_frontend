@@ -10,11 +10,12 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION, credentials: {ac
 export async function uploadFileToS3(
   accountAddress: string,
   propertyId: number,
+  fieldName: string,
   fileName: string,
   fileType: string,
   fileBody: Buffer | Blob
 ): Promise<string> {
-  const fileKey = `${accountAddress}/${propertyId}/${fileName}`;
+  const fileKey = `${accountAddress}/${propertyId}/${fieldName}/${fileName}`;
 
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
