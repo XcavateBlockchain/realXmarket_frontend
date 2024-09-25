@@ -40,7 +40,7 @@ export async function buyNft(senderAddress: string, listingId: number, amount: n
     });
     console.log('Transaction sent:', unsub);
   } catch (error) {
-    console.error('Failed to submit guess:', error);
+    console.error('Failed to buy nft:', error);
   }
 }
 

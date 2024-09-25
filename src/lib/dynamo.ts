@@ -1,5 +1,5 @@
-'use server'
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+'use server';
+import { DynamoDBClient, ReturnValue } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   UpdateCommand,
@@ -22,18 +22,37 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 export async function upsertProperty(
   accountAddress: string,
   propertyId: number,
-  propertyData: any
+  propertyData: Record<string, any>
 ) {
   const params = {
     TableName: 'real-marketplace-properties',
-    Item: {
+    Key: {
       accountAddress,
-      propertyId,
-      ...propertyData
-    }
+      propertyId
+    },
+    UpdateExpression:
+      'SET ' +
+      Object.keys(propertyData)
+        .map((key, i) => `#${key} = :value${i}`)
+        .join(', '),
+    ExpressionAttributeNames: Object.keys(propertyData).reduce(
+      (acc: Record<string, string>, key) => {
+        acc[`#${key}`] = key;
+        return acc;
+      },
+      {}
+    ),
+    ExpressionAttributeValues: Object.keys(propertyData).reduce(
+      (acc: Record<string, any>, key, i) => {
+        acc[`:value${i}`] = propertyData[key];
+        return acc;
+      },
+      {}
+    ),
+    ReturnValues: ReturnValue.UPDATED_NEW
   };
 
-  const command = new PutCommand(params);
+  const command = new UpdateCommand(params);
   await ddbDocClient.send(command);
 }
 
