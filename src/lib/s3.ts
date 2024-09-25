@@ -1,7 +1,9 @@
+'use server'
+
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import * as dotenv from 'dotenv';
-dotenv.config();
+// import * as dotenv from 'dotenv';
+// dotenv.config();
 
 const s3Client = new S3Client({
   region: 'eu-west-1',
@@ -17,12 +19,15 @@ export async function uploadFileToS3(
   fieldName: string,
   fileName: string,
   fileType: string,
-  fileBody: Buffer | Blob
+  formData: FormData
 ): Promise<string> {
   const fileKey = `${accountAddress}/${propertyId}/${fieldName}/${fileName}`;
 
+  const file = formData.get(fieldName) as File;
+  const fileBody = Buffer.from(await file.arrayBuffer())
+
   const params = {
-    Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: fileKey,
     Body: fileBody,
     ContentType: fileType
@@ -39,7 +44,7 @@ export async function generatePresignedUrl(
   expiresIn = 3600
 ): Promise<string> {
   const command = new GetObjectCommand({
-    Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: fileKey
   });
 

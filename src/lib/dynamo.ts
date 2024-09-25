@@ -1,3 +1,4 @@
+'use server'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
@@ -6,14 +7,14 @@ import {
   QueryCommand
 } from '@aws-sdk/lib-dynamodb';
 import { generatePresignedUrl } from './s3';
-import * as dotenv from 'dotenv';
-dotenv.config();
+// import * as dotenv from 'dotenv';
+// dotenv.config();
 
 const ddbClient = new DynamoDBClient({
   region: 'eu-west-1',
   credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY!
+    accessKeyId: process.env.AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.AWS_SECRET_KEY!
   }
 });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);

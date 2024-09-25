@@ -46,15 +46,20 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         toast.error('Please connect your wallet');
         return;
       }
-      const floorPlanBuffer = Buffer.from(await data.floor_plan.arrayBuffer());
-      const salesBuffer = Buffer.from(await data.sales_agreement.arrayBuffer());
+
+      const floorPlanFormData = new FormData();
+      const salesFormData = new FormData();
+
+      floorPlanFormData.append("floor_plan", data.floor_plan)
+      salesFormData.append("sales_agreement", data.sales_agreement)
+
       const uploadFloorPlan = await uploadFileToS3(
         address,
         propertyId,
         'floor_plan',
         data.floor_plan.name,
         data.floor_plan.type,
-        floorPlanBuffer
+        floorPlanFormData
       );
       console.log('Uploaded floor');
       const uploadSales = await uploadFileToS3(
@@ -63,7 +68,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         'sales_agreement',
         data.floor_plan.name,
         data.floor_plan.type,
-        salesBuffer
+        salesFormData
       );
       console.log('uploaded sales');
       if (!uploadFloorPlan && !uploadSales) {
@@ -74,7 +79,9 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         await addFileToProperty(address, propertyId, uploadFloorPlan);
         await addFileToProperty(address, propertyId, uploadSales);
         toast.success('Files uploaded');
-        await upsertProperty(address, propertyId, { region: 0, location: 0, ...data });
+        const {floor_plan, sales_agreement, ...newData} = data;
+        console.log("NEW DATA", newData);
+        await upsertProperty(address, propertyId, { region: 0, location: 0, ...newData });
         setStatus(STATE_STATUS.SUCCESS);
         router.push(`/property/create?id=${propertyId}&page=pricing-details`);
       }
