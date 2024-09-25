@@ -9,11 +9,16 @@ import { nanoid } from 'nanoid';
 import PropertyInformationForm from './property-informtion-form';
 import PricingDetailsForm from './pricing-details-form';
 import PropertyFeaturesForm from './property-features-form';
+import { listProperty } from '@/lib/extrinsic';
+import { useSubstrateContext } from '@/context/polkadot-contex';
 
 export default function PropertyForm() {
   const searchParams = useSearchParams();
   const propertyId = searchParams.get('id') ?? Date.now();
   const step = searchParams.get('page') ?? 'property-information';
+
+  // const { address } = useSubstrateContext();
+  // console.log('ADDRESS', address);
 
   const current: any = {
     'property-information': 0,
@@ -29,6 +34,13 @@ export default function PropertyForm() {
 
   return (
     <>
+      {/* <button
+        onClick={async () =>
+          await listProperty('5Di7RnyX8TXwM9C9RCVHWTuXemwmRiJLiX3wapYgN588qB2E')
+        }
+      >
+        LIST PROPERTY
+      </button> */}
       <section className="flex w-full items-center justify-between gap-2">
         <button className="flex items-center gap-2 font-mona text-[18px]/[24px]">
           <span className="size-10 rounded-lg border border-primary p-3.5">
