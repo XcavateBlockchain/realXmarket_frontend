@@ -17,6 +17,8 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { formatAddress, getFormattedBalance } from '@/lib/formaters';
 import { NodeContext } from '@/context';
+import { AlertDialog } from '@/components/ui/alert-dialog';
+import VerifyCredential from '@/components/credential/verify-crendentail';
 
 interface Props {
   children: React.ReactNode;
@@ -206,6 +208,9 @@ export function WalletContextProvider({ children }: Props) {
     <WalletContext.Provider value={walletContext as WalletContextInterface}>
       <OpenSelectWallet.Provider value={selectWalletContext}>
         {children}
+        <AlertDialog open={showCredentialDialog} onOpenChange={setShowCredential}>
+          <VerifyCredential />
+        </AlertDialog>
       </OpenSelectWallet.Provider>
     </WalletContext.Provider>
   );
