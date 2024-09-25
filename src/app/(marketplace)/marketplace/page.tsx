@@ -1,5 +1,5 @@
 import MarketCard from '@/components/cards/market-card';
-import { getActiveProperties } from '@/lib/queries';
+import { getActiveProperties, getAllOngoingListings } from '@/lib/queries';
 // import { connectWebSocket } from '@/lib/websocket';
 
 import { FetchedProperty, Property } from '@/types';
@@ -16,14 +16,15 @@ export default async function Marketplace() {
   //   `${process.env.NEXT_PUBLIC_RPC_URL}`,
   //   handleWebSocketMessage
   // );
-
+  const data = await getAllOngoingListings();
+  console.log('ALL ONGOING LISTINGS', data);
   const properties = (await getActiveProperties()) as FetchedProperty[];
 
   // console.log(properties);
 
   return (
     <>
-      <div className="mt-12 w-[95%] container py-10 sm:mt-20 ">
+      <div className="container mt-12 w-[95%] py-10 sm:mt-20 ">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
           <div className="col-span-1 flex flex-col">
             <label className="mb-1 ml-0 uppercase text-gray-800">Property Price</label>

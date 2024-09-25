@@ -74,6 +74,33 @@ export async function getActiveProperties() {
     return [];
   }
 }
+
+export async function getAllListingsByAddress(address: string) {
+  const api = await getApi();
+  const data = await api.query.gameModule.listings.entries();
+
+  const listingDataForAccount = data
+    .filter(([key, exposure]) => {
+      const listingData = exposure.toHuman() as { owner: string };
+      return listingData.owner == address;
+    })
+    .map(([key, exposure]) => {
+      let listingId = key.args[0].toHuman() as number;
+      return { [listingId]: exposure.toHuman() };
+    });
+
+  return listingDataForAccount;
+  // [{listingId: {owner, collectionId, itemId}}, ...]
+}
+
+export async function getAllOngoingListings() {
+  const api = await getApi();
+  const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+
+  return data.map(([key, exposure]) => {
+    return { listingId: key.args[0].toHuman(), listingDetails: exposure.toHuman() };
+  });
+}
 // export async function getActiveProperties() {
 // const api = await getApi();
 // const nextId = (await api.query.nftMarketplace.nextListingId()).toHuman();
