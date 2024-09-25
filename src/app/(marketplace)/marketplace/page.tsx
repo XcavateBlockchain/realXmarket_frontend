@@ -1,11 +1,10 @@
-'use server';
-
 import MarketCard from '@/components/cards/market-card';
 import { getActiveProperties } from '@/lib/queries';
 // import { connectWebSocket } from '@/lib/websocket';
 
 import { FetchedProperty, Property } from '@/types';
 
+export const maxDuration = 300;
 export default async function Marketplace() {
   // function handleWebSocketMessage(event: MessageEvent) {
   //   const data = JSON.parse(event.data);
