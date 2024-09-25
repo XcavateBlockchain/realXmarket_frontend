@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import Image from 'next/image';
 
 const buttonVariants = cva(
-  'inline-flex w-full h-[228px] flex-col items-center justify-center gap-2 rounded-lg border transition-colors duration-300 px-16 py-12',
+  'inline-flex w-full h-[228px] flex-col items-center justify-center gap-2 rounded-lg border transition-colors duration-300 px-16 py-12 disabled:pointer-events-none disabled:opacity-70',
   {
     variants: {
       variant: {
@@ -24,17 +24,23 @@ interface AccountTypeButtonProps
     VariantProps<typeof buttonVariants> {
   account: 'developer' | 'investor' | 'agent' | 'loan';
   icon: string;
+  disabled?: boolean;
 }
 
 export function AccountTypeButton({
   variant,
   account,
   icon,
+  disabled = false,
   className,
   ...props
 }: AccountTypeButtonProps) {
   return (
-    <button className={cn(buttonVariants({ variant }), className)} {...props}>
+    <button
+      className={cn(buttonVariants({ variant }), className)}
+      disabled={disabled}
+      {...props}
+    >
       <div className="flex size-[100px] items-center justify-center rounded-full bg-white">
         <Image
           src={icon}

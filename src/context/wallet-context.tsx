@@ -13,6 +13,8 @@ export interface WalletContextInterface {
   setBalance: (balance: string | null) => void;
   investorType: 'developer' | 'investor' | 'agent' | null;
   onSelectInvestorType: (value: string) => void;
+  showCredentialDialog: boolean;
+  setShowCredentialDialog: any;
 }
 
 export const WalletContext = React.createContext<WalletContextInterface>({
@@ -25,7 +27,9 @@ export const WalletContext = React.createContext<WalletContextInterface>({
   balance: null,
   setBalance: (balance: string | null) => {},
   investorType: null,
-  onSelectInvestorType: (v: string) => {}
+  onSelectInvestorType: (v: string) => {},
+  showCredentialDialog: false,
+  setShowCredentialDialog: () => {}
 });
 
 interface OpenSelectWalletInterface {

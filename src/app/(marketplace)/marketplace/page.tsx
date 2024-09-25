@@ -3,6 +3,7 @@ import { getActiveProperties } from '@/lib/queries';
 // import { connectWebSocket } from '@/lib/websocket';
 
 import { FetchedProperty, Property } from '@/types';
+import FilterTabs from './filter-tabs';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
@@ -19,11 +20,11 @@ export default async function Marketplace() {
 
   const properties = (await getActiveProperties()) as FetchedProperty[];
 
-  // console.log(properties);
+  console.log(properties);
 
   return (
     <>
-      <div className="mt-12 w-[95%] container py-10 sm:mt-20 ">
+      <div className="container mt-12 w-[95%] py-10 sm:mt-20 ">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
           <div className="col-span-1 flex flex-col">
             <label className="mb-1 ml-0 uppercase text-gray-800">Property Price</label>
@@ -78,21 +79,6 @@ export default async function Marketplace() {
           ))}
         </div>
       </div>
-
-      {/* <div className="px-4 sm:px-6 lg:px-10">
-        <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text  text-center font-mona  text-[40px]/[48px] uppercase">
-          Market Place
-        </h1>
-        <p className="sm:text-md mt-2 text-center text-sm sm:text-3xl">
-          Find the investment that’s right for you
-        </p>
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-40 sm:grid-cols-2 lg:grid-cols-4">
-          {properties.map((property: FetchedProperty) => (
-            <MarketCard key={property.itemId} {...property} />
-          ))}
-    
-        </div>
-      </div> */}
     </>
   );
 }

@@ -12,9 +12,11 @@ import { cn } from '@/lib/utils';
 import { ConnectCredentialWallet } from './connect-credential-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
+import { useRouter } from 'next/navigation';
 
 export function AppSiteHeader() {
-  // const { isConnected } = useSubstrateContext();
+
+  const router = useRouter()
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
 
@@ -28,6 +30,10 @@ export function AppSiteHeader() {
     window.addEventListener('scroll', changeBgColor);
     return () => window.removeEventListener('scroll', changeBgColor);
   }, [isScrolled]);
+
+  // React.useEffect(() => {
+
+  // })
 
   return (
     <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px]">

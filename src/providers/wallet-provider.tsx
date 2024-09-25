@@ -19,6 +19,7 @@ import { formatAddress, getFormattedBalance } from '@/lib/formaters';
 import { NodeContext } from '@/context';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import VerifyCredential from '@/components/credential/verify-crendentail';
+import { deleteCookieItem, getCookieStorage, setCookieStorage } from '@/lib/cookie-storage';
 
 interface Props {
   children: React.ReactNode;
@@ -74,7 +75,7 @@ export function WalletContextProvider({ children }: Props) {
   const [selectedAccount, setSelectedAccount] = useState<WalletAccount[] | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
   const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
-  const [showCredentialDialog, setShowCredential] = useState(false);
+  const [showCredentialDialog, setShowCredentialDialog] = useState(false);
 
   useEffect(() => {
     if (api && api.registry.chainSS58) {
@@ -143,10 +144,12 @@ export function WalletContextProvider({ children }: Props) {
       if (selectedAccount?.length) {
         setSelectedAccount(selectedAccount);
         setAccountKey(selectedAccount[0]?.address);
+
         await axios.post('/api/auth', {
           accountKey: selectedAccount[0]?.address
         });
         setBalance(await getFormattedBalance(selectedAccount[0]?.address, api));
+        setShowCredentialDialog(true);
         router.refresh();
       }
     },
@@ -157,6 +160,9 @@ export function WalletContextProvider({ children }: Props) {
     localStorage.removeItem('acc-key');
     localStorage.removeItem('wallet-key');
     localStorage.removeItem('wallet-type');
+    deleteCookieItem('accountKey');
+    deleteCookieItem('investorType');
+    deleteCookieItem('isWhiteListed');
     await axios.post('/api/signOut');
     setCurrentWallet(undefined);
     setAccounts([]);
@@ -175,9 +181,28 @@ export function WalletContextProvider({ children }: Props) {
     wallet && setWalletType(walletType);
   };
 
-  const onSelectInvestorType = (type: 'developer' | 'investor' | 'agent') => {
-    setInvestorType(type);
-  };
+  const onSelectInvestorType = useCallback(
+    async (type: 'developer' | 'investor' | 'agent') => {
+      setCookieStorage('investorType', type);
+      setInvestorType(type);
+    },
+    [setCookieStorage, setInvestorType]
+  );
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isConnected = selectedAccount?.[0]?.address;
+      if (isConnected) {
+        const userType = await getCookieStorage('investorType');
+        const isWhiteListed = await getCookieStorage('isWhiteListed');
+        if (!userType || !isWhiteListed) {
+          setShowCredentialDialog(true);
+        }
+      }
+    };
+    const timeoutId = setTimeout(checkAuth, 100);
+    return () => clearTimeout(timeoutId);
+  }, [selectAccount, setShowCredentialDialog]);
 
   const walletContext = {
     wallet: getWalletBySource(walletKey),
@@ -191,7 +216,9 @@ export function WalletContextProvider({ children }: Props) {
     setBalance,
     balance,
     investorType,
-    onSelectInvestorType
+    onSelectInvestorType,
+    showCredentialDialog,
+    setShowCredentialDialog
   };
 
   const selectWalletContext = {
@@ -208,7 +235,7 @@ export function WalletContextProvider({ children }: Props) {
     <WalletContext.Provider value={walletContext as WalletContextInterface}>
       <OpenSelectWallet.Provider value={selectWalletContext}>
         {children}
-        <AlertDialog open={showCredentialDialog} onOpenChange={setShowCredential}>
+        <AlertDialog open={showCredentialDialog} onOpenChange={setShowCredentialDialog}>
           <VerifyCredential />
         </AlertDialog>
       </OpenSelectWallet.Provider>

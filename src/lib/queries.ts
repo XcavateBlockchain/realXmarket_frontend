@@ -20,6 +20,16 @@ export async function getNextListingId() {
     return null;
   }
 }
+export async function checkIfWhiteListed(address: string) {
+  try {
+    const api = await getApi();
+    const result = await api.query.xcavateWhitelist.whitelistedAccounts(address);
+    const output = result.toHuman();
+    return output;
+  } catch (error) {
+    return null;
+  }
+}
 export async function getTokenRemaining(itemId: number) {
   try {
     const api = await getApi();

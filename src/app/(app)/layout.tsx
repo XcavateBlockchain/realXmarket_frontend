@@ -1,6 +1,7 @@
 import { AppSiteHeader } from '@/components/layouts/app-site-header';
 import SiteFooter from '@/components/layouts/site-footer';
 import SubstrateContextProvider from '@/context/polkadot-contex';
+import { getCookieStorage } from '@/lib/cookie-storage';
 
 interface AppLayoutProps {
   children: React.ReactNode;

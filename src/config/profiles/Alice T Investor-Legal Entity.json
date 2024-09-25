@@ -1,5 +1,7 @@
 {
   "walletAddress": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+  "banner": "/profiles/alice-account-header.jpg",
+  "avatar": "/profiles/alice-account.jpg",
   "attester": "Attester1",
   "cTypeTitle": "Legal Entity",
   "credential": {

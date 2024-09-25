@@ -9,6 +9,7 @@ import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { AccountTypeButton } from '../utility-button';
 import { Icons } from '../icons';
 import { useWalletContext } from '@/context/wallet-context';
+import { profiles } from '@/config/profiles';
 
 interface ISection {
   [key: number]: ReactNode;
@@ -24,7 +25,8 @@ export default function VerifyCredential() {
   const actions: ISection = {
     1: <SelectUserType setIndex={setIndex} close={closeDialog} />,
     2: <ConnectCredential setIndex={setIndex} close={closeDialog} />,
-    3: <SuccessConnectedCredential setIndex={setIndex} close={closeDialog} />
+    3: <SuccessConnectedCredential setIndex={setIndex} close={closeDialog} />,
+    4: <CredentialNotFound />
   };
 
   return (
@@ -40,10 +42,18 @@ interface DialogProps {
 }
 
 function SelectUserType({ setIndex, close }: DialogProps) {
-  const { onSelectInvestorType } = useWalletContext();
-  const handleSelect = () => {
-    setIndex(2);
-    onSelectInvestorType('developer');
+  const { selectedAccount, onSelectInvestorType } = useWalletContext();
+  const address = selectedAccount?.[0]?.address;
+
+  const profile = address ? profiles[address] : null;
+  const handleSelect = (type: 'developer' | 'investor' | 'agent') => {
+    if (!profile) {
+      onSelectInvestorType(type);
+      setIndex(4);
+    } else {
+      onSelectInvestorType(type);
+      setIndex(2);
+    }
   };
   return (
     <>
@@ -65,25 +75,25 @@ function SelectUserType({ setIndex, close }: DialogProps) {
           variant={'developer'}
           account="developer"
           icon="/icons/developer.svg"
-          onClick={handleSelect}
+          onClick={() => handleSelect('developer')}
         />
         <AccountTypeButton
           variant={'investor'}
           account="investor"
           icon="/icons/investor.svg"
-          onClick={handleSelect}
+          onClick={() => handleSelect('investor')}
         />
         <AccountTypeButton
           variant={'agent'}
           account="agent"
           icon="/icons/letting_agent.svg"
-          onClick={handleSelect}
+          onClick={() => handleSelect('agent')}
         />
         <AccountTypeButton
           variant={'loan'}
           account="loan"
           icon="/icons/loan-pool.svg"
-          onClick={handleSelect}
+          disabled={true}
         />
       </div>
     </>
@@ -150,6 +160,39 @@ function SuccessConnectedCredential({ close }: DialogProps) {
       <div className="flex w-full justify-end gap-2 px-6 pb-6">
         <Button size={'md'} className="text-white" onClick={close}>
           continue
+        </Button>
+      </div>
+    </>
+  );
+}
+
+function CredentialNotFound() {
+  const { setShowCredentialDialog } = useWalletContext();
+
+  return (
+    <>
+      <div className="inline-flex w-full flex-col items-center justify-center gap-6 p-4">
+        <div className="size-[100px] items-center justify-center rounded-full border border-primary">
+          <Image src={'/icons/exclamation.svg'} alt="" width={100} height={100} />
+        </div>
+
+        <div className="flex w-full flex-col items-center gap-4 text-center">
+          <h1 className="font-mona text-[1.125rem]/[1.5rem] font-semibold">
+            Credential wallet not detected
+          </h1>
+          <span className="text-[0.875rem]/[1.5rem]">
+            Please connect your credential wallet to verify your eligibility before gaining
+            full access to our platform.
+          </span>
+        </div>
+      </div>
+      <div className="flex w-full justify-end gap-2 px-6 pb-6">
+        <Button
+          size={'md'}
+          className="text-white"
+          onClick={() => setShowCredentialDialog(false)}
+        >
+          GET STARTED
         </Button>
       </div>
     </>

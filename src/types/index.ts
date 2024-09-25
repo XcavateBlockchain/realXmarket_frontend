@@ -131,3 +131,27 @@ export type IProperty = {
   property_price: number;
   fileUrls: string[];
 };
+
+export interface Company {
+  name: string;
+  description: string;
+  logo: string;
+  associationWebsite: string;
+  associationMembershipNumber: string;
+  address: string;
+  companyRegNumber: number;
+  primaryContact: string;
+  idDocs: string[];
+  companyTelephone: number;
+  companyEmail: string;
+}
+
+export interface RealEstateInvestor {
+  name: string;
+  address: string;
+  idDocs: string[];
+  telephone: number;
+  email: string;
+  walletAddress: string;
+  password: string;
+}
