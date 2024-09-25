@@ -111,7 +111,9 @@ export async function fetchPropertiesWithFiles(
     (properties || []).map(async property => {
       if (property.files && property.files.length > 0) {
         const fileUrls = await Promise.all(
-          property.files.map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+          property.files
+            .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+            .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
         );
         return { ...property, fileUrls };
       }
@@ -126,15 +128,15 @@ export async function fetchProperty(accountAddress: string, propertyId: number) 
   const params = {
     TableName: 'real-marketplace-properties',
     Key: {
-      accountAddress, // Partition key
-      propertyId // Sort key
+      accountAddress,
+      propertyId
     }
   };
 
   try {
     const command = new GetCommand(params);
     const data = await ddbDocClient.send(command);
-    return data.Item; // Returns the fetched property if found
+    return data.Item;
   } catch (err) {
     console.error('Error fetching property:', err);
     throw new Error(`Unable to fetch property with ID: ${propertyId}`);

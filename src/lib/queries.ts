@@ -84,23 +84,65 @@ export async function getActiveProperties() {
     return [];
   }
 }
-// export async function getActiveProperties() {
-// const api = await getApi();
-// const nextId = (await api.query.nftMarketplace.nextListingId()).toHuman();
-// const idsToCheck = getIntegersLessThan(nextId);
-// let allData = [];
-// for (const id of idsToCheck) {
-//   const data = await api.query.nftMarketplace.ongoingObjectListing(id);
-//   if (data.isSome) {
-//     const tokenRemaining = await api.query.nftMarketplace.listedToken(id);
-//     const property = data.unwrap().toHuman();
-//     property['remainingTokens'] = tokenRemaining.toHuman();
-//     allData.push(property);
-//   }
-// }
 
-// return allData
-// }
+export async function getAllListingsByAddress(address: string) {
+  const api = await getApi();
+  const data = await api.query.gameModule.listings.entries();
+
+  const listingDataForAccount = data
+    .filter(([key, exposure]) => {
+      const listingData = exposure.toHuman() as { owner: string };
+      return listingData.owner == address;
+    })
+    .map(([key, exposure]) => {
+      let listingId = key.args[0].toHuman() as number;
+      return { [listingId]: exposure.toHuman() };
+    });
+
+  return listingDataForAccount;
+  // [{listingId: {owner, collectionId, itemId}}, ...]
+}
+
+export async function getAllOngoingListings() {
+  const api = await getApi();
+  const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+
+  return data.map(([key, exposure]) => {
+    return { listingId: key.args[0].toHuman(), listingDetails: exposure.toHuman() };
+  });
+}
+
+export async function getAllTokenBuyers() {
+  const api = await getApi();
+  const data = await api.query.nftMarketplace.tokenBuyer.entries();
+
+  return data.map(([key, exposure]) => {
+    return { listingId: key.args[0].toHuman(), owners: exposure.toHuman() };
+  });
+}
+
+export async function getAllTokenBuyerForListing(listingId: number) {
+  const api = await getApi();
+  const data = await api.query.nftMarketplace.tokenBuyer(listingId);
+
+  return data.toHuman();
+}
+
+export async function getTokensAndListingsOwnedByAccount(address: string) {
+  const api = await getApi();
+  const data = await api.query.nftMarketplace.tokenOwner.entries(address);
+
+  return data.map(([key, exposure]) => {
+    // console.log('KEY1', key.args[0].toHuman());
+    // console.log('KEY2', key.args[1].toHuman());
+    // console.log('EXPOSURE', exposure.toHuman());
+
+    return {
+      listingId: key.args[1].toHuman(),
+      tokensOwned: exposure.toHuman()
+    };
+  });
+}
 
 function getIntegersLessThan(n: any) {
   return Array.from({ length: n }, (_, i) => i);
