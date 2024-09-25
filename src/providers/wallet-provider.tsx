@@ -71,6 +71,8 @@ export function WalletContextProvider({ children }: Props) {
   const [accounts, setAccounts] = useState<WalletAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<WalletAccount[] | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
+  const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
+  const [showCredentialDialog, setShowCredential] = useState(false);
 
   useEffect(() => {
     if (api && api.registry.chainSS58) {
@@ -171,6 +173,10 @@ export function WalletContextProvider({ children }: Props) {
     wallet && setWalletType(walletType);
   };
 
+  const onSelectInvestorType = (type: 'developer' | 'investor' | 'agent') => {
+    setInvestorType(type);
+  };
+
   const walletContext = {
     wallet: getWalletBySource(walletKey),
     accounts,
@@ -181,7 +187,9 @@ export function WalletContextProvider({ children }: Props) {
     setWallet,
     disconnectWallet,
     setBalance,
-    balance
+    balance,
+    investorType,
+    onSelectInvestorType
   };
 
   const selectWalletContext = {

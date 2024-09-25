@@ -1,0 +1,42 @@
+{
+  "walletAddress": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty ",
+  "attester": "Attester1",
+  "cTypeTitle": "Legal Entity",
+  "credential": {
+    "claim": {
+      "cTypeHash": "0z2563cecgaq1fg805c0ad656d0b35337c21729199af7f32e358d3a95hb43b2352",
+      "contents": {
+        "above16": true,
+        "above18": true,
+        "above21": true,
+        "additionalAddressLine": "",
+        "city": "London",
+        "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+        "dateOfBirth": "1989-01-01",
+        "email": "bob@thebuilder.com",
+        "firstName": "Bob",
+        "gender": "Male",
+        "investorType": "Developer",
+        "lastName": "Builder",
+        "middleName": "The",
+        "nationality": ["United Kingdom of Great Britain and Northern Ireland (the)"],
+        "pepStatus": false,
+        "phone": "+44112233445566",
+        "placeOfBirth": "United Kingdom of Great Britain and Northern Ireland (the)",
+        "postalCode": "E135TG",
+        "region": "United Kingdom",
+        "sanctionsStatus": false,
+        "street": "Build Street",
+        "streetNo": "1"
+      },
+      "owner": "did:kilt:9rZ6Z7xBfd6Adnz1ug1mbAvRzjdgFDhNaznBZ7XctjLCZ9DK"
+    },
+    "claimHashes": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    "delegationId": null,
+    "legitimations": [],
+    "rootHash": ""
+  },
+  "isDownloaded": true,
+  "name": "Bob T Builder",
+  "status": "attested"
+}

@@ -3,9 +3,13 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-
-const s3Client = new S3Client({ region: process.env.AWS_REGION, credentials: {accessKeyId : process.env.AWS_ACCESS_KEY!, secretAccessKey:process.env.AWS_SECRET_KEY! } });
-
+const s3Client = new S3Client({
+  region: 'eu-west-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.AWS_SECRET_KEY!
+  }
+});
 
 export async function uploadFileToS3(
   accountAddress: string,
@@ -18,7 +22,7 @@ export async function uploadFileToS3(
   const fileKey = `${accountAddress}/${propertyId}/${fieldName}/${fileName}`;
 
   const params = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
     Key: fileKey,
     Body: fileBody,
     ContentType: fileType
@@ -30,11 +34,14 @@ export async function uploadFileToS3(
   return fileKey;
 }
 
-export async function generatePresignedUrl(fileKey: string, expiresIn = 3600): Promise<string> {
-    const command = new GetObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET_NAME,
-      Key: fileKey,
-    });
-  
-    return getSignedUrl(s3Client, command, { expiresIn });
-  }
+export async function generatePresignedUrl(
+  fileKey: string,
+  expiresIn = 3600
+): Promise<string> {
+  const command = new GetObjectCommand({
+    Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
+    Key: fileKey
+  });
+
+  return getSignedUrl(s3Client, command, { expiresIn });
+}
