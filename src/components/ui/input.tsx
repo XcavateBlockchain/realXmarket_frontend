@@ -1,14 +1,16 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { FieldError } from '../field-error';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: string;
   label?: string;
   htmlFor?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, htmlFor, className, type, ...props }, ref) => {
+  ({ name, label, htmlFor, className, type, ...props }, ref) => {
     return (
       <div className="flex w-full flex-col gap-2">
         {label ? (
@@ -26,6 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
+        <FieldError name={name} />
       </div>
     );
   }

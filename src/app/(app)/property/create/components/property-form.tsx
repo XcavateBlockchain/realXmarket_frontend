@@ -1,32 +1,18 @@
 'use client';
 
-import FileInput from '@/components/file-input';
 import { Icons } from '@/components/icons';
-import SelectInput from '@/components/select-input';
-import Form, { useZodForm } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { propertySchema } from '@/lib/validations/property-schema';
-import { Option } from '@/types';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import PropertyInformationForm from './property-informtion-form';
 
-// const propertyTypes: Option[] = [
-//   {
-//     label: 'Apartment',
-//     value: 'Apartment'
-//   },
-//   {
-//     label: 'Flat',
-//     value: 'Flat'
-//   }
-// ];
+import { useRouter, useSearchParams } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { nanoid } from 'nanoid';
+// import { v4 as uuidv4 } from 'uuid';
+import PropertyInformationForm from './property-informtion-form';
+import PricingDetailsForm from './pricing-details-form';
+import PropertyFeaturesForm from './property-features-form';
 
 export default function PropertyForm() {
   const searchParams = useSearchParams();
+  const propertyId = searchParams.get('id') ?? Date.now();
   const step = searchParams.get('page') ?? 'property-information';
 
   const current: any = {
@@ -35,11 +21,12 @@ export default function PropertyForm() {
     'property-features': 2
   };
 
-  // const form = useZodForm({
-  //   schema: propertySchema
-  // });
+  const steps = [
+    <PropertyInformationForm propertyId={Number(propertyId)} />,
+    <PricingDetailsForm propertyId={Number(propertyId)} />,
+    <PropertyFeaturesForm />
+  ];
 
-  const steps = [<PropertyInformationForm />];
   return (
     <>
       <section className="flex w-full items-center justify-between gap-2">
@@ -66,7 +53,7 @@ export default function PropertyForm() {
           />
           <Icons.arrowRight className="size-8" />
           <Step
-            current={current[step] === 1}
+            current={current[step] === 2}
             passed={current[step] > 2}
             step={3}
             title="Additional details"

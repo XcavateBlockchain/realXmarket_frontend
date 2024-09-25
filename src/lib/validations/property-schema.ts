@@ -37,9 +37,19 @@ export const propertyInformationSchema = z.object({
   local_authority: z.string(),
   title_deed_number: z.string(),
   map: z.string(),
-  property_document: z.instanceof(File),
-  property_region: z.number(),
-  property_location: z.number()
+  floor_plan: z.instanceof(File),
+  sales_agreement: z.instanceof(File)
+  // region: z.number(),
+  // location: z.number()
 });
 
 export type IPropertyInformationInput = z.infer<typeof propertyInformationSchema>;
+
+export const propertyPricingSchema = z.object({
+  number_of_tokens: z.string(),
+  price_per_token: z.string(),
+  property_price: z.string(),
+  estimated_rental_income: z.string()
+});
+
+export type IPricingDetails = z.infer<typeof propertyPricingSchema>;

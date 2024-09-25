@@ -9,7 +9,7 @@ import { Icons } from './icons';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { FileText } from 'lucide-react';
+import { FileText, Trash2 } from 'lucide-react';
 
 const FILE_TYPE_NAMES = {
   'image/png': 'PNG',
@@ -32,14 +32,14 @@ type IFileInput = {
   maxFileSize?: number;
 
   disabled?: boolean;
-  // handleFileChange: (files: File[]) => void;
+  handleFileChange: (files: File[]) => void;
 };
 
 const FileInput = ({
   types = [MimeTypes.PNG, MimeTypes.JPEG, MimeTypes.WEBP],
   maxFileSize = 50,
   name = 'Upload image',
-  // handleFileChange,
+  handleFileChange,
   isMultiple = false,
   disabled
 }: IFileInput) => {
@@ -47,9 +47,7 @@ const FileInput = ({
   const [isDragOver, setIsDragOver] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
-  const show = isMultiple === false ? files.length !== 2 : files.length !== 4;
-
-  console.log(files);
+  const show = isMultiple === false ? files.length !== 1 : files.length !== 4;
 
   const handleButtonClick = () => {
     if (documentInputRef.current) {
@@ -86,16 +84,23 @@ const FileInput = ({
         toast.error(`File size should be less than ${maxFileSize}MB`);
       } else {
         setFiles(prevState => {
+          handleFileChange([...prevState, ...acceptable]);
           return [...prevState, ...acceptable];
         });
-        // handleFileChange(files);
+        // handleFileChange((prevState: File[]) => {
+        //   return [...prevState, ...acceptable];
+        // });
       }
     }
   };
 
   return (
-    <div className="grid h-full w-full grid-cols-4 gap-2">
-      <FileDisplay files={files} types={types} />
+    <div
+      className={cn('', {
+        'grid h-full w-full grid-cols-4 gap-2': isMultiple
+      })}
+    >
+      <FileDisplay files={files} types={types} setFiles={setFiles} />
       {show ? (
         <>
           <div
@@ -118,14 +123,14 @@ const FileInput = ({
                 {types
                   .map(type => FILE_TYPE_NAMES[type])
                   .join(', ')
-                  .replace(/,([^,]*)$/, ' or$1')}
-                . to {maxFileSize}MB
+                  .replace(/,([^,]*)$/, ' or$1')}{' '}
+                MAX {maxFileSize}MB
               </span>
             </p>
 
             <ClickAnimation
               onClick={handleButtonClick}
-              className="shadow-fade-dark flex items-center justify-center rounded-lg border border-primary bg-white px-4 py-[6px]"
+              className="flex items-center justify-center rounded-lg border border-primary bg-white px-4 py-[6px] shadow-primary-foreground hover:shadow"
             >
               <span className="px-1 text-center text-sm font-medium tracking-[-0.084px]">
                 {name}
@@ -165,13 +170,35 @@ const validateFiles = (files: File[], maxFileSize: number) => {
   };
 };
 
-function FileDisplay({ files, types }: { files: File[]; types: MimeTypes[] }) {
+function FileDisplay({
+  files,
+  types,
+  setFiles
+}: {
+  files: File[];
+  types: MimeTypes[];
+  setFiles: any;
+}) {
   if (files.length <= 0) return;
+
+  function onRemove(index: number) {
+    if (!files) return;
+    const newFiles = files.filter((_, i) => i !== index);
+    setFiles(newFiles);
+  }
+
   return (
     <>
-      {files.map(file => {
+      {files.map((file, index) => {
         return (
-          <div className="relative flex h-[240px]  w-full min-w-[240px] rounded-lg border border-dashed">
+          <div
+            className={cn(
+              'relative flex h-[240px] w-[240px] min-w-[240px] rounded-lg border border-dashed',
+              {
+                'w-full': files.length > 1
+              }
+            )}
+          >
             <div className="group absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center">
               {types.includes(MimeTypes.PNG) ||
               types.includes(MimeTypes.JPEG) ||
@@ -184,18 +211,21 @@ function FileDisplay({ files, types }: { files: File[]; types: MimeTypes[] }) {
                   className="cursor-pointer rounded-lg transition group-hover:brightness-50"
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center px-2">
                   <FileText size={150} />
-                  <p className="text-txt-gray mt-3 line-clamp-1 max-w-[300px] text-center sm:line-clamp-2">
+                  <p className="mt-3 line-clamp-1 max-w-[240px] text-center sm:line-clamp-2">
                     {file.name}
                   </p>
                 </div>
               )}
               <Button
+                type="button"
                 variant={'outline'}
-                className="absolute opacity-0 group-hover:opacity-100"
+                size={'icon'}
+                className="absolute border-red-400 bg-black text-red-400 opacity-0 shadow-none group-hover:opacity-100"
+                onClick={() => onRemove(index)}
               >
-                Remove
+                <Trash2 size={32} />
               </Button>
             </div>
           </div>

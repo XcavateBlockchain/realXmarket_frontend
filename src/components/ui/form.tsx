@@ -43,7 +43,7 @@ const Form = <T extends FieldValues>({
     <FormProvider {...form}>
       <form {...props}>
         <fieldset
-          className={cn('flex w-full flex-col items-start gap-6', className)}
+          className={cn('grid w-full gap-6', className)}
           disabled={form.formState.isSubmitting || disabled}
         >
           {children}
