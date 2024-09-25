@@ -82,6 +82,6 @@ export async function listProperty(
     });
     console.log('Transaction sent:', unsub);
   } catch (error) {
-    console.error('Failed to submit guess:', error);
+    console.error('Failed to list property:', error);
   }
 }
