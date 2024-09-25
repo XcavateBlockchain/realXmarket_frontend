@@ -21,7 +21,7 @@ import { useRouter } from 'next/navigation';
 export default function PropertyCard({ property }: { property: IProperty }) {
   const router = useRouter();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
-  const [showListedModal, setShowListedModal] = useState(true);
+  const [showListedModal, setShowListedModal] = useState(false);
 
   async function onListProperty() {
     setStatus(STATE_STATUS.LOADING);
@@ -85,7 +85,12 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           </div>
 
           <div className="flex w-full gap-2">
-            <Button variant={'filled'} fullWidth disabled={status === STATE_STATUS.LOADING}>
+            <Button
+              variant={'filled'}
+              fullWidth
+              disabled={status === STATE_STATUS.LOADING}
+              onClick={onListProperty}
+            >
               {status === STATE_STATUS.LOADING && (
                 <LoaderCircle size={16} className=" animate-spin" />
               )}
