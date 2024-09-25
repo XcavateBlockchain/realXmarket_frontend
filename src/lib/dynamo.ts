@@ -4,7 +4,8 @@ import {
   DynamoDBDocumentClient,
   UpdateCommand,
   PutCommand,
-  QueryCommand
+  QueryCommand,
+  GetCommand
 } from '@aws-sdk/lib-dynamodb';
 import { generatePresignedUrl } from './s3';
 // import * as dotenv from 'dotenv';
@@ -78,14 +79,28 @@ export async function addFileToProperty(
   await ddbDocClient.send(command);
 }
 
-export async function fetchPropertiesWithFiles(accountAddress: string): Promise<any[]> {
-  const params = {
+export async function fetchPropertiesWithFiles(
+  accountAddress: string,
+  propertyId?: number // Optional propertyId
+): Promise<any[]> {
+  // Explicitly define the type for params to handle dynamic ExpressionAttributeValues
+  let params: {
+    TableName: string;
+    KeyConditionExpression: string;
+    ExpressionAttributeValues: Record<string, any>; // Use Record to allow dynamic keys
+  } = {
     TableName: 'real-marketplace-properties',
     KeyConditionExpression: 'accountAddress = :accountAddress',
     ExpressionAttributeValues: {
       ':accountAddress': accountAddress
     }
   };
+
+  // If propertyId is passed, add it to the KeyConditionExpression and ExpressionAttributeValues
+  if (propertyId !== undefined) {
+    params.KeyConditionExpression += ' AND propertyId = :propertyId';
+    params.ExpressionAttributeValues[':propertyId'] = propertyId;
+  }
 
   const command = new QueryCommand(params);
   const data = await ddbDocClient.send(command);
@@ -105,4 +120,23 @@ export async function fetchPropertiesWithFiles(accountAddress: string): Promise<
   );
 
   return propertiesWithFiles;
+}
+
+export async function fetchProperty(accountAddress: string, propertyId: number) {
+  const params = {
+    TableName: 'real-marketplace-properties',
+    Key: {
+      accountAddress, // Partition key
+      propertyId // Sort key
+    }
+  };
+
+  try {
+    const command = new GetCommand(params);
+    const data = await ddbDocClient.send(command);
+    return data.Item; // Returns the fetched property if found
+  } catch (err) {
+    console.error('Error fetching property:', err);
+    throw new Error(`Unable to fetch property with ID: ${propertyId}`);
+  }
 }
