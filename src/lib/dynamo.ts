@@ -1,10 +1,11 @@
 'use server';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, ReturnValue } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   UpdateCommand,
   PutCommand,
-  QueryCommand
+  QueryCommand,
+  GetCommand
 } from '@aws-sdk/lib-dynamodb';
 import { generatePresignedUrl } from './s3';
 // import * as dotenv from 'dotenv';
@@ -22,18 +23,37 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 export async function upsertProperty(
   accountAddress: string,
   propertyId: number,
-  propertyData: any
+  propertyData: Record<string, any>
 ) {
   const params = {
     TableName: 'real-marketplace-properties',
-    Item: {
+    Key: {
       accountAddress,
-      propertyId,
-      ...propertyData
-    }
+      propertyId
+    },
+    UpdateExpression:
+      'SET ' +
+      Object.keys(propertyData)
+        .map((key, i) => `#${key} = :value${i}`)
+        .join(', '),
+    ExpressionAttributeNames: Object.keys(propertyData).reduce(
+      (acc: Record<string, string>, key) => {
+        acc[`#${key}`] = key;
+        return acc;
+      },
+      {}
+    ),
+    ExpressionAttributeValues: Object.keys(propertyData).reduce(
+      (acc: Record<string, any>, key, i) => {
+        acc[`:value${i}`] = propertyData[key];
+        return acc;
+      },
+      {}
+    ),
+    ReturnValues: ReturnValue.UPDATED_NEW
   };
 
-  const command = new PutCommand(params);
+  const command = new UpdateCommand(params);
   await ddbDocClient.send(command);
 }
 
@@ -59,14 +79,28 @@ export async function addFileToProperty(
   await ddbDocClient.send(command);
 }
 
-export async function fetchPropertiesWithFiles(accountAddress: string): Promise<any[]> {
-  const params = {
+export async function fetchPropertiesWithFiles(
+  accountAddress: string,
+  propertyId?: number // Optional propertyId
+): Promise<any[]> {
+  // Explicitly define the type for params to handle dynamic ExpressionAttributeValues
+  let params: {
+    TableName: string;
+    KeyConditionExpression: string;
+    ExpressionAttributeValues: Record<string, any>; // Use Record to allow dynamic keys
+  } = {
     TableName: 'real-marketplace-properties',
     KeyConditionExpression: 'accountAddress = :accountAddress',
     ExpressionAttributeValues: {
       ':accountAddress': accountAddress
     }
   };
+
+  // If propertyId is passed, add it to the KeyConditionExpression and ExpressionAttributeValues
+  if (propertyId !== undefined) {
+    params.KeyConditionExpression += ' AND propertyId = :propertyId';
+    params.ExpressionAttributeValues[':propertyId'] = propertyId;
+  }
 
   const command = new QueryCommand(params);
   const data = await ddbDocClient.send(command);
@@ -86,4 +120,23 @@ export async function fetchPropertiesWithFiles(accountAddress: string): Promise<
   );
 
   return propertiesWithFiles;
+}
+
+export async function fetchProperty(accountAddress: string, propertyId: number) {
+  const params = {
+    TableName: 'real-marketplace-properties',
+    Key: {
+      accountAddress, // Partition key
+      propertyId // Sort key
+    }
+  };
+
+  try {
+    const command = new GetCommand(params);
+    const data = await ddbDocClient.send(command);
+    return data.Item; // Returns the fetched property if found
+  } catch (err) {
+    console.error('Error fetching property:', err);
+    throw new Error(`Unable to fetch property with ID: ${propertyId}`);
+  }
 }
