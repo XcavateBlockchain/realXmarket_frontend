@@ -1,4 +1,4 @@
-'use server'
+'use server';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
@@ -13,8 +13,8 @@ import { generatePresignedUrl } from './s3';
 const ddbClient = new DynamoDBClient({
   region: 'eu-west-1',
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_KEY!
+    accessKeyId: process.env.XCAV_AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.XCAV_AWS_SECRET_KEY!
   }
 });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);

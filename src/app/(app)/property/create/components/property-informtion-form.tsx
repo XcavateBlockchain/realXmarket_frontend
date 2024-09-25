@@ -50,8 +50,8 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
       const floorPlanFormData = new FormData();
       const salesFormData = new FormData();
 
-      floorPlanFormData.append("floor_plan", data.floor_plan)
-      salesFormData.append("sales_agreement", data.sales_agreement)
+      floorPlanFormData.append('floor_plan', data.floor_plan);
+      salesFormData.append('sales_agreement', data.sales_agreement);
 
       const uploadFloorPlan = await uploadFileToS3(
         address,
@@ -79,8 +79,8 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         await addFileToProperty(address, propertyId, uploadFloorPlan);
         await addFileToProperty(address, propertyId, uploadSales);
         toast.success('Files uploaded');
-        const {floor_plan, sales_agreement, ...newData} = data;
-        console.log("NEW DATA", newData);
+        const { floor_plan, sales_agreement, ...newData } = data;
+        console.log('NEW DATA', newData);
         await upsertProperty(address, propertyId, { region: 0, location: 0, ...newData });
         setStatus(STATE_STATUS.SUCCESS);
         router.push(`/property/create?id=${propertyId}&page=pricing-details`);
@@ -100,7 +100,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
 
   return (
     <Form form={form} onSubmit={form.handleSubmit(onSubmit)} className="gap-[60px]">
-      <Input type="string" label="Property name" {...form.register('property_name')} />
+      <Input type="text" label="Property name" {...form.register('property_name')} />
       {/* <div className="grid w-full grid-cols-2 gap-2">
         <SelectInput
           label="Region"
@@ -117,19 +117,19 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
       </div> */}
       <div className="grid w-full grid-cols-3 gap-2">
         <Input
-          type="string"
+          type="text"
           label="Property Address"
           placeholder="Street"
           {...form.register('address_street')}
         />
         <Input
-          type="string"
+          type="text"
           label="Town / City"
           placeholder="Town/City"
           {...form.register('address_town_city')}
         />
         <Input
-          type="string"
+          type="text"
           label="Postal Code"
           placeholder="Postal code"
           {...form.register('post_code')}
@@ -137,7 +137,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
       </div>
       <div className="grid w-full grid-cols-2 gap-2">
         <Input
-          type="string"
+          type="text"
           label="Property number"
           placeholder="Postal code"
           {...form.register('property_number')}
@@ -151,19 +151,19 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
       </div>
       <div className="grid w-full grid-cols-3 gap-2">
         <Input
-          type="string"
+          type="text"
           label="local authority"
           placeholder="e.g"
           {...form.register('local_authority')}
         />
         <Input
-          type="string"
+          type="text"
           label="title deed number"
           placeholder="e.g"
           {...form.register('title_deed_number')}
         />
         <Input
-          type="string"
+          type="text"
           label="google map link"
           placeholder="e.g"
           {...form.register('map')}
@@ -189,7 +189,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         </div>
       </div>
       <div className="flex w-full items-center justify-end gap-4">
-        <Button variant={'outline'} size={'md'}>
+        <Button type="button" variant={'outline'} size={'md'}>
           Cancel
         </Button>
         <Button
@@ -197,7 +197,9 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
           size={'md'}
           className="text-white"
           disabled={
-            !form.formState || !form.formState.isValid || status === STATE_STATUS.LOADING
+            !form.formState.isDirty ||
+            !form.formState.isValid ||
+            status === STATE_STATUS.LOADING
           }
         >
           Continue

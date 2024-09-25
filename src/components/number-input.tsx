@@ -38,6 +38,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(function Numb
               className
             )}
             {...field}
+            name={name}
             {...props}
           />
         )}

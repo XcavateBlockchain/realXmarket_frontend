@@ -4,11 +4,10 @@ import { Icons } from '@/components/icons';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { nanoid } from 'nanoid';
-// import { v4 as uuidv4 } from 'uuid';
 import PropertyInformationForm from './property-informtion-form';
 import PricingDetailsForm from './pricing-details-form';
 import PropertyFeaturesForm from './property-features-form';
+import { CircleCheckBig } from 'lucide-react';
 
 export default function PropertyForm() {
   const searchParams = useSearchParams();
@@ -67,6 +66,7 @@ export default function PropertyForm() {
 
 function Step({
   current,
+  passed,
   step,
   title
 }: {
@@ -77,17 +77,31 @@ function Step({
 }) {
   return (
     <div className="flex items-center gap-2">
+      {passed ? (
+        <span className="flex size-7 items-center justify-center rounded-full bg-[#78B36E] text-white">
+          <CircleCheckBig size={16} />
+        </span>
+      ) : (
+        <span
+          className={cn(
+            'flex size-7 items-center justify-center rounded-full border border-[#9D9D9D] font-mona text-[14px]/[13.5px] font-semibold text-[#9D9D9D]',
+            {
+              'border-[#457461] text-[#457461]': current,
+              'text-[#78B36E]': passed
+            }
+          )}
+        >
+          {step}
+        </span>
+      )}
       <span
-        className={cn(
-          'flex size-7 items-center justify-center rounded-full border font-mona text-[14px]/[13.5px] font-semibold',
-          {
-            'border-primary text-primary': current
-          }
-        )}
+        className={cn('font-sans text-[14px]/[24px]', {
+          'border-[#457461] text-[#457461]': current,
+          'text-[#78B36E]': passed
+        })}
       >
-        {step}
+        {title}
       </span>
-      <span className="font-sans text-[14px]/[24px]">{title}</span>
     </div>
   );
 }

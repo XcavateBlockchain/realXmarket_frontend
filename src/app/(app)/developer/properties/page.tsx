@@ -4,16 +4,17 @@ import Link from 'next/link';
 import PropertyCard from './property-card';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { fetchPropertiesWithFiles } from '@/lib/dynamo';
+import { Button } from '@/components/ui/button';
 
 export default async function Page({
   searchParams: { status }
 }: {
   searchParams: { status: string };
 }) {
-  const types = ['minted', 'listed', 'purchased'];
+  const types = ['all', 'listed', 'purchased'];
 
   const BASE_URL = '/developer/properties';
-  const selected = status === undefined ? 'minted' : status;
+  const selected = status === undefined ? 'all' : status;
 
   const address = await getCookieStorage('accountKey');
 
@@ -41,7 +42,21 @@ export default async function Page({
         </div>
 
         <div className="grid w-full gap-5">
-          <PropertyCard />
+          {properties && properties.length >= 1 ? (
+            properties.map(property => {
+              return <PropertyCard key={property.propertyId} property={property} />;
+            })
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-6">
+              <p>
+                Looks like there's nothing here yet! Start exploring and adding content to fill
+                this space with your own unique properties.
+              </p>
+              <Button asChild>
+                <Link href={'/property/create'}>ADD PROPERTY</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -1,22 +1,30 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 
 import { useState } from 'react';
 
-export default function PropertyCard() {
+export default function PropertyCard({ property }: { property: any }) {
   const [listModal, setListModal] = useState(false);
   return (
     <>
       <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
-        <Image
-          src={'/images/property_one.png'}
-          alt=""
-          width={320}
-          height={255}
-          priority
-          className="rounded-t-lg"
-        />
+        {property.image ? (
+          <Image
+            src={'/images/property_one.png'}
+            alt=""
+            width={320}
+            height={255}
+            priority
+            className="rounded-t-lg"
+          />
+        ) : (
+          <div className="flex h-[255px] w-full items-center justify-center rounded-t-lg bg-slate-400">
+            <ImageIcon size={150} />
+          </div>
+        )}
+
         <div className="absolute inset-4">
           <span className="items-center gap-1 rounded-lg bg-white px-2 py-[2px] text-[0.75rem] text-primary-200">
             Apartment/Flat
@@ -26,7 +34,7 @@ export default function PropertyCard() {
         <div className="relative flex flex-col gap-4 px-4">
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between">
-              <dt>Plot 1 - Lea Wharf</dt>
+              <dt>{property.property_name}</dt>
               <dd className="">APY 10%</dd>
             </div>
             <div className="flex items-center justify-between">

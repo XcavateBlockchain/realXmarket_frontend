@@ -4,6 +4,7 @@ import './globals.css';
 import { fontMonaSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { NodeSocketProvider, WalletProvider } from '@/context';
+import { Toaster } from 'sonner';
 
 const dm_sans = DM_Sans({
   weight: ['400', '700'],
@@ -31,7 +32,10 @@ export default function RootLayout({
         )}
       >
         <NodeSocketProvider>
-          <WalletProvider>{children}</WalletProvider>
+          <WalletProvider>
+            {children}
+            <Toaster position="top-right" richColors />
+          </WalletProvider>
         </NodeSocketProvider>
       </body>
     </html>
