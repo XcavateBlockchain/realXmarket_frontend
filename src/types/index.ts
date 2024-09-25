@@ -99,3 +99,35 @@ export enum STATE_STATUS {
   SUCCESS = 'success',
   ERROR = 'error'
 }
+
+export type IProperty = {
+  price_per_token: number;
+  title_deed_number: string;
+  outdoor_space: string;
+  property_name: string;
+  no_of_bathrooms: string;
+  files: string[];
+  planning_permission_Code: string;
+  property_number: string;
+  property_type: string;
+  construction_date: string;
+  no_of_Bedrooms: string;
+  region: number;
+  address_street: string;
+  location: number;
+  propertyId: number;
+  address_town_city: string;
+  Off_street_parking: string;
+  property_development_Code: string;
+  post_code: string;
+  quality: string;
+  estimated_rental_income: number;
+  number_of_tokens: number;
+  accountAddress: string;
+  area: string;
+  local_authority: string;
+  map: string;
+  property_description: string;
+  property_price: number;
+  fileUrls: string[];
+};

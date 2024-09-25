@@ -13,12 +13,14 @@ import { FileText, Trash2 } from 'lucide-react';
 
 const FILE_TYPE_NAMES = {
   'image/png': 'PNG',
+  'image/jpg': 'JPG',
   'image/jpeg': 'JPEG',
   'image/webp': 'WEBP',
   'application/pdf': 'PDF'
 };
 
 export enum MimeTypes {
+  JPG = 'image/jpg',
   PNG = 'image/png',
   JPEG = 'image/jpeg',
   WEBP = 'image/webp',
@@ -36,7 +38,7 @@ type IFileInput = {
 };
 
 const FileInput = ({
-  types = [MimeTypes.PNG, MimeTypes.JPEG, MimeTypes.WEBP],
+  types = [MimeTypes.PNG, MimeTypes.JPEG, MimeTypes.WEBP, MimeTypes.JPG],
   maxFileSize = 50,
   name = 'Upload image',
   handleFileChange,
@@ -202,6 +204,7 @@ function FileDisplay({
             <div className="group absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center">
               {types.includes(MimeTypes.PNG) ||
               types.includes(MimeTypes.JPEG) ||
+              types.includes(MimeTypes.JPG) ||
               types.includes(MimeTypes.WEBP) ? (
                 <Image
                   src={URL.createObjectURL(file) as string}

@@ -5,6 +5,7 @@ import PropertyCard from './property-card';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { fetchPropertiesWithFiles } from '@/lib/dynamo';
 import { Button } from '@/components/ui/button';
+import { IProperty } from '@/types';
 
 export default async function Page({
   searchParams: { status }
@@ -18,7 +19,7 @@ export default async function Page({
 
   const address = await getCookieStorage('accountKey');
 
-  const properties = await fetchPropertiesWithFiles(address as string);
+  const properties: IProperty[] = await fetchPropertiesWithFiles(address as string);
   console.log(properties);
   return (
     <>

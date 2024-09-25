@@ -58,14 +58,18 @@ export const propertyFeaturesSchema = z.object({
   area: z.string(),
   quality: z.string(),
   outdoor_space: z.string(),
-  no_of_Bedrooms: z.number(),
+  no_of_Bedrooms: z.string(),
   construction_date: z.string(),
-  number_of_bathrooms: z.number(),
+  no_of_bathrooms: z.string(),
   Off_street_parking: z.string(),
   property_description: z.string(),
   property_development_Code: z.string(),
   planning_permission_Code: z.string(),
   property_images: z.array(z.instanceof(File))
 });
+
+// .refine(file => file.type.startsWith('image/'), {
+//   message: 'Only image files are allowed'
+// })
 
 export type IPropertyFeatures = z.infer<typeof propertyFeaturesSchema>;

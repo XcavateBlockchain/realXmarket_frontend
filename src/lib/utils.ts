@@ -31,3 +31,14 @@ export function formatNumber(number: number | string, options: Intl.NumberFormat
     ...options
   }).format(Number(number));
 }
+
+export function formatPrice(price: number | string, options: Intl.NumberFormatOptions = {}) {
+  return new Intl.NumberFormat('en-UK', {
+    style: 'currency',
+    currency: options.currency ?? 'GBP',
+    notation: options.notation ?? 'standard',
+    minimumFractionDigits: options.minimumFractionDigits ?? 0,
+    maximumFractionDigits: options.maximumFractionDigits ?? 2,
+    ...options
+  }).format(Number(price));
+}

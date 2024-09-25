@@ -39,7 +39,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
   async function onSubmit(data: IPropertyInformationInput) {
     setStatus(STATE_STATUS.LOADING);
     setUploadStatus(STATE_STATUS.LOADING);
-    console.log('Started');
+    console.log('Submitting...');
     try {
       const address = await getCookieStorage('accountKey');
       if (!address) {
@@ -177,7 +177,6 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
             name="Upload Sales Agreement"
             types={[MimeTypes.PDF]}
             handleFileChange={files => {
-              console.log(files); // Log the files to check if they are being passed correctly
               form.setValue('floor_plan', files[0]);
             }}
           />

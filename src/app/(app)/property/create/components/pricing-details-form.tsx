@@ -114,7 +114,9 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           size={'md'}
           className="text-white"
           disabled={
-            !form.formState || !form.formState.isValid || status === STATE_STATUS.LOADING
+            !form.formState.isDirty ||
+            !form.formState.isValid ||
+            status === STATE_STATUS.LOADING
           }
         >
           Continue

@@ -1,27 +1,29 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { formatNumber, formatPrice } from '@/lib/utils';
+import { IProperty } from '@/types';
 import { ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 
 import { useState } from 'react';
 
-export default function PropertyCard({ property }: { property: any }) {
+export default function PropertyCard({ property }: { property: IProperty }) {
   const [listModal, setListModal] = useState(false);
   return (
     <>
       <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
-        {property.image ? (
+        {property.fileUrls.length >= 1 ? (
           <Image
-            src={'/images/property_one.png'}
-            alt=""
+            src={property.fileUrls[0]}
+            alt={property.property_name}
             width={320}
             height={255}
             priority
             className="rounded-t-lg"
           />
         ) : (
-          <div className="flex h-[255px] w-full items-center justify-center rounded-t-lg bg-slate-400">
-            <ImageIcon size={150} />
+          <div className="flex h-[255px] w-full items-center justify-center rounded-t-lg bg-[#4E4E4E]/[0.10] text-primary/50">
+            <ImageIcon size={130} />
           </div>
         )}
 
@@ -38,8 +40,8 @@ export default function PropertyCard({ property }: { property: any }) {
               <dd className="">APY 10%</dd>
             </div>
             <div className="flex items-center justify-between">
-              <dt>Token 100</dt>
-              <dd className="">Price £250,000</dd>
+              <dt>Token {formatNumber(property.number_of_tokens)}</dt>
+              <dd className="">Price {formatPrice(property.property_price)}</dd>
             </div>
           </div>
 
