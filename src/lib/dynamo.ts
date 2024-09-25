@@ -126,15 +126,15 @@ export async function fetchProperty(accountAddress: string, propertyId: number) 
   const params = {
     TableName: 'real-marketplace-properties',
     Key: {
-      accountAddress, // Partition key
-      propertyId // Sort key
+      accountAddress,
+      propertyId
     }
   };
 
   try {
     const command = new GetCommand(params);
     const data = await ddbDocClient.send(command);
-    return data.Item; // Returns the fetched property if found
+    return data.Item;
   } catch (err) {
     console.error('Error fetching property:', err);
     throw new Error(`Unable to fetch property with ID: ${propertyId}`);

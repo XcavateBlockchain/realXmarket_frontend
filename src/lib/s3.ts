@@ -41,7 +41,7 @@ export async function uploadFileToS3(
 
 export async function generatePresignedUrl(
   fileKey: string,
-  expiresIn = 3600
+  expiresIn = 604800
 ): Promise<string> {
   const command = new GetObjectCommand({
     Bucket: process.env.XCAV_AWS_S3_BUCKET_NAME,
