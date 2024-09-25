@@ -111,7 +111,9 @@ export async function fetchPropertiesWithFiles(
     (properties || []).map(async property => {
       if (property.files && property.files.length > 0) {
         const fileUrls = await Promise.all(
-          property.files.map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+          property.files
+            .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+            .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
         );
         return { ...property, fileUrls };
       }
