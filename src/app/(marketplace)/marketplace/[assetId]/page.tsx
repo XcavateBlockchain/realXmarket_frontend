@@ -115,19 +115,19 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                   <h4 className="font-mona text-[24px]/[32px] font-bold">
                     {formatPrice(metaData.property_price)}
                   </h4>{' '}
-                  {/* <BuyToken
+                  <BuyToken
                     listingId={Number(params.assetId)}
                     tokens={tokensRemaining}
-                    property={propertyIfo}
-                    data={property}
-                  /> */}
+                    property={metaData}
+                    data={listingDetails}
+                  />
                 </div>
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Price per Token" value={propertyIfo.tokenPrice} />
                 <PropertyStats
                   title="Rental Yield"
-                  value={`${formatNumber(APY, { maximumFractionDigits: 1 })}%`}
+                  value={`${parseFloat(`${APY}`).toFixed(1)}`}
                 />
                 <PropertyStats
                   title="Tokens available"

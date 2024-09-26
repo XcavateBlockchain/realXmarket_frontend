@@ -1,6 +1,6 @@
 'use client';
 
-import { Property } from '@/types';
+import { IProperty, ListingDetails, Property } from '@/types';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,8 +26,8 @@ import Link from 'next/link';
 type AmountProps = {
   amount: number;
   tokens: any;
-  data: Property;
-  property: FetchedProperty;
+  data: ListingDetails;
+  property: IProperty;
   close: () => void;
   setIndex: Dispatch<SetStateAction<number>>;
   setAmount: Dispatch<SetStateAction<number>>;
@@ -52,15 +52,15 @@ function SelectAmount({
       </div>
       <div className="flex gap-2">
         <Image
-          src={data.property_image}
-          alt={data.property_name}
+          src={property.fileUrls[0]}
+          alt={property.property_name}
           width={100}
           height={100}
           priority
         />
         <div className="flex flex-col gap-2">
           <p className="text-[14px]/[24px]">Gade Homes</p>
-          <h1 className="font-mona text-[16px]/[24px] font-medium">{data.property_name}</h1>
+          <h1 className="font-mona text-[16px]/[24px] font-medium">{property.property_name}</h1>
           <div className="flex items-center gap-1">
             <Image
               src={'/icons/pin_location.svg'}
@@ -70,7 +70,7 @@ function SelectAmount({
               className="pointer-events-none"
             />
             <h3 className="font-mona  text-[14px]/[24px] font-semibold">
-              {data.address_street} {data.address_town_city}
+              {property.address_street} {property.address_town_city}
             </h3>
           </div>
         </div>
@@ -83,11 +83,11 @@ function SelectAmount({
         <div className="flex flex-col rounded-sm bg-gray-100 p-2">
           <div className="flex justify-between">
             <span>Pay with:</span>
-            <span className="font-bold">£{property.tokenPrice}</span>
+            <span className="font-bold">£{data.tokenPrice}</span>
           </div>
           <div className="flex justify-between">
             <span>Balance</span>
-            <span className="font-bold">£{property.tokenPrice}</span>
+            <span className="font-bold">£{data.tokenPrice}</span>
           </div>
         </div>
       </div>
@@ -137,8 +137,8 @@ function SelectAmount({
 
 type SummaryProps = {
   amount: number;
-  data: Property;
-  property: FetchedProperty;
+  data: ListingDetails;
+  property: IProperty;
   listingId: number;
   close: () => void;
   setIndex: Dispatch<SetStateAction<number>>;
@@ -169,7 +169,7 @@ function PurchaseSummary({
     });
   };
 
-  const totalPrice = Number(amount) * Number(property.tokenPrice);
+  const totalPrice = Number(amount) * Number(data.tokenPrice);
   return (
     <>
       <div className="flex w-full items-center justify-between">
@@ -180,15 +180,15 @@ function PurchaseSummary({
       </div>
       <div className="flex gap-2">
         <Image
-          src={data.property_image}
-          alt={data.property_name}
+          src={property.fileUrls[0]}
+          alt={property.property_name}
           width={100}
           height={100}
           priority
         />
         <div className="flex flex-col gap-2">
           <p className="text-[14px]/[24px]">Gade Homes</p>
-          <h1 className="font-mona text-[16px]/[24px] font-medium">{data.property_name}</h1>
+          <h1 className="font-mona text-[16px]/[24px] font-medium">{property.property_name}</h1>
           <div className="flex items-center gap-1">
             <Image
               src={'/icons/pin_location.svg'}
@@ -198,7 +198,7 @@ function PurchaseSummary({
               className="pointer-events-none"
             />
             <h3 className="font-mona  text-[14px]/[24px] font-semibold">
-              {data.address_street} {data.address_town_city}
+              {property.address_street} {property.address_town_city}
             </h3>
           </div>
         </div>
@@ -210,7 +210,7 @@ function PurchaseSummary({
         <div className="flex items-start justify-between border-b pb-4 text-[16px]/[24px]">
           <span className="font-mona font-medium text-[#4E4E4E]">Cost :</span>
           <div className="flex flex-col items-end gap-1 text-right">
-            <span>£{property.tokenPrice}</span>
+            <span>£{data.tokenPrice}</span>
             <span>24,000.00 USDT</span>
           </div>
         </div>
@@ -281,8 +281,8 @@ export default function BuyToken({
 }: {
   listingId: number;
   tokens: any;
-  property: FetchedProperty;
-  data: Property;
+  property: IProperty;
+  data: ListingDetails;
 }) {
   const router = useRouter();
   const [openDialog, setIsDialogOpen] = useState(false);
