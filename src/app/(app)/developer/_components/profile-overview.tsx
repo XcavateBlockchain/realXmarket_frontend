@@ -3,11 +3,39 @@ import { OverviewCard } from '@/components/cards/overview-card';
 import { Button } from '@/components/ui/button';
 import { profiles } from '@/config/profiles';
 import { getLocalStorageItem } from '@/lib/localstorage';
+import { formatPrice } from '@/lib/utils';
 import { IProfile } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function ProfileHeaderOverview({ profile }: { profile: IProfile | null }) {
+export default function ProfileHeaderOverview({
+  profile,
+  accountDetails
+}: {
+  profile: IProfile | null;
+  accountDetails: any;
+}) {
+  console.log('accountDetails', accountDetails);
+
+  const totalTokens = accountDetails
+    .map((details: any) => {
+      return (
+        parseInt(details.listingDetails.collectedFunds.replace(/,/g, '')) /
+        parseInt(details.listingDetails.tokenPrice.replace(/,/g, ''))
+      );
+    })
+    .reduce((acc: any, curr: any) => acc + curr, 0);
+
+  const totalSales = accountDetails
+    .map((details: any) => {
+      return parseInt(details.listingDetails.collectedFunds.replace(/,/g, ''));
+    })
+    .reduce((acc: any, curr: any) => acc + curr, 0);
+
+  const propertiesWithPurchases = accountDetails.filter((details: any) => {
+    return parseInt(details.listingDetails.collectedFunds.replace(/,/g, '')) > 0;
+  });
+
   return (
     <>
       <div className="flex w-full flex-col gap-6">
@@ -48,10 +76,10 @@ export default function ProfileHeaderOverview({ profile }: { profile: IProfile |
       </div>
 
       <div className="grid w-full grid-cols-2 gap-5 lg:grid-cols-4">
-        <OverviewCard title="Active listed properties" value={0} />
-        <OverviewCard title="Property tokens sold" value={0} />
-        <OverviewCard title="Total sales" value={0} />
-        <OverviewCard title="Average sale time" value={0} />
+        <OverviewCard title="Active listed properties" value={accountDetails.length} />
+        <OverviewCard title="Property tokens sold" value={totalTokens} />
+        <OverviewCard title="Total sales" value={formatPrice(totalSales)} />
+        {/* <OverviewCard title="Average sale time" value={0} /> */}
       </div>
     </>
   );
