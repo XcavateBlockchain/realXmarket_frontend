@@ -68,7 +68,7 @@ export default function MarketCard({
             <dd className="">
               APY{' '}
               <span className="text-md font-bold text-black">
-                {parseFloat(`${APY}`).toFixed(1)}%
+                {parseInt(`${APY}`).toFixed(1)}%
               </span>
             </dd>
           </div>
