@@ -13,7 +13,7 @@ export default function ProfileHeaderOverview({ profile }: { profile: IProfile |
             alt="avatar"
             width={150}
             height={150}
-            className="bg-cover bg-no-repeat"
+            className="rounded-full bg-cover bg-no-repeat"
             priority
           />
         </div>
