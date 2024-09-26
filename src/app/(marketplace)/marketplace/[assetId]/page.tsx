@@ -125,7 +125,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Price per Token" value={propertyIfo.tokenPrice} />
-                <PropertyStats title="Rental Yield" value={`${formatNumber(APY * 10)}`} />
+                <PropertyStats title="Rental Yield" value={`${APY * 10}`} />
                 <PropertyStats
                   title="Tokens available"
                   value={`${tokensRemaining} / ${propertyIfo.tokenAmount}`}
