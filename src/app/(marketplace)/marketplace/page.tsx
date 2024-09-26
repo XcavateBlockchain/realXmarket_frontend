@@ -5,12 +5,15 @@ import {
   getAllOngoingListingsWhereAddressIsDeveloper,
   getAllTokenBuyerForListing,
   getAllTokenBuyers,
+  getItemMetadata,
+  getTokenRemaining,
   getTokensAndListingsOwnedByAccount
 } from '@/lib/queries';
 // import { connectWebSocket } from '@/lib/websocket';
 
-import { FetchedProperty, Property } from '@/types';
+import { FetchedProperty, Listing, Property } from '@/types';
 import FilterTabs from './filter-tabs';
+import { hexToString } from '@/lib/utils';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
@@ -25,29 +28,66 @@ export default async function Marketplace() {
   //   handleWebSocketMessage
   // );
 
-  const data = await getAllOngoingListings();
-  console.log('ALL ONGOING LISTINGS', data);
+  // const data = await getAllOngoingListings();
+  // console.log('ALL ONGOING LISTINGS', data);
 
   const activeListingsWhereAccountIsDeveloper =
     await getAllOngoingListingsWhereAddressIsDeveloper(
       '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
     );
-  console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
+  // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
 
-  const allTokenBuyers = await getAllTokenBuyers();
-  console.log('ALL TOKEN BUYERS', allTokenBuyers);
+  // const allTokenBuyers = await getAllTokenBuyers();
+  // console.log('ALL TOKEN BUYERS', allTokenBuyers);
 
-  const listing9Buyers = await getAllTokenBuyerForListing(9);
-  console.log('TOKEN BUYERS FOR LISTING 9', listing9Buyers);
+  // const listing9Buyers = await getAllTokenBuyerForListing(9);
+  // console.log('TOKEN BUYERS FOR LISTING 9', listing9Buyers);
 
-  const tokensOwnedByBob = await getTokensAndListingsOwnedByAccount(
-    '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
-  ); // Bob account
+  // const tokensOwnedByBob = await getTokensAndListingsOwnedByAccount(
+  //   '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
+  // ); // Bob account
 
-  console.log('TOKENS OWNED BY BOB ACCOUNT', tokensOwnedByBob);
-  const properties = (await getActiveProperties()) as FetchedProperty[];
+  // console.log('TOKENS OWNED BY BOB ACCOUNT', tokensOwnedByBob);
+  // const properties = (await getActiveProperties()) as FetchedProperty[];
 
-  console.log(properties);
+  // console.log(properties);
+
+  // async function FetchMetaData() {
+  //   activeListingsWhereAccountIsDeveloper.map(async listing => {
+  //     // const details  = JSON.parse(listing.listingDetails);
+
+  //     if (listing.listingDetails && typeof listing.listingDetails === 'object') {
+  //       const metaData = await getItemMetadata(
+  //         listing.listingDetails.collectionId,
+  //         listing.listingDetails.itemId
+  //       );
+  //       console.log(hexToString(metaData.data));
+  //     }
+  //   });
+  // }
+
+  // console.log(await FetchMetaData());
+
+  async function FetchMetaData() {
+    const results = await Promise.all(
+      activeListingsWhereAccountIsDeveloper.map(async listing => {
+        if (listing.listingDetails && typeof listing.listingDetails === 'object') {
+          const metaData = await getItemMetadata(
+            listing.listingDetails.collectionId,
+            listing.listingDetails.itemId
+          );
+          const tokenRemaining = await getTokenRemaining(listing.listingId);
+          const metadata = hexToString(metaData.data);
+          return { listing, tokenRemaining, metadata };
+        }
+      })
+    );
+    return results;
+  }
+
+  const listings: Listing[] = (await FetchMetaData()).filter(
+    (item): item is Listing => item !== undefined
+  );
 
   return (
     <>
@@ -100,11 +140,30 @@ export default async function Marketplace() {
             Find the investment that’s right for you
           </p>
         </div> */}
-        <div className="grid grid-cols-1 gap-4 sm:mt-0 sm:grid-cols-2 lg:grid-cols-4">
+        {/* <div className="grid grid-cols-1 gap-4 sm:mt-0 sm:grid-cols-2 lg:grid-cols-4">
           {properties.map((property: FetchedProperty) => (
             <MarketCard key={property.itemId} {...property} />
           ))}
-        </div>
+        </div> */}
+        {listings && listings.length >= 1 ? (
+          <div className="grid grid-cols-1 gap-4 sm:mt-0 sm:grid-cols-2 lg:grid-cols-4">
+            {listings.map(listing => {
+              const data = JSON.parse(listing.metadata);
+              console.log(data);
+              return (
+                <MarketCard
+                  key={listing.listing.listingId}
+                  id={listing.listing.listingId}
+                  details={listing.listing.listingDetails}
+                  tokenRemaining={listing.tokenRemaining}
+                  metaData={data}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );
