@@ -35,12 +35,12 @@ export default function PropertyForm() {
   return (
     <>
       <section className="flex w-full items-center justify-between gap-2">
-        <button className="flex items-center gap-2 font-mona text-[18px]/[24px]">
+        <Link href={'/developer/properties'} className="flex items-center gap-2 ">
           <span className="size-10 rounded-lg border border-primary p-3.5">
             <Icons.back className="size-3" />
           </span>
-          Back
-        </button>
+          <span className="font-mona text-[18px]/[24px]"> Back</span>
+        </Link>
 
         <div className="flex items-center">
           <Step

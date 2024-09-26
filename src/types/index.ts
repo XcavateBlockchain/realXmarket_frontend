@@ -155,3 +155,48 @@ export interface RealEstateInvestor {
   walletAddress: string;
   password: string;
 }
+
+export type IProfile = {
+  walletAddress: string;
+  banner: string;
+  avatar: string;
+  attester: string;
+  cTypeTitle: string;
+  credential: {
+    claim: {
+      cTypeHash: string;
+      contents: {
+        above16: boolean;
+        above18: boolean;
+        above21: boolean;
+        additionalAddressLine: string;
+        city: string;
+        country: string;
+        dateOfBirth: string;
+        email: string;
+        firstName: string;
+        gender: string;
+        investorType: string;
+        lastName: string;
+        middleName: string;
+        nationality: string[];
+        pepStatus: boolean;
+        phone: string;
+        placeOfBirth: string;
+        postalCode: string;
+        region: string;
+        sanctionsStatus: boolean;
+        street: string;
+        streetNo: string;
+      };
+      owner: string;
+    };
+    claimHashes: string[];
+    delegationId: string | null;
+    legitimations: any[]; // Adjust type as needed
+    rootHash: string;
+  };
+  isDownloaded: boolean;
+  name: string;
+  status: string;
+};

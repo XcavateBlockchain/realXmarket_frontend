@@ -142,12 +142,18 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
           placeholder="Postal code"
           {...form.register('property_number')}
         />
-        <SelectInput
+        <Input
+          type="text"
+          label="Property Type"
+          placeholder="Postal code"
+          {...form.register('property_type')}
+        />
+        {/* <SelectInput
           label="Property Type"
           placeholder="select"
           options={propertyTypes}
           {...form.register('property_type')}
-        />
+        /> */}
       </div>
       <div className="grid w-full grid-cols-3 gap-2">
         <Input

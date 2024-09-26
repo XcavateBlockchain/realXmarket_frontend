@@ -14,13 +14,22 @@ import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import { useRouter } from 'next/navigation';
 
-export function AppSiteHeader() {
+type HeaderProps = {
+  open: boolean;
+  // address: string | undefined;
+};
 
-  const router = useRouter()
-  const { selectedAccount } = useWalletContext();
+export function AppSiteHeader({ open = false }: HeaderProps) {
+  const router = useRouter();
+  const { selectedAccount, showCredentialDialog } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
-
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [showVerifyModal, setShowVerifyModal] = React.useState(!showCredentialDialog);
+  const [walletModal, showModal] = React.useState(open);
+
+  React.useEffect(() => {
+    showModal(open);
+  }, [open]);
 
   // change background color on scroll
   React.useEffect(() => {
@@ -31,9 +40,16 @@ export function AppSiteHeader() {
     return () => window.removeEventListener('scroll', changeBgColor);
   }, [isScrolled]);
 
-  // React.useEffect(() => {
+  React.useEffect(() => {
+    setShowVerifyModal(!showCredentialDialog);
+  }, [showCredentialDialog]);
 
-  // })
+  React.useEffect(() => {
+    if (showVerifyModal === false) {
+      router.push('/');
+      router.refresh();
+    }
+  }, [showVerifyModal]);
 
   return (
     <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px]">
@@ -64,7 +80,7 @@ export function AppSiteHeader() {
         </nav>
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
-          <ConnectWalletButton />
+          <ConnectWalletButton open={walletModal} />
           {isConnected ? <ConnectCredentialWallet /> : null}
         </div>
       </div>

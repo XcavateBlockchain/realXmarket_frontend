@@ -10,6 +10,7 @@ import { AccountTypeButton } from '../utility-button';
 import { Icons } from '../icons';
 import { useWalletContext } from '@/context/wallet-context';
 import { profiles } from '@/config/profiles';
+import { setCookieStorage } from '@/lib/cookie-storage';
 
 interface ISection {
   [key: number]: ReactNode;
@@ -17,9 +18,10 @@ interface ISection {
 
 export default function VerifyCredential() {
   const [index, setIndex] = useState(1);
+  const { setShowCredentialDialog } = useWalletContext();
 
   function closeDialog() {
-    // setShowCredential(false);
+    setShowCredentialDialog(false);
   }
 
   const actions: ISection = {
@@ -128,7 +130,14 @@ function ConnectCredential({ setIndex, close }: DialogProps) {
         <Button variant={'outline'} size={'md'} onClick={close}>
           cancel
         </Button>
-        <Button size={'md'} className="text-white" onClick={() => setIndex(3)}>
+        <Button
+          size={'md'}
+          className="text-white"
+          onClick={() => {
+            setIndex(3);
+            setCookieStorage('isWhiteListed', 'true');
+          }}
+        >
           CONNECT
         </Button>
       </div>
@@ -136,6 +145,7 @@ function ConnectCredential({ setIndex, close }: DialogProps) {
   );
 }
 function SuccessConnectedCredential({ close }: DialogProps) {
+  const { setShowCredentialDialog } = useWalletContext();
   return (
     <>
       <div className="inline-flex w-full flex-col items-center justify-center gap-6 p-4">
@@ -158,7 +168,7 @@ function SuccessConnectedCredential({ close }: DialogProps) {
         </div>
       </div>
       <div className="flex w-full justify-end gap-2 px-6 pb-6">
-        <Button size={'md'} className="text-white" onClick={close}>
+        <Button size={'md'} className="text-white" onClick={() => setShowCredentialDialog()}>
           continue
         </Button>
       </div>

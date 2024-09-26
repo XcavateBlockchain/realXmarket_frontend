@@ -42,7 +42,7 @@ export default async function Page({
           })}
         </div>
 
-        <div className="grid w-full gap-5">
+        <div className="grid w-full grid-cols-4 gap-6">
           {properties && properties.length >= 1 ? (
             properties.map(property => {
               return <PropertyCard key={property.propertyId} property={property} />;

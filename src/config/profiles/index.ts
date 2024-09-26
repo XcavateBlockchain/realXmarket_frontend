@@ -1,30 +1,9 @@
-import { Company, RealEstateInvestor } from '@/types';
+import { Company, IProfile, RealEstateInvestor } from '@/types';
 import alice from './Alice T Investor-Legal Entity.json' assert { type: 'json' };
 import bob from './Bob T Builder-Legal Entity.json' assert { type: 'json' };
 
-type Profile = {
-  walletAddress: string;
-  attester: string;
-  cTypeTitle: string;
-  credential: {
-    claim: {
-      cTypeHash: string;
-      contents: {
-        above16: boolean;
-        above18: boolean;
-        // ... other properties ...
-        streetNo: string;
-      };
-      owner: string;
-    };
-    claimHashes: string[];
-    delegationId: null;
-    // ... other properties ...
-  };
-};
-
 type Profiles = {
-  [key: string]: Profile; // Index signature added here
+  [key: string]: IProfile; // Index signature added here
 };
 
 export const profiles: Profiles = {
