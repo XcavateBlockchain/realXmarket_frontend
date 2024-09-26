@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { formatNumber, formatPrice } from '@/lib/utils';
 import { IProperty, STATE_STATUS } from '@/types';

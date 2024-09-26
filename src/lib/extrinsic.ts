@@ -1,6 +1,5 @@
 import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { getApi } from './polkadot';
-import { toast } from 'sonner';
 
 export async function listNFT(senderAddress: string, collectionId: number, nftId: number) {
   try {
