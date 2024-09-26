@@ -35,7 +35,7 @@ export default async function Marketplace() {
     await getAllOngoingListingsWhereAddressIsDeveloper(
       '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
     );
-  console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
+  // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
 
   // const allTokenBuyers = await getAllTokenBuyers();
   // console.log('ALL TOKEN BUYERS', allTokenBuyers);
@@ -88,7 +88,7 @@ export default async function Marketplace() {
     return results;
   }
 
-  console.log(await FetchMetaData());
+  // console.log(await FetchMetaData());
 
   const listings: Listing[] = (await FetchMetaData()).filter(
     (item): item is Listing => item !== undefined

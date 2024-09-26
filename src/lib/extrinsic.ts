@@ -37,12 +37,12 @@ export async function buyNft(senderAddress: string, listingId: number, amount: n
         console.log(`Transaction finalized at blockHash ${result.status.asBroadcast}`);
       }
     });
+
     console.log('Transaction sent:', unsub);
   } catch (error) {
-    console.error('Failed to buy nft:', error);
+    console.error('Failed to list property:', error);
   }
 }
-
 export async function listProperty(
   senderAddress: string,
   region: number,

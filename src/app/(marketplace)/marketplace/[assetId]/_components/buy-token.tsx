@@ -1,6 +1,6 @@
 'use client';
 
-import { IProperty, ListingDetails, Property } from '@/types';
+import { IProperty, ListingDetails, Property, STATE_STATUS } from '@/types';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +22,10 @@ import { Dispatch, ReactNode, SetStateAction, useState, useTransition } from 're
 import { useSubstrateContext } from '@/context/polkadot-contex';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { NumericFormat, OnValueChange } from 'react-number-format';
+import { formatNumber, formatPrice } from '@/lib/utils';
+import { getCookieStorage } from '@/lib/cookie-storage';
+import { toast } from 'sonner';
 
 type AmountProps = {
   amount: number;
@@ -42,10 +46,13 @@ function SelectAmount({
   property,
   setAmount
 }: AmountProps) {
+  const handleAmountChange: OnValueChange = ({ value }) =>
+    setAmount(parseInt(value.replace(/,/g, '')));
+
   return (
     <>
       <div className="flex w-full items-center justify-between">
-        <h1 className="font-bold">Buy Tokens</h1>
+        <h1 className="font-mona text-[1.125rem]/[1.5rem] font-semibold">Buy Tokens</h1>
         <Button variant={'text'} size={'icon'} onClick={close}>
           <Icons.close className="size-6" />
         </Button>
@@ -60,7 +67,9 @@ function SelectAmount({
         />
         <div className="flex flex-col gap-2">
           <p className="text-[14px]/[24px]">Gade Homes</p>
-          <h1 className="font-mona text-[16px]/[24px] font-medium">{property.property_name}</h1>
+          <h1 className="font-mona text-[16px]/[24px] font-medium">
+            {property.property_name}
+          </h1>
           <div className="flex items-center gap-1">
             <Image
               src={'/icons/pin_location.svg'}
@@ -76,9 +85,9 @@ function SelectAmount({
         </div>
       </div>
       <div className="w-full space-y-4 divide-y-2">
-        <div className="flex items-center justify-between text-[16px]/[24px]">
+        <div className="flex items-center justify-between font-mona text-[1rem]/[1.5rem] font-medium">
           <span className="font-mona font-medium text-[#4E4E4E]">Price per Tokens :</span>
-          <span className="font-bold">£2000</span>
+          <span className="font-bold">{formatPrice(property.property_price)}</span>
         </div>
         <div className="flex flex-col rounded-sm bg-gray-100 p-2">
           <div className="flex justify-between">
@@ -92,11 +101,14 @@ function SelectAmount({
         </div>
       </div>
       <div className="flex w-full flex-col gap-1">
-        <div className="flex justify-between">
-          <span>Tokens left:</span> <span className="text-[#78B36E]">{tokens} of 100</span>
+        <div className="flex justify-between text-[0.875rem]/[1.5rem]">
+          <span>Tokens left:</span>{' '}
+          <span className="font-sans text-[#78B36E]">
+            {tokens} of {data.tokenAmount}
+          </span>
         </div>
 
-        <div className="space-y-5">
+        {/* <div className="space-y-5">
           <div className="flex w-full items-center justify-between rounded border px-2 py-4 text-[30px]/[40px] font-bold">
             <input
               id="amount"
@@ -129,6 +141,53 @@ function SelectAmount({
               Buy
             </Button>
           </div>
+        </div> */}
+        <div className="space-y-10">
+          <div className="flex w-full items-center justify-between rounded border border-[#4E4E4E]/[0.50] bg-white p-4">
+            <NumericFormat
+              value={amount}
+              className="w-full bg-transparent text-[1.875rem]/[2.5rem] font-bold outline-none placeholder:text-[#4E4E4E]/[0.50]"
+              placeholder="0"
+              thousandSeparator=","
+              allowNegative={false}
+              max={property.number_of_tokens}
+              onValueChange={handleAmountChange}
+            />
+            <button
+              className="rounded-md p-2 font-sans text-[1rem]/[1.5rem] text-[#ECB278] transition-colors duration-300 hover:bg-primary"
+              onClick={() => setAmount(property.number_of_tokens)}
+            >
+              MAX
+            </button>
+          </div>
+
+          {amount > 0 ? (
+            <div className="flex justify-between text-[0.875rem]/[1.5rem]">
+              <span className="text-[#4E4E4E]/[0.50]">To buy:</span>{' '}
+              <span className="font-sans text-[#DC7DA6]">{formatNumber(amount)}</span>
+            </div>
+          ) : null}
+
+          <div className="flex items-center justify-end gap-4">
+            <Button
+              type="button"
+              variant={'outline'}
+              size={'md'}
+              className="w-[96px]"
+              onClick={close}
+            >
+              Cancel
+            </Button>
+            <Button
+              size={'md'}
+              type="submit"
+              onClick={() => setIndex(2)}
+              className="w-[96px] px-4 text-white"
+              // disabled={amount === 0}
+            >
+              Buy
+            </Button>
+          </div>
         </div>
       </div>
     </>
@@ -152,22 +211,28 @@ function PurchaseSummary({
   property,
   setIndex
 }: SummaryProps) {
-  const { address } = useSubstrateContext();
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
 
-  const onSubmit = async (event: any) => {
-    event.preventDefault();
-    startTransition(async () => {
-      try {
-        // const address = '5Di7RnyX8TXwM9C9RCVHWTuXemwmRiJLiX3wapYgN588qB2E';
-        await buyNft(address, listingId, amount);
-        // console.log(amount);
-        setIndex(3);
-      } catch (error) {
-        console.log(error);
+  async function onSubmit() {
+    setStatus(STATE_STATUS.LOADING);
+    try {
+      const address = await getCookieStorage('accountKey');
+      if (!address) {
+        toast.error('Please connect your wallet');
+        return;
       }
-    });
-  };
+      await buyNft(address, listingId, amount);
+      setIndex(3);
+      router.refresh();
+    } catch (error: any) {
+      setIndex(1);
+      setStatus(STATE_STATUS.ERROR);
+      toast.error(error?.error ? error?.error?.message : error?.message);
+    } finally {
+      setStatus(STATE_STATUS.SUCCESS);
+    }
+  }
 
   const totalPrice = Number(amount) * Number(data.tokenPrice);
   return (
@@ -188,7 +253,9 @@ function PurchaseSummary({
         />
         <div className="flex flex-col gap-2">
           <p className="text-[14px]/[24px]">Gade Homes</p>
-          <h1 className="font-mona text-[16px]/[24px] font-medium">{property.property_name}</h1>
+          <h1 className="font-mona text-[16px]/[24px] font-medium">
+            {property.property_name}
+          </h1>
           <div className="flex items-center gap-1">
             <Image
               src={'/icons/pin_location.svg'}
@@ -220,11 +287,20 @@ function PurchaseSummary({
       </div>
       <div className="flex items-center justify-end gap-4">
         <Button
+          type="button"
+          variant={'outline'}
+          size={'md'}
+          className="w-[96px]"
+          onClick={() => setIndex(1)}
+        >
+          Back
+        </Button>
+        <Button
           size={'md'}
           className="text-white disabled:bg-caption"
           type="submit"
           onClick={onSubmit}
-          disabled={isPending}
+          disabled={status === STATE_STATUS.LOADING}
         >
           Continue
         </Button>
@@ -326,7 +402,9 @@ export default function BuyToken({
       <AlertDialogTrigger asChild>
         <Button className="h-[48px] w-[153px] px-[55px] py-3">BUY</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-lg p-6">{actions[index]}</AlertDialogContent>
+      <AlertDialogContent className="flex max-w-[518px] flex-col gap-10 p-6">
+        {actions[index]}
+      </AlertDialogContent>
     </AlertDialog>
   );
 }
