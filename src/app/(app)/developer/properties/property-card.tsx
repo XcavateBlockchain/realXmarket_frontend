@@ -24,6 +24,9 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
   const [showListedModal, setShowListedModal] = useState(false);
 
+  const ARI = property.estimated_rental_income * 12;
+  const APY = ARI / property.property_price;
+
   async function onListProperty() {
     setStatus(STATE_STATUS.LOADING);
     try {
@@ -69,7 +72,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
 
         <div className="absolute inset-4">
           <span className="items-center gap-1 rounded-lg bg-white px-2 py-[2px] text-[0.75rem] text-primary-200">
-            Apartment/Flat
+            {property.property_type}
           </span>
         </div>
 
@@ -77,7 +80,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between">
               <dt>{property.property_name}</dt>
-              <dd className="">APY 10%</dd>
+              <dd className="">APY {APY}%</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt>Token {formatNumber(property.number_of_tokens)}</dt>
