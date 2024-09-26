@@ -2,6 +2,7 @@ import MarketCard from '@/components/cards/market-card';
 import {
   getActiveProperties,
   getAllOngoingListings,
+  getAllOngoingListingsWhereAddressIsDeveloper,
   getAllTokenBuyerForListing,
   getAllTokenBuyers,
   getTokensAndListingsOwnedByAccount
@@ -23,15 +24,26 @@ export default async function Marketplace() {
   //   `${process.env.NEXT_PUBLIC_RPC_URL}`,
   //   handleWebSocketMessage
   // );
+
   const data = await getAllOngoingListings();
   console.log('ALL ONGOING LISTINGS', data);
+
+  const activeListingsWhereAccountIsDeveloper =
+    await getAllOngoingListingsWhereAddressIsDeveloper(
+      '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
+    );
+  console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
+
   const allTokenBuyers = await getAllTokenBuyers();
   console.log('ALL TOKEN BUYERS', allTokenBuyers);
+
   const listing9Buyers = await getAllTokenBuyerForListing(9);
   console.log('TOKEN BUYERS FOR LISTING 9', listing9Buyers);
+
   const tokensOwnedByBob = await getTokensAndListingsOwnedByAccount(
     '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
   ); // Bob account
+
   console.log('TOKENS OWNED BY BOB ACCOUNT', tokensOwnedByBob);
   const properties = (await getActiveProperties()) as FetchedProperty[];
 
