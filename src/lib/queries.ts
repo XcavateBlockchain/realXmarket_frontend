@@ -46,7 +46,7 @@ export async function getItemMetadata(collectionId: number, itemId: number) {
 
   const result = await api.query.nfts.itemMetadataOf(collectionId, itemId);
   const output = result.toHuman();
-  return output; // output.data should contain the metadata
+  return output as any; // output.data should contain the metadata
 }
 
 export async function getPropertyDetails(itemId: number) {
@@ -121,7 +121,10 @@ export async function getAllOngoingListingsWhereAddressIsDeveloper(address: stri
       ([key, exposure]: [any, any]) => exposure.toHuman()['realEstateDeveloper'] == address
     )
     .map(([key, exposure]) => {
-      return { listingId: key.args[0].toHuman(), listingDetails: exposure.toHuman() };
+      return {
+        listingId: key.args[0].toHuman() as any,
+        listingDetails: exposure.toHuman() as any
+      };
     });
 }
 

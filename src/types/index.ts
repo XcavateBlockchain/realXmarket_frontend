@@ -200,3 +200,21 @@ export type IProfile = {
   name: string;
   status: string;
 };
+
+export interface ListingDetails {
+  realEstateDeveloper: string;
+  tokenPrice: string;
+  collectedFunds: string;
+  assetId: string;
+  itemId: string;
+  collectionId: string;
+  tokenAmount: string;
+}
+export interface Listing {
+  listing: {
+    listingId: string;
+    listingDetails: ListingDetails; // Adjust based on actual structure
+  };
+  tokenRemaining: any;
+  metadata: string; // This can be parsed into a Metadata object if needed
+}
