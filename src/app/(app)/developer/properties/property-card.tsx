@@ -44,6 +44,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
         property
       );
       setShowListedModal(true);
+      router.refresh();
       router.push('/developer/properties?status=listed');
     } catch (error: any) {
       setStatus(STATE_STATUS.ERROR);

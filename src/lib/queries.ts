@@ -160,6 +160,14 @@ export async function getTokensAndListingsOwnedByAccount(address: string) {
   });
 }
 
+export async function getOnGoingObjectListing(listingId: number) {
+  const api = await getApi();
+
+  const result = await api.query.nftMarketplace.ongoingObjectListing(listingId);
+  const output = result.toHuman();
+  return output as any; // output.data should contain the metadata
+}
+
 function getIntegersLessThan(n: any) {
   return Array.from({ length: n }, (_, i) => i);
 }

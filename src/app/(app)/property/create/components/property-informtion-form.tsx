@@ -145,7 +145,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         <Input
           type="text"
           label="Property Type"
-          placeholder="Postal code"
+          placeholder="E.G (Flat, Apartment)"
           {...form.register('property_type')}
         />
         {/* <SelectInput

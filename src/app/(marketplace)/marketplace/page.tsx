@@ -35,7 +35,7 @@ export default async function Marketplace() {
     await getAllOngoingListingsWhereAddressIsDeveloper(
       '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
     );
-  // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
+  console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
 
   // const allTokenBuyers = await getAllTokenBuyers();
   // console.log('ALL TOKEN BUYERS', allTokenBuyers);
@@ -77,13 +77,18 @@ export default async function Marketplace() {
             listing.listingDetails.itemId
           );
           const tokenRemaining = await getTokenRemaining(listing.listingId);
-          const metadata = hexToString(metaData.data);
+          // const metadata = hexToString(metaData.data);
+          const metadata = metaData.data.startsWith('0x')
+            ? hexToString(metaData.data)
+            : metaData.data;
           return { listing, tokenRemaining, metadata };
         }
       })
     );
     return results;
   }
+
+  console.log(await FetchMetaData());
 
   const listings: Listing[] = (await FetchMetaData()).filter(
     (item): item is Listing => item !== undefined
@@ -149,7 +154,7 @@ export default async function Marketplace() {
           <div className="grid grid-cols-1 gap-4 sm:mt-0 sm:grid-cols-2 lg:grid-cols-4">
             {listings.map(listing => {
               const data = JSON.parse(listing.metadata);
-              console.log(data);
+              // console.log(data);
               return (
                 <MarketCard
                   key={listing.listing.listingId}
