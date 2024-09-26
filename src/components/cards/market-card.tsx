@@ -4,7 +4,7 @@ import { Icons } from '../icons';
 import { FetchedProperty, IProperty, ListingDetails } from '@/types';
 import { properties } from '@/config/property';
 import { ImageIcon } from 'lucide-react';
-import { formatPrice } from '@/lib/utils';
+import { formatNumber, formatPrice } from '@/lib/utils';
 
 export default function MarketCard({
   id,
@@ -66,7 +66,10 @@ export default function MarketCard({
           <div className="flex items-center justify-between">
             <dt className="text-md font-bold text-black">{metaData.property_name}</dt>
             <dd className="">
-              APY <span className="text-md font-bold text-black">{APY}%</span>
+              APY{' '}
+              <span className="text-md font-bold text-black">
+                {parseFloat(`${APY}`).toFixed(1)}%
+              </span>
             </dd>
           </div>
           <div className="flex items-center justify-between">

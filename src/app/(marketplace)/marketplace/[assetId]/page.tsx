@@ -1,29 +1,41 @@
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { properties } from '@/config/property';
-import { getPropertyDetails, getTokenRemaining } from '@/lib/queries';
-import { Property } from '@/types';
+import {
+  getItemMetadata,
+  getOnGoingObjectListing,
+  getPropertyDetails,
+  getTokenRemaining
+} from '@/lib/queries';
+import { IProperty, Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import BuyToken from './_components/buy-token';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
-import { formatNumber } from '@/lib/utils';
+import { formatNumber, formatPrice, hexToString } from '@/lib/utils';
 interface FetchedProperty {
   [key: string]: any;
 }
 
 export default async function Page({ params }: { params: { assetId: string } }) {
+  const listingDetails = await getOnGoingObjectListing(Number(params.assetId));
+  const item: any = await getItemMetadata(listingDetails.collectionId, listingDetails.itemId);
+
   const tokensRemaining = await getTokenRemaining(Number(params.assetId));
   const propertyIfo = (await getPropertyDetails(Number(params.assetId))) as FetchedProperty;
-  const property = properties.find((property: Property) => property.id === params.assetId);
-  if (!property) {
-    return <div></div>;
+
+  if (!item) {
+    return;
   }
 
-  const { images } = property;
+  const itemString = item.data.startsWith('0x') ? hexToString(item.data) : item.data;
 
-  const ARI = property.estimated_rental_income * 12;
-  const APY = ARI / property.property_price;
+  const metaData: IProperty = JSON.parse(itemString);
+
+  const { fileUrls } = metaData;
+
+  const ARI = metaData.estimated_rental_income * 12;
+  const APY = ARI / metaData.property_price;
 
   return (
     <>
@@ -36,20 +48,24 @@ export default async function Page({ params }: { params: { assetId: string } }) 
           </Button>
           <div className="flex  flex-col gap-8 md:flex-row md:gap-4">
             <div className="flex w-full flex-col overflow-hidden md:w-1/2">
-              <img
-                src={property.property_image}
-                alt="Property Image"
-                className="h-full w-full rounded-lg object-cover"
-              />
+              {fileUrls.length >= 1 ? (
+                <img
+                  src={fileUrls[0]}
+                  alt={metaData.property_name}
+                  className="h-full w-full rounded-lg object-cover"
+                />
+              ) : (
+                <div></div>
+              )}
               <div className="mx-auto mt-4 flex gap-3">
-                {images.map((image: any) => (
+                {fileUrls.map((image: any) => (
                   <div
                     key={image}
                     className="h-12 w-12 overflow-hidden rounded-sm border shadow-md"
                   >
                     <img
                       src={image}
-                      alt="Property Image"
+                      alt={metaData.property_name}
                       className="h-full w-full object-cover"
                     />
                   </div>
@@ -87,36 +103,39 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                   className="pointer-events-none"
                 />
                 <h3 className="font-mona text-[16px]/[24px] font-semibold">
-                  {property.address_street} {property.address_town_city}
+                  {metaData.address_street} {metaData.address_town_city}
                 </h3>
               </div>
               <h1 className="font-mona text-[24px]/[32px] font-bold">
-                {property.property_name}
+                {metaData.property_name}
               </h1>
               <div className="w-full space-y-2 ">
                 <p className="text-[14px]/[24px]">Price</p>
                 <div className="flex w-full items-center justify-between  gap-1 text-[16px]/[24px] font-medium">
                   <h4 className="font-mona text-[24px]/[32px] font-bold">
-                    £{formatNumber(property.property_price)}
+                    {formatPrice(metaData.property_price)}
                   </h4>{' '}
                   <BuyToken
                     listingId={Number(params.assetId)}
                     tokens={tokensRemaining}
-                    property={propertyIfo}
-                    data={property}
+                    property={metaData}
+                    data={listingDetails}
                   />
                 </div>
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Price per Token" value={propertyIfo.tokenPrice} />
-                <PropertyStats title="Rental Yield" value={`${APY}%`} />
+                <PropertyStats
+                  title="Rental Yield"
+                  value={`${parseFloat(`${APY}`).toFixed(1)}`}
+                />
                 <PropertyStats
                   title="Tokens available"
                   value={`${tokensRemaining} / ${propertyIfo.tokenAmount}`}
                 />
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
-                <PropertyStats title="Property type " value={property.property_type} />
+                <PropertyStats title="Property type " value={metaData.property_type} />
 
                 <PropertyStatsWithInput
                   title="Similar property prices"
@@ -127,7 +146,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
 
                 <PropertyStats
                   title="Rental income"
-                  value={`${property.estimated_rental_income} pcm`}
+                  value={`${formatPrice(metaData.estimated_rental_income)}`}
                 />
 
                 <PropertyStatsWithInput
@@ -144,17 +163,17 @@ export default async function Page({ params }: { params: { assetId: string } }) 
           <div className="flex w-full flex-col items-start gap-[20px] md:w-1/2">
             <div className="space-y-4 text-[18px]/[24px]">
               <h1 className="font-mona  font-semibold text-[#4E4E4E]">Property Description</h1>
-              <p className=" text-[#191A1BD9]">{property.description}</p>
+              <p className=" text-[#191A1BD9]">{metaData.property_description}</p>
             </div>
             <div className="w-full space-y-4">
               <h1 className="font-mona  font-semibold text-[#4E4E4E]">Details</h1>
-              <PropertyInfo title="Blocks" value={property.area} />
-              <PropertyInfo title="Bedrooms" value={property.no_of_Bedrooms} />
-              <PropertyInfo title="Bathrooms" value={property.number_of_bathrooms} />
-              <PropertyInfo title="Type" value={property.property_type} />
+              <PropertyInfo title="Blocks" value={metaData.area} />
+              <PropertyInfo title="Bedrooms" value={metaData.no_of_Bedrooms} />
+              <PropertyInfo title="Bathrooms" value={metaData.no_of_bathrooms} />
+              <PropertyInfo title="Type" value={metaData.property_type} />
               <PropertyInfo
                 title="Location"
-                value={`${property.address_street} ${property.address_town_city}`}
+                value={`${metaData.address_street} ${metaData.address_town_city}`}
               />
             </div>
           </div>
@@ -199,7 +218,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </tr>
             </thead>
             <tbody className="bg-[#E2E2E2] lg:border-gray-300">
-              {[1,23,4,6,7,8].map((_, index) => {
+              {[1, 23, 4, 6, 7, 8].map((_, index) => {
                 return (
                   <tr key={index} className="rounded-lg bg-[#E2E2E2]">
                     <td className="whitespace-no-wrap rounded-l-md px-4 py-4 text-sm text-gray-600 sm:text-sm">
