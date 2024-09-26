@@ -2,7 +2,7 @@ import MarketCard from '@/components/cards/market-card';
 import {
   getActiveProperties,
   getAllOngoingListings,
-  getAllOngoingListingsForAddress,
+  getAllOngoingListingsWhereAddressIsDeveloper,
   getAllTokenBuyerForListing,
   getAllTokenBuyers,
   getTokensAndListingsOwnedByAccount
