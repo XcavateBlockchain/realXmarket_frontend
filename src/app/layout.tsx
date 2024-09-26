@@ -34,7 +34,7 @@ export default function RootLayout({
         <NodeSocketProvider>
           <WalletProvider>
             {children}
-            <Toaster position="top-right" richColors />
+            <Toaster position="bottom-right" richColors />
           </WalletProvider>
         </NodeSocketProvider>
       </body>
