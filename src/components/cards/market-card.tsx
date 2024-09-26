@@ -66,10 +66,7 @@ export default function MarketCard({
           <div className="flex items-center justify-between">
             <dt className="text-md font-bold text-black">{metaData.property_name}</dt>
             <dd className="">
-              APY{' '}
-              <span className="text-md font-bold text-black">
-                {parseInt(`${APY}`).toFixed(1)}%
-              </span>
+              APY <span className="text-md font-bold text-black">{APY * 10}%</span>
             </dd>
           </div>
           <div className="flex items-center justify-between">
