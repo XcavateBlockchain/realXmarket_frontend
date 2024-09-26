@@ -112,6 +112,19 @@ export async function getAllOngoingListings() {
   });
 }
 
+export async function getAllOngoingListingsWhereAddressIsDeveloper(address: string) {
+  const api = await getApi();
+  const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+
+  return data
+    .filter(
+      ([key, exposure]: [any, any]) => exposure.toHuman()['realEstateDeveloper'] == address
+    )
+    .map(([key, exposure]) => {
+      return { listingId: key.args[0].toHuman(), listingDetails: exposure.toHuman() };
+    });
+}
+
 export async function getAllTokenBuyers() {
   const api = await getApi();
   const data = await api.query.nftMarketplace.tokenBuyer.entries();
