@@ -1,6 +1,5 @@
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { properties } from '@/config/property';
 import {
   getItemMetadata,
   getOnGoingObjectListing,
@@ -11,6 +10,7 @@ import { IProperty, Property } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import BuyToken from './_components/buy-token';
+import { notFound } from 'next/navigation';
 import { PropertyStatsWithInput } from './_components/PropertyStatsWithInput';
 import { formatNumber, formatPrice, hexToString } from '@/lib/utils';
 interface FetchedProperty {
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
   const propertyIfo = (await getPropertyDetails(Number(params.assetId))) as FetchedProperty;
 
   if (!item) {
-    return;
+    return notFound();
   }
 
   const itemString = item.data.startsWith('0x') ? hexToString(item.data) : item.data;
@@ -125,10 +125,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
               </div>
               <div className="grid w-full grid-cols-3 gap-10">
                 <PropertyStats title="Price per Token" value={propertyIfo.tokenPrice} />
-                <PropertyStats
-                  title="Rental Yield"
-                  value={`${parseFloat(`${APY}`).toFixed(1)}`}
-                />
+                <PropertyStats title="Rental Yield" value={`${formatNumber(APY * 10)}`} />
                 <PropertyStats
                   title="Tokens available"
                   value={`${tokensRemaining} / ${propertyIfo.tokenAmount}`}

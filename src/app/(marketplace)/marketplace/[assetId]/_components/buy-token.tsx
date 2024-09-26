@@ -1,13 +1,10 @@
 'use client';
 
-import { IProperty, ListingDetails, Property, STATE_STATUS } from '@/types';
+import { IProperty, ListingDetails, STATE_STATUS } from '@/types';
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
@@ -15,11 +12,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import Image from 'next/image';
-import { z } from 'zod';
-import Form, { useZodForm } from '@/components/ui/form';
 import { buyNft } from '@/lib/extrinsic';
-import { Dispatch, ReactNode, SetStateAction, useState, useTransition } from 'react';
-import { useSubstrateContext } from '@/context/polkadot-contex';
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { NumericFormat, OnValueChange } from 'react-number-format';
@@ -107,41 +101,6 @@ function SelectAmount({
             {tokens} of {data.tokenAmount}
           </span>
         </div>
-
-        {/* <div className="space-y-5">
-          <div className="flex w-full items-center justify-between rounded border px-2 py-4 text-[30px]/[40px] font-bold">
-            <input
-              id="amount"
-              type="number"
-              name="amount"
-              className="border-none focus:outline-none"
-              placeholder="0"
-              value={amount}
-              onChange={(e: any) => setAmount(e.target.value)}
-            />
-            <div
-              role="button"
-              className="text-[16px]/[24px] text-primary-400"
-              onClick={() => setAmount(Number(tokens))}
-            >
-              max
-            </div>
-          </div>
-          <div className="flex items-center justify-end gap-4">
-            <Button type="button" variant={'outline'} size={'md'} onClick={close}>
-              Cancel
-            </Button>
-            <Button
-              size={'md'}
-              type="submit"
-              onClick={() => setIndex(2)}
-              className="px-4 text-white"
-              // disabled={amount === 0}
-            >
-              Buy
-            </Button>
-          </div>
-        </div> */}
         <div className="space-y-10">
           <div className="flex w-full items-center justify-between rounded border border-[#4E4E4E]/[0.50] bg-white p-4">
             <NumericFormat
@@ -403,6 +362,10 @@ export default function BuyToken({
         <Button className="h-[48px] w-[153px] px-[55px] py-3">BUY</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="flex max-w-[518px] flex-col gap-10 p-6">
+        <AlertDialogHeader className="sr-only">
+          <AlertDialogTitle>Buy token</AlertDialogTitle>
+          <AlertDialogDescription>Buy listed token</AlertDialogDescription>
+        </AlertDialogHeader>
         {actions[index]}
       </AlertDialogContent>
     </AlertDialog>

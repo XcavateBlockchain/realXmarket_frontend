@@ -81,7 +81,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between">
               <dt>{property.property_name}</dt>
-              <dd className="">APY {parseFloat(`${APY}`).toFixed(1)}%</dd>
+              <dd className="">APY {formatNumber(APY * 10)}%</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt>Token {formatNumber(property.number_of_tokens)}</dt>
