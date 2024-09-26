@@ -12,11 +12,10 @@ import ConnectWalletButton from '../wallet/connect-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 
 export function SiteHeader() {
-  // const { isConnected } = useSubstrateContext();
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
   return (
-    <header className="fixed border z-10 w-full bg-transparent backdrop-blur-[12px] backdrop-filter">
+    <header className="fixed z-10 w-full border bg-transparent backdrop-blur-[12px] backdrop-filter">
       <div className="container mx-auto flex w-[90%] max-w-screen-2xl items-center justify-between px-4 py-4 md:px-10">
         <Link href={'/'}>
           <Image

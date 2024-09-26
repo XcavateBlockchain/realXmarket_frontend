@@ -1,18 +1,19 @@
 import { OverviewCard } from '@/components/cards/overview-card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { IProfile } from '@/types';
 
-export default function ProfileHeaderOverview() {
+export default function ProfileHeaderOverview({ profile }: { profile: IProfile | null }) {
   return (
     <>
       <div className="flex w-full flex-col gap-6">
         <div className="-mt-28 flex size-[155px] items-center justify-center rounded-full bg-white">
           <Image
-            src={'/images/avatar.png'}
+            src={profile?.avatar ?? '/images/avatar.png'}
             alt="avatar"
             width={150}
             height={150}
-            className="bg-cover bg-no-repeat"
+            className="rounded-full bg-cover bg-no-repeat"
             priority
           />
         </div>
@@ -20,7 +21,9 @@ export default function ProfileHeaderOverview() {
           <div className="grid gap-2">
             <div className="flex items-center gap-2">
               <h1 className="font-mona text-[1.125rem]/[1.5rem] font-semibold">
-                Richard Grey
+                {profile
+                  ? `${profile.credential.claim.contents.firstName}  ${profile.credential.claim.contents.lastName}`
+                  : '- -'}
               </h1>
               <div className="flex items-center gap-2 rounded-lg bg-primary-200/10 px-2 py-[2px]">
                 <span className="text-[0.875rem] text-primary-200">Investor</span>

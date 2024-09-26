@@ -33,7 +33,6 @@ export function WalletAccount({ onClose, onConnected }: TConnectWallet) {
   const [walletType, setWalletType] = React.useState<string>('');
   const walletKey = getLocalStorageItem('wallet-key');
 
-  console.log(walletContext.accounts);
   React.useEffect(() => {
     if (walletKey) {
       setWalletType(JSON.parse(walletKey));

@@ -1,0 +1,44 @@
+{
+  "walletAddress": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+  "banner": "/profiles/alice-account-header.jpg",
+  "avatar": "/profiles/alice-account.jpg",
+  "attester": "Attester1",
+  "cTypeTitle": "Legal Entity",
+  "credential": {
+    "claim": {
+      "cTypeHash": "0a3573cedgaq2fg905c0ad166d0b35447c22758199af7f32e358d3a95ib43b2352",
+      "contents": {
+        "above16": true,
+        "above18": true,
+        "above21": true,
+        "additionalAddressLine": "",
+        "city": "London",
+        "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+        "dateOfBirth": "1985-01-01",
+        "email": "alice@theinvestor.com",
+        "firstName": "Alice",
+        "gender": "Female",
+        "investorType": "Investor",
+        "lastName": "Investor",
+        "middleName": "The",
+        "nationality": ["United Kingdom of Great Britain and Northern Ireland (the)"],
+        "pepStatus": false,
+        "phone": "+44223344556677",
+        "placeOfBirth": "United Kingdom of Great Britain and Northern Ireland (the)",
+        "postalCode": "N152PP",
+        "region": "United Kingdom",
+        "sanctionsStatus": false,
+        "street": "Invest Lane",
+        "streetNo": "2"
+      },
+      "owner": "did:kilt:8rZ6Z8xBfd8Adnz1ud1mbBvRzjdgFDhMaznBZ7ZctkLCZ2DK"
+    },
+    "claimHashes": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    "delegationId": null,
+    "legitimations": [],
+    "rootHash": ""
+  },
+  "isDownloaded": true,
+  "name": "Alice T",
+  "status": "attested"
+}

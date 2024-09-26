@@ -87,3 +87,116 @@ export interface Wallet extends WalletInfo, WalletMethods {
 
   provider: InjectedProvider | undefined;
 }
+
+export type Option = {
+  label: string;
+  value: string;
+};
+
+export enum STATE_STATUS {
+  IDLE = 'idle',
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error'
+}
+
+export type IProperty = {
+  price_per_token: number;
+  title_deed_number: string;
+  outdoor_space: string;
+  property_name: string;
+  no_of_bathrooms: string;
+  files: string[];
+  planning_permission_Code: string;
+  property_number: string;
+  property_type: string;
+  construction_date: string;
+  no_of_Bedrooms: string;
+  region: number;
+  address_street: string;
+  location: number;
+  propertyId: number;
+  address_town_city: string;
+  Off_street_parking: string;
+  property_development_Code: string;
+  post_code: string;
+  quality: string;
+  estimated_rental_income: number;
+  number_of_tokens: number;
+  accountAddress: string;
+  area: string;
+  local_authority: string;
+  map: string;
+  property_description: string;
+  property_price: number;
+  fileUrls: string[];
+};
+
+export interface Company {
+  name: string;
+  description: string;
+  logo: string;
+  associationWebsite: string;
+  associationMembershipNumber: string;
+  address: string;
+  companyRegNumber: number;
+  primaryContact: string;
+  idDocs: string[];
+  companyTelephone: number;
+  companyEmail: string;
+}
+
+export interface RealEstateInvestor {
+  name: string;
+  address: string;
+  idDocs: string[];
+  telephone: number;
+  email: string;
+  walletAddress: string;
+  password: string;
+}
+
+export type IProfile = {
+  walletAddress: string;
+  banner: string;
+  avatar: string;
+  attester: string;
+  cTypeTitle: string;
+  credential: {
+    claim: {
+      cTypeHash: string;
+      contents: {
+        above16: boolean;
+        above18: boolean;
+        above21: boolean;
+        additionalAddressLine: string;
+        city: string;
+        country: string;
+        dateOfBirth: string;
+        email: string;
+        firstName: string;
+        gender: string;
+        investorType: string;
+        lastName: string;
+        middleName: string;
+        nationality: string[];
+        pepStatus: boolean;
+        phone: string;
+        placeOfBirth: string;
+        postalCode: string;
+        region: string;
+        sanctionsStatus: boolean;
+        street: string;
+        streetNo: string;
+      };
+      owner: string;
+    };
+    claimHashes: string[];
+    delegationId: string | null;
+    legitimations: any[]; // Adjust type as needed
+    rootHash: string;
+  };
+  isDownloaded: boolean;
+  name: string;
+  status: string;
+};

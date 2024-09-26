@@ -5,11 +5,12 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'flex items-center justify-center gap-1 rounded-lg transition-all duration-500 uppercase disabled:bg-caption disabled:text-caption',
+  'flex items-center justify-center gap-1 rounded-lg transition-all duration-300 uppercase disabled:opacity-50 disabled:text-opacity-55',
   {
     variants: {
       variant: {
-        default: 'bg-x-gradient hover:shadow-filled disabled:cursor-not-allowed capitalize',
+        default:
+          'bg-x-gradient hover:shadow-filled disabled:cursor-not-allowed capitalize disabled:text-white/80',
         outline: 'border-primary text-foreground border font-sans hover:shadow-outlined',
         filled: ' bg-primary text-white',
         text: 'text-primary bg-none rounded-none'
