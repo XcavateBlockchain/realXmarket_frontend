@@ -9,8 +9,8 @@ const PropertiesTab = () => {
     <>
       <section className="w-100% flex h-[100vh] flex-col items-center justify-center space-y-8 text-[#4E4E4E80]">
         <h1 className="px-12 text-center font-mona text-2xl text-[#4E4E4E80]">
-          Looks like there's nothing here yet! Start exploring and adding content to fill this
-          space with your own unique properties.
+          Looks like there&apos;s nothing here yet! Start exploring and adding content to fill
+          this space with your own unique properties.
         </h1>
         <button
           onClick={() => setShowPropertyModal(true)}

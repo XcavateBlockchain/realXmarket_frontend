@@ -27,9 +27,9 @@ export default function PropertyForm() {
   };
 
   const steps = [
-    <PropertyInformationForm propertyId={Number(propertyId)} />,
-    <PricingDetailsForm propertyId={Number(propertyId)} />,
-    <PropertyFeaturesForm propertyId={Number(propertyId)} setSuccess={setStatus} />
+    <PropertyInformationForm key={1} propertyId={Number(propertyId)} />,
+    <PricingDetailsForm key={2} propertyId={Number(propertyId)} />,
+    <PropertyFeaturesForm key={3} propertyId={Number(propertyId)} setSuccess={setStatus} />
   ];
 
   return (

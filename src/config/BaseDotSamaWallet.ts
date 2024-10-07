@@ -35,7 +35,6 @@ export class BaseDotSamaWallet implements Wallet {
     this.extensionName = extensionName;
     this.title = title;
     this.installUrl = installUrl;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.logo = logo;
 
     return this;
