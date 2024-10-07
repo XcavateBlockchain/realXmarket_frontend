@@ -16,7 +16,7 @@ const config = {
         border: '#4E4E4E',
         caption: '#A6A6A6',
         background: '#FFFFFF',
-        foreground: '#717171',
+        foreground: '#4E4E4E',
         primary: {
           DEFAULT: '#3B4F74',
           200: '#DC7DA6',

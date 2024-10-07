@@ -3,10 +3,12 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const shellVariants = cva('grid items-center gap-10', {
+const shellVariants = cva('grid  gap-10', {
   variants: {
     variant: {
-      default: 'max-w-screen-[1440px] mx-auto p-[47px] grid gap-8'
+      default: 'max-w-screen-[1440px] mx-auto p-[47px] grid gap-8',
+      basic:
+        'container mx-auto w-full max-w-screen-2xl px-4  py-[140px]  md:px-6 lg:px-[100px]'
     }
   },
   defaultVariants: {
