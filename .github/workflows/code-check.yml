@@ -24,7 +24,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.13.1
+          version: 8.6.1
           run_install: false
 
       - name: Get pnpm store directory
@@ -60,7 +60,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.13.1
+          version: 8.6.1
           run_install: false
 
       - name: Get pnpm store directory
@@ -98,7 +98,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.13.1
+          version: 8.6.1
           run_install: false
 
       - name: Get pnpm store directory
