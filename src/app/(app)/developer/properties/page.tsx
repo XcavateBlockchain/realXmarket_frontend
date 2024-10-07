@@ -52,8 +52,8 @@ export default async function Page({
         ) : (
           <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
             <p>
-              Looks like there's nothing here yet! Start exploring and adding content to fill
-              this space with your own unique properties.
+              Looks like there&apos;s nothing here yet! Start exploring and adding content to
+              fill this space with your own unique properties.
             </p>
             <Button variant={'outline'} asChild>
               <Link href={'/property/create'}>ADD PROPERTY</Link>

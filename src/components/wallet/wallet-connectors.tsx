@@ -221,6 +221,7 @@ export function AccountOptions({ isSelected, accounts, onClick }: TSelectAccount
               <div className="mr-4 grid gap-4">
                 {accounts.map(account => (
                   <button
+                    key={account.address}
                     className={cn(
                       'flex w-full items-center justify-between rounded-lg border px-4 py-2 transition-colors duration-300 hover:border-primary-foreground',
                       isSelected ? 'border-foreground' : 'border-transparent'

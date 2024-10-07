@@ -16,9 +16,9 @@ export default function ProductSkeleton() {
           ))}
         </div>
         <div className="flex items-center space-x-2">
-          <Skeleton className="h-8 w-8 " />
+          <Skeleton className="size-8" />
           <Skeleton className="h-8 w-16 " />
-          <Skeleton className="h-8 w-8 " />
+          <Skeleton className="size-8" />
         </div>
         <div className="flex space-x-2">
           <Skeleton className="h-10 w-1/2 " />

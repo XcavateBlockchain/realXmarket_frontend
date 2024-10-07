@@ -194,6 +194,7 @@ function FileDisplay({
       {files.map((file, index) => {
         return (
           <div
+            key={index}
             className={cn(
               'relative flex h-[240px] w-[240px] min-w-[240px] rounded-lg border border-dashed',
               {

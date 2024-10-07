@@ -13,13 +13,13 @@ const ConfirmMintingModal: FC<ConfirmMintingModalProps> = ({
     <>
       <div className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden backdrop-blur-md backdrop-brightness-90 md:inset-0">
         <div className="relative flex h-[100%] w-full justify-center p-4">
-          <div className="relative h-[320px] w-1/3 rounded-lg bg-white shadow">
+          <div className="relative h-[320px] w-1/3 rounded-lg bg-white bg-opacity-10 shadow">
             <div className="flex items-center justify-between rounded-t px-5 md:py-5">
               <h1 className="font-mona">Confirm minting</h1>
               <button
                 onClick={() => setShowMintingModal(false)}
                 type="button"
-                className="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-transparent text-sm text-gray-400"
+                className="ms-auto inline-flex size-8 items-center justify-center rounded-lg border bg-transparent text-sm text-gray-400"
               >
                 <svg
                   className="h-3 w-3"

@@ -14,9 +14,11 @@ import {
 import { FetchedProperty, Listing, Property } from '@/types';
 import FilterTabs from './filter-tabs';
 import { hexToString } from '@/lib/utils';
+import { getCookieStorage } from '@/lib/cookie-storage';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
+  const address = await getCookieStorage('accountKey');
   // function handleWebSocketMessage(event: MessageEvent) {
   //   const data = JSON.parse(event.data);
   //   console.log('Received data:', data);
@@ -37,8 +39,8 @@ export default async function Marketplace() {
     );
   // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
 
-  // const allTokenBuyers = await getAllTokenBuyers();
-  // console.log('ALL TOKEN BUYERS', allTokenBuyers);
+  const allTokenBuyers = await getAllTokenBuyers();
+  console.log('ALL TOKEN BUYERS', allTokenBuyers);
 
   // const listing9Buyers = await getAllTokenBuyerForListing(9);
   // console.log('TOKEN BUYERS FOR LISTING 9', listing9Buyers);
