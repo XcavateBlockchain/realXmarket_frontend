@@ -31,7 +31,7 @@ const how_it_works = [
 
 export default function Home() {
   return (
-    <Shell variant={'basic'} className="gap-12">
+    <Shell className="gap-12">
       <div className="flex w-full flex-col items-center justify-center gap-10">
         <div className="flex w-full flex-col items-center justify-center gap-4">
           <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">

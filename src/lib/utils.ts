@@ -53,3 +53,10 @@ export function hexToString(hex: string): string {
   }
   return str;
 }
+
+export function formatAPY(rental_income: number, price: number) {
+  const ARI = rental_income * 12;
+  const APY = ARI / price;
+  const prefix = APY * 100;
+  return `${Number(prefix.toFixed(2))}%`;
+}
