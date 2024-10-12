@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Icons } from '../icons';
-import { FetchedProperty, IProperty, ListingDetails } from '@/types';
-import { properties } from '@/config/property';
+import { IProperty, ListingDetails } from '@/types';
 import { ImageIcon } from 'lucide-react';
-import { formatNumber, formatPrice } from '@/lib/utils';
+import { formatAPY, formatNumber, formatPrice } from '@/lib/utils';
+import ImageComponent from '../image-component';
 
 export default function MarketCard({
   id,
@@ -17,24 +17,28 @@ export default function MarketCard({
   tokenRemaining: any;
   metaData: IProperty;
 }) {
-  // const property = properties.find((property: Property) => property.id === data.itemId);
-  // if (!property) {
-  //   return null;
-  // }
-  const ARI = metaData.estimated_rental_income * 12;
-  const APY = ARI / metaData.property_price;
   return (
-    <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
+    <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1">
       {metaData.fileUrls.length >= 1 ? (
-        <Image
-          src={metaData.fileUrls[0]}
-          alt={metaData.property_name}
-          width={320}
-          height={255}
-          className="h-[255px] w-full rounded-t-lg"
-          priority
-        />
+        <Link href={`/marketplace/${id}`} className="aspect-square h-[255px]">
+          <ImageComponent
+            fill={true}
+            src={metaData.fileUrls[0]}
+            alt={metaData.property_name}
+            // width={320}
+            //   height={255}
+            className="rounded-lg rounded-t-lg object-cover"
+          />
+        </Link>
       ) : (
+        // <Image
+        //   src={metaData.fileUrls[0]}
+        //   alt={metaData.property_name}
+        //   width={320}
+        //   height={255}
+        //   className="h-[255px] w-full rounded-t-lg"
+        //   priority
+        // />
         <div className="flex h-[255px] w-full items-center justify-center rounded-t-lg bg-[#4E4E4E]/[0.10] text-primary/50">
           <ImageIcon size={130} />
         </div>
@@ -63,21 +67,21 @@ export default function MarketCard({
           <Icons.heart className="size-8" />
         </div>
         <div className="w-full space-y-2">
-          <div className="flex items-center justify-between">
-            <dt className="text-md font-bold text-black">{metaData.property_name}</dt>
+          <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
+            <dt className=" font-bold">{metaData.property_name}</dt>
             <dd className="">
-              APY <span className="text-md font-bold text-black">{APY * 10}%</span>
+              APY{' '}
+              <span className="font-bold">
+                {formatAPY(metaData.estimated_rental_income, metaData.property_price)}
+              </span>
             </dd>
           </div>
           <div className="flex items-center justify-between">
-            <dt className="text-md">
-              Token <span className="font-bold text-black">{tokenRemaining}</span>
+            <dt className="font-sans text-[0.875rem]/[1.5rem]">
+              Token <span className="font-bold">{tokenRemaining}</span>
             </dt>
-            <dd className="text-md">
-              Price{' '}
-              <span className="font-bold text-black">
-                {formatPrice(metaData.property_price)}
-              </span>
+            <dd className="font-sans text-[0.875rem]/[1.5rem]">
+              Price <span className="font-bold">{formatPrice(metaData.property_price)}</span>
             </dd>
           </div>
         </div>

@@ -25,6 +25,7 @@
     "@aws-sdk/s3-request-presigner": "^3.657.0",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.9.0",
+    "@next/third-parties": "^14.2.15",
     "@polkadot/api": "^12.1.1",
     "@polkadot/extension-dapp": "^0.48.2",
     "@polkadot/extension-inject": "latest",
@@ -36,6 +37,7 @@
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-separator": "^1.0.3",
@@ -78,5 +80,6 @@
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
-  }
+  },
+  "packageManager": "pnpm@8.13.1+sha512.758bebc6989cb6462c5138129840193b10c258ddcdb0ab43ee0ef9dd87784bc218d6e41cb5beeac362b8ce33f1f8b08025b599933c0bce82050a9a36b8474d43"
 }

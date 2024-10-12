@@ -1,24 +1,92 @@
 'use client';
 
-import { forwardRef } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 type SelectLabelType = React.ComponentProps<'select'> & React.ComponentProps<'label'>;
 
-const options = [
+const filters = [
   {
-    name: 'All',
-    value: 'all'
+    label: 'PROPERTY PRICE',
+    options: [
+      {
+        name: 'All',
+        value: 'all'
+      }
+    ]
+  },
+  {
+    label: 'Property Type',
+    options: [
+      {
+        name: 'All',
+        value: 'all'
+      },
+      {
+        name: 'Apartment',
+        value: 'apartment'
+      },
+      {
+        name: 'Flat',
+        value: 'flat'
+      }
+    ]
+  },
+  {
+    label: 'Token Price',
+    options: [
+      {
+        name: 'All',
+        value: 'all'
+      }
+    ]
+  },
+  {
+    label: 'COUNTRY',
+    options: [
+      {
+        name: 'All',
+        value: 'all'
+      },
+      {
+        name: 'United kingdom',
+        value: 'United kingdom'
+      }
+    ]
+  },
+  {
+    label: 'TOWN CIT',
+    options: [
+      {
+        name: 'All',
+        value: 'all'
+      },
+      {
+        name: 'London',
+        value: 'london'
+      }
+    ]
   }
 ];
 
 export default function FilterTabs() {
   return (
     <>
-      <div className="hidden w-full grid-cols-5 gap-2 lg:grid ">
-        <FilterSelect label="PROPERTY PRICE" placeholder="Show all" options={options} />
-        <FilterSelect label="Property Type" placeholder="Show all" options={options} />
-        <FilterSelect label="Token Price" placeholder="Show all" options={options} />
-        <FilterSelect label="COUNTRY" placeholder="Show all" options={options} />
-        <FilterSelect label="TOWN CITY" placeholder="Show all" options={options} />
+      <div className="hidden w-full grid-cols-5 gap-6 border-b px-4 pb-10 md:px-[50px] lg:grid">
+        {filters.map((filter, index) => (
+          <FilterSelect
+            key={index}
+            label={filter.label}
+            placeholder="Show all"
+            options={filter.options}
+          />
+        ))}
       </div>
     </>
   );
@@ -30,10 +98,7 @@ export interface SelectProps extends SelectLabelType {
   placeholder: string;
 }
 
-const FilterSelect = forwardRef<HTMLSelectElement, SelectProps>(function SelectField(
-  { label, options, placeholder, htmlFor, ...props },
-  ref
-) {
+const FilterSelect = ({ label, options, placeholder, htmlFor }: SelectProps) => {
   return (
     <div className="isolate flex w-full flex-col gap-2">
       {label ? (
@@ -41,20 +106,20 @@ const FilterSelect = forwardRef<HTMLSelectElement, SelectProps>(function SelectF
           {label}
         </label>
       ) : null}
-
-      <select
-        className={
-          'focus-visible:ring-ring flex h-10 w-full rounded-md border border-[#A6A6A6] bg-background px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
-        }
-      >
-        <option>{placeholder}</option>
-        {options &&
-          options?.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.name}
-            </option>
-          ))}
-      </select>
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {options?.map((option, index) => (
+              <SelectItem key={index} value={option.value}>
+                {option.name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
   );
-});
+};
