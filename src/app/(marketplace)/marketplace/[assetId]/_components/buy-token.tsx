@@ -45,7 +45,7 @@ function SelectAmount({
 }: AmountProps) {
   const handleAmountChange: OnValueChange = ({ value }) =>
     setAmount(parseInt(value.replace(/,/g, '')));
-
+  const totalPrice = 1.3 * property.price_per_token;
   return (
     <>
       <div className="flex w-full items-center justify-between">
@@ -120,7 +120,7 @@ function SelectAmount({
             />
             <button
               className="rounded-md p-2 font-sans text-[1rem]/[1.5rem] text-[#ECB278] transition-colors duration-300 hover:bg-primary"
-              onClick={() => setAmount(property.number_of_tokens)}
+              onClick={() => setAmount(tokens)}
             >
               MAX
             </button>
@@ -129,7 +129,9 @@ function SelectAmount({
           {amount > 0 ? (
             <div className="flex justify-between text-[0.875rem]/[1.5rem]">
               <span className="text-[#4E4E4E]/[0.50]">To buy:</span>{' '}
-              <span className="font-sans text-[#DC7DA6]">{formatNumber(amount)}</span>
+              <span className="font-sans text-[#DC7DA6]">
+                {formatNumber(amount * totalPrice)} USDT
+              </span>
             </div>
           ) : null}
 
@@ -138,7 +140,7 @@ function SelectAmount({
               type="button"
               variant={'outline'}
               size={'md'}
-              className="w-[96px]"
+              className="w-[96px] px-7 py-2 font-sans text-[0.875rem]/[1.5rem] font-bold"
               onClick={close}
             >
               Cancel
@@ -147,8 +149,8 @@ function SelectAmount({
               size={'md'}
               type="submit"
               onClick={() => setIndex(2)}
-              className="w-[96px] px-4 text-white"
-              // disabled={amount === 0}
+              className="w-[96px] px-7 py-2 font-sans text-[0.875rem]/[1.5rem] font-bold text-white disabled:opacity-90"
+              disabled={amount === 0}
             >
               Buy
             </Button>
@@ -253,19 +255,19 @@ function PurchaseSummary({
           type="button"
           variant={'outline'}
           size={'md'}
-          className="w-[96px]"
+          className="w-[96px] px-7 py-2 font-sans text-[0.875rem]/[1.5rem] font-bold"
           onClick={() => setIndex(1)}
         >
           Back
         </Button>
         <Button
           size={'md'}
-          className="text-white disabled:bg-caption"
+          className="px-7 py-2 font-sans text-[0.875rem]/[1.5rem] font-bold text-white disabled:opacity-90"
           type="submit"
           onClick={onSubmit}
           disabled={status === STATE_STATUS.LOADING}
         >
-          Continue
+          Pay
         </Button>
       </div>
     </>
@@ -369,7 +371,7 @@ export default function BuyToken({
       <AlertDialogTrigger asChild>
         <Button className="h-[48px] w-[153px] px-[55px] py-3">BUY</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="flex max-w-[518px] flex-col gap-10 p-6">
+      <AlertDialogContent className="flex max-w-[518px] flex-col gap-6 p-6">
         <AlertDialogHeader className="sr-only">
           <AlertDialogTitle>Buy token</AlertDialogTitle>
           <AlertDialogDescription>Buy listed token</AlertDialogDescription>
