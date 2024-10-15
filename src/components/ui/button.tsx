@@ -5,20 +5,20 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'flex items-center justify-center gap-1 rounded-lg transition-all duration-300 uppercase disabled:opacity-50 disabled:text-opacity-55',
+  'flex items-center justify-center gap-1 rounded-lg transition-all duration-300  capitalize disabled:opacity-50 disabled:text-opacity-55',
   {
     variants: {
       variant: {
         default:
           'bg-x-gradient hover:shadow-filled disabled:cursor-not-allowed capitalize disabled:text-white/80',
         outline: 'border-primary text-foreground border font-sans hover:shadow-outlined',
-        filled: ' bg-primary text-white hover:bg-primary-200',
+        filled: ' bg-primary text-white hover:bg-primary-300',
         text: 'text-primary bg-none rounded-none'
       },
       size: {
-        default: 'lg:py-3 lg:px-7 py-2 px-4 text-[0.875rem]/[1.5rem] font-bold',
+        default: 'py-2 px-4 text-[0.875rem]/[1.5rem] font-bold lg:py-3 lg:px-7',
         lg: 'py-2 px-7 text-[ 0.875rem]/[1.5rem] font-bold',
-        md: 'p-2',
+        md: 'p-2 text-[1rem]/[1.5rem] font-sans',
         icon: 'p-[5px]'
       },
       fullWidth: {

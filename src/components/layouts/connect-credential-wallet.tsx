@@ -56,9 +56,9 @@ function SelectUserType({ setIndex, close }: DialogProps) {
           onClick={handleSelect}
         />
         <AccountTypeButton
-          variant={'loan'}
-          account="loan"
-          icon="/icons/loan-pool.svg"
+          variant={'lawyer'}
+          account="lawyer"
+          icon="/icons/loan_evaluator.svg"
           onClick={handleSelect}
         />
       </div>
@@ -154,7 +154,7 @@ export function ConnectCredentialWallet() {
     <AlertDialog open={showCredentialDialog} onOpenChange={setShowCredential}>
       <AlertDialogTrigger asChild>
         <Button variant="filled" size={'icon'}>
-          <Icons.user className="size-7" />
+          <Icons.user className="size-8" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="w-[518px] gap-6 rounded-lg">

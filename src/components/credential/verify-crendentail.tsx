@@ -92,9 +92,9 @@ function SelectUserType({ setIndex, close }: DialogProps) {
           onClick={() => handleSelect('agent')}
         />
         <AccountTypeButton
-          variant={'loan'}
-          account="loan"
-          icon="/icons/loan-pool.svg"
+          variant={'lawyer'}
+          account="lawyer"
+          icon="/icons/loan_evaluator.svg"
           disabled={true}
         />
       </div>
