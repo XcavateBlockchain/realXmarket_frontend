@@ -1,39 +1,74 @@
-import { cn } from '@/lib/utils';
+import { cn, hexToString } from '@/lib/utils';
 
 import Link from 'next/link';
-import PropertyCard from './property-card';
+import PropertyCard from './components/property-card';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { fetchPropertiesWithFiles } from '@/lib/dynamo';
 import { Button } from '@/components/ui/button';
-import { IProperty } from '@/types';
+import { IComponent, IProperty, Listing } from '@/types';
+import {
+  getAllOngoingListingsWhereAddressIsDeveloper,
+  getItemMetadata,
+  getTokenRemaining
+} from '@/lib/queries';
+import {
+  ViewAllListedPropertiesCreated,
+  ViewAllPropertiesCreated
+} from './components/property-list';
 
 export default async function Page({
   searchParams: { status }
 }: {
   searchParams: { status: string };
 }) {
-  const types = ['all', 'listed', 'purchased'];
-
-  const BASE_URL = '/developer/properties';
-  const selected = status === undefined ? 'all' : status;
+  const query = status === undefined ? 'all' : status;
 
   const address = await getCookieStorage('accountKey');
 
   const properties: IProperty[] = await fetchPropertiesWithFiles(address as string);
-  console.log(properties);
+
+  const accountDetails = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
+  async function fetchListedIProperties() {
+    const results = await Promise.all(
+      accountDetails.map(async listing => {
+        if (listing.listingDetails && typeof listing.listingDetails === 'object') {
+          const metaData = await getItemMetadata(
+            listing.listingDetails.collectionId,
+            listing.listingDetails.itemId
+          );
+          const tokenRemaining = await getTokenRemaining(listing.listingId);
+          // const metadata = hexToString(metaData.data);
+          const metadata = metaData.data.startsWith('0x')
+            ? hexToString(metaData.data)
+            : metaData.data;
+          return { listing, tokenRemaining, metadata };
+        }
+      })
+    );
+    return results;
+  }
+
+  const listings: Listing[] = (await fetchListedIProperties()).filter(
+    (item): item is Listing => item !== undefined
+  );
+
+  const queries: IComponent = {
+    all: <ViewAllPropertiesCreated properties={properties} />,
+    listed: <ViewAllListedPropertiesCreated listings={listings} />
+  };
 
   return (
     <>
       <div className="w-full space-y-10">
         <div className="flex w-full items-start gap-6 border-b border-primary-foreground/[0.10] px-2">
-          {types.map((type: string) => {
-            const active = selected === type;
+          {['all', 'listed', 'purchased'].map((type: string) => {
+            const active = query === type;
             return (
               <Link
                 key={type}
-                href={`${BASE_URL}?status=${type}`}
+                href={`/developer/properties?status=${type}`}
                 className={cn(
-                  'flex items-center justify-center px-2 pb-2 text-[1rem]/[1.5rem] uppercase',
+                  'flex items-center justify-center px-2 pb-2 text-[1rem]/[1.5rem] uppercase transition-colors duration-200 ease-in hover:text-primary',
                   active ? 'text-primary' : 'text-caption'
                 )}
               >
@@ -42,8 +77,8 @@ export default async function Page({
             );
           })}
         </div>
-
-        {properties.length >= 1 ? (
+        {queries[query]}
+        {/* {properties.length >= 1 ? (
           <div className="grid w-full grid-cols-4 gap-6">
             {properties.map(property => {
               return <PropertyCard key={property.propertyId} property={property} />;
@@ -59,25 +94,7 @@ export default async function Page({
               <Link href={'/property/create'}>ADD PROPERTY</Link>
             </Button>
           </div>
-        )}
-
-        {/* <div className="grid w-full grid-cols-4 gap-6"> */}
-        {/* {properties && properties.length >= 1 ? (
-            properties.map(property => {
-              return <PropertyCard key={property.propertyId} property={property} />;
-            })
-          ) : (
-            <div className="flex flex-col items-center justify-center gap-6">
-              <p>
-                Looks like there's nothing here yet! Start exploring and adding content to fill
-                this space with your own unique properties.
-              </p>
-              <Button asChild>
-                <Link href={'/property/create'}>ADD PROPERTY</Link>
-              </Button>
-            </div>
-          )} */}
-        {/* </div> */}
+        )} */}
       </div>
     </>
   );

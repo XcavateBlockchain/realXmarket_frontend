@@ -23,21 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          'min-h-screen bg-background font-sans text-foreground antialiased',
-          dm_sans.variable,
-          fontMonaSans.variable
-        )}
-      >
-        <NodeSocketProvider>
-          <WalletProvider>
+    <NodeSocketProvider>
+      <WalletProvider>
+        <html lang="en">
+          <body
+            className={cn(
+              'min-h-screen bg-background font-sans text-foreground antialiased',
+              dm_sans.variable,
+              fontMonaSans.variable
+            )}
+          >
             {children}
             <Toaster position="bottom-right" richColors />
-          </WalletProvider>
-        </NodeSocketProvider>
-      </body>
-    </html>
+          </body>
+        </html>
+      </WalletProvider>
+    </NodeSocketProvider>
   );
 }

@@ -60,6 +60,7 @@ export async function buyNft(senderAddress: string, listingId: number, amount: n
     const signer = injected.signer;
 
     const unsub = await extrinsic.signAndSend(senderAddress, { signer }, result => {
+      console.log(result);
       if (result.status.isInBlock) {
         console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
       } else if (result.status.isBroadcast) {

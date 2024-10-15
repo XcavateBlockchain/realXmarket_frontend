@@ -79,7 +79,7 @@ export default function ProfileHeaderOverview({
         <OverviewCard title="Active listed properties" value={accountDetails.length} />
         <OverviewCard title="Property tokens sold" value={totalTokens} />
         <OverviewCard title="Total sales" value={formatPrice(totalSales)} />
-        {/* <OverviewCard title="Average sale time" value={0} /> */}
+        <OverviewCard title="Average sale time" value={0} />
       </div>
     </>
   );

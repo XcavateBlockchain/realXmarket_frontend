@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useContext, useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WalletContextProvider } from '@/providers/wallet-provider';
 import { useRouter } from 'next/navigation';
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -74,9 +75,14 @@ export function NodeSocketProvider({ children }: TProps) {
     };
   }, []);
 
+  // 3. Initialize your new QueryClient
+  const queryClient = new QueryClient();
+
   return (
-    <NodeContext.Provider value={{ nativeCurrency, subscanUrl, api }}>
-      {children}
-    </NodeContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <NodeContext.Provider value={{ nativeCurrency, subscanUrl, api }}>
+        {children}
+      </NodeContext.Provider>
+    </QueryClientProvider>
   );
 }

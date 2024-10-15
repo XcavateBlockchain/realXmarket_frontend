@@ -4,6 +4,7 @@ import {
   InjectedProvider
 } from '@polkadot/extension-inject/types';
 import { Signer } from '@polkadot/types/types';
+import { ReactNode } from 'react';
 
 export type TabNavItem = {
   title: string;
@@ -218,3 +219,7 @@ export interface Listing {
   tokenRemaining: any;
   metadata: string; // This can be parsed into a Metadata object if needed
 }
+
+export type IComponent = {
+  [key: string]: ReactNode;
+};
