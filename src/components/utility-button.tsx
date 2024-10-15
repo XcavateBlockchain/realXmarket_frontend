@@ -10,7 +10,7 @@ const buttonVariants = cva(
         investor: 'border-primary-200 bg-transparent hover:bg-primary-200 hover:text-white',
         developer: 'border-primary-400 bg-transparent hover:bg-primary-400 hover:text-white',
         agent: 'border-primary-300 bg-transparent hover:bg-primary-300 hover:text-white',
-        loan: 'border-primary bg-transparent hover:bg-primary hover:text-white'
+        lawyer: 'border-primary bg-transparent hover:bg-primary hover:text-white'
       }
     },
     defaultVariants: {
@@ -22,7 +22,7 @@ const buttonVariants = cva(
 interface AccountTypeButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  account: 'developer' | 'investor' | 'agent' | 'loan';
+  account: 'developer' | 'investor' | 'agent' | 'lawyer';
   icon: string;
   disabled?: boolean;
 }
@@ -50,7 +50,9 @@ export function AccountTypeButton({
           //   className="pointer-events-none"
         />
       </div>
-      <span className="font-mona text-[1.125rem]/[1.5rem] font-semibold">{account}</span>
+      <span className="font-mona text-[1.125rem]/[1.5rem] font-semibold capitalize">
+        {account}
+      </span>
     </button>
   );
 }
