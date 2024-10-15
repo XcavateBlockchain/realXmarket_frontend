@@ -119,7 +119,7 @@ function SelectAmount({
               onValueChange={handleAmountChange}
             />
             <button
-              className="rounded-md p-2 font-sans text-[1rem]/[1.5rem] text-[#ECB278] transition-colors duration-300 hover:bg-primary"
+              className="rounded-md p-2 font-sans text-[1rem]/[1.5rem] text-[#ECB278] transition-colors duration-300 hover:bg-primary-200/90 hover:text-white"
               onClick={() => setAmount(tokens)}
             >
               MAX
