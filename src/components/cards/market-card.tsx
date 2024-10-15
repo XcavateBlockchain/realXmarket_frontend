@@ -9,10 +9,12 @@ import ImageComponent from '../image-component';
 export default function MarketCard({
   id,
   details,
+  fileUrls,
   tokenRemaining,
   metaData
 }: {
   id: string;
+  fileUrls: string[];
   details: ListingDetails;
   tokenRemaining: any;
   metaData: IProperty;
@@ -20,15 +22,17 @@ export default function MarketCard({
   return (
     <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1">
       {metaData.fileUrls.length >= 1 ? (
-        <Link href={`/marketplace/${id}`} className="aspect-square h-[255px]">
-          <ImageComponent
-            fill={true}
-            src={metaData.fileUrls[0]}
-            alt={metaData.property_name}
-            // width={320}
-            //   height={255}
-            className="rounded-lg rounded-t-lg object-cover"
-          />
+        <Link href={`/marketplace/${id}`} className="relative">
+          <div className="aspect-square h-[255px]">
+            <ImageComponent
+              fill={true}
+              src={fileUrls[0]}
+              alt={metaData.property_name}
+              // width={320}
+              //   height={255}
+              className="rounded-t-lg object-cover"
+            />
+          </div>
         </Link>
       ) : (
         // <Image

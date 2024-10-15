@@ -15,6 +15,7 @@ import FilterTabs from './filter-tabs';
 import { hexToString } from '@/lib/utils';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { Shell } from '@/components/shell';
+import { generatePresignedUrl } from '@/lib/s3';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
@@ -109,13 +110,18 @@ export default async function Marketplace() {
 
         {listings && listings.length >= 1 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {listings.map(listing => {
+            {listings.map(async listing => {
               const data = JSON.parse(listing.metadata);
-              // console.log(data);
+              const fileUrls = await Promise.all(
+                data.files
+                  .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+                  .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+              );
               return (
                 <MarketCard
                   key={listing.listing.listingId}
                   id={listing.listing.listingId}
+                  fileUrls={fileUrls}
                   details={listing.listing.listingDetails}
                   tokenRemaining={listing.tokenRemaining}
                   metaData={data}

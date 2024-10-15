@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { formatNumber, formatPrice } from '@/lib/utils';
+import { formatAPY, formatNumber, formatPrice } from '@/lib/utils';
 import { IProperty, STATE_STATUS } from '@/types';
 import { listProperty } from '@/lib/extrinsic';
 import {
@@ -19,13 +19,18 @@ import { toast } from 'sonner';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { useRouter } from 'next/navigation';
 
-export default function PropertyCard({ property }: { property: IProperty }) {
+export default function ListedPropertyCard({
+  listingId,
+  tokenRemaining,
+  property
+}: {
+  listingId: string;
+  tokenRemaining: string;
+  property: IProperty;
+}) {
   const router = useRouter();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
   const [showListedModal, setShowListedModal] = useState(false);
-
-  const ARI = property.estimated_rental_income * 12;
-  const APY = ARI / property.property_price;
 
   async function onListProperty() {
     setStatus(STATE_STATUS.LOADING);
@@ -81,7 +86,9 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between">
               <dt>{property.property_name}</dt>
-              <dd className="">APY {APY * 10}%</dd>
+              <dd className="">
+                APY {formatAPY(property.estimated_rental_income, property.property_price)}
+              </dd>
             </div>
             <div className="flex items-center justify-between">
               <dt>Token {formatNumber(property.number_of_tokens)}</dt>
@@ -99,7 +106,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               {status === STATE_STATUS.LOADING && (
                 <LoaderCircle size={16} className=" animate-spin" />
               )}
-              List
+              De-List
             </Button>
             <Button variant={'outline'} fullWidth>
               Details

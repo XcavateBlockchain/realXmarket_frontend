@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           'bg-x-gradient hover:shadow-filled disabled:cursor-not-allowed capitalize disabled:text-white/80',
         outline: 'border-primary text-foreground border font-sans hover:shadow-outlined',
-        filled: ' bg-primary text-white',
+        filled: ' bg-primary text-white hover:bg-primary-200',
         text: 'text-primary bg-none rounded-none'
       },
       size: {

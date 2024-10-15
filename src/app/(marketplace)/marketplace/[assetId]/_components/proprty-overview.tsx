@@ -12,10 +12,12 @@ type PropertyOverviewProps = {
   metaData: IProperty;
   listingDetails: ListingDetails;
   propertyInfo: any;
+  fileUrls: string[];
 };
 
 export default function PropertyOverView({
   listingId,
+  fileUrls,
   tokensRemaining,
   metaData,
   listingDetails,
@@ -68,6 +70,7 @@ export default function PropertyOverView({
           </dd>
         </div>
         <BuyToken
+          fileUrls={fileUrls}
           listingId={Number(listingId)}
           tokens={tokensRemaining}
           property={metaData}
