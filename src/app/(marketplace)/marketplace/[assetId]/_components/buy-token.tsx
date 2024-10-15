@@ -84,7 +84,7 @@ function SelectAmount({
       </div>
       <div className="flex w-full items-center justify-between  font-mona text-[1rem]/[1.5rem] font-medium">
         <span>Price per Token</span>
-        <span>{formatPrice(property.property_price)}</span>
+        <span>{formatPrice(property.price_per_token)}</span>
       </div>
 
       <div className="flex w-full flex-col gap-2 rounded bg-[#4E4E4E]/[0.06] p-2 font-sans text-[0.875rem]/[1.5rem]">
