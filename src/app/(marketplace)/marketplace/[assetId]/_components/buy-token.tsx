@@ -20,10 +20,12 @@ import { NumericFormat, OnValueChange } from 'react-number-format';
 import { formatNumber, formatPrice } from '@/lib/utils';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { toast } from 'sonner';
+import { formatDate } from '@polkadot/util';
 
 type AmountProps = {
   amount: number;
   tokens: any;
+  fileUrls: string[];
   data: ListingDetails;
   property: IProperty;
   close: () => void;
@@ -32,6 +34,7 @@ type AmountProps = {
 };
 
 function SelectAmount({
+  fileUrls,
   amount,
   setIndex,
   data,
@@ -51,17 +54,18 @@ function SelectAmount({
           <Icons.close className="size-6" />
         </Button>
       </div>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-4">
         <Image
-          src={property.fileUrls[0]}
+          src={fileUrls[0]}
           alt={property.property_name}
           width={100}
           height={100}
+          className=" size-[100px] object-cover"
           priority
         />
-        <div className="flex flex-col gap-2">
-          <p className="text-[14px]/[24px]">Gade Homes</p>
-          <h1 className="font-mona text-[16px]/[24px] font-medium">
+        <div className="flex flex-col gap-2 text-[#4E4E4E]/[0.50]">
+          <p className="text-[0.875rem]/[1.5rem]">Gade Homes</p>
+          <h1 className="font-mona text-[1rem]/[1.5rem] font-medium text-foreground">
             {property.property_name}
           </h1>
           <div className="flex items-center gap-1">
@@ -72,28 +76,30 @@ function SelectAmount({
               height={24}
               className="pointer-events-none"
             />
-            <h3 className="font-mona  text-[14px]/[24px] font-semibold">
+            <h3 className="font-sans  text-[0.875rem]/[1.5rem]">
               {property.address_street} {property.address_town_city}
             </h3>
           </div>
         </div>
       </div>
-      <div className="w-full space-y-4 divide-y-2">
-        <div className="flex items-center justify-between font-mona text-[1rem]/[1.5rem] font-medium">
-          <span className="font-mona font-medium text-[#4E4E4E]">Price per Tokens :</span>
-          <span className="font-bold">{formatPrice(property.property_price)}</span>
+      <div className="flex w-full items-center justify-between  font-mona text-[1rem]/[1.5rem] font-medium">
+        <span>Price per Token</span>
+        <span>{formatPrice(property.property_price)}</span>
+      </div>
+
+      <div className="flex w-full flex-col gap-2 rounded bg-[#4E4E4E]/[0.06] p-2 font-sans text-[0.875rem]/[1.5rem]">
+        <div className="flex items-center justify-between">
+          <span>Pay with:</span>
+          <span className="flex items-center rounded bg-primary/[0.12] p-1 px-2 font-sans uppercase text-primary">
+            USDT
+          </span>
         </div>
-        <div className="flex flex-col rounded-sm bg-gray-100 p-2">
-          <div className="flex justify-between">
-            <span>Pay with:</span>
-            <span className="font-bold">£{data.tokenPrice}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Balance</span>
-            <span className="font-bold">£{data.tokenPrice}</span>
-          </div>
+        <div className="flex items-center justify-between">
+          <span>Balance</span>
+          <span>{1.3 * property.price_per_token}</span>
         </div>
       </div>
+
       <div className="flex w-full flex-col gap-1">
         <div className="flex justify-between text-[0.875rem]/[1.5rem]">
           <span>Tokens left:</span>{' '}
@@ -155,6 +161,7 @@ function SelectAmount({
 
 type SummaryProps = {
   amount: number;
+  fileUrls: string[];
   data: ListingDetails;
   property: IProperty;
   listingId: number;
@@ -164,6 +171,7 @@ type SummaryProps = {
 
 function PurchaseSummary({
   listingId,
+  fileUrls,
   close,
   data,
   amount,
@@ -193,57 +201,53 @@ function PurchaseSummary({
     }
   }
 
-  const totalPrice = Number(amount) * Number(data.tokenPrice);
+  const totalPrice = 1.3 * property.price_per_token;
   return (
     <>
       <div className="flex w-full items-center justify-between">
-        <h1>Are you absolutely sure?</h1>
+        <h1>Confirm purchase</h1>
         <Button variant={'text'} size={'icon'} onClick={close}>
           <Icons.close className="size-6" />
         </Button>
       </div>
-      <div className="flex gap-2">
-        <Image
-          src={property.fileUrls[0]}
-          alt={property.property_name}
-          width={100}
-          height={100}
-          priority
-        />
-        <div className="flex flex-col gap-2">
-          <p className="text-[14px]/[24px]">Gade Homes</p>
-          <h1 className="font-mona text-[16px]/[24px] font-medium">
-            {property.property_name}
-          </h1>
-          <div className="flex items-center gap-1">
-            <Image
-              src={'/icons/pin_location.svg'}
-              alt="loc"
-              width={24}
-              height={24}
-              className="pointer-events-none"
-            />
-            <h3 className="font-mona  text-[14px]/[24px] font-semibold">
-              {property.address_street} {property.address_town_city}
-            </h3>
+      <div className="flex flex-col items-start gap-6 rounded bg-foreground/[0.06] px-2 py-4">
+        <div className="flex items-center gap-4">
+          <Image
+            src={fileUrls[0]}
+            alt={property.property_name}
+            width={100}
+            height={100}
+            className=" size-[100px] object-cover"
+            priority
+          />
+          <div className="flex flex-col gap-2 text-[#4E4E4E]/[0.50]">
+            <p className="text-[0.875rem]/[1.5rem]">Gade Homes</p>
+            <h1 className="font-mona text-[1rem]/[1.5rem] font-medium text-foreground">
+              {property.property_name}
+            </h1>
+            <div className="flex items-center gap-1">
+              <Image
+                src={'/icons/pin_location.svg'}
+                alt="loc"
+                width={24}
+                height={24}
+                className="pointer-events-none"
+              />
+              <h3 className="font-sans  text-[0.875rem]/[1.5rem]">
+                {property.address_street} {property.address_town_city}
+              </h3>
+            </div>
           </div>
         </div>
+        <dl className="flex w-full flex-col items-start gap-4">
+          <ItemList title="Token price" value={formatPrice(property.price_per_token)} />
+          <ItemList title="To buy" value={`${amount} Tokens`} />
+          <ItemList title="To pay" value={`${formatNumber(amount * totalPrice)} USDT`} />
+          <ItemList title="Order No." value={'183421176753467564908654765'} />
+          <ItemList title="Order time." value={formatDate(new Date())} />
+        </dl>
       </div>
-      <div className="flex flex-col gap-4  rounded-lg border px-2 py-4">
-        <div className="flex w-full items-center justify-between border-b pb-4">
-          <span>Number of tokens</span> <span>{amount}</span>
-        </div>
-        <div className="flex items-start justify-between border-b pb-4 text-[16px]/[24px]">
-          <span className="font-mona font-medium text-[#4E4E4E]">Cost :</span>
-          <div className="flex flex-col items-end gap-1 text-right">
-            <span>£{data.tokenPrice}</span>
-            <span>24,000.00 USDT</span>
-          </div>
-        </div>
-        <div className="flex w-full items-center justify-between rounded-lg bg-[#3B4F74]/[0.10] p-2">
-          <span>To Pay:</span> <span>{totalPrice}</span>
-        </div>
-      </div>
+
       <div className="flex items-center justify-end gap-4">
         <Button
           type="button"
@@ -312,10 +316,12 @@ export default function BuyToken({
   listingId,
   tokens,
   property,
+  fileUrls,
   data
 }: {
   listingId: number;
   tokens: any;
+  fileUrls: string[];
   property: IProperty;
   data: ListingDetails;
 }) {
@@ -334,6 +340,7 @@ export default function BuyToken({
   const actions: ISection = {
     1: (
       <SelectAmount
+        fileUrls={fileUrls}
         setAmount={setAmount}
         data={data}
         amount={amount}
@@ -345,6 +352,7 @@ export default function BuyToken({
     ),
     2: (
       <PurchaseSummary
+        fileUrls={fileUrls}
         data={data}
         close={closeModal}
         amount={amount}
@@ -371,3 +379,10 @@ export default function BuyToken({
     </AlertDialog>
   );
 }
+
+const ItemList = ({ title, value }: { title: string; value: string }) => (
+  <div className="flex w-full items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
+    <dt>{title}</dt>
+    <dd>{value}</dd>
+  </div>
+);

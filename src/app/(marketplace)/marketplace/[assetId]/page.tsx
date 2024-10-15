@@ -16,6 +16,7 @@ import ImageComponent from '@/components/image-component';
 import PropertyFeatures from './_components/property-features';
 import PropertyDocuments from './_components/property-documents';
 import PropertyTransactionsTable from './_components/property-trasnsactions';
+import { generatePresignedUrl } from '@/lib/s3';
 
 interface FetchedProperty {
   [key: string]: any;
@@ -36,7 +37,13 @@ export default async function Page({ params }: { params: { assetId: string } }) 
 
   const metadata: IProperty = JSON.parse(itemString);
 
-  const { fileUrls } = metadata;
+  // const { fileUrls } = metadata;
+
+  const fileUrls = await Promise.all(
+    metadata.files
+      .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+      .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+  );
 
   return (
     <Shell variant={'basic'}>
@@ -66,24 +73,20 @@ export default async function Page({ params }: { params: { assetId: string } }) 
             className="h-[544px] w-[610px] rounded-lg bg-contain bg-center object-cover"
           /> */}
           <div className="flex items-center justify-center gap-2">
-            <img
-              src={'/images/properties/prop1-2.jpg'}
-              alt={metadata.property_name}
-              className="size-12 rounded-[2px]"
-            />
-            <img
-              src={'/images/properties/prop1-3.jpg'}
-              alt={metadata.property_name}
-              className="size-12 rounded-[2px]"
-            />
-            <img
-              src={'/images/properties/prop1-4.jpg'}
-              alt={metadata.property_name}
-              className="size-12 rounded-[2px]"
-            />
+            {fileUrls.length >= 1
+              ? fileUrls.map(file => (
+                  <img
+                    key={file}
+                    src={file}
+                    alt={metadata.property_name}
+                    className="size-12 rounded-[2px]"
+                  />
+                ))
+              : null}
           </div>
         </div>
         <PropertyOverView
+          fileUrls={fileUrls}
           tokensRemaining={tokensRemaining}
           listingId={params.assetId}
           metaData={metadata}
