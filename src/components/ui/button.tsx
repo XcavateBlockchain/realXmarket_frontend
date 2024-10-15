@@ -12,13 +12,13 @@ const buttonVariants = cva(
         default:
           'bg-x-gradient hover:shadow-filled disabled:cursor-not-allowed capitalize disabled:text-white/80',
         outline: 'border-primary text-foreground border font-sans hover:shadow-outlined',
-        filled: ' bg-primary text-white hover:bg-primary-200',
+        filled: ' bg-primary text-white hover:bg-primary-300',
         text: 'text-primary bg-none rounded-none'
       },
       size: {
         default: 'lg:py-3 lg:px-7 py-2 px-4 text-[0.875rem]/[1.5rem] font-bold',
         lg: 'py-2 px-7 text-[ 0.875rem]/[1.5rem] font-bold',
-        md: 'p-2',
+        md: 'p-2 text-[1rem]/[1.5rem] font-sans',
         icon: 'p-[5px]'
       },
       fullWidth: {

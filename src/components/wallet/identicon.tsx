@@ -8,7 +8,7 @@ type TIdentIcon = {
   theme?: 'polkadot' | 'substrate' | 'beachball';
 };
 
-const IdentIcon = ({ address, size = 32, theme = 'substrate' }: TIdentIcon) => {
+const IdentIcon = ({ address, size = 24, theme = 'substrate' }: TIdentIcon) => {
   return (
     <Identicon
       value={address}
