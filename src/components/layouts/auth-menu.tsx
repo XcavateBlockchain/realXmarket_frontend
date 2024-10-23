@@ -23,7 +23,13 @@ export default function AuthMenu() {
       >
         <MenuLinks
           icon="user"
-          href={investorType ? `/${investorType}` : '/profile'}
+          href={
+            investorType
+              ? `/${investorType}`
+              : investorType === 'investor'
+                ? '/profile'
+                : '/profile'
+          }
           title="Profile"
         />
         <MenuLinks icon="settingsIcon" href="/" title="Settings" />

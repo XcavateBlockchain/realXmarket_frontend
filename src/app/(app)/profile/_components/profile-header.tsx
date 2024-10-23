@@ -1,9 +1,21 @@
 import { OverviewCard } from '@/components/cards/overview-card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { IProfile } from '@/types';
+import { IProfile, TokenOwnership } from '@/types';
 
-export default function ProfileHeaderOverview({ profile }: { profile: IProfile | null }) {
+type ProfileHeaderOverviewProps = {
+  properties: TokenOwnership[];
+  profile: IProfile | null;
+};
+
+export default function ProfileHeaderOverview({
+  profile,
+  properties
+}: ProfileHeaderOverviewProps) {
+  const totalTokensOwned = properties.reduce((total, item) => {
+    return total + parseInt(item.tokensOwned, 10);
+  }, 0);
+
   return (
     <>
       <div className="flex w-full flex-col gap-6">
@@ -39,7 +51,7 @@ export default function ProfileHeaderOverview({ profile }: { profile: IProfile |
       </div>
 
       <div className="grid w-full grid-cols-2 gap-5 lg:grid-cols-4">
-        <OverviewCard title="Property tokens bought" value={3} />
+        <OverviewCard title="Property tokens bought" value={totalTokensOwned} />
         <OverviewCard title="Total invested" value={'£75,000'} />
         <OverviewCard title="ROI" value={'10%'} />
         <OverviewCard title="Active loan" value={'£0'} />

@@ -20,17 +20,6 @@ import { generatePresignedUrl } from '@/lib/s3';
 export const maxDuration = 300;
 export default async function Marketplace() {
   const address = await getCookieStorage('accountKey');
-  // function handleWebSocketMessage(event: MessageEvent) {
-  //   const data = JSON.parse(event.data);
-  //   console.log('Received data:', data);
-  //   // Handle the received data
-  // }
-
-  // connectWebSocket(
-  //   `${process.env.NEXT_PUBLIC_RPC_URL}`,
-  //   handleWebSocketMessage
-  // );
-
   // const data = await getAllOngoingListings();
   // console.log('ALL ONGOING LISTINGS', data);
 
@@ -40,8 +29,8 @@ export default async function Marketplace() {
     );
   // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
 
-  const allTokenBuyers = await getAllTokenBuyers();
-  console.log('ALL TOKEN BUYERS', allTokenBuyers);
+  // const allTokenBuyers = await getAllTokenBuyers();
+  // console.log('ALL TOKEN BUYERS', allTokenBuyers);
 
   // const listing9Buyers = await getAllTokenBuyerForListing(9);
   // console.log('TOKEN BUYERS FOR LISTING 9', listing9Buyers);
