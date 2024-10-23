@@ -171,3 +171,18 @@ export async function getOnGoingObjectListing(listingId: number) {
 function getIntegersLessThan(n: any) {
   return Array.from({ length: n }, (_, i) => i);
 }
+
+// export async function getListingById() {
+//   const api = await getApi();
+//   const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+
+//   return data
+//     .filter(([key, exposure]: [any, any]) => exposure.toHuman())
+//     .map(([key, exposure]) => {
+
+//       return {
+//         listingId: key.args[0].toHuman() as any,
+//         listingDetails: exposure.toHuman() as any
+//       };
+//     });
+// }

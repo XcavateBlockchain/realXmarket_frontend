@@ -223,3 +223,8 @@ export interface Listing {
 export type IComponent = {
   [key: string]: ReactNode;
 };
+
+export type TokenOwnership = {
+  listingId: string;
+  tokensOwned: string;
+};

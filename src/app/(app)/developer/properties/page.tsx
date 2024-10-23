@@ -78,23 +78,6 @@ export default async function Page({
           })}
         </div>
         {queries[query]}
-        {/* {properties.length >= 1 ? (
-          <div className="grid w-full grid-cols-4 gap-6">
-            {properties.map(property => {
-              return <PropertyCard key={property.propertyId} property={property} />;
-            })}
-          </div>
-        ) : (
-          <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
-            <p>
-              Looks like there&apos;s nothing here yet! Start exploring and adding content to
-              fill this space with your own unique properties.
-            </p>
-            <Button variant={'outline'} asChild>
-              <Link href={'/property/create'}>ADD PROPERTY</Link>
-            </Button>
-          </div>
-        )} */}
       </div>
     </>
   );
