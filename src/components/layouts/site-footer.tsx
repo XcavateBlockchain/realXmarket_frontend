@@ -8,30 +8,10 @@ export default function SiteFooter() {
   return (
     <footer className="container mx-auto flex w-full flex-col justify-between gap-3 p-6">
       <div className="flex items-center justify-center gap-4">
-        <Link
-          href={'#'}
-          className="text-[14px]/[18px] text-[#191A1B]/[0.85] underline-offset-4 hover:underline lg:text-[18px]/[23px]"
-        >
-          About Us
-        </Link>
-        <Link
-          href={'#'}
-          className="text-[14px]/[18px] text-[#191A1B]/[0.85] underline-offset-4 hover:underline lg:text-[18px]/[23px]"
-        >
-          FAQs
-        </Link>
-        <Link
-          href={'#'}
-          className="text-[14px]/[18px] text-[#191A1B]/[0.85] underline-offset-4 hover:underline lg:text-[18px]/[23px]"
-        >
-          Team
-        </Link>
-        <Link
-          href={'#'}
-          className="text-[14px]/[18px] text-[#191A1B]/[0.85] underline-offset-4 hover:underline lg:text-[18px]/[23px]"
-        >
-          Blog
-        </Link>
+        <FooterLink href="#" title="About Us" />
+        <FooterLink href="#" title="FAQs" />
+        <FooterLink href="#" title="Team" />
+        <FooterLink href="#" title="Blog" />
       </div>
       <hr />
       <div className="flex w-[100%] flex-col items-center justify-between gap-4 md:flex-row">
@@ -70,3 +50,12 @@ export default function SiteFooter() {
     </footer>
   );
 }
+
+const FooterLink = ({ title, href }: { title: string; href: string }) => (
+  <Link
+    href={href}
+    className="font-sans text-[14px]/[18px] text-[#191A1B]/[0.85] underline-offset-4 hover:underline lg:text-[1.125rem]"
+  >
+    {title}
+  </Link>
+);

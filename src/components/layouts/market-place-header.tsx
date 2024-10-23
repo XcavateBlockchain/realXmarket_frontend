@@ -3,14 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
 import MobileNav from './mobile-nav';
-import { ConnectWallet } from './connect-wallet';
-import ConnectedWalletDropDown from './connected-wallet';
-import { useSubstrateContext } from '@/context/polkadot-contex';
-import { ConnectCredentialWallet } from './connect-credential-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
+import AuthMenu from './auth-menu';
 export function MarketPlaceHeader() {
-  // const { isConnected } = useSubstrateContext();
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
   return (
@@ -40,7 +36,7 @@ export function MarketPlaceHeader() {
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <ConnectWalletButton />
-          {isConnected ? <ConnectCredentialWallet /> : null}
+          {isConnected ? <AuthMenu /> : null}
         </div>
       </div>
     </header>

@@ -9,6 +9,7 @@ import { ConnectCredentialWallet } from './connect-credential-wallet';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import { cn } from '@/lib/utils';
+import AuthMenu from './auth-menu';
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -57,7 +58,7 @@ export function SiteHeader() {
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <ConnectWalletButton />
-          {isConnected ? <ConnectCredentialWallet /> : null}
+          {isConnected ? <AuthMenu /> : null}
         </div>
       </div>
     </header>

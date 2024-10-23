@@ -4,15 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
 import MobileNav from './mobile-nav';
-import { ConnectWallet } from './connect-wallet';
-import ConnectedWalletDropDown from './connected-wallet';
-import { useSubstrateContext } from '@/context/polkadot-contex';
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { ConnectCredentialWallet } from './connect-credential-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import { useRouter } from 'next/navigation';
+import AuthMenu from './auth-menu';
 
 type HeaderProps = {
   open: boolean;
@@ -81,7 +78,7 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <ConnectWalletButton open={walletModal} />
-          {isConnected ? <ConnectCredentialWallet /> : null}
+          {isConnected ? <AuthMenu /> : null}
         </div>
       </div>
     </header>
