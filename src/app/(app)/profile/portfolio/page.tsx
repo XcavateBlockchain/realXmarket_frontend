@@ -80,7 +80,7 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-export function ViewAllPropertiesOwned({ listings }: { listings: Listing[] }) {
+function ViewAllPropertiesOwned({ listings }: { listings: Listing[] }) {
   if (listings.length <= 0) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
