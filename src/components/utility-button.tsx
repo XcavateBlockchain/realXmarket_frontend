@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import Image from 'next/image';
 
 const buttonVariants = cva(
-  'inline-flex w-full h-[228px] flex-col items-center justify-center gap-2 rounded-lg border transition-colors duration-300 px-16 py-12 disabled:pointer-events-none disabled:opacity-70',
+  'inline-flex w-full h-[228px] flex-col items-center justify-center gap-2 rounded-lg border transition-colors duration-300 px-16 py-12',
   {
     variants: {
       variant: {
