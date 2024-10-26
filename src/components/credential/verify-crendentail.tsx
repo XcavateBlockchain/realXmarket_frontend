@@ -59,7 +59,7 @@ function SelectUserType({ setIndex, close }: DialogProps) {
   };
   return (
     <>
-      <header className="flex w-full flex-col items-start gap-2 p-6">
+      <header className="flex w-full flex-col items-start gap-2 px-6 pt-6">
         <div className="flex w-full items-center justify-between">
           <h1 className="font-mona text-[1.125rem]/[1.5rem] font-semibold text-primary-foreground">
             Who are you?
@@ -69,10 +69,10 @@ function SelectUserType({ setIndex, close }: DialogProps) {
           </Button>
         </div>
         <p className="text-[0.875rem]/[1.5rem]">
-          You need to connect a wallet to complete transactions
+          Choose your user type to create your account
         </p>
       </header>
-      <div className="grid grid-cols-2 gap-4 p-6">
+      <div className="grid grid-cols-2 gap-4 px-6 pb-6">
         <AccountTypeButton
           variant={'developer'}
           account="developer"
