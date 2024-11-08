@@ -41,6 +41,7 @@ export function SiteHeader() {
             alt="logo"
             width={200}
             height={56}
+            className="h-10 w-[145px] md:h-[56px] md:w-[200px]"
             priority
           />
         </Link>
