@@ -132,9 +132,9 @@ export default function PropertyFeaturesForm({
           />
           <Input
             type="text"
-            label="Planing permission code"
-            placeholder=""
-            {...form.register('planning_permission_Code', { required: true })}
+            label="Land registration code"
+            placeholder="e.g"
+            {...form.register('title_deed_number')}
           />
         </div>
       </div>

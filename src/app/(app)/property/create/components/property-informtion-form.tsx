@@ -164,10 +164,16 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         />
         <Input
           type="text"
+          label="Planning Permission code"
+          placeholder=""
+          {...form.register('planning_permission_Code', { required: true })}
+        />
+        {/* <Input
+          type="text"
           label="title deed number"
           placeholder="e.g"
           {...form.register('title_deed_number')}
-        />
+        /> */}
         <Input
           type="text"
           label="google map link"
