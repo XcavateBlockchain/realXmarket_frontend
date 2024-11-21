@@ -29,7 +29,7 @@ export default function PropertyOverView({
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Image
-            src={'/images/NEW_coin.svg'}
+            src={'/public/images/developer_logo.png'}
             alt="logo"
             width={54}
             height={54}
