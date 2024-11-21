@@ -29,14 +29,14 @@ export default function PropertyOverView({
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Image
-            src={'/images/NEW_coin.svg'}
+            src={'/images/developer_logo.png'}
             alt="logo"
             width={54}
             height={54}
             className="border-spacing-3 rounded-full border-[#A6A6A6]"
             priority
           />
-          <h3 className="font-mona text-[18px]/[24px] font-semibold">Gade homes</h3>
+          <h3 className="font-mona text-[18px]/[24px] font-semibold">Bob T Builder</h3>
         </div>
         <div className="flex items-center gap-4">
           <Button variant={'text'} size={'icon'}>

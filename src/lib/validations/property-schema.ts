@@ -35,7 +35,8 @@ export const propertyInformationSchema = z.object({
   property_type: z.string(),
   property_number: z.string().min(1),
   local_authority: z.string().min(1),
-  title_deed_number: z.string().min(1),
+  planning_permission_Code: z.string(),
+  // title_deed_number: z.string().min(1),
   map: z.string().min(1),
   floor_plan: z.instanceof(File),
   sales_agreement: z.instanceof(File)
@@ -64,7 +65,8 @@ export const propertyFeaturesSchema = z.object({
   Off_street_parking: z.string(),
   property_description: z.string(),
   property_development_Code: z.string(),
-  planning_permission_Code: z.string(),
+  // planning_permission_Code: z.string(),
+  title_deed_number: z.string().min(1),
   property_images: z.array(z.instanceof(File))
 });
 
