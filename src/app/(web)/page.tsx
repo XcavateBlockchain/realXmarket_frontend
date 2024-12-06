@@ -37,7 +37,7 @@ export default function Home() {
           <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona text-[1.7rem] font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
             REAL ESTATE INVESTMENT MADE SIMPLE
           </h1>
-          <p className="text-balance text-center text-[16px]/[24px] md:text-[18px]/[24px] lg:text-[22px]/[24px]">
+          <p className="text-center text-[16px]/[24px] md:text-balance md:text-[18px]/[24px] lg:text-[22px]/[24px]">
             All properties are independently verified prior to listing on the marketplace
           </p>
         </div>
