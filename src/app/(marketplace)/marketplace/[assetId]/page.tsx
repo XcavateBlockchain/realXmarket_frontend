@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
 
   const metadata: IProperty = JSON.parse(itemString);
 
-  console.log(metadata)
+  console.log(metadata);
 
   // const { fileUrls } = metadata;
 
