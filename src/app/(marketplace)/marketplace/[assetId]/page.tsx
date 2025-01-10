@@ -37,6 +37,8 @@ export default async function Page({ params }: { params: { assetId: string } }) 
 
   const metadata: IProperty = JSON.parse(itemString);
 
+  console.log(metadata);
+
   // const { fileUrls } = metadata;
 
   const fileUrls = await Promise.all(

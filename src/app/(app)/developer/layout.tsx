@@ -5,6 +5,7 @@ import ProfileBannerImage from '@/components/profile-banner-image';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { profiles } from '@/config/profiles';
 import { getAllOngoingListingsWhereAddressIsDeveloper } from '@/lib/queries';
+import ConnectWalletButton from '@/components/wallet/connect-wallet';
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,16 @@ export default async function DeveloperLayout({ children }: Readonly<ProfileLayo
 
   const data = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
   const profile = profiles[address as string] ?? null;
+
+  if (!address || !profile) {
+    return (
+      <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
+        <p>Please Connect your wallet, and verify your credential.</p>
+        {!address ? <ConnectWalletButton /> : null}
+      </div>
+    );
+  }
+
   return (
     <>
       <ProfileBannerImage profile={profile} />
