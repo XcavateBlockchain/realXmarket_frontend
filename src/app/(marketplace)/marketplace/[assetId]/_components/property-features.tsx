@@ -17,7 +17,7 @@ export default function PropertyFeatures({ metadata }: { metadata: IProperty }) 
         <PropertyInfoDetails title="Type" value={metadata.property_type} />
         <PropertyInfoDetails
           title="Location"
-          value={`${metadata.address_street} ${metadata.address_town_city}`}
+          value={`${metadata.address_street}, ${metadata.address_town_city}`}
         />
       </div>
     </div>

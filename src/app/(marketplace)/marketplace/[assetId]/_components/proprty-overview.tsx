@@ -56,8 +56,11 @@ export default function PropertyOverView({
             height={24}
             className="pointer-events-none"
           />
-          <span className="font-mona text-[1rem]/[1.5rem] font-medium">
-            {metaData.address_street}, {metaData.address_town_city}
+          <span className="flex items-center font-mona text-[1rem]/[1.5rem] font-medium">
+            <span className="capitalize">{metaData.address_street}</span>
+            <span className="capitalize">
+              {`, `} {metaData.address_town_city}
+            </span>
           </span>
         </div>
         <h1 className="font-mona text-[1.5rem]/[2rem] font-bold">{metaData.property_name}</h1>
