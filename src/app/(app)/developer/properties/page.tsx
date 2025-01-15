@@ -27,8 +27,6 @@ export default async function Page({
 
   const properties: IProperty[] = await fetchPropertiesWithFiles(address as string);
 
-  console.log(properties);
-
   const accountDetails = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
   async function fetchListedIProperties() {
     const results = await Promise.all(
