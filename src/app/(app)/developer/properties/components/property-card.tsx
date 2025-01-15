@@ -18,6 +18,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import ImageComponent from '@/components/image-component';
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   const router = useRouter();
@@ -52,16 +54,28 @@ export default function PropertyCard({ property }: { property: IProperty }) {
 
   return (
     <>
-      <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
+      <div className="flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
         {property.fileUrls.length >= 1 ? (
-          <Image
-            src={property.fileUrls[0]}
-            alt={property.property_name}
-            width={320}
-            height={255}
-            priority
-            className="rounded-t-lg"
-          />
+          // <Image
+          //   src={property.fileUrls[0]}
+          //   alt={property.property_name}
+          //   width={320}
+          //   height={255}
+          //   priority
+          //   className="rounded-t-lg"
+          // />
+          <div className="relative">
+            <div className="aspect-square h-[255px] w-full">
+              <ImageComponent
+                fill={true}
+                src={property.fileUrls[0]}
+                alt={property.property_name}
+                // width={320}
+                //   height={255}
+                className="rounded-t-lg object-cover"
+              />
+            </div>
+          </div>
         ) : (
           <div className="flex h-[255px] w-full items-center justify-center rounded-t-lg bg-[#4E4E4E]/[0.10] text-primary/50">
             <ImageIcon size={130} />
@@ -83,7 +97,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               </dd>
             </div>
             <div className="flex items-center justify-between">
-              <dt>Token {formatNumber(property.number_of_tokens)}</dt>
+              <dt>Tokens {formatNumber(property.number_of_tokens)}</dt>
               <dd className="">Price {formatPrice(property.property_price)}</dd>
             </div>
           </div>
@@ -100,8 +114,8 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               )}
               List
             </Button>
-            <Button variant={'outline'} fullWidth>
-              Details
+            <Button asChild variant={'outline'} fullWidth>
+              <Link href={`/property/edit/${property.propertyId}`}>Details</Link>
             </Button>
           </div>
         </div>

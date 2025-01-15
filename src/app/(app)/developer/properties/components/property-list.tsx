@@ -3,6 +3,7 @@ import { IProperty, Listing } from '@/types';
 import Link from 'next/link';
 import PropertyCard from './property-card';
 import ListedPropertyCard from './listed-property-card';
+import { generatePresignedUrl } from '@/lib/s3';
 
 export function ViewAllPropertiesCreated({ properties }: { properties: IProperty[] }) {
   if (properties.length <= 0) {
@@ -44,11 +45,17 @@ export function ViewAllListedPropertiesCreated({ listings }: { listings: Listing
 
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {listings.map(listing => {
+      {listings.map(async listing => {
         const data = JSON.parse(listing.metadata);
+        const fileUrls = await Promise.all(
+          data.files
+            .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+            .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+        );
         return (
           <ListedPropertyCard
             key={listing.listing.listingId}
+            fileUrls={fileUrls}
             listingId={listing.listing.listingId}
             tokenRemaining={listing.tokenRemaining}
             property={data}
