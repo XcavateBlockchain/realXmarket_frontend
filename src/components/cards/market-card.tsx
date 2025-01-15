@@ -56,16 +56,18 @@ export default function MarketCard({
 
       <Link href={`/marketplace/${id}`} className="relative flex flex-col gap-4 px-4">
         <div className="flex w-full items-center justify-between px-0">
-          <div className="flex">
+          <div className="flex items-center justify-start">
             <Image
               src={'/icons/pin_location.svg'}
               alt="loc"
               width={32}
               height={32}
-              className="pointer-events-none"
+              // className="pointer-events-none"
             />
             <h3 className="text-md mt-1">
-              {metaData.address_street} {metaData.address_town_city}
+              <span className="capitalize">{metaData.address_street}</span>
+              {', '}
+              <span className="capitalize">{metaData.address_town_city}</span>
             </h3>
           </div>
           <Icons.heart className="size-8" />
@@ -82,7 +84,7 @@ export default function MarketCard({
           </div>
           <div className="flex items-center justify-between">
             <dt className="font-sans text-[0.875rem]/[1.5rem]">
-              Token <span className="font-bold">{tokenRemaining}</span>
+              Tokens <span className="font-bold">{tokenRemaining}</span>
             </dt>
             <dd className="font-sans text-[0.875rem]/[1.5rem]">
               Price <span className="font-bold">{formatPrice(metaData.property_price)}</span>

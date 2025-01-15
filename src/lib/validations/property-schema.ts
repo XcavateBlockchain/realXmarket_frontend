@@ -39,7 +39,8 @@ export const propertyInformationSchema = z.object({
   // title_deed_number: z.string().min(1),
   map: z.string().min(1),
   floor_plan: z.instanceof(File),
-  sales_agreement: z.instanceof(File)
+  sales_agreement: z.instanceof(File),
+  property_images: z.array(z.instanceof(File)).optional().nullish()
   // region: z.number(),
   // location: z.number()
 });

@@ -60,3 +60,15 @@ export function formatAPY(rental_income: number, price: number) {
   const prefix = APY * 100;
   return `${Number(prefix.toFixed(2))}%`;
 }
+
+export function priceRangeFormat(price: number) {
+  const percentage = 0.05; // 5% as a decimal
+  const percentageIncrease = price * (1 + percentage);
+  const percentageDecrease = price * (1 - percentage);
+  // const totalIncrease = percentageIncrease + percentageDecrease;
+  return {
+    percentageIncrease,
+    percentageDecrease,
+    percentage: Number((price * 100) / percentageIncrease)
+  };
+}

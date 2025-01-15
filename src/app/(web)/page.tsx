@@ -44,7 +44,7 @@ export default function Home() {
         <div className="hidden w-full items-center justify-between md:flex">
           <div className="flex flex-col items-center justify-center gap-6">
             <Image src={'/images/frame_1.png'} alt="hero" width={257} height={242} />
-            <p className="font-sans text-[18px]/[24px] font-medium">Browse And Buy</p>
+            <p className="font-sans text-[18px]/[24px] font-medium">Browse & Buy</p>
           </div>
           <HomeArrow className="mb-20 h-[110px] w-[70px]" />
           <div className="flex flex-col items-center justify-center gap-6">
@@ -70,7 +70,7 @@ export default function Home() {
             Making property investment simple
           </h2>
           <p className="text-[1rem]/[1.5rem] md:text-[1.125rem]/[1.5rem]">
-            Aligning the incentives of the real estate developer, investors & tenants
+          Create your own property portfolio in minutes. No fund managers or agents required.
           </p>
         </div>
         <Image

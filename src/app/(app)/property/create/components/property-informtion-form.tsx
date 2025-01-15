@@ -139,7 +139,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         <Input
           type="text"
           label="Property number"
-          placeholder="Postal code"
+          placeholder=""
           {...form.register('property_number')}
         />
         <Input
@@ -159,7 +159,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
         <Input
           type="text"
           label="local authority"
-          placeholder="e.g"
+          placeholder=""
           {...form.register('local_authority')}
         />
         <Input
@@ -174,12 +174,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
           placeholder="e.g"
           {...form.register('title_deed_number')}
         /> */}
-        <Input
-          type="text"
-          label="google map link"
-          placeholder="e.g"
-          {...form.register('map')}
-        />
+        <Input type="text" label="google map link" placeholder="" {...form.register('map')} />
       </div>
       <div className="flex w-full flex-col">
         <span className="font-mona text-[18px]/[24px] font-semibold">Document</span>
@@ -196,6 +191,13 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
             name="Upload Floor plan"
             types={[MimeTypes.PDF]}
             handleFileChange={files => form.setValue('sales_agreement', files[0])}
+          />
+          <FileInput
+            name="Other"
+            types={[MimeTypes.PDF]}
+            handleFileChange={files => form.setValue('property_images', files)}
+            isMultiple
+            disabled
           />
         </div>
       </div>
