@@ -10,7 +10,6 @@ import {
 import { generatePresignedUrl } from '@/lib/s3';
 import { cn, hexToString } from '@/lib/utils';
 import { IComponent, Listing, TokenOwnership } from '@/types';
-import { time } from 'console';
 import Link from 'next/link';
 
 type PageProps = {

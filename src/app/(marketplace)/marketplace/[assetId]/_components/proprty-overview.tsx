@@ -4,7 +4,7 @@ import { ProgressGradient } from '@/components/ui/progress';
 import Image from 'next/image';
 import BuyToken from './buy-token';
 import { IProperty, ListingDetails } from '@/types';
-import { cn, formatAPY, formatPrice } from '@/lib/utils';
+import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -23,6 +23,7 @@ export default function PropertyOverView({
   listingDetails,
   propertyInfo
 }: PropertyOverviewProps) {
+  const SimilarPropertyPrice = priceRangeFormat(metaData.property_price);
   return (
     <div className="grid w-full place-items-start gap-6">
       {/* <div className="grid w-full gap-6"> */}
@@ -93,10 +94,10 @@ export default function PropertyOverView({
         <PropertyStats title="Property type " value={metaData.property_type} />
         <PropertyStatsWithProgress
           title="Similar property prices"
-          value={80}
-          start="£200,000"
-          mid=""
-          end="£270,000"
+          value={SimilarPropertyPrice.percentage}
+          start={formatNumber(SimilarPropertyPrice.percentageDecrease)}
+          mid={''}
+          end={`£${formatNumber(SimilarPropertyPrice.percentageIncrease)}`}
           className="col-span-2 mb-4 md:mb-0"
         />
         <PropertyStats
