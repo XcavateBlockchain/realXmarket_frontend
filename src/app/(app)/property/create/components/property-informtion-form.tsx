@@ -1,5 +1,5 @@
 import FileInput, { MimeTypes } from '@/components/file-input';
-import SelectInput from '@/components/select-input';
+// import SelectInput from '@/components/select-input';
 import Form, { useZodForm } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -184,13 +184,21 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
             name="Upload Sales Agreement"
             types={[MimeTypes.PDF]}
             handleFileChange={files => {
-              form.setValue('floor_plan', files[0]);
+              form.setValue('floor_plan', files[0], {
+                shouldValidate: true,
+                shouldDirty: true
+              });
             }}
           />
           <FileInput
             name="Upload Floor plan"
             types={[MimeTypes.PDF]}
-            handleFileChange={files => form.setValue('sales_agreement', files[0])}
+            handleFileChange={files =>
+              form.setValue('sales_agreement', files[0], {
+                shouldValidate: true,
+                shouldDirty: true
+              })
+            }
           />
           <FileInput
             name="Other"
