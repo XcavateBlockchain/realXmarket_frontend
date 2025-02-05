@@ -32,7 +32,7 @@ export const propertyInformationSchema = z.object({
   address_street: z.string().min(1),
   address_town_city: z.string().min(1),
   post_code: z.string().min(1),
-  property_type: z.string(),
+  property_type: z.string().min(1),
   property_number: z.string().min(1),
   local_authority: z.string().min(1),
   planning_permission_Code: z.string(),
