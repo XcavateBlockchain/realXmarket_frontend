@@ -22,8 +22,8 @@ export function ViewAllPropertiesCreated({ properties }: { properties: IProperty
 
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {properties.map(property => {
-        return <PropertyCard key={property.propertyId} property={property} />;
+      {properties.map((property, index) => {
+        return <PropertyCard key={index} property={property} />;
       })}
     </div>
   );

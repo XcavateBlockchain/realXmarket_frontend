@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WalletContextProvider } from '@/providers/wallet-provider';
 import { useRouter } from 'next/navigation';
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import ApiSingleton from '@archisinal/contracts/dist/test/shared/api_singleton';
 import { WalletContextInterface } from '@/context/wallet-context';
 
 type TProps = {
@@ -43,8 +42,6 @@ export function NodeSocketProvider({ children }: TProps) {
       provider: wsProvider
     });
 
-    await ApiSingleton.initWithApi(api);
-
     setApi(api);
     setNativeCurrency(api.registry.chainTokens[0]);
     if (api.registry.chainTokens[0] === 'SBY') {
@@ -58,10 +55,7 @@ export function NodeSocketProvider({ children }: TProps) {
     console.log('Connected to node: ' + process.env.NEXT_PUBLIC_RPC_URL);
   };
 
-  const disconnect = async () => {
-    await ApiSingleton.disconnect();
-    console.log('Disconnected from node: ' + process.env.NEXT_PUBLIC_RPC_URL);
-  };
+
 
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_RPC_URL) {
@@ -69,10 +63,7 @@ export function NodeSocketProvider({ children }: TProps) {
       return;
     }
 
-    connect();
-    return () => {
-      disconnect();
-    };
+    connect()
   }, []);
 
   // 3. Initialize your new QueryClient
