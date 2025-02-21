@@ -28,7 +28,7 @@ interface Props {
 export function WalletContextProvider({ children }: Props) {
   const router = useRouter();
   const { api } = useContext(NodeContext);
-  const [, setBalanceSubscription] = useState<any>();
+  // const [, setBalanceSubscription] = useState<any>();
   const initWalletFromLocalStorage = async (walletKey: string) => {
     if (!api || !api.registry.chainSS58) {
       console.log('Node is not connected');

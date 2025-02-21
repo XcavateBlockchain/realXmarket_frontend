@@ -19,9 +19,9 @@ export function ProfileTabs({ items }: ProfileTabsProps) {
   return (
     <div className="sticky top-[80px] z-10 w-full overflow-auto bg-white">
       <div className="flex w-full items-center gap-[47px] border-b border-primary-foreground/[0.10] px-2 lg:justify-between lg:gap-0">
-        {items.map(item => (
+        {items.map((item, index) => (
           <Link
-            key={item.href}
+            key={index}
             href={item.href}
             className={cn(
               'flex items-center justify-center gap-2 border-b-2 px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase transition-all duration-300 lg:text-[1rem]/[1.5rem]',
