@@ -55,15 +55,13 @@ export function NodeSocketProvider({ children }: TProps) {
     console.log('Connected to node: ' + process.env.NEXT_PUBLIC_RPC_URL);
   };
 
-
-
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_RPC_URL) {
       console.error('Node wss:// URL is not set.');
       return;
     }
 
-    connect()
+    connect();
   }, []);
 
   // 3. Initialize your new QueryClient
