@@ -70,7 +70,7 @@ export default function Home() {
             Making property investment simple
           </h2>
           <p className="text-[1rem]/[1.5rem] md:text-[1.125rem]/[1.5rem]">
-          Create your own property portfolio in minutes. No fund managers or agents required.
+            Create your own property portfolio in minutes. No fund managers or agents required.
           </p>
         </div>
         <Image
