@@ -54,7 +54,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
 
   return (
     <>
-      <div className="flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
+      <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
         {property.fileUrls.length >= 1 ? (
           // <Image
           //   src={property.fileUrls[0]}

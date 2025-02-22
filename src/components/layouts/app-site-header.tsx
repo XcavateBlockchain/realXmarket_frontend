@@ -49,7 +49,11 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
   }, [showVerifyModal]);
 
   return (
-    <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px]">
+    <header
+      className={cn('fixed z-10 w-full bg-transparent', {
+        'bg-white': isScrolled
+      })}
+    >
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-[50px]">
         <Link href={'/'}>
           <Image
@@ -67,8 +71,7 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
               key={nav.title}
               href={nav.href}
               className={cn(
-                'text-[1rem]/[1.5rem] transition-colors duration-300 hover:text-primary-300',
-                isScrolled ? 'text-black' : 'text-white'
+                'text-[1rem]/[1.5rem] text-black transition-colors duration-300 hover:text-primary-300'
               )}
             >
               {nav.title}
