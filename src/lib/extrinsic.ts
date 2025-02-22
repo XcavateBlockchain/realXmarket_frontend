@@ -1,5 +1,8 @@
 import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { getApi } from './polkadot';
+import { WsProvider } from '@polkadot/api';
+
+const apiPRomise = getApi(new WsProvider(process.env.NEXT_PUBLIC_RPC));
 
 class NftError extends Error {
   constructor(message: string) {
@@ -10,7 +13,7 @@ class NftError extends Error {
 
 export async function listNFT(senderAddress: string, collectionId: number, nftId: number) {
   try {
-    const api = await getApi();
+    const api = await apiPRomise;
     const injected = await web3FromAddress(senderAddress);
     const extrinsic = api.tx.gameModule.listNFT(collectionId, nftId);
     const signer = injected.signer;
@@ -31,7 +34,7 @@ export async function listNFT(senderAddress: string, collectionId: number, nftId
 
 // export async function buyNft(senderAddress: string, listingId: number, amount: number) {
 //   try {
-//     const api = await getApi();
+//     const api = await apiPRomise
 //     const extensions = await web3Enable('RealXMarket');
 //     const injected = await web3FromAddress(senderAddress);
 //     const extrinsic = api.tx.nftMarketplace.buyToken(listingId, amount);
@@ -53,7 +56,7 @@ export async function listNFT(senderAddress: string, collectionId: number, nftId
 
 export async function buyNft(senderAddress: string, listingId: number, amount: number) {
   try {
-    const api = await getApi();
+    const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
     const extrinsic = api.tx.nftMarketplace.buyToken(listingId, amount);
@@ -91,7 +94,7 @@ export async function listProperty(
   //   postcode: 'PO 223'
   // };
   try {
-    const api = await getApi();
+    const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
     const extrinsic = api.tx.nftMarketplace.listObject(
