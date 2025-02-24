@@ -2,7 +2,7 @@ import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { getApi } from './polkadot';
 import { WsProvider } from '@polkadot/api';
 
-const apiPRomise = getApi(new WsProvider(process.env.NEXT_PUBLIC_RPC));
+const apiPRomise = getApi(new WsProvider(process.env.NEXT_PUBLIC_RPC_URL));
 
 class NftError extends Error {
   constructor(message: string) {
