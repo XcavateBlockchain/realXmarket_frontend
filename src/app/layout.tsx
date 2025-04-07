@@ -5,6 +5,7 @@ import { fontMonaSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { NodeSocketProvider, WalletProvider } from '@/context';
 import { Toaster } from 'sonner';
+import { ApolloWrapper } from '@/providers/appolo-client-provider';
 
 const dm_sans = DM_Sans({
   weight: ['400', '700'],
@@ -23,21 +24,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <NodeSocketProvider>
-      <WalletProvider>
-        <html lang="en">
-          <body
-            className={cn(
-              'min-h-screen bg-background font-sans text-foreground antialiased',
-              dm_sans.variable,
-              fontMonaSans.variable
-            )}
-          >
-            {children}
-            <Toaster position="bottom-right" richColors />
-          </body>
-        </html>
-      </WalletProvider>
-    </NodeSocketProvider>
+    <ApolloWrapper>
+      <NodeSocketProvider>
+        <WalletProvider>
+          <html lang="en">
+            <body
+              className={cn(
+                'min-h-screen bg-background font-sans text-foreground antialiased',
+                dm_sans.variable,
+                fontMonaSans.variable
+              )}
+            >
+              {children}
+              <Toaster position="bottom-right" richColors />
+            </body>
+          </html>
+        </WalletProvider>
+      </NodeSocketProvider>
+    </ApolloWrapper>
   );
 }

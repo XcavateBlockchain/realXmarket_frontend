@@ -1,0 +1,17 @@
+import { InputProps } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+
+export const FilterInput = ({ label, className, type, ...props }: InputProps) => {
+  return (
+    <div className="flex w-full flex-col gap-2">
+      {label ? <p className="text-[16px]/[24px] font-medium uppercase">{label}</p> : null}
+
+      <input
+        className={cn(
+          'flex h-10 w-full rounded-md border border-[#A6A6A6] bg-background px-4 py-2 text-sm placeholder:text-muted-foreground'
+        )}
+        {...props}
+      />
+    </div>
+  );
+};
