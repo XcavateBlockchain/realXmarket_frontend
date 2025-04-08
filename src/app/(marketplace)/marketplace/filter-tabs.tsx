@@ -23,6 +23,59 @@ import { useDebounce } from '@/hooks/use-debounce';
 
 type SelectLabelType = React.ComponentProps<'select'> & React.ComponentProps<'label'>;
 
+const TOWN_CITY_OPTIONS = [
+  {
+    name: 'All',
+    value: 'all'
+  },
+  {
+    name: 'London',
+    value: 'london'
+  }
+];
+
+const PROPERTY_TYPE_OPTIONS = [
+  {
+    name: 'All',
+    value: 'all'
+  },
+  {
+    name: 'Apartment',
+    value: 'Apartment'
+  },
+  {
+    name: 'Flat',
+    value: 'Flat'
+  },
+  {
+    name: 'Bungalow',
+    value: 'Bungalow'
+  },
+  {
+    name: 'Detached',
+    value: 'Detached'
+  },
+  {
+    name: 'Semi-Detached',
+    value: 'Semi-Detached'
+  },
+  {
+    name: 'Terraced',
+    value: 'Terraced'
+  }
+];
+
+const COUNTRY_OPTIONS = [
+  {
+    name: 'All',
+    value: 'all'
+  },
+  {
+    name: 'United kingdom',
+    value: 'United kingdom'
+  }
+];
+
 const filters = [
   {
     label: 'COUNTRY',
@@ -205,15 +258,24 @@ export default function FilterTabs() {
   return (
     <Popover>
       <div className="hidden w-full grid-cols-5 gap-6 border-b px-4 pb-10 md:px-[50px] lg:grid">
-        {filters.map((filter, index) => (
-          <FilterSelect
-            key={index}
-            label={filter.label}
-            placeholder="Show all"
-            options={filter.options}
-            setProperty={setPropertyType}
-          />
-        ))}
+        <FilterSelect
+          label={'COUNTRY'}
+          placeholder="Show all"
+          options={COUNTRY_OPTIONS}
+          setOption={() => {}}
+        />
+        <FilterSelect
+          label={'TOWN CITY'}
+          placeholder="Show all"
+          options={TOWN_CITY_OPTIONS}
+          setOption={() => {}}
+        />
+        <FilterSelect
+          label={'PROPERTY TYPE'}
+          placeholder="Show all"
+          options={PROPERTY_TYPE_OPTIONS}
+          setOption={setPropertyType}
+        />
         <PopoverTrigger>
           <SelectButton label="PROPERTY PRICE" placeholder="Max Price" />
         </PopoverTrigger>
@@ -338,10 +400,10 @@ export interface SelectProps extends SelectLabelType {
   label: string;
   options?: { name: string; value: string }[];
   placeholder: string;
-  setProperty: React.Dispatch<React.SetStateAction<string | null>>;
+  setOption: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const FilterSelect = ({ label, options, placeholder, htmlFor, setProperty }: SelectProps) => {
+const FilterSelect = ({ label, options, placeholder, htmlFor, setOption }: SelectProps) => {
   return (
     <div className="isolate flex w-full flex-col gap-2">
       {label ? (
@@ -353,7 +415,7 @@ const FilterSelect = ({ label, options, placeholder, htmlFor, setProperty }: Sel
         onValueChange={value => {
           const selectedOption = options?.find(opt => opt.value === value);
           if (selectedOption) {
-            setProperty(selectedOption.value);
+            setOption(selectedOption.value);
           }
         }}
       >
