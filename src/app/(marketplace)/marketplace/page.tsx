@@ -1,6 +1,10 @@
 import { Shell } from '@/components/shell';
-import FilterTabs from './filter-tabs';
-import Listings from './components/listings';
+// import FilterTabs from './filter-tabs';
+// import Listings from './components/listings';
+import dynamic from 'next/dynamic';
+
+const FilterTabs = dynamic(() => import('./filter-tabs'), { ssr: false });
+const Listings = dynamic(() => import('./components/listings'), { ssr: false });
 
 export default function Page() {
   return (

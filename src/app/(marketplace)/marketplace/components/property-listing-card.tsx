@@ -32,8 +32,11 @@ export default function PropertyListingCard({ listing }: IPropertyListingProps) 
   }, [listing.files]);
 
   return (
-    <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1">
-      {listing.files.length >= 1 ? (
+    <Link
+      href={`/marketplace/${listing.nftItemId}`}
+      className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1"
+    >
+      {imageUrl.length >= 1 ? (
         <Link href={`/marketplace/${listing.nftItemId}`} className="relative">
           <div className="aspect-square h-[255px] w-full">
             <ImageComponent
@@ -66,8 +69,8 @@ export default function PropertyListingCard({ listing }: IPropertyListingProps) 
         </span>
       </div>
 
-      <Link
-        href={`/marketplace/${listing.nftItemId}`}
+      <div
+        // href={`/marketplace/${listing.nftItemId}`}
         className="relative flex flex-col gap-4 px-4"
       >
         <div className="flex w-full items-center justify-between px-0">
@@ -106,7 +109,7 @@ export default function PropertyListingCard({ listing }: IPropertyListingProps) 
             </dd>
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }

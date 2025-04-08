@@ -131,7 +131,7 @@ export default function FilterTabs() {
     ? propertyPriceParams?.split('-').map(Number)
     : null;
   const [propertyPrice, setPropertyPrice] = useState<number[] | null>(isPropertyPrice);
-  const debouncedPropertyPrice = useDebounce(propertyPrice, 300);
+  const debouncedPropertyPrice = useDebounce(propertyPrice, 1000);
 
   useEffect(() => {
     if (!debouncedPropertyPrice) return;
@@ -150,7 +150,7 @@ export default function FilterTabs() {
 
   const isTokenPrice = tokenPriceParams ? tokenPriceParams?.split('-').map(Number) : null;
   const [tokenPrice, setTokenPrice] = useState<number[] | null>(isTokenPrice);
-  const debounceTokenPrice = useDebounce(tokenPrice, 300);
+  const debounceTokenPrice = useDebounce(tokenPrice, 1000);
 
   useEffect(() => {
     if (!debounceTokenPrice) return;
@@ -166,6 +166,41 @@ export default function FilterTabs() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceTokenPrice]);
+
+  useEffect(() => {
+    function clearFilters() {
+      startTransition(() => {
+        if (propertyType === 'all') {
+          router.push(
+            `${pathname}?${createQueryString({
+              propertyType: null
+            })}`,
+            {
+              scroll: false
+            }
+          );
+          setPropertyType(null);
+        }
+        if (isPropertyPrice !== null && isPropertyPrice[1] === 0) {
+          router.push(
+            `${pathname}?${createQueryString({
+              propertyPrice: null
+            })}`
+          );
+          setPropertyPrice(null);
+        }
+        if (isTokenPrice !== null && isTokenPrice[1] === 0) {
+          router.push(
+            `${pathname}?${createQueryString({
+              tokenPrice: null
+            })}`
+          );
+          setTokenPrice(null);
+        }
+      });
+    }
+    clearFilters();
+  }, [propertyType, propertyPrice, tokenPrice]);
 
   return (
     <Popover>
@@ -206,7 +241,7 @@ export default function FilterTabs() {
               label="Max (£)"
               type="number"
               inputMode="numeric"
-              value={tokenPrice ? tokenPrice[1] : 0}
+              value={tokenPrice ? tokenPrice[1] : 10000}
               onChange={e => {
                 const value = Number(e.target.value);
                 setTokenPrice([tokenPrice ? tokenPrice[0] : 0, value]);
@@ -233,7 +268,7 @@ export default function FilterTabs() {
             label="Max (£)"
             type="number"
             inputMode="numeric"
-            value={propertyPrice ? propertyPrice[1] : 0}
+            value={propertyPrice ? propertyPrice[1] : 1000000}
             onChange={e => {
               const value = Number(e.target.value);
               setPropertyPrice([propertyPrice ? propertyPrice[0] : 0, value]);
@@ -317,7 +352,6 @@ const FilterSelect = ({ label, options, placeholder, htmlFor, setProperty }: Sel
       <Select
         onValueChange={value => {
           const selectedOption = options?.find(opt => opt.value === value);
-          console.log(value);
           if (selectedOption) {
             setProperty(selectedOption.value);
           }

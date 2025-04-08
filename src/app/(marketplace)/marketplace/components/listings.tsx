@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import PropertyListingCard from './property-listing-card';
 import { useSearchParams } from 'next/navigation';
+import Skeleton from '@/components/skelton';
 
 // GraphQL query with filter variables
 const GET_PROPERTY_LISTINGS = gql`
@@ -125,7 +125,7 @@ export default function Listings() {
   };
 
   // Query with filters
-  const { loading, error, data } = useQuery(GET_PROPERTY_LISTINGS, {
+  const { loading: isLoading, data } = useQuery(GET_PROPERTY_LISTINGS, {
     variables: buildFilterObject()
     // variables: {
     //   first: 10,
@@ -137,6 +137,30 @@ export default function Listings() {
     //   maxTokenPrice
     // }
   });
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 gap-4 rounded-lg sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Skeleton
+            key={i}
+            className="h-[442px] w-full md:h-[383px] md:w-[320px] lg:h-[366px] lg:w-[317px]"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (data && data.propertyListings.nodes.length <= 0) {
+    return (
+      <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
+        <p>
+          Looks like there&apos;s nothing here yet! Start exploring and adding content to fill
+          this space with your own unique properties.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
