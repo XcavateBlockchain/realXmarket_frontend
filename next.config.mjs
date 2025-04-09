@@ -5,6 +5,16 @@ const nextConfig = {
       bodySizeLimit: '100mb'
     }
   },
+  async redirects() {
+    return [
+      {
+        source: '/investor',
+        destination: '/profile',
+        permanent: true
+      }
+    ];
+  },
+
   images: {
     remotePatterns: [
       {
