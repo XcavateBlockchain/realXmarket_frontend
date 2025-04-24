@@ -3,24 +3,28 @@ import Link from 'next/link';
 import { Icons } from '../icons';
 import { IProperty, ListingDetails } from '@/types';
 import { ImageIcon } from 'lucide-react';
-import { formatAPY, formatNumber, formatPrice } from '@/lib/utils';
+import { formatAPY, formatPrice } from '@/lib/utils';
 import ImageComponent from '../image-component';
 
 export default function MarketCard({
   id,
-  details,
   fileUrls,
   tokenRemaining,
-  metaData
+  metaData,
+  price
 }: {
   id: string;
   fileUrls: string[];
   details: ListingDetails;
   tokenRemaining: any;
   metaData: IProperty;
+  price: any;
 }) {
   return (
-    <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1">
+    <Link
+      href={`/marketplace/${id}`}
+      className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1"
+    >
       {metaData.fileUrls.length >= 1 ? (
         <Link href={`/marketplace/${id}`} className="relative">
           <div className="aspect-square h-[255px] w-full">
@@ -87,11 +91,11 @@ export default function MarketCard({
               Tokens <span className="font-bold">{tokenRemaining}</span>
             </dt>
             <dd className="font-sans text-[0.875rem]/[1.5rem]">
-              Price <span className="font-bold">{formatPrice(metaData.property_price)}</span>
+              Price <span className="font-bold">{formatPrice(price)}</span>
             </dd>
           </div>
         </div>
       </Link>
-    </div>
+    </Link>
   );
 }

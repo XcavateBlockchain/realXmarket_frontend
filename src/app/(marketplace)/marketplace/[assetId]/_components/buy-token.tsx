@@ -299,7 +299,7 @@ function SuccessModal({ close }: { close: () => void }) {
           Back
         </Button>
         <Button asChild>
-          <Link href="/profile">Portfolio</Link>
+          <Link href="/profile/portfolio">Portfolio</Link>
         </Button>
       </div>
     </>
@@ -319,13 +319,15 @@ export default function BuyToken({
   tokens,
   property,
   fileUrls,
-  data
+  data,
+  totalTokensOwned
 }: {
   listingId: number;
   tokens: any;
   fileUrls: string[];
   property: IProperty;
   data: ListingDetails;
+  totalTokensOwned: any;
 }) {
   const router = useRouter();
   const [openDialog, setIsDialogOpen] = useState(false);
@@ -369,7 +371,9 @@ export default function BuyToken({
   return (
     <AlertDialog open={openDialog} onOpenChange={setIsDialogOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="h-[48px] w-[153px] px-[55px] py-3">BUY</Button>
+        <Button className="h-[48px] w-[153px] px-[55px] py-3">
+          {totalTokensOwned ? 'BUY MORE' : 'BUY'}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="flex max-w-[518px] flex-col gap-6 p-6">
         <AlertDialogHeader className="sr-only">

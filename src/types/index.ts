@@ -224,7 +224,19 @@ export type IComponent = {
   [key: string]: ReactNode;
 };
 
+export type TokenDetails = {
+  tokenAmount: string;
+  paidFunds: string;
+  paidTax: string;
+};
+
 export type TokenOwnership = {
   listingId: string;
-  tokensOwned: string;
+  tokensOwned: TokenDetails;
 };
+
+export interface ListingInfo {
+  listing: ListingDetails;
+  tokenRemaining: any;
+  metadata: string; // This can be parsed into a Metadata object if needed
+}

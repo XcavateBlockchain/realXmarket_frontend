@@ -1,7 +1,19 @@
 import { OverviewCard } from '@/components/cards/overview-card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { IProfile, TokenOwnership } from '@/types';
+import { IProfile } from '@/types';
+import { formatNumber } from '@/lib/utils';
+
+export type TokenDetails = {
+  tokenAmount: string;
+  paidFunds: string;
+  paidTax: string;
+};
+
+export type TokenOwnership = {
+  listingId: string;
+  tokensOwned: TokenDetails;
+};
 
 type ProfileHeaderOverviewProps = {
   properties: TokenOwnership[];
@@ -13,7 +25,11 @@ export default function ProfileHeaderOverview({
   properties
 }: ProfileHeaderOverviewProps) {
   const totalTokensOwned = properties.reduce((total, item) => {
-    return total + parseInt(item.tokensOwned, 10);
+    return total + parseInt(item.tokensOwned.tokenAmount, 10);
+  }, 0);
+
+  const totalInvested = properties.reduce((total, item) => {
+    return total + parseInt(item.tokensOwned.paidFunds.replace(/,/g, ''), 10);
   }, 0);
 
   return (
@@ -52,8 +68,8 @@ export default function ProfileHeaderOverview({
 
       <div className="grid w-full grid-cols-2 gap-5 lg:grid-cols-4">
         <OverviewCard title="Property tokens bought" value={totalTokensOwned} />
-        <OverviewCard title="Total invested" value={'£75,000'} />
-        <OverviewCard title="ROI" value={'10%'} />
+        <OverviewCard title="Total invested" value={`£${formatNumber(totalInvested)}`} />
+        <OverviewCard title="ROI" value={'0%'} />
         <OverviewCard title="Active loan" value={'£0'} />
       </div>
     </>

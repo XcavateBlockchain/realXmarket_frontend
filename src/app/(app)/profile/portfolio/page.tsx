@@ -4,12 +4,11 @@ import { getCookieStorage } from '@/lib/cookie-storage';
 import {
   getItemMetadata,
   getOnGoingObjectListing,
-  getTokenRemaining,
   getTokensAndListingsOwnedByAccount
 } from '@/lib/queries';
 import { generatePresignedUrl } from '@/lib/s3';
 import { cn, hexToString } from '@/lib/utils';
-import { IComponent, Listing, TokenOwnership } from '@/types';
+import { IComponent, Listing, ListingInfo, TokenOwnership } from '@/types';
 import Link from 'next/link';
 
 type PageProps = {
@@ -45,12 +44,12 @@ export default async function Page({ searchParams }: PageProps) {
     return results;
   }
 
-  const listings: Listing[] = (await FetchMetaData()).filter(
-    (item): item is Listing => item !== undefined
+  const listings: ListingInfo[] = (await FetchMetaData()).filter(
+    (item): item is ListingInfo => item !== undefined
   );
 
   const queries: IComponent = {
-    properties: <ViewAllPropertiesOwned listings={listings} />
+    properties: <ViewAllPropertiesOwned listings={listings} tokensOwned={tokensOwned} />
   };
 
   return (
@@ -79,7 +78,13 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-function ViewAllPropertiesOwned({ listings }: { listings: Listing[] }) {
+function ViewAllPropertiesOwned({
+  listings,
+  tokensOwned
+}: {
+  listings: ListingInfo[];
+  tokensOwned: any;
+}) {
   if (listings.length <= 0) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
@@ -96,21 +101,24 @@ function ViewAllPropertiesOwned({ listings }: { listings: Listing[] }) {
 
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {listings.map(async listing => {
+      {listings.map(async (listing, index) => {
         const data = JSON.parse(listing.metadata);
         const fileUrls = await Promise.all(
           data.files
             .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
             .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
         );
+        const tokenRemaining = tokensOwned[index] as TokenOwnership;
+
         return (
           <MarketCard
-            key={listing.listing.listingId}
-            id={listing.listing.listingId}
+            key={listing.listing.assetId}
+            id={listing.listing.assetId}
             fileUrls={fileUrls}
-            details={listing.listing.listingDetails}
-            tokenRemaining={listing.tokenRemaining}
+            details={listing.listing}
+            tokenRemaining={tokenRemaining.tokensOwned.tokenAmount}
             metaData={data}
+            price={parseInt(tokenRemaining.tokensOwned.paidFunds.replace(/,/g, ''), 10)}
           />
         );
       })}

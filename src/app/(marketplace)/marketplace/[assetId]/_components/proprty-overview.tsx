@@ -13,6 +13,7 @@ type PropertyOverviewProps = {
   listingDetails: ListingDetails;
   propertyInfo: any;
   fileUrls: string[];
+  totalTokensOwned: number;
 };
 
 export default function PropertyOverView({
@@ -21,7 +22,8 @@ export default function PropertyOverView({
   tokensRemaining,
   metaData,
   listingDetails,
-  propertyInfo
+  propertyInfo,
+  totalTokensOwned
 }: PropertyOverviewProps) {
   const SimilarPropertyPrice = priceRangeFormat(metaData.property_price);
   return (
@@ -64,7 +66,16 @@ export default function PropertyOverView({
             </span>
           </span>
         </div>
-        <h1 className="font-mona text-[1.5rem]/[2rem] font-bold">{metaData.property_name}</h1>
+        <div className="flex w-full items-center justify-between">
+          <h1 className="font-mona text-[1.5rem]/[2rem] font-bold">
+            {metaData.property_name}
+          </h1>
+          {totalTokensOwned ? (
+            <p className="text-[14px]/[24px]">
+              Tokens owned <span className="text-[#717171]">{totalTokensOwned}</span>
+            </p>
+          ) : null}
+        </div>
       </div>
       <div className="flex w-full items-center justify-between">
         <div className="flex flex-col items-start gap-2">
@@ -79,6 +90,7 @@ export default function PropertyOverView({
           tokens={tokensRemaining}
           property={metaData}
           data={listingDetails}
+          totalTokensOwned={totalTokensOwned}
         />
       </div>
       <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 md:gap-10">
