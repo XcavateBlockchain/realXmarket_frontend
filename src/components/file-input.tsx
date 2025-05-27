@@ -97,11 +97,7 @@ const FileInput = ({
   };
 
   return (
-    <div
-      className={cn('', {
-        'grid h-full w-full grid-cols-4 gap-2': isMultiple
-      })}
-    >
+    <>
       <FileDisplay files={files} types={types} setFiles={setFiles} />
       {show ? (
         <>
@@ -150,7 +146,7 @@ const FileInput = ({
           />
         </>
       ) : null}
-    </div>
+    </>
   );
 };
 
@@ -196,13 +192,13 @@ function FileDisplay({
           <div
             key={index}
             className={cn(
-              'relative flex h-[240px] w-[240px] min-w-[240px] rounded-lg border border-dashed',
+              'relative flex size-[240px] min-w-[240px] rounded-lg border border-dashed',
               {
                 'w-full': files.length > 1
               }
             )}
           >
-            <div className="group absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center">
+            <div className="group absolute inset-0 flex items-center justify-center">
               {types.includes(MimeTypes.PNG) ||
               types.includes(MimeTypes.JPEG) ||
               types.includes(MimeTypes.JPG) ||

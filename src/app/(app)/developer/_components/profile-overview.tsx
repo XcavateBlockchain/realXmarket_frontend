@@ -15,25 +15,30 @@ export default function ProfileHeaderOverview({
   profile: IProfile | null;
   accountDetails: any;
 }) {
-  console.log('accountDetails', accountDetails);
-
   const totalTokens = accountDetails
     .map((details: any) => {
+      const totalCollectedFunds = Object.values(
+        details.listingDetails.collectedFunds as Record<string, number>
+      ).reduce((sum: number, value: number) => sum + value, 0);
       return (
-        parseInt(details.listingDetails.collectedFunds.replace(/,/g, '')) /
-        parseInt(details.listingDetails.tokenPrice.replace(/,/g, ''))
+        totalCollectedFunds / parseInt(details.listingDetails.tokenPrice.replace(/,/g, ''))
       );
     })
-    .reduce((acc: any, curr: any) => acc + curr, 0);
+    .reduce((acc: number, curr: number) => acc + curr, 0);
 
   const totalSales = accountDetails
     .map((details: any) => {
-      return parseInt(details.listingDetails.collectedFunds.replace(/,/g, ''));
+      return Object.values(
+        details.listingDetails.collectedFunds as Record<string, number>
+      ).reduce((sum: number, value: number) => sum + value, 0);
     })
-    .reduce((acc: any, curr: any) => acc + curr, 0);
+    .reduce((acc: number, curr: number) => acc + curr, 0);
 
   const propertiesWithPurchases = accountDetails.filter((details: any) => {
-    return parseInt(details.listingDetails.collectedFunds.replace(/,/g, '')) > 0;
+    const totalCollectedFunds = Object.values(
+      details.listingDetails.collectedFunds as Record<string, number>
+    ).reduce((sum: number, value: number) => sum + value, 0);
+    return totalCollectedFunds > 0;
   });
 
   return (

@@ -42,7 +42,8 @@ export default function PropertyFeaturesForm({
         return;
       }
       const formData = new FormData();
-      const images = data.property_images.map(async file => {
+      // Process images sequentially
+      for (const file of data.property_images) {
         formData.append('property_image', file);
         const fileKey = await uploadFileToS3(
           address,
@@ -53,10 +54,9 @@ export default function PropertyFeaturesForm({
           formData
         );
         await addFileToProperty(address, propertyId, fileKey);
-      });
-      await Promise.all(images);
+      }
       setUploadStatus(STATE_STATUS.SUCCESS);
-      toast.success('Files uploaded');
+      toast.success('Files  ');
       const { property_images, ...newData } = data;
       await upsertProperty(address, propertyId, newData);
       setStatus(STATE_STATUS.SUCCESS);
@@ -152,14 +152,16 @@ export default function PropertyFeaturesForm({
       <div className="flex flex-col">
         <span className="font-mona text-[18px]/[24px] font-semibold">Property Images</span>
         <Separator className="mb-8 mt-4" />
-        <FileInput
-          name="Upload Images"
-          handleFileChange={files => {
-            form.setValue('property_images', files);
-            form.trigger(); // Trigger validation after setting the files
-          }}
-          isMultiple
-        />
+        <div className="grid grid-cols-4 gap-2">
+          <FileInput
+            name="Upload Images"
+            handleFileChange={files => {
+              form.setValue('property_images', files);
+              form.trigger(); // Trigger validation after setting the files
+            }}
+            isMultiple
+          />
+        </div>
       </div>
       <div className="flex w-full items-center justify-end gap-4">
         <Button variant={'outline'} size={'md'}>

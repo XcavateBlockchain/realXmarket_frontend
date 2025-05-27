@@ -5,21 +5,21 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'flex items-center justify-center gap-1 rounded-lg transition-all duration-300 uppercase disabled:opacity-50 disabled:text-opacity-55',
+  'flex items-center justify-center gap-1 rounded-lg uppercase transition-all duration-300 disabled:text-opacity-55 disabled:opacity-50',
   {
     variants: {
       variant: {
         default:
-          'bg-x-gradient hover:shadow-filled disabled:cursor-not-allowe uppercase disabled:text-white/80',
+          'disabled:cursor-not-allowe bg-x-gradient uppercase hover:shadow-filled disabled:text-white/80',
         outline:
-          'border-primary text-foreground border font-sans uppercase hover:shadow-outlined',
-        filled: ' bg-primary text-white hover:bg-primary-300 uppercase',
-        text: 'text-primary bg-none rounded-none uppercase'
+          'border border-primary font-sans uppercase text-foreground hover:shadow-outlined',
+        filled: ' bg-primary uppercase text-white hover:bg-primary-300',
+        text: 'rounded-none bg-none uppercase text-primary'
       },
       size: {
-        default: 'py-2 px-4 text-[0.875rem]/[1.5rem] font-bold lg:py-3 lg:px-7',
-        lg: 'py-2 px-7 text-[ 0.875rem]/[1.5rem] font-bold',
-        md: 'p-2 text-[1rem]/[1.5rem] font-sans',
+        default: 'px-4 py-2 text-[0.875rem]/[1.5rem] font-bold lg:px-7 lg:py-3',
+        lg: 'text-[ 0.875rem]/[1.5rem] px-7 py-2 font-bold',
+        md: 'p-2 font-sans text-[1rem]/[1.5rem]',
         icon: 'p-[5px]'
       },
       fullWidth: {
