@@ -1,5 +1,5 @@
 import FileInput, { MimeTypes } from '@/components/file-input';
-// import SelectInput from '@/components/select-input';
+import SelectInput from '@/components/select-input';
 import Form, { useZodForm } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -24,6 +24,22 @@ const propertyTypes: Option[] = [
   {
     label: 'Flat',
     value: 'Flat'
+  },
+  {
+    label: 'Bungalow',
+    value: 'Bungalow'
+  },
+  {
+    label: 'Detached',
+    value: 'Detached'
+  },
+  {
+    label: 'Semi-Detached',
+    value: 'Semi-Detached'
+  },
+  {
+    label: 'Terraced',
+    value: 'Terraced'
   }
 ];
 
@@ -142,18 +158,18 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
           placeholder=""
           {...form.register('property_number')}
         />
-        <Input
+        {/* <Input
           type="text"
           label="Property Type"
           placeholder="E.G (Flat, Apartment)"
           {...form.register('property_type')}
-        />
-        {/* <SelectInput
+        /> */}
+        <SelectInput
           label="Property Type"
           placeholder="select"
           options={propertyTypes}
           {...form.register('property_type')}
-        /> */}
+        />
       </div>
       <div className="grid w-full grid-cols-3 gap-2">
         <Input
@@ -179,7 +195,7 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
       <div className="flex w-full flex-col">
         <span className="font-mona text-[18px]/[24px] font-semibold">Document</span>
         <Separator className="mb-8 mt-4" />
-        <div className="flex items-center gap-2">
+        <div className="grid grid-cols-4 gap-2">
           <FileInput
             name="Upload Sales Agreement"
             types={[MimeTypes.PDF]}

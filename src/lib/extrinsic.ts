@@ -77,6 +77,7 @@ export async function buyNft(senderAddress: string, listingId: number, amount: n
     throw new NftError(`Failed to buy NFT: ${error.message}`);
   }
 }
+
 export async function listProperty(
   senderAddress: string,
   region: number,
@@ -84,15 +85,7 @@ export async function listProperty(
   tokenPrice: number,
   tokenAmount: number,
   data: any
-) {
-  // const region = 1;
-  // const location = 'London';
-  // const tokenPrice = 1000;
-  // const tokenAmount = 150;
-  // const data = {
-  //   address: 'Somewhere',
-  //   postcode: 'PO 223'
-  // };
+): Promise<any> {
   try {
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
@@ -102,19 +95,36 @@ export async function listProperty(
       location,
       tokenPrice,
       tokenAmount,
-      JSON.stringify(data)
+      JSON.stringify(data),
+      true
     );
     const signer = injected.signer;
 
-    const unsub = await extrinsic.signAndSend(senderAddress, { signer }, result => {
-      if (result.status.isInBlock) {
-        console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
-      } else if (result.status.isBroadcast) {
-        console.log(`Transaction finalized at blockHash ${result.status.asBroadcast}`);
-      }
+    return new Promise((resolve, reject) => {
+      extrinsic
+        .signAndSend(senderAddress, { signer }, result => {
+          if (result.status.isInBlock) {
+            console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
+            // Get the events from the transaction
+            const events = result.events.map(event => ({
+              section: event.event.section,
+              method: event.event.method,
+              data: event.event.data.toHuman()
+            }));
+            console.log('Events', events);
+            resolve(events);
+          } else if (result.status.isFinalized) {
+            console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+          } else if (result.status.isDropped) {
+            reject(new Error(`Transaction dropped: ${result.status.toString()}`));
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
-    console.log('Transaction sent:', unsub);
   } catch (error) {
     console.error('Failed to list property:', error);
+    throw error;
   }
 }
