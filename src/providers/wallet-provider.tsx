@@ -73,7 +73,7 @@ export function WalletContextProvider({ children }: Props) {
   const [isSelectWallet, setIsSelectWallet] = useState(false);
   const [accounts, setAccounts] = useState<WalletAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<WalletAccount[] | null>(null);
-  const [balance, setBalance] = useState<string | null>(null);
+  const [balance, setBalance] = useState<any | null>(null);
   const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
   const [showCredentialDialog, setShowCredentialDialog] = useState(false);
 
@@ -148,6 +148,7 @@ export function WalletContextProvider({ children }: Props) {
         await axios.post('/api/auth', {
           accountKey: selectedAccount[0]?.address
         });
+        // const balance = await getFormattedBalance(selectedAccount[0]?.address, api);
         setBalance(await getFormattedBalance(selectedAccount[0]?.address, api));
         setShowCredentialDialog(true);
         router.refresh();
