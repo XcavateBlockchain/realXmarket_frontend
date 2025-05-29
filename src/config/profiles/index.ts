@@ -6,9 +6,14 @@ type Profiles = {
   [key: string]: IProfile; // Index signature added here
 };
 
+// export const profiles: Profiles = {
+//   '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY': alice,
+//   '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty': bob
+// };
+
 export const profiles: Profiles = {
-  '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY': alice,
-  '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty': bob
+  investor: alice,
+  developer: bob
 };
 
 const companies: Company[] = [
