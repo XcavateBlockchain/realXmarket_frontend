@@ -11,13 +11,15 @@ export default function MarketCard({
   fileUrls,
   tokenRemaining,
   metaData,
-  details
+  details,
+  price
 }: {
   id: string;
   fileUrls: string[];
   details: ListingDetails;
   tokenRemaining: any;
   metaData: IProperty;
+  price?: any;
 }) {
   //
   return (
@@ -93,7 +95,7 @@ export default function MarketCard({
             <dd className="font-sans text-[0.875rem]/[1.5rem]">
               Price{' '}
               <span className="font-bold">
-                {formatPrice(details.tokenPrice.replace(/,/g, ''))}
+                {price ? formatPrice(price) : formatPrice(metaData.property_price)}
               </span>
             </dd>
           </div>
