@@ -10,7 +10,7 @@ export interface WalletContextInterface {
   selectedAccount: WalletAccount[] | null;
   disconnectWallet: () => Promise<void>;
   balance: string | null;
-  setBalance: (balance: string | null) => void;
+  setBalance: (balance: any | null) => void;
   investorType: 'developer' | 'investor' | 'agent' | null;
   onSelectInvestorType: (value: string) => void;
   showCredentialDialog: boolean;
