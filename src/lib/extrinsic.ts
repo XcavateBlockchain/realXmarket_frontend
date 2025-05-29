@@ -128,3 +128,34 @@ export async function listProperty(
     throw error;
   }
 }
+
+export async function listenForWhiteListEvent(
+  txHash: string,
+  address: string,
+  handleResult: (data: { registered: boolean; message: string } | null) => void
+) {
+  try {
+    const api = await apiPRomise;
+    // console.log(`Listening for events related to transaction: ${txHash}`);
+    const unsubscribe: any = await api.query.system.events((events: any[]) => {
+      events.forEach(record => {
+        const { event, phase } = record;
+
+        if (event.section === 'xcavateWhitelist' && event.method === 'NewUserWhitelisted') {
+          const foundEvent = event.toHuman();
+          if (foundEvent.data.user === address) {
+            // console.log(event.toHuman());
+
+            handleResult({
+              registered: true,
+              message: 'Player successfully registered'
+            });
+          }
+          unsubscribe();
+        }
+      });
+    });
+  } catch (error) {
+    handleResult(null);
+  }
+}

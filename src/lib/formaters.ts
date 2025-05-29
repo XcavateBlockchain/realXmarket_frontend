@@ -64,9 +64,13 @@ export const formatIpfsLink = (ipfsHash: string): string => {
 export const getFormattedBalance = async (
   address: string,
   api?: ApiPromise | null
-): Promise<string> => {
+): Promise<{
+  xcaveBalance: string;
+  usdcBalance?: string;
+  usdtBalance?: string;
+} | null> => {
   if (!api) {
-    return '';
+    return null;
   }
   await api.isReady;
 
@@ -76,9 +80,23 @@ export const getFormattedBalance = async (
   const chainDecimals = api.registry.chainDecimals[0];
   formatBalance.setDefaults({ unit: api.registry.chainTokens[0] });
 
-  return formatBalance(balance.free, {
+  const balanceUSDT: any = (
+    await api.query.assets.account(process.env.NEXT_PUBLIC_USDT_PAYMENT_TOKEN, address)
+  ).toHuman();
+
+  const balanceUSDC: any = (
+    await api.query.assets.account(process.env.NEXT_PUBLIC_USDC_PAYMENT_TOKEN, address)
+  ).toHuman();
+
+  const coreBalace = formatBalance(balance.free, {
     withSiFull: false,
     withZero: false,
     decimals: chainDecimals
   }).replace(/\.(\d{2})\d+/g, '.$1');
+
+  return {
+    xcaveBalance: coreBalace,
+    usdcBalance: balanceUSDC?.balance!,
+    usdtBalance: balanceUSDT?.balance
+  };
 };

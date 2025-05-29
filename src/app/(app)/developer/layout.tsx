@@ -15,7 +15,7 @@ export default async function DeveloperLayout({ children }: Readonly<ProfileLayo
   const address = await getCookieStorage('accountKey');
 
   const data = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
-  const profile = profiles[address as string] ?? null;
+  const profile = profiles['developer'];
 
   if (!address || !profile) {
     return (

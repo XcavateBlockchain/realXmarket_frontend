@@ -1,16 +1,20 @@
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogTrigger
+  // AlertDialog,
+  AlertDialogContent
+  // AlertDialogTrigger
 } from '@/components/ui/alert-dialog';
 import Image from 'next/image';
 import { Button } from '../ui/button';
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, use, useState } from 'react';
 import { AccountTypeButton } from '../utility-button';
 import { Icons } from '../icons';
 import { useWalletContext } from '@/context/wallet-context';
-import { profiles } from '@/config/profiles';
+// import { profiles } from '@/config/profiles';
 import { setCookieStorage } from '@/lib/cookie-storage';
+import { WhiteListExtrinsic } from '@/lib/sudo';
+import { listenForWhiteListEvent } from '@/lib/extrinsic';
+import { checkIfWhiteListed } from '@/lib/queries';
+import { formatAddress } from '@/lib/formaters';
 
 interface ISection {
   [key: number]: ReactNode;
@@ -44,18 +48,13 @@ interface DialogProps {
 }
 
 function SelectUserType({ setIndex, close }: DialogProps) {
-  const { selectedAccount, onSelectInvestorType } = useWalletContext();
-  const address = selectedAccount?.[0]?.address;
+  const { onSelectInvestorType } = useWalletContext();
+  // const address = selectedAccount?.[0]?.address;
 
-  const profile = address ? profiles[address] : null;
+  // const profile = address ? profiles[address] : null;
   const handleSelect = (type: 'developer' | 'investor' | 'agent') => {
-    if (!profile) {
-      onSelectInvestorType(type);
-      setIndex(4);
-    } else {
-      onSelectInvestorType(type);
-      setIndex(2);
-    }
+    onSelectInvestorType(type);
+    setIndex(2);
   };
   return (
     <>
@@ -103,6 +102,43 @@ function SelectUserType({ setIndex, close }: DialogProps) {
 }
 
 function ConnectCredential({ setIndex, close }: DialogProps) {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle');
+  const { selectedAccount } = useWalletContext();
+  const address = selectedAccount?.[0]?.address;
+
+  async function onWhiteListUser() {
+    setStatus('loading');
+    try {
+      const isWhiteListed = await checkIfWhiteListed(address!);
+      console.log(isWhiteListed);
+
+      if (isWhiteListed === true) {
+        setStatus('success');
+        setIndex(3);
+        setCookieStorage('isWhiteListed', 'true');
+        return;
+      }
+
+      const result = await WhiteListExtrinsic(address!);
+      // console.log(result);
+      if (!result) {
+        setStatus('error');
+        return;
+      }
+      await listenForWhiteListEvent(result.txHash, address!, data => {
+        if (!data) {
+          setStatus('error');
+          return;
+        }
+        setStatus('success');
+        setIndex(3);
+        setCookieStorage('isWhiteListed', 'true');
+      });
+    } catch (error) {
+      setStatus('error');
+    }
+  }
+
   return (
     <>
       <div className="inline-flex w-full flex-col items-center justify-center gap-6 p-4">
@@ -123,7 +159,15 @@ function ConnectCredential({ setIndex, close }: DialogProps) {
           <div className="size-10 rounded-full border border-primary">
             <Image src={'/icons/verify_your_identity.svg'} alt="" width={40} height={40} />
           </div>
-          <span className="font-mona text-[1.125rem]/[1.5rem]">Connect credentials</span>
+          <span className="font-mona text-[1.125rem]/[1.5rem]">
+            {status === 'loading'
+              ? 'PROCESSING'
+              : status === 'error'
+                ? 'Error Please Try again'
+                : status === 'success'
+                  ? `CONNECTED ${formatAddress(address!)}`
+                  : 'Connect credentials'}
+          </span>
         </div>
       </div>
       <div className="flex w-full justify-end gap-2 px-6 pb-6">
@@ -133,12 +177,14 @@ function ConnectCredential({ setIndex, close }: DialogProps) {
         <Button
           size={'md'}
           className="text-white"
-          onClick={() => {
-            setIndex(3);
-            setCookieStorage('isWhiteListed', 'true');
-          }}
+          onClick={onWhiteListUser}
+          // onClick={() => {
+          //   setIndex(3);
+          //   setCookieStorage('isWhiteListed', 'true');
+          // }}
+          disabled={status === 'loading'}
         >
-          CONNECT
+          {status === 'loading' ? 'LOADING.....' : status === 'error' ? 'RETRY' : 'CONNECT'}
         </Button>
       </div>
     </>

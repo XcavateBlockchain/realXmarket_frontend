@@ -5,7 +5,6 @@ import ProfileBannerImage from '@/components/profile-banner-image';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { profiles } from '@/config/profiles';
 import { getTokensAndListingsOwnedByAccount, getOnGoingObjectListing } from '@/lib/queries';
-import { Button } from '@/components/ui/button';
 import ConnectWalletButton from '@/components/wallet/connect-wallet';
 
 interface ProfileLayoutProps {
@@ -15,7 +14,7 @@ interface ProfileLayoutProps {
 export default async function DeveloperLayout({ children }: Readonly<ProfileLayoutProps>) {
   const address = await getCookieStorage('accountKey');
 
-  const profile = profiles[address as string] ?? null;
+  const profile = profiles['investor'];
 
   const tokensOwned: any = await getTokensAndListingsOwnedByAccount(address as string);
 

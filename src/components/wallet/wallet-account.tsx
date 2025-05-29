@@ -14,6 +14,7 @@ import { Icons } from '../icons';
 import Image from 'next/image';
 import { AccountOptions } from './wallet-connectors';
 import { NodeContext } from '@/context';
+import { USDCIcon, USDTIcon } from '../coin';
 
 interface ISection {
   [key: number]: React.ReactNode;
@@ -110,12 +111,18 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
   const { api } = useContext(NodeContext);
   const selectedAddress = walletContext.selectedAccount?.[0]?.address;
   const account = walletContext.selectedAccount?.[0];
-  const [balance, setBalance] = useState<string | null>(null);
+  const [balance, setBalance] = useState<{
+    xcaveBalance: string;
+    usdcBalance?: string;
+    usdtBalance?: string;
+  } | null>(null);
 
   useEffect(() => {
     if (selectedAddress) {
       getFormattedBalance(selectedAddress, api).then(balance => {
-        setBalance(balance);
+        if (balance) {
+          setBalance(balance);
+        }
       });
     }
   }, [selectedAddress, api]);
@@ -148,8 +155,20 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
       </div>
       <div className="grid justify-items-start gap-2 rounded-lg border px-4 py-2">
         <dl className="flex w-full items-center justify-between">
-          <dt>XCAV tokens</dt>
-          <dd>{balance}</dd>
+          <dt>XCAV</dt>
+          <dd>{balance?.xcaveBalance}</dd>
+        </dl>
+        <dl className="flex w-full items-center justify-between">
+          <dt className="flex items-center gap-1">
+            <USDCIcon className="size-6 rounded-full" /> USDC
+          </dt>
+          <dd>{balance?.usdcBalance}</dd>
+        </dl>
+        <dl className="flex w-full items-center justify-between">
+          <dt className="flex items-center gap-1">
+            <USDTIcon className=" size-6 rounded-full" /> USDT
+          </dt>
+          <dd>{balance?.usdtBalance}</dd>
         </dl>
       </div>
       <div className="flex w-full items-center gap-4 md:justify-end md:gap-2">

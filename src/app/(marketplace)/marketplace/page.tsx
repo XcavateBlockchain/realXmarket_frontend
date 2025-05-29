@@ -1,12 +1,93 @@
+import MarketCard from '@/components/cards/market-card';
+import {
+  getActiveProperties,
+  getAllOngoingListings,
+  getAllOngoingListingsWhereAddressIsDeveloper,
+  getAllTokenBuyerForListing,
+  getAllTokenBuyers,
+  getItemMetadata,
+  getTokenRemaining,
+  getTokensAndListingsOwnedByAccount
+} from '@/lib/queries';
+
+import { FetchedProperty, Listing, Property } from '@/types';
+import FilterTabs from './filter-tabs';
+import { hexToString } from '@/lib/utils';
+import { getCookieStorage } from '@/lib/cookie-storage';
 import { Shell } from '@/components/shell';
-// import FilterTabs from './filter-tabs';
-// import Listings from './components/listings';
-import dynamic from 'next/dynamic';
+import { generatePresignedUrl } from '@/lib/s3';
 
-const FilterTabs = dynamic(() => import('./filter-tabs'), { ssr: false });
-const Listings = dynamic(() => import('./components/listings'), { ssr: false });
+export const maxDuration = 300;
+export default async function Marketplace() {
+  const address = await getCookieStorage('accountKey');
+  // const data = await getAllOngoingListings();
+  // console.log('ALL ONGOING LISTINGS', data);
 
-export default function Page() {
+  const activeListingsWhereAccountIsDeveloper =
+    await getAllOngoingListingsWhereAddressIsDeveloper(
+      '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
+    );
+  // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
+
+  // const allTokenBuyers = await getAllTokenBuyers();
+  // console.log('ALL TOKEN BUYERS', allTokenBuyers);
+
+  // const listing9Buyers = await getAllTokenBuyerForListing(9);
+  // console.log('TOKEN BUYERS FOR LISTING 9', listing9Buyers);
+
+  // const tokensOwnedByBob = await getTokensAndListingsOwnedByAccount(
+  //   '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
+  // ); // Bob account
+
+  // console.log('TOKENS OWNED BY BOB ACCOUNT', tokensOwnedByBob);
+  // const properties = (await getActiveProperties()) as FetchedProperty[];
+
+  // console.log(properties);
+
+  // async function FetchMetaData() {
+  //   activeListingsWhereAccountIsDeveloper.map(async listing => {
+  //     // const details  = JSON.parse(listing.listingDetails);
+
+  //     if (listing.listingDetails && typeof listing.listingDetails === 'object') {
+  //       const metaData = await getItemMetadata(
+  //         listing.listingDetails.collectionId,
+  //         listing.listingDetails.itemId
+  //       );
+  //       console.log(hexToString(metaData.data));
+  //     }
+  //   });
+  // }
+
+  // console.log(await FetchMetaData());
+
+  async function FetchMetaData() {
+    const results = await Promise.all(
+      activeListingsWhereAccountIsDeveloper.map(async listing => {
+        if (listing.listingDetails && typeof listing.listingDetails === 'object') {
+          const metaData = await getItemMetadata(
+            listing.listingDetails.collectionId,
+            listing.listingDetails.itemId
+          );
+          const tokenRemaining = await getTokenRemaining(listing.listingId);
+          // const metadata = hexToString(metaData.data);
+          const metadata = metaData.data.startsWith('0x')
+            ? hexToString(metaData.data)
+            : metaData.data;
+          return { listing, tokenRemaining, metadata };
+        }
+      })
+    );
+    return results;
+  }
+
+  // console.log(await FetchMetaData());
+
+  const listings: Listing[] = (await FetchMetaData()).filter(
+    (item): item is Listing => item !== undefined
+  );
+
+  //   console.log(listings);
+
   return (
     <Shell variant={'basic'} className="gap-10 pb-32">
       <FilterTabs />
@@ -17,7 +98,32 @@ export default function Page() {
             <SortIcon />
           </span>
         </div>
-        <Listings />
+
+        {listings && listings.length >= 1 ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {listings.map(async listing => {
+              const data = JSON.parse(listing.metadata);
+              const fileUrls = await Promise.all(
+                data.files
+                  .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+                  .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+              );
+              return (
+                <MarketCard
+                  key={listing.listing.listingId}
+                  //   price={listing.listing.listingDetails.tokenPrice}
+                  id={listing.listing.listingId}
+                  fileUrls={fileUrls}
+                  details={listing.listing.listingDetails}
+                  tokenRemaining={listing.tokenRemaining}
+                  metaData={data}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </Shell>
   );
