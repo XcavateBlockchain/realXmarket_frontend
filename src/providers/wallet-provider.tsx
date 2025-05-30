@@ -18,8 +18,13 @@ import { toast } from 'sonner';
 import { formatAddress, getFormattedBalance } from '@/lib/formaters';
 import { NodeContext } from '@/context';
 import { AlertDialog } from '@/components/ui/alert-dialog';
-import VerifyCredential from '@/components/credential/verify-crendentail';
+// import VerifyCredential from '@/components/credential/verify-crendentail';
 import { deleteCookieItem, getCookieStorage, setCookieStorage } from '@/lib/cookie-storage';
+import dynamic from 'next/dynamic';
+
+const VerifyCredential = dynamic(() => import('../components/credential/verify-crendentail'), {
+  ssr: false
+});
 
 interface Props {
   children: React.ReactNode;
@@ -73,7 +78,7 @@ export function WalletContextProvider({ children }: Props) {
   const [isSelectWallet, setIsSelectWallet] = useState(false);
   const [accounts, setAccounts] = useState<WalletAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<WalletAccount[] | null>(null);
-  const [balance, setBalance] = useState<any | null>(null);
+  const [balance, setBalance] = useState<string | null>(null);
   const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
   const [showCredentialDialog, setShowCredentialDialog] = useState(false);
 
@@ -148,7 +153,6 @@ export function WalletContextProvider({ children }: Props) {
         await axios.post('/api/auth', {
           accountKey: selectedAccount[0]?.address
         });
-        // const balance = await getFormattedBalance(selectedAccount[0]?.address, api);
         setBalance(await getFormattedBalance(selectedAccount[0]?.address, api));
         setShowCredentialDialog(true);
         router.refresh();

@@ -11,7 +11,7 @@ interface ProfileLayoutProps {
 
 export default async function DeveloperLayout({ children }: Readonly<ProfileLayoutProps>) {
   const address = await getCookieStorage('accountKey');
-  const profile = profiles[address as string] ?? null;
+  const profile = profiles['investor'] ?? null;
   return (
     <>
       <ProfileBannerImage profile={profile} />

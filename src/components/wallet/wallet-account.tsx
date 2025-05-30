@@ -8,7 +8,7 @@ import { SCREENS, useScreenSize } from '@/lib/resolutionScreens';
 import { getLocalStorageItem } from '@/lib/localstorage';
 import type { WalletAccount, WalletInfo } from '@/types';
 import { PREDEFINED_WALLETS } from '@/config/dotsama';
-import { formatAddress, getFormattedBalance } from '@/lib/formaters';
+import { formatAddress, getAssetBalances, getFormattedBalance } from '@/lib/formaters';
 import IdentIcon from './identicon';
 import { Icons } from '../icons';
 import Image from 'next/image';
@@ -111,17 +111,24 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
   const { api } = useContext(NodeContext);
   const selectedAddress = walletContext.selectedAccount?.[0]?.address;
   const account = walletContext.selectedAccount?.[0];
-  const [balance, setBalance] = useState<{
-    xcaveBalance: string;
-    usdcBalance?: string;
-    usdtBalance?: string;
-  } | null>(null);
+  const [balance, setBalance] = useState<string | null>(null);
+  const [otherBalance, setOtherBalance] = useState<any | null>(null);
 
   useEffect(() => {
     if (selectedAddress) {
       getFormattedBalance(selectedAddress, api).then(balance => {
         if (balance) {
           setBalance(balance);
+        }
+      });
+    }
+  }, [selectedAddress, api]);
+
+  useEffect(() => {
+    if (selectedAddress) {
+      getAssetBalances(selectedAddress, api).then(balance => {
+        if (balance) {
+          setOtherBalance(balance);
         }
       });
     }
@@ -156,19 +163,19 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
       <div className="grid justify-items-start gap-2 rounded-lg border px-4 py-2">
         <dl className="flex w-full items-center justify-between">
           <dt>XCAV</dt>
-          <dd>{balance?.xcaveBalance}</dd>
+          <dd>{balance}</dd>
         </dl>
         <dl className="flex w-full items-center justify-between">
           <dt className="flex items-center gap-1">
             <USDCIcon className="size-6 rounded-full" /> USDC
           </dt>
-          <dd>{balance?.usdcBalance}</dd>
+          <dd>{otherBalance?.usdcBalance}</dd>
         </dl>
         <dl className="flex w-full items-center justify-between">
           <dt className="flex items-center gap-1">
             <USDTIcon className=" size-6 rounded-full" /> USDT
           </dt>
-          <dd>{balance?.usdtBalance}</dd>
+          <dd>{otherBalance?.usdtBalance}</dd>
         </dl>
       </div>
       <div className="flex w-full items-center gap-4 md:justify-end md:gap-2">
