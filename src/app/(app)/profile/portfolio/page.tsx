@@ -118,7 +118,7 @@ function ViewAllPropertiesOwned({
             details={listing.listing}
             tokenRemaining={tokenRemaining.tokensOwned.tokenAmount}
             metaData={data}
-            price={parseInt(tokenRemaining.tokensOwned.paidFunds.replace(/,/g, ''), 10)}
+            // price={parseInt(tokenRemaining.tokensOwned.paidFunds.replace(/,/g, ''), 10)}
           />
         );
       })}

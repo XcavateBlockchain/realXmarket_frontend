@@ -13,7 +13,6 @@ interface ProfileLayoutProps {
 
 export default async function DeveloperLayout({ children }: Readonly<ProfileLayoutProps>) {
   const address = await getCookieStorage('accountKey');
-
   const profile = profiles['investor'];
 
   const tokensOwned: any = await getTokensAndListingsOwnedByAccount(address as string);

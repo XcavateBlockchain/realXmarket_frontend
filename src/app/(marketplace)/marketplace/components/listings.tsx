@@ -10,24 +10,9 @@ const GET_PROPERTY_LISTINGS = gql`
   query GetPropertyListings(
     $first: Int
     $orderBy: [PropertyListingsOrderBy!]
-    $filter: PropertyListingFilter # $minPropertyPrice: BigFloat
-    # $maxPropertyPrice: BigFloat
-  ) # $minTokenPrice: BigFloat
-  # $maxTokenPrice: BigFloat
-  # $propertyType: String
-  {
-    propertyListings(
-      first: $first
-      orderBy: $orderBy
-      filter: $filter #   filter: {
-      #     propertyType: { equalTo: $propertyType }
-    ) #     propertyPrice: {
-    #       greaterThanOrEqualTo: $minPropertyPrice
-    #       lessThanOrEqualTo: $maxPropertyPrice
-    #     }
-    #     tokenPrice: { greaterThanOrEqualTo: $minTokenPrice, lessThanOrEqualTo: $maxTokenPrice }
-    #   }
-    {
+    $filter: PropertyListingFilter
+  ) {
+    propertyListings(first: $first, orderBy: $orderBy, filter: $filter) {
       nodes {
         id
         nftItemId
@@ -127,15 +112,6 @@ export default function Listings() {
   // Query with filters
   const { loading: isLoading, data } = useQuery(GET_PROPERTY_LISTINGS, {
     variables: buildFilterObject()
-    // variables: {
-    //   first: 10,
-    //   orderBy: 'BLOCK_NUMBER_DESC',
-    //   propertyType,
-    //   minPropertyPrice,
-    //   maxPropertyPrice,
-    //   minTokenPrice,
-    //   maxTokenPrice
-    // }
   });
 
   if (isLoading) {
@@ -174,3 +150,22 @@ export default function Listings() {
     </>
   );
 }
+
+// $filter: PropertyListingFilter # $minPropertyPrice: BigFloat
+// # $maxPropertyPrice: BigFloat
+// ) # $minTokenPrice: BigFloat
+// # $maxTokenPrice: BigFloat
+// # $propertyType: String
+// {
+// propertyListings(
+//   first: $first
+//   orderBy: $orderBy
+//   filter: $filter #   filter: {
+//   #     propertyType: { equalTo: $propertyType }
+// ) #     propertyPrice: {
+// #       greaterThanOrEqualTo: $minPropertyPrice
+// #       lessThanOrEqualTo: $maxPropertyPrice
+// #     }
+// #     tokenPrice: { greaterThanOrEqualTo: $minTokenPrice, lessThanOrEqualTo: $maxTokenPrice }
+// #   }
+// {
