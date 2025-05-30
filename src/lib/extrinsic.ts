@@ -54,12 +54,17 @@ export async function listNFT(senderAddress: string, collectionId: number, nftId
 //   }
 // }
 
-export async function buyNft(senderAddress: string, listingId: number, amount: number) {
+export async function buyNft(
+  senderAddress: string,
+  listingId: number,
+  amount: number,
+  asset: number
+) {
   try {
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
-    const extrinsic = api.tx.nftMarketplace.buyToken(listingId, amount);
+    const extrinsic = api.tx.nftMarketplace.buyToken(listingId, amount, asset);
     const signer = injected.signer;
 
     const unsub = await extrinsic.signAndSend(senderAddress, { signer }, result => {

@@ -6,7 +6,8 @@ import { cookies } from 'next/headers';
 const schema = z.object({
   accountKey: z.string().optional(),
   investorType: z.string().optional(),
-  isWhiteListed: z.string().optional()
+  isWhiteListed: z.string().optional(),
+  asset: z.string().optional()
 });
 
 type KeyValueMap = z.infer<typeof schema>;

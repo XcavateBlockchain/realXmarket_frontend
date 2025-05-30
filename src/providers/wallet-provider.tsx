@@ -81,6 +81,7 @@ export function WalletContextProvider({ children }: Props) {
   const [balance, setBalance] = useState<string | null>(null);
   const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
   const [showCredentialDialog, setShowCredentialDialog] = useState(false);
+  const [asset, setAsset] = useState<'usdt' | 'usdc'>('usdt');
 
   useEffect(() => {
     if (api && api.registry.chainSS58) {
@@ -193,6 +194,24 @@ export function WalletContextProvider({ children }: Props) {
     },
     [setCookieStorage, setInvestorType]
   );
+  const onChangeAsset = useCallback(
+    async (asset: 'usdt' | 'usdc') => {
+      setCookieStorage('asset', asset);
+      setAsset(asset);
+    },
+    [setCookieStorage, setInvestorType]
+  );
+
+  useEffect(() => {
+    const fetchAsset = async () => {
+      const selectedAsset = await getCookieStorage('asset');
+      if (!selectedAsset) {
+        setCookieStorage('asset', asset);
+      }
+      setAsset(selectedAsset as 'usdt' | 'usdc');
+    };
+    fetchAsset();
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -220,6 +239,8 @@ export function WalletContextProvider({ children }: Props) {
     disconnectWallet,
     setBalance,
     balance,
+    asset,
+    onChangeAsset,
     investorType,
     onSelectInvestorType,
     showCredentialDialog,

@@ -15,6 +15,7 @@ import Image from 'next/image';
 import { AccountOptions } from './wallet-connectors';
 import { NodeContext } from '@/context';
 import { USDCIcon, USDTIcon } from '../coin';
+import AssetSwitcher from '../asset-switcher';
 
 interface ISection {
   [key: number]: React.ReactNode;
@@ -137,7 +138,7 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
   return (
     <>
       <div className="flex w-full gap-2">
-        <div className="flex items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <div className="flex flex-col gap-2">
             <h1 className="font-mona text-[1.125rem]/[1.5rem] font-semibold text-[#4E4E4E]">
               Summary
@@ -158,6 +159,7 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
               <Icons.copy className="size-6" />
             </div>
           </div>
+          <AssetSwitcher />
         </div>
       </div>
       <div className="grid justify-items-start gap-2 rounded-lg border px-4 py-2">
@@ -169,13 +171,13 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
           <dt className="flex items-center gap-1">
             <USDCIcon className="size-6 rounded-full" /> USDC
           </dt>
-          <dd>{otherBalance?.usdcBalance}</dd>
+          <dd>{otherBalance?.usdc}</dd>
         </dl>
         <dl className="flex w-full items-center justify-between">
           <dt className="flex items-center gap-1">
             <USDTIcon className=" size-6 rounded-full" /> USDT
           </dt>
-          <dd>{otherBalance?.usdtBalance}</dd>
+          <dd>{otherBalance?.usdt}</dd>
         </dl>
       </div>
       <div className="flex w-full items-center gap-4 md:justify-end md:gap-2">

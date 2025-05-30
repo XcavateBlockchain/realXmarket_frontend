@@ -5,6 +5,7 @@ import Image from 'next/image';
 import BuyToken from './buy-token';
 import { IProperty, ListingDetails } from '@/types';
 import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
+import AssetSwitcher from '@/components/asset-switcher';
 
 type PropertyOverviewProps = {
   listingId: any;

@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import Image from 'next/image';
 import { buyNft } from '@/lib/extrinsic';
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { NumericFormat, OnValueChange } from 'react-number-format';
@@ -21,6 +21,11 @@ import { formatNumber, formatPrice } from '@/lib/utils';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { toast } from 'sonner';
 import { formatDate } from '@polkadot/util';
+import AssetSwitcher from '@/components/asset-switcher';
+import { NodeContext } from '@/context';
+import { getAssetBalances } from '@/lib/formaters';
+import { useWalletContext } from '@/context/wallet-context';
+import usePaymentAsset from '@/hooks/use-payment-asset';
 
 type AmountProps = {
   amount: number;
@@ -43,9 +48,24 @@ function SelectAmount({
   property,
   setAmount
 }: AmountProps) {
+  const { api } = useContext(NodeContext);
+  const { asset, selectedAccount } = useWalletContext();
+  const address = selectedAccount?.[0]?.address;
+  const [balance, setBalance] = useState<any | null>(null);
+
   const handleAmountChange: OnValueChange = ({ value }) =>
     setAmount(parseInt(value.replace(/,/g, '')));
-  const totalPrice = 1.3 * property.price_per_token;
+  const totalPrice = 1.5 * property.price_per_token;
+
+  useEffect(() => {
+    if (address) {
+      getAssetBalances(address, api).then(balance => {
+        if (balance) {
+          setBalance(balance);
+        }
+      });
+    }
+  }, [setBalance, api]);
   return (
     <>
       <div className="flex w-full items-center justify-between">
@@ -90,13 +110,11 @@ function SelectAmount({
       <div className="flex w-full flex-col gap-2 rounded bg-[#4E4E4E]/[0.06] p-2 font-sans text-[0.875rem]/[1.5rem]">
         <div className="flex items-center justify-between">
           <span>Pay with:</span>
-          <span className="flex items-center rounded bg-primary/[0.12] p-1 px-2 font-sans uppercase text-primary">
-            USDT
-          </span>
+          <AssetSwitcher />
         </div>
         <div className="flex items-center justify-between">
           <span>Balance</span>
-          <span>{1.3 * property.price_per_token}</span>
+          <span>{balance?.[asset] || '0'}</span>
         </div>
       </div>
 
@@ -182,6 +200,8 @@ function PurchaseSummary({
 }: SummaryProps) {
   const router = useRouter();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
+  const { asset } = useWalletContext();
+  const { asset: paymentAsset } = usePaymentAsset(asset);
 
   async function onSubmit() {
     setStatus(STATE_STATUS.LOADING);
@@ -191,7 +211,7 @@ function PurchaseSummary({
         toast.error('Please connect your wallet');
         return;
       }
-      await buyNft(address, listingId, amount);
+      await buyNft(address, listingId, amount, Number(paymentAsset.id));
       setIndex(3);
       router.refresh();
     } catch (error: any) {

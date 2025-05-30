@@ -88,8 +88,8 @@ export const getAssetBalances = async (
   api?: ApiPromise | null
 ): Promise<
   | {
-      usdcBalance?: string;
-      usdtBalance?: string;
+      usdc?: string;
+      usdt?: string;
     }
   | string
 > => {
@@ -119,7 +119,7 @@ export const getAssetBalances = async (
   }).replace(/\.(\d{2})\d+/g, '.$1');
 
   return {
-    usdcBalance: balanceUSDC?.balance!,
-    usdtBalance: balanceUSDT?.balance
+    usdc: balanceUSDC?.balance!,
+    usdt: balanceUSDT?.balance
   };
 };
