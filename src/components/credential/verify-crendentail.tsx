@@ -36,7 +36,7 @@ export default function VerifyCredential() {
   };
 
   return (
-    <AlertDialogContent className="w-[518px] gap-6 rounded-lg">
+    <AlertDialogContent className="h-full w-full gap-2 rounded-lg md:h-auto md:w-[518px] md:gap-6">
       {actions[index]}
     </AlertDialogContent>
   );
@@ -71,7 +71,7 @@ function SelectUserType({ setIndex, close }: DialogProps) {
           Choose your user type to create your account
         </p>
       </header>
-      <div className="grid grid-cols-2 gap-4 px-6 pb-6">
+      <div className="grid grid-cols-2 gap-2 px-2 pb-6 md:gap-4 md:px-6">
         <AccountTypeButton
           variant={'developer'}
           account="developer"

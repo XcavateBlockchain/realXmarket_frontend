@@ -1,44 +1,106 @@
 'use client';
 
-import { useContext, useState } from 'react';
-import { Popover } from '@/components/ui/popover';
-
-import { NodeContext } from '@/context';
 import { useWalletContext } from '@/context/wallet-context';
-import { useScreenSize } from '@/lib/resolutionScreens';
+import { SCREENS, useScreenSize } from '@/lib/resolutionScreens';
+import IdentIcon from './identicon';
+import { formatAddress } from '@/lib/formaters';
+import { Button } from '../ui/button';
+import { Icons } from '../icons';
+import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import WalletConnectors from './wallet-connectors';
 import { WalletAccount } from './wallet-account';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
-export default function ConnectWalletButton({ open = false }: { open?: boolean }) {
-  const [index, setIndex] = useState(1);
-  const { api } = useContext(NodeContext);
-  const walletContext = useWalletContext();
-  const selectedAddress = walletContext.selectedAccount?.[0]?.address;
+export default function ConnectWalletButton() {
+  const { setModalOpen, selectedAccount, modalOpen } = useWalletContext();
+  const selectedAddress = selectedAccount?.[0]?.address;
   const screenSize = useScreenSize();
+  // const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  const [walletModal, showWalletModal] = useState(open);
+  const formattedAddress =
+    screenSize === SCREENS.mobile
+      ? formatAddress(selectedAddress, 2, 4, 9)
+      : formatAddress(selectedAddress);
+
+  function handleButtonClick() {
+    console.log('Button clicked, current modalOpen:', modalOpen);
+    setModalOpen(true);
+  }
+
+  if (screenSize === SCREENS.desktop) {
+    return (
+      <Popover open={modalOpen} onOpenChange={setModalOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant={selectedAddress ? 'outline' : 'default'}
+            className={cn('flex shrink-0', {
+              'text-foreground': selectedAddress !== undefined
+            })}
+            onClick={handleButtonClick}
+            fullWidth={screenSize === SCREENS.mobile}
+          >
+            {selectedAddress ? (
+              <>
+                <IdentIcon address={selectedAddress} />
+                {formattedAddress}
+              </>
+            ) : (
+              <>
+                CONNECT <Icons.wallet className="size-6" />
+              </>
+            )}
+            <span className="sr-only">Toggle View Wallet</span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          align="end"
+          className="shadow-wallet mt-4 grid w-[518px] gap-6 rounded-lg p-6"
+        >
+          {selectedAddress ? (
+            <WalletAccount
+              onConnected={() => {
+                setModalOpen(false);
+              }}
+              onClose={() => {
+                setModalOpen(false);
+              }}
+            />
+          ) : (
+            <WalletConnectors
+              onConnected={() => {
+                setModalOpen(false);
+              }}
+              onClose={() => {
+                setModalOpen(false);
+              }}
+            />
+          )}
+        </PopoverContent>
+      </Popover>
+    );
+  }
 
   return (
-    <Popover open={walletModal} onOpenChange={showWalletModal}>
+    <Button
+      variant={selectedAddress ? 'outline' : 'default'}
+      className={cn('flex shrink-0', {
+        'text-foreground': selectedAddress !== undefined
+      })}
+      onClick={handleButtonClick}
+      fullWidth={screenSize === SCREENS.mobile}
+    >
       {selectedAddress ? (
-        <WalletAccount
-          onConnected={() => {
-            showWalletModal(false);
-          }}
-          onClose={() => {
-            showWalletModal(false);
-          }}
-        />
+        <>
+          <IdentIcon address={selectedAddress} />
+          {formattedAddress}
+        </>
       ) : (
-        <WalletConnectors
-          onConnected={() => {
-            showWalletModal(false);
-          }}
-          onClose={() => {
-            showWalletModal(false);
-          }}
-        />
+        <>
+          CONNECT <Icons.wallet className="size-6" />
+        </>
       )}
-    </Popover>
+      <span className="sr-only">Toggle View Wallet</span>
+    </Button>
   );
 }

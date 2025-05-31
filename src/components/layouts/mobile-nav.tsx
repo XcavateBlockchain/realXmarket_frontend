@@ -10,6 +10,7 @@ import { ConnectWalletAction, SelectAccountAction } from './connect-wallet';
 import { ReactNode, useState } from 'react';
 import { ConnectedWalletDetails } from './connected-wallet';
 import { useSubstrateContext } from '@/context/polkadot-contex';
+import ConnectWalletButton from '../wallet/connect-wallet';
 
 interface ISection {
   [key: number]: ReactNode;
@@ -66,7 +67,10 @@ export default function MobileNav() {
             ))}
           </nav>
         </div>
-        {!isConnected ? (
+        <div className="absolute bottom-20 left-0 mt-auto w-full px-4">
+          <ConnectWalletButton />
+        </div>
+        {/* {!isConnected ? (
           <div className="absolute bottom-20 left-0 mt-auto w-full px-4">
             <Sheet open={showWalletAction} onOpenChange={setShowWalletAction}>
               <SheetTrigger asChild>
@@ -80,7 +84,7 @@ export default function MobileNav() {
               </SheetContent>
             </Sheet>
           </div>
-        ) : null}
+        ) : null} */}
       </SheetContent>
     </Sheet>
   );

@@ -18,15 +18,17 @@ type HeaderProps = {
 
 export function AppSiteHeader({ open = false }: HeaderProps) {
   const router = useRouter();
-  const { selectedAccount, showCredentialDialog } = useWalletContext();
+  const { setModalOpen, selectedAccount, showCredentialDialog } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [showVerifyModal, setShowVerifyModal] = React.useState(!showCredentialDialog);
-  const [walletModal, showModal] = React.useState(open);
+  // const [walletModal, showModal] = React.useState(open);
 
-  React.useEffect(() => {
-    showModal(open);
-  }, [open]);
+  // React.useEffect(() => {
+  //   if (open) {
+  //     setModalOpen(open);
+  //   }
+  // }, [open]);
 
   // change background color on scroll
   React.useEffect(() => {
@@ -80,7 +82,7 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
         </nav>
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
-          <ConnectWalletButton open={walletModal} />
+          <ConnectWalletButton />
           {isConnected ? <AuthMenu /> : null}
         </div>
       </div>

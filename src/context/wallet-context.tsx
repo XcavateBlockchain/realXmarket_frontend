@@ -17,6 +17,8 @@ export interface WalletContextInterface {
   setShowCredentialDialog: any;
   asset: 'usdt' | 'usdc';
   onChangeAsset: (value: 'usdt' | 'usdc') => void;
+  modalOpen: boolean;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const WalletContext = React.createContext<WalletContextInterface>({
@@ -33,7 +35,9 @@ export const WalletContext = React.createContext<WalletContextInterface>({
   showCredentialDialog: false,
   setShowCredentialDialog: () => {},
   asset: 'usdt',
-  onChangeAsset: () => {}
+  onChangeAsset: () => {},
+  modalOpen: false,
+  setModalOpen: () => {}
 });
 
 interface OpenSelectWalletInterface {

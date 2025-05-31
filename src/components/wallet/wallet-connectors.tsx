@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useNodeContext } from '@/context';
 import { useOpenSelectContext, useWalletContext } from '@/context/wallet-context';
 import { Button } from '@/components/ui/button';
-import { PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { WalletIcon, WalletIconType } from '../wallet-icon';
 import { Icons } from '../icons';
 import { cn } from '@/lib/utils';
@@ -18,7 +18,10 @@ import { Wallet, WalletAccount } from '@/types';
 import Skeleton from '../skelton';
 import IdentIcon from './identicon';
 import { ScrollArea } from '../ui/scroll-area';
-
+import { useMediaQuery } from '@/hooks/use-media-query';
+// import { DrawerContent, DrawerTrigger } from '../ui/drawer';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { Dialog, DialogContent } from '../ui/dialog';
 interface ISection {
   [key: number]: React.ReactNode;
 }
@@ -27,35 +30,32 @@ type TConnectWallet = {
   onClose: () => void;
   onConnected: () => void;
 };
-type TSelectAccount = {
-  isSelected?: boolean;
-  accounts: WalletAccount[];
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
-  onClick: (account: WalletAccount) => void;
-};
 
 export default function WalletConnectors({ onClose, onConnected }: TConnectWallet) {
   const router = useRouter();
   const openSelectWalletContext = useOpenSelectContext();
-  const walletContext = useWalletContext();
-  const currentAddress = walletContext.selectedAccount?.[0]?.address;
+  const { modalOpen, setModalOpen, selectedAccount, setWallet, selectAccount, setBalance } =
+    useWalletContext();
+  const currentAddress = selectedAccount?.[0]?.address;
   //   const currentBalance = walletContext.balance;
   const { api } = useNodeContext();
   const [index, setIndex] = React.useState<number>(0);
   const [walletAccounts, setWalletAccounts] = React.useState<WalletAccount[]>([]);
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const hiddenTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const dotsamaWallets = getWallets();
 
   React.useEffect(() => {
     if (currentAddress) {
       getFormattedBalance(currentAddress || '', api).then(balance => {
-        walletContext.setBalance(balance);
+        setBalance(balance);
       });
     }
   }, [currentAddress]);
 
   const onSelectAccount = async (account: WalletAccount) => {
-    walletContext.selectAccount(account.address);
+    selectAccount(account.address);
     onConnected();
     setIndex(0);
     onClose();
@@ -70,9 +70,9 @@ export default function WalletConnectors({ onClose, onConnected }: TConnectWalle
       }
       if (walletType === 'substrate') {
         setWalletAccounts([]);
-        walletContext.selectAccount('');
+        selectAccount('');
         // @ts-ignore
-        walletContext.setWallet(getWalletBySource(walletKey), walletType);
+        setWallet(getWalletBySource(walletKey), walletType);
 
         const accounts = await getWalletBySource(walletKey)?.getAccounts(
           api.registry.chainSS58
@@ -98,7 +98,7 @@ export default function WalletConnectors({ onClose, onConnected }: TConnectWalle
         onClose();
       }
     },
-    [openSelectWalletContext, walletContext, api]
+    [openSelectWalletContext, setWallet, selectAccount, api]
   );
 
   const onClickDotsamaWallet = React.useCallback(
@@ -165,6 +165,13 @@ export default function WalletConnectors({ onClose, onConnected }: TConnectWalle
     );
   }
 
+  // Optional: autofocus the hidden trigger so Radix behaves correctly
+  useEffect(() => {
+    if (modalOpen && hiddenTriggerRef.current) {
+      hiddenTriggerRef.current.focus();
+    }
+  }, [modalOpen, hiddenTriggerRef]);
+
   useEffect(() => {
     if (walletAccounts.length >= 1) setIndex(1);
   }, [walletAccounts, setIndex]);
@@ -176,27 +183,44 @@ export default function WalletConnectors({ onClose, onConnected }: TConnectWalle
         accounts={walletAccounts}
         setIndex={setIndex}
         onClick={onSelectAccount}
+        isSelected={currentAddress!}
       />
     )
   };
 
-  return (
-    <>
-      <PopoverTrigger asChild>
-        <Button className="hidden shrink-0 md:flex">
-          CONNECT <Icons.wallet className="size-6" />
-          <span className="sr-only">Toggle Connect Wallet</span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        className="shadow-wallet mt-4 grid w-[518px] gap-6 rounded-lg p-6"
-      >
-        {actions[index]}
-      </PopoverContent>
-    </>
-  );
+  return <>{actions[index]}</>;
+
+  // if (isDesktop) {
+  //   return (
+  //     <Popover open={modalOpen} onOpenChange={setModalOpen}>
+  //       <PopoverContent
+  //         align="end"
+  //         className="shadow-wallet mt-4 grid w-[518px] gap-6 rounded-lg p-6"
+  //       >
+  //         {actions[index]}
+  //       </PopoverContent>
+  //     </Popover>
+  //   );
+  // }
+
+  // return (
+  //   <Sheet modal open={modalOpen} onOpenChange={setModalOpen}>
+  //     <SheetContent
+  //       side={'bottom'}
+  //       className="shadow-wallet mt-4 grid w-full gap-6 rounded-lg p-6"
+  //     >
+  //       {actions[index]}
+  //     </SheetContent>
+  //   </Sheet>
+  // );
 }
+
+type TSelectAccount = {
+  isSelected: string;
+  accounts: WalletAccount[];
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  onClick: (account: WalletAccount) => void;
+};
 
 export function AccountOptions({ isSelected, accounts, onClick }: TSelectAccount) {
   return (
@@ -217,19 +241,21 @@ export function AccountOptions({ isSelected, accounts, onClick }: TSelectAccount
             transition={{ duration: 0.1 }}
             className="flex flex-col gap-2.5 transition"
           >
-            <ScrollArea className={cn('w-full', accounts.length > 3 ? 'h-[400px]' : '')}>
-              <div className="mr-4 grid gap-4">
+            <ScrollArea className={cn('w-full', accounts.length > 3 ? 'h-[350px]' : '')}>
+              <div className="grid gap-4">
                 {accounts.map(account => (
                   <button
                     key={account.address}
                     className={cn(
-                      'flex w-full items-center justify-between rounded-lg border px-4 py-2 transition-colors duration-300 hover:border-primary-foreground',
-                      isSelected ? 'border-foreground' : 'border-transparent'
+                      'flex w-full items-center justify-between rounded-lg border border-transparent px-4 py-2 transition-colors duration-300 hover:border-primary-foreground',
+                      {
+                        'border-primary-300': isSelected === account.address
+                      }
                     )}
                     onClick={() => onClick(account)}
                   >
                     <div className="flex items-center gap-2">
-                      <IdentIcon size={48} address={account.address} />
+                      <IdentIcon size={40} address={account.address} />
 
                       <div className="flex flex-col items-start gap-1">
                         <span className="font-mona text-[1.125rem]/[1.5rem]">
