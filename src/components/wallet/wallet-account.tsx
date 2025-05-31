@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { useWalletContext } from '@/context/wallet-context';
@@ -16,6 +16,10 @@ import { AccountOptions } from './wallet-connectors';
 import { NodeContext } from '@/context';
 import { USDCIcon, USDTIcon } from '../coin';
 import AssetSwitcher from '../asset-switcher';
+import { useMediaQuery } from '@/hooks/use-media-query';
+// import { DrawerContent, DrawerTrigger } from '../ui/drawer';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { Dialog, DialogContent } from '../ui/dialog';
 
 interface ISection {
   [key: number]: React.ReactNode;
@@ -28,13 +32,17 @@ type TConnectWallet = {
 
 export function WalletAccount({ onClose, onConnected }: TConnectWallet) {
   const router = useRouter();
-  const walletContext = useWalletContext();
+  const { modalOpen, setModalOpen, accounts, selectAccount, selectedAccount } =
+    useWalletContext();
   const screenSize = useScreenSize();
   const [index, setIndex] = React.useState<number>(0);
-  const selectedAddress = walletContext.selectedAccount?.[0]?.address;
-  const walletAccounts: any = walletContext.accounts;
+  const selectedAddress = selectedAccount?.[0]?.address;
+  const walletAccounts: any = accounts;
   const [walletType, setWalletType] = React.useState<string>('');
   const walletKey = getLocalStorageItem('wallet-key');
+  const hiddenTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   React.useEffect(() => {
     if (walletKey) {
@@ -43,7 +51,7 @@ export function WalletAccount({ onClose, onConnected }: TConnectWallet) {
   });
 
   const onSelectAccount = async (account: WalletAccount) => {
-    walletContext.selectAccount(account.address);
+    selectAccount(account.address);
     onConnected();
     setIndex(0);
     onClose();
@@ -72,31 +80,40 @@ export function WalletAccount({ onClose, onConnected }: TConnectWallet) {
         accounts={walletAccounts}
         setIndex={setIndex}
         onClick={onSelectAccount}
+        isSelected={selectedAddress!}
       />
     )
   };
 
-  return (
-    <>
-      <PopoverTrigger asChild>
-        <Button
-          variant={'outline'}
-          size={'md'}
-          className="hidden shrink-0 text-foreground md:flex"
-        >
-          {selectedAddress ? <IdentIcon address={selectedAddress} /> : null}
-          {formattedAddress}
-          <span className="sr-only">Toggle View Wallet</span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        className="shadow-wallet mt-4 grid w-[518px] gap-6 rounded-lg p-6"
-      >
-        {actions[index]}
-      </PopoverContent>
-    </>
-  );
+  // Optional: autofocus the hidden trigger so Radix behaves correctly
+  useEffect(() => {
+    if (modalOpen && hiddenTriggerRef.current) {
+      hiddenTriggerRef.current.focus();
+    }
+  }, [modalOpen, hiddenTriggerRef]);
+
+  return <>{actions[index]}</>;
+  // // if (isDesktop) {
+  //   return (
+  //     <Popover open={modalOpen} onOpenChange={setModalOpen}>
+
+  //       <PopoverContent
+  //         align="end"
+  //         className="shadow-wallet mt-4 grid w-[518px] gap-6 rounded-lg p-6"
+  //       >
+  //         {actions[index]}
+  //       </PopoverContent>
+  //     </Popover>
+  //   );
+  // // }
+
+  // return (
+  //   <Sheet open={modalOpen} onOpenChange={setModalOpen}>
+  //     <SheetContent side="bottom" className="grid w-full gap-6 p-6">
+  //       {actions[index]}
+  //     </SheetContent>
+  //   </Sheet>
+  // );
 }
 
 type TAccount = {
@@ -171,21 +188,21 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
           <dt className="flex items-center gap-1">
             <USDCIcon className="size-6 rounded-full" /> USDC
           </dt>
-          <dd>{otherBalance?.usdc}</dd>
+          <dd>{otherBalance?.usdc ?? '0.00'}</dd>
         </dl>
         <dl className="flex w-full items-center justify-between">
           <dt className="flex items-center gap-1">
             <USDTIcon className=" size-6 rounded-full" /> USDT
           </dt>
-          <dd>{otherBalance?.usdt}</dd>
+          <dd>{otherBalance?.usdt ?? '0.00'}</dd>
         </dl>
       </div>
-      <div className="flex w-full items-center gap-4 md:justify-end md:gap-2">
-        <Button className="w-full md:w-auto" onClick={() => setIndex(1)}>
+      <div className="flex w-full items-center justify-end gap-4 md:gap-2">
+        <Button className="w-auto" onClick={() => setIndex(1)}>
           CHANGE ACCOUNT
         </Button>
         <Button
-          className="w-full md:w-auto"
+          className="w-auto"
           variant={'outline'}
           onClick={async () => {
             await walletContext.disconnectWallet();

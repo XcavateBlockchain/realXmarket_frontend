@@ -104,7 +104,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
       </section>
       <section className="mb-10 flex flex-col gap-10 bg-[#F4F4F4] px-4 py-10 md:flex-row md:gap-[103px] md:px-[50px] md:py-16">
         <PropertyFeatures metadata={metadata} />
-        <PropertyDocuments />
+        <PropertyDocuments metadata={metadata} />
       </section>
       <section className="hidden w-full flex-col gap-12 px-4 md:flex md:px-[50px]">
         <div className="flex w-full border-b pb-2">

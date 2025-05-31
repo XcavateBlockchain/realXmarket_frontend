@@ -1,7 +1,6 @@
 // Copyright 2019-2022 @subwallet/wallet-connect authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 'use client';
-
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { getWalletBySource } from '@/components/wallet/wallets';
 import { Wallet, WalletAccount } from '@/types';
@@ -21,16 +20,22 @@ import { AlertDialog } from '@/components/ui/alert-dialog';
 // import VerifyCredential from '@/components/credential/verify-crendentail';
 import { deleteCookieItem, getCookieStorage, setCookieStorage } from '@/lib/cookie-storage';
 import dynamic from 'next/dynamic';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { WalletAccount as WalletAccountModal } from '@/components/wallet/wallet-account';
+import WalletConnectors from '@/components/wallet/wallet-connectors';
+import { useScreenSize } from '@/lib/resolutionScreens';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const VerifyCredential = dynamic(() => import('../components/credential/verify-crendentail'), {
   ssr: false
 });
 
 interface Props {
+  open?: boolean;
   children: React.ReactNode;
 }
 
-export function WalletContextProvider({ children }: Props) {
+export function WalletContextProvider({ open = false, children }: Props) {
   const router = useRouter();
   const { api } = useContext(NodeContext);
   // const [, setBalanceSubscription] = useState<any>();
@@ -82,6 +87,7 @@ export function WalletContextProvider({ children }: Props) {
   const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
   const [showCredentialDialog, setShowCredentialDialog] = useState(false);
   const [asset, setAsset] = useState<'usdt' | 'usdc'>('usdt');
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (api && api.registry.chainSS58) {
@@ -244,7 +250,9 @@ export function WalletContextProvider({ children }: Props) {
     investorType,
     onSelectInvestorType,
     showCredentialDialog,
-    setShowCredentialDialog
+    setShowCredentialDialog,
+    modalOpen,
+    setModalOpen
   };
 
   const selectWalletContext = {
@@ -257,10 +265,71 @@ export function WalletContextProvider({ children }: Props) {
     }
   };
 
+  const selectedAddress = selectedAccount?.[0]?.address;
+  const screenSize = useScreenSize();
+
+  function SheetMobile() {
+    if (screenSize === 'desktop') return null;
+    if (screenSize === 'tablet') {
+      return (
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+          <DialogContent>
+            {selectedAddress ? (
+              <WalletAccountModal
+                onConnected={() => {
+                  setModalOpen(false);
+                }}
+                onClose={() => {
+                  setModalOpen(false);
+                }}
+              />
+            ) : (
+              <WalletConnectors
+                onConnected={() => {
+                  setModalOpen(false);
+                }}
+                onClose={() => {
+                  setModalOpen(false);
+                }}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+      );
+    }
+
+    return (
+      <Sheet open={modalOpen} onOpenChange={setModalOpen}>
+        <SheetContent side="bottom" className="grid w-full gap-6 p-6">
+          {selectedAddress ? (
+            <WalletAccountModal
+              onConnected={() => {
+                setModalOpen(false);
+              }}
+              onClose={() => {
+                setModalOpen(false);
+              }}
+            />
+          ) : (
+            <WalletConnectors
+              onConnected={() => {
+                setModalOpen(false);
+              }}
+              onClose={() => {
+                setModalOpen(false);
+              }}
+            />
+          )}
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
   return (
     <WalletContext.Provider value={walletContext as WalletContextInterface}>
       <OpenSelectWallet.Provider value={selectWalletContext}>
         {children}
+        <SheetMobile />
         <AlertDialog open={showCredentialDialog} onOpenChange={setShowCredentialDialog}>
           <VerifyCredential />
         </AlertDialog>

@@ -67,6 +67,9 @@ export async function buyNft(
     const extrinsic = api.tx.nftMarketplace.buyToken(listingId, amount, asset);
     const signer = injected.signer;
 
+    const estimatedFee = await extrinsic.paymentInfo(senderAddress);
+    console.log(`Estimated transaction fee: ${estimatedFee.partialFee.toHuman()}`);
+
     const unsub = await extrinsic.signAndSend(senderAddress, { signer }, result => {
       console.log(result);
       if (result.status.isInBlock) {

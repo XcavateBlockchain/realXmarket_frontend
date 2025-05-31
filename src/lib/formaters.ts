@@ -123,3 +123,23 @@ export const getAssetBalances = async (
     usdt: balanceUSDT?.balance
   };
 };
+
+export function convertEstimate(estimate: any) {
+  // Constants
+  const PLANCKS_PER_DOT = 10_000_000_000; // 1 DOT = 10^10 plancks
+  const BLOCK_TIME_SECONDS = 6; // typical Polkadot block time
+  const MAX_REF_TIME = 1_000_000_000; // max refTime per block
+
+  // Convert fee from plancks to DOT
+  const feePlancks = BigInt(estimate.partialFee);
+  const feeDOT = Number(feePlancks) / PLANCKS_PER_DOT;
+
+  // Convert refTime to seconds (approximate)
+  const refTime = BigInt(estimate.weight.refTime);
+  const refTimeSeconds = Number(refTime) * (BLOCK_TIME_SECONDS / MAX_REF_TIME);
+
+  return {
+    feeDOT,
+    refTimeSeconds
+  };
+}

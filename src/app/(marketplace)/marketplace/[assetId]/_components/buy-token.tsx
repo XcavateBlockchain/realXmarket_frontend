@@ -23,7 +23,7 @@ import { toast } from 'sonner';
 import { formatDate } from '@polkadot/util';
 import AssetSwitcher from '@/components/asset-switcher';
 import { NodeContext } from '@/context';
-import { getAssetBalances } from '@/lib/formaters';
+import { convertEstimate, getAssetBalances } from '@/lib/formaters';
 import { useWalletContext } from '@/context/wallet-context';
 import usePaymentAsset from '@/hooks/use-payment-asset';
 
@@ -52,6 +52,7 @@ function SelectAmount({
   const { asset, selectedAccount } = useWalletContext();
   const address = selectedAccount?.[0]?.address;
   const [balance, setBalance] = useState<any | null>(null);
+  const paymentAsset = usePaymentAsset(asset);
 
   const handleAmountChange: OnValueChange = ({ value }) =>
     setAmount(parseInt(value.replace(/,/g, '')));
@@ -114,7 +115,7 @@ function SelectAmount({
         </div>
         <div className="flex items-center justify-between">
           <span>Balance</span>
-          <span>{balance?.[asset] || '0'}</span>
+          <span>{balance?.[asset] ?? '0.00'}</span>
         </div>
       </div>
 
@@ -148,7 +149,7 @@ function SelectAmount({
             <div className="flex justify-between text-[0.875rem]/[1.5rem]">
               <span className="text-[#4E4E4E]/[0.50]">To buy:</span>{' '}
               <span className="font-sans text-[#DC7DA6]">
-                {formatNumber(amount * totalPrice)} USDT
+                {formatNumber(amount * totalPrice)} {paymentAsset.asset.symbol}
               </span>
             </div>
           ) : null}
@@ -200,8 +201,12 @@ function PurchaseSummary({
 }: SummaryProps) {
   const router = useRouter();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
+  const [statusFee, setStatusFee] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
+
   const { asset } = useWalletContext();
+  const { api } = useContext(NodeContext);
   const { asset: paymentAsset } = usePaymentAsset(asset);
+  const [fee, setFee] = useState<any>();
 
   async function onSubmit() {
     setStatus(STATE_STATUS.LOADING);
@@ -222,6 +227,57 @@ function PurchaseSummary({
       setStatus(STATE_STATUS.SUCCESS);
     }
   }
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchEstimatedFee() {
+      if (!api || !listingId || !amount || !asset) {
+        setStatusFee(STATE_STATUS.ERROR);
+        return;
+      }
+
+      try {
+        setStatusFee(STATE_STATUS.LOADING);
+        const address = await getCookieStorage('accountKey');
+
+        if (!address) {
+          if (isMounted) {
+            setStatusFee(STATE_STATUS.ERROR);
+            toast.error('Please connect your wallet');
+          }
+          return;
+        }
+
+        const extrinsic = api.tx.nftMarketplace.buyToken(
+          listingId,
+          amount,
+          Number(paymentAsset.id)
+        );
+        const estimatedFee = await extrinsic.paymentInfo(address);
+
+        // console.log(estimatedFee.toHuman(), 'Estimated Fee');
+
+        if (isMounted) {
+          setStatusFee(STATE_STATUS.SUCCESS);
+
+          setFee(estimatedFee.partialFee.toHuman());
+        }
+      } catch (error) {
+        if (isMounted) {
+          setStatusFee(STATE_STATUS.ERROR);
+          toast.error('Failed to fetch estimated fee');
+          console.error('Error fetching estimated fee:', error);
+        }
+      }
+    }
+
+    fetchEstimatedFee();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [api, listingId, amount, asset]);
 
   const totalPrice = 1.3 * property.price_per_token;
   return (
@@ -265,6 +321,16 @@ function PurchaseSummary({
           <ItemList title="Token price" value={formatPrice(property.price_per_token)} />
           <ItemList title="To buy" value={`${amount} Tokens`} />
           <ItemList title="To pay" value={`${formatNumber(amount * totalPrice)} USDT`} />
+          <ItemList
+            title="Estimated fee"
+            value={statusFee === STATE_STATUS.LOADING ? 'fetching...' : `${fee} XCAV`}
+          />
+          {/* <ItemList
+            title="Estimated Time"
+            value={
+              statusFee === STATE_STATUS.LOADING ? 'fetching...' : `${fee?.refTimeSeconds}`
+            }
+          /> */}
           <ItemList title="Order No." value={'183421176753467564908654765'} />
           <ItemList title="Order time." value={formatDate(new Date())} />
         </dl>
