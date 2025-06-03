@@ -108,6 +108,10 @@ export default async function Marketplace() {
                   .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
                   .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
               );
+              const expired = ['112,508', '112,161', '112,434', '101,264'];
+              if (expired.includes(listing.listing.listingDetails.listingExpiry)) {
+                return null;
+              }
               return (
                 <MarketCard
                   key={listing.listing.listingId}

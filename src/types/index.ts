@@ -210,6 +210,7 @@ export interface ListingDetails {
   itemId: string;
   collectionId: string;
   tokenAmount: string;
+  listingExpiry: string;
 }
 export interface Listing {
   listing: {
