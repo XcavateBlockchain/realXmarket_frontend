@@ -18,7 +18,7 @@ export const siteConfig = {
     },
     {
       title: 'DOCUMENTS',
-      href: '/documents'
+      href: 'https://xcavate-1.gitbook.io/xcavate-protocol/applications/xcavate-dapp'
     }
   ],
 
