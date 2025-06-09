@@ -27,6 +27,8 @@ export function MarketPlaceHeader() {
             <Link
               key={nav.title}
               href={nav.href}
+              target={nav.href.startsWith('https') ? '_blank' : ''}
+              rel={nav.href.startsWith('https') ? 'noreferrer' : ''}
               className="text-[1rem]/[1.5rem] text-primary-foreground transition-colors duration-300 hover:text-primary-300"
             >
               {nav.title}
