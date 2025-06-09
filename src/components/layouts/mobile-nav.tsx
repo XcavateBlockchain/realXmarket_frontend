@@ -58,6 +58,8 @@ export default function MobileNav() {
               <Link
                 key={nav.title}
                 href={nav.href}
+                target={nav.href.startsWith('https') ? '_blank' : ''}
+                rel={nav.href.startsWith('https') ? 'noreferrer' : ''}
                 className="flex w-full items-center justify-between py-2"
               >
                 {nav.title}
