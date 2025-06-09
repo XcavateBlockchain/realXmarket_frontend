@@ -189,3 +189,15 @@ function getIntegersLessThan(n: any) {
 //       };
 //     });
 // }
+export async function checkBlock(targetBlock: number) {
+  const api = await apiPRomise;
+
+  const header = await api.rpc.chain.getHeader();
+  const currentBlock = header.number.toNumber();
+
+  if (currentBlock >= targetBlock) {
+    return true;
+  }
+
+  return false;
+}
