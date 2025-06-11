@@ -2,6 +2,8 @@
 import { OverviewCard } from '@/components/cards/overview-card';
 import { Button } from '@/components/ui/button';
 import { profiles } from '@/config/profiles';
+import { useWalletContext } from '@/context/wallet-context';
+import usePaymentAsset from '@/hooks/use-payment-asset';
 import { getLocalStorageItem } from '@/lib/localstorage';
 import { formatPrice } from '@/lib/utils';
 import { IProfile } from '@/types';
@@ -15,24 +17,28 @@ export default function ProfileHeaderOverview({
   profile: IProfile | null;
   accountDetails: any;
 }) {
-  const totalTokens = accountDetails
-    .map((details: any) => {
-      const totalCollectedFunds = Object.values(
-        details.listingDetails.collectedFunds as Record<string, number>
-      ).reduce((sum: number, value: number) => sum + value, 0);
-      return (
-        totalCollectedFunds / parseInt(details.listingDetails.tokenPrice.replace(/,/g, ''))
-      );
-    })
-    .reduce((acc: number, curr: number) => acc + curr, 0);
+  const { asset } = useWalletContext();
+  const { asset: paymentAsset } = usePaymentAsset(asset);
+  const totalTokens = accountDetails.reduce((total: number, details: any) => {
+    const tokenPrice = parseInt(details.listingDetails.tokenPrice.replace(/,/g, ''), 10);
+    const collectedFunds = parseInt(
+      details.listingDetails.collectedFunds[Number(paymentAsset.id)]
+        ?.toString()
+        .replace(/,/g, '') || '0',
+      10
+    );
+    return total + collectedFunds / tokenPrice;
+  }, 0);
 
-  const totalSales = accountDetails
-    .map((details: any) => {
-      return Object.values(
-        details.listingDetails.collectedFunds as Record<string, number>
-      ).reduce((sum: number, value: number) => sum + value, 0);
-    })
-    .reduce((acc: number, curr: number) => acc + curr, 0);
+  const totalSales = accountDetails.reduce((total: number, details: any) => {
+    const collectedFunds = parseInt(
+      details.listingDetails.collectedFunds[Number(paymentAsset.id)]
+        ?.toString()
+        .replace(/,/g, '') || '0',
+      10
+    );
+    return total + collectedFunds;
+  }, 0);
 
   const propertiesWithPurchases = accountDetails.filter((details: any) => {
     const totalCollectedFunds = Object.values(

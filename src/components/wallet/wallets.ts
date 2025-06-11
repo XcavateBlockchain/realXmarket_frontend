@@ -37,3 +37,10 @@ export function isWalletInstalled(source: string | unknown): boolean {
 
   return wallet?.installed as boolean;
 }
+
+export function web3FromSource() {
+  const selectedItem = localStorage.getItem('wallet-key');
+  const wallet = getWalletBySource(selectedItem as string);
+  const extension = wallet?.extension;
+  return extension;
+}
