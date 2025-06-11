@@ -57,6 +57,7 @@ export function ViewAllListedPropertiesCreated({ listings }: { listings: Listing
             key={listing.listing.listingId}
             fileUrls={fileUrls}
             listingId={listing.listing.listingId}
+            listingExpiry={listing.listing.listingDetails.listingExpiry}
             tokenRemaining={listing.tokenRemaining}
             property={data}
           />

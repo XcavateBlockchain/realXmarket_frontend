@@ -10,6 +10,7 @@ import { generatePresignedUrl } from '@/lib/s3';
 import { cn, hexToString } from '@/lib/utils';
 import { IComponent, Listing, ListingInfo, TokenOwnership } from '@/types';
 import Link from 'next/link';
+import OwnedPropertyCard from './owned-property-card';
 
 type PageProps = {
   searchParams: { status: string };
@@ -111,7 +112,7 @@ function ViewAllPropertiesOwned({
         const tokenRemaining = tokensOwned[index] as TokenOwnership;
 
         return (
-          <MarketCard
+          <OwnedPropertyCard
             key={listing.listing.assetId}
             id={listing.listing.assetId}
             fileUrls={fileUrls}

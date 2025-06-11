@@ -36,7 +36,7 @@ export default function RootLayout({
               )}
             >
               {children}
-              <Toaster position="bottom-right" richColors />
+              <Toaster position="top-center" richColors />
             </body>
           </html>
         </WalletProvider>
