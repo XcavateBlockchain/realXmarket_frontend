@@ -52,7 +52,7 @@ export default function ProfileHeaderOverview({
       <div className="flex w-full flex-col gap-6">
         <div className="-mt-28 flex size-[155px] items-center justify-center rounded-full bg-white">
           <Image
-            src={profile?.avatar ?? '/images/avatar.png'}
+            src={'/images/developer_logo.png'}
             alt="avatar"
             width={150}
             height={150}

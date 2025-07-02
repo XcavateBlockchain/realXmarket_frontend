@@ -18,16 +18,16 @@ export default async function Account() {
           value={
             profile
               ? `${profile.credential.claim.contents.firstName}  ${profile.credential.claim.contents.lastName}`
-              : '- -'
+              : 'Alice Investor'
           }
         />
         <DescriptionList
           title="Email address"
-          value={profile?.credential.claim.contents.email ?? '-'}
+          value={profile?.credential.claim.contents.email ?? 'alice@theinvestor.com'}
         />
         <DescriptionList
           title="Phone number"
-          value={profile?.credential.claim.contents.phone ?? '-'}
+          value={profile?.credential.claim.contents.phone ?? '+44 2233 44556677'}
         />
       </div>
     </div>
