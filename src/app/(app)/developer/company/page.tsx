@@ -14,15 +14,16 @@ export default function Page() {
       </PageHeader>
 
       <div className="flex w-full flex-col items-start gap-10 bg-grey px-4 py-6 md:px-[57px] md:py-10">
-        <DescriptionList title="Company name" value="PrimeStone Developments" />
-        <DescriptionList title="Registration number" value="PRD-2024-987654" />
-        <DescriptionList title="Phone number" value="12345678" />
+        <DescriptionList title="Company name" value="BTB Developments Ltd" />
+        <DescriptionList title="Registration number" value="9990066788" />
+        <DescriptionList title="Phone number" value="+44 2564 789798" />
+        <DescriptionList title="Email" value="sales@btb-developments.com" />
         <DescriptionList
           title="Address"
-          value="PrimeStone Developments, 123 Kensington High Street, London W8 5SA United Kingdom"
+          value="Developed over five hundred different developemnts all across UK."
         />
-        <DescriptionList title="Associate website" value="www.primestone-developments.com" />
-        <DescriptionList title="Association membership  number" value="PMD-2024-00123" />
+        <DescriptionList title="Associate website" value="www.btb-developments.com" />
+        <DescriptionList title="Association membership  number" value="0412885YHT" />
       </div>
     </div>
   );
