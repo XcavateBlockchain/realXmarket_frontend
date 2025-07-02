@@ -364,7 +364,7 @@ function SuccessModal({ close }: { close: () => void }) {
   return (
     <>
       <div className="flex flex-col items-center space-y-4 p-4 py-1 md:p-5">
-        <div className="mb-3 h-28 w-28 overflow-hidden rounded-full bg-white/[0.86]">
+        <div className="mb-3 size-28 overflow-hidden rounded-full bg-white/[0.86]">
           <Image
             src={'/icons/tick.svg'}
             alt="success"

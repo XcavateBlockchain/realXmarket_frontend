@@ -8,7 +8,7 @@ const MarketplaceCard = () => {
         <img
           src="https://flowbite.com/docs/images/blog/image-2.jpg"
           alt="Property Image"
-          className="h-full w-full object-cover"
+          className="size-full object-cover"
         />
       </div>
       <div className="p-4">

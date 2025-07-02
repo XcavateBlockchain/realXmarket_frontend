@@ -10,8 +10,8 @@ export function MarketPlaceHeader() {
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
   return (
-    <header className="fixed z-10 w-full bg-transparent backdrop-blur-[12px] backdrop-filter">
-      <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-[50px]">
+    <header className="fixed z-10 w-full bg-transparent backdrop-blur-md">
+      <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between p-4 md:px-[50px]">
         <Link href={'/'}>
           <Image
             src={'/images/Real_Market_logo.svg'}

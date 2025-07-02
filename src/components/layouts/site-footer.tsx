@@ -14,8 +14,8 @@ export default function SiteFooter() {
         <FooterLink href="#" title="Blog" />
       </div>
       <hr />
-      <div className="flex w-[100%] flex-col items-center justify-between gap-4 md:flex-row">
-        <div className="flex flex-col items-center justify-items-center gap-3 md:flex-row">
+      <div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row">
+        <div className="flex flex-col place-items-center gap-3 md:flex-row">
           <Image
             src={'/images/Real_Market_logo.svg'}
             alt="logo"

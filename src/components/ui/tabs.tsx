@@ -12,7 +12,7 @@ const tabListVariants = cva('', {
       default:
         'flex w-full items-center gap-[47px] border-b border-primary-foreground/[0.10] px-2 lg:justify-between lg:gap-0',
       simple:
-        'inline-flex border-b border-[#4E4E4E]/[0.10]  items-center w-full gap-6 justify-start'
+        'inline-flex w-full items-center  justify-start gap-6 border-b border-[#4E4E4E]/[0.10]'
     }
   },
   defaultVariants: {
@@ -41,10 +41,10 @@ const tabTriggerVariants = cva('disabled:pointer-events-none disabled:opacity-50
   variants: {
     variant: {
       default:
-        'flex items-center justify-center gap-2 border-b-2 px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase border-transparent text-caption hover:text-primary transition-all data-[state=active]:border-primary-300 duration-300 lg:text-[1rem]/[1.5rem] data-[state=active]:text-primary-300 data-[state=active]:hover:text-primary-300/80',
+        'flex items-center justify-center gap-2 border-b-2 border-transparent px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase text-caption transition-all duration-300 hover:text-primary data-[state=active]:border-primary-300 data-[state=active]:text-primary-300 data-[state=active]:hover:text-primary-300/80 lg:text-[1rem]/[1.5rem]',
 
       simple:
-        'flex items-start gap-2 justify-center border-b-2 transition-all duration-200 ease-in border-transparent p-2 font-sans text-[1rem]/[1.5rem] text-[#A6A6A6] data-[state=active]:border-primary data-[state=active]:text-primary'
+        'flex items-start justify-center gap-2 border-b-2 border-transparent p-2 font-sans text-[1rem]/[1.5rem] text-caption transition-all duration-200 ease-in data-[state=active]:border-primary data-[state=active]:text-primary'
     }
   },
   defaultVariants: {

@@ -87,7 +87,7 @@ export default function Home() {
         {how_it_works.map(steps => (
           <div
             key={steps.title}
-            className='flex h-full w-full shrink-0 rounded-lg bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat'
+            className='flex size-full shrink-0 rounded-lg bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat'
           >
             <div className="inline-flex w-full flex-col items-start gap-3.5 px-8 py-7 md:gap-4 lg:max-w-lg lg:px-[54px] lg:pb-[57px] lg:pt-[46px]">
               <Image

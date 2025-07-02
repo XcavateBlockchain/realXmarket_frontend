@@ -73,7 +73,7 @@ export default function FeatureSlide({ options }: PropType) {
             key={index}
             onClick={() => onDotButtonClick(index)}
             className={cn(
-              'flex h-[4px] w-[11px] items-center justify-center rounded-lg bg-[#A6A6A6] p-0',
+              'flex h-[4px] w-[11px] items-center justify-center rounded-lg bg-caption p-0',
               {
                 'w-8 bg-primary': index === selectedIndex
               }

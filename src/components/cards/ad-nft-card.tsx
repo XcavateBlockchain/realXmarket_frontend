@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function AdNFTCard({ ...data }: Property) {
   return (
-    <div className="relative flex h-full w-full flex-col gap-6 bg-white pb-6 shadow-property-card">
+    <div className="relative flex size-full flex-col gap-6 bg-white pb-6 shadow-property-card">
       <Image
         src={data.property_image}
         alt=""
