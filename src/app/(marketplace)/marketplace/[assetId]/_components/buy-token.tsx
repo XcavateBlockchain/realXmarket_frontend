@@ -23,9 +23,11 @@ import { toast } from 'sonner';
 import { formatDate } from '@polkadot/util';
 import AssetSwitcher from '@/components/asset-switcher';
 import { NodeContext } from '@/context';
-import { convertEstimate, getAssetBalances } from '@/lib/formaters';
+// import { convertEstimate,  } from '@/lib/formaters';
 import { useWalletContext } from '@/context/wallet-context';
 import usePaymentAsset from '@/hooks/use-payment-asset';
+import { useBalance } from '@/hooks/use-balance';
+import { formatUnits, parseUnits } from '@/lib/formaters';
 
 type AmountProps = {
   amount: number;
@@ -51,22 +53,13 @@ function SelectAmount({
   const { api } = useContext(NodeContext);
   const { asset, selectedAccount } = useWalletContext();
   const address = selectedAccount?.[0]?.address;
-  const [balance, setBalance] = useState<any | null>(null);
   const paymentAsset = usePaymentAsset(asset);
+  const { balance } = useBalance();
 
   const handleAmountChange: OnValueChange = ({ value }) =>
     setAmount(parseInt(value.replace(/,/g, '')));
   const totalPrice = 1.5 * property.price_per_token;
 
-  useEffect(() => {
-    if (address) {
-      getAssetBalances(address, api).then(balance => {
-        if (balance) {
-          setBalance(balance);
-        }
-      });
-    }
-  }, [setBalance, api]);
   return (
     <>
       <div className="flex w-full items-center justify-between">
@@ -115,7 +108,9 @@ function SelectAmount({
         </div>
         <div className="flex items-center justify-between">
           <span>Balance</span>
-          <span>{balance?.[asset] ?? '0.00'}</span>
+          <span>
+            {formatNumber(balance[asset.toUpperCase() as keyof typeof balance]) ?? '0.00'}
+          </span>
         </div>
       </div>
 
@@ -216,6 +211,7 @@ function PurchaseSummary({
         toast.error('Please connect your wallet');
         return;
       }
+      const parseAmount = parseUnits(`${amount}`, 6);
       await buyNft(address, listingId, amount, Number(paymentAsset.id));
       setIndex(3);
       router.refresh();
@@ -256,12 +252,12 @@ function PurchaseSummary({
         );
         const estimatedFee = await extrinsic.paymentInfo(address);
 
-        // console.log(estimatedFee.toHuman(), 'Estimated Fee');
+        console.log(estimatedFee.toJSON(), 'Estimated Fee');
 
         if (isMounted) {
           setStatusFee(STATE_STATUS.SUCCESS);
 
-          setFee(estimatedFee.partialFee.toHuman());
+          setFee(formatUnits(estimatedFee.toJSON().partialFee as any));
         }
       } catch (error) {
         if (isMounted) {

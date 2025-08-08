@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { useWalletContext } from '@/context/wallet-context';
@@ -8,18 +7,16 @@ import { SCREENS, useScreenSize } from '@/lib/resolutionScreens';
 import { getLocalStorageItem } from '@/lib/localstorage';
 import type { WalletAccount, WalletInfo } from '@/types';
 import { PREDEFINED_WALLETS } from '@/config/dotsama';
-import { formatAddress, getAssetBalances, getFormattedBalance } from '@/lib/formaters';
-import IdentIcon from './identicon';
+import { formatAddress } from '@/lib/formaters';
 import { Icons } from '../icons';
 import Image from 'next/image';
 import { AccountOptions } from './wallet-connectors';
-import { NodeContext } from '@/context';
 import { USDCIcon, USDTIcon } from '../coin';
 import AssetSwitcher from '../asset-switcher';
 import { useMediaQuery } from '@/hooks/use-media-query';
 // import { DrawerContent, DrawerTrigger } from '../ui/drawer';
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
-import { Dialog, DialogContent } from '../ui/dialog';
+import { useBalance } from '@/hooks/use-balance';
+import { formatNumber } from '@/lib/utils';
 
 interface ISection {
   [key: number]: React.ReactNode;
@@ -48,7 +45,7 @@ export function WalletAccount({ onClose, onConnected }: TConnectWallet) {
     if (walletKey) {
       setWalletType(JSON.parse(walletKey));
     }
-  });
+  }, [walletKey]);
 
   const onSelectAccount = async (account: WalletAccount) => {
     selectAccount(account.address);
@@ -126,31 +123,8 @@ type TAccount = {
 export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex }: TAccount) {
   const router = useRouter();
   const walletContext = useWalletContext();
-  const { api } = useContext(NodeContext);
-  const selectedAddress = walletContext.selectedAccount?.[0]?.address;
   const account = walletContext.selectedAccount?.[0];
-  const [balance, setBalance] = useState<string | null>(null);
-  const [otherBalance, setOtherBalance] = useState<any | null>(null);
-
-  useEffect(() => {
-    if (selectedAddress) {
-      getFormattedBalance(selectedAddress, api).then(balance => {
-        if (balance) {
-          setBalance(balance);
-        }
-      });
-    }
-  }, [selectedAddress, api]);
-
-  useEffect(() => {
-    if (selectedAddress) {
-      getAssetBalances(selectedAddress, api).then(balance => {
-        if (balance) {
-          setOtherBalance(balance);
-        }
-      });
-    }
-  }, [selectedAddress, api]);
+  const { balance } = useBalance();
 
   return (
     <>
@@ -181,20 +155,29 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
       </div>
       <div className="grid justify-items-start gap-2 rounded-lg border px-4 py-2">
         <dl className="flex w-full items-center justify-between">
-          <dt>XCAV</dt>
-          <dd>{balance}</dd>
+          <dt className="flex items-center gap-1">
+            <Image
+              src="/images/avatar.png"
+              width={26}
+              height={24}
+              alt="xcav"
+              className="size-6"
+            />{' '}
+            XCAV
+          </dt>
+          <dd>{formatNumber(balance.XCAV)} XCAV</dd>
         </dl>
         <dl className="flex w-full items-center justify-between">
           <dt className="flex items-center gap-1">
             <USDCIcon className="size-6 rounded-full" /> USDC
           </dt>
-          <dd>{otherBalance?.usdc ?? '0.00'}</dd>
+          <dd>{formatNumber(balance.USDC)} USDC</dd>
         </dl>
         <dl className="flex w-full items-center justify-between">
           <dt className="flex items-center gap-1">
             <USDTIcon className=" size-6 rounded-full" /> USDT
           </dt>
-          <dd>{otherBalance?.usdt ?? '0.00'}</dd>
+          <dd>{formatNumber(balance.USDT)} USDT</dd>
         </dl>
       </div>
       <div className="flex w-full items-center justify-end gap-4 md:gap-2">

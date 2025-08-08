@@ -1,4 +1,4 @@
-import { formatBalance } from '@polkadot/util';
+import { BN, formatBalance } from '@polkadot/util';
 import { ApiPromise } from '@polkadot/api';
 
 export const getPercentageDiff = (value: number) => {
@@ -23,6 +23,8 @@ export const abbriviateNumber = (number: number, fraction = 2, shortFormat = tru
   let defaultOptions = {
     maximumFractionDigits: fraction
   };
+
+  console.log(JSON.parse);
 
   const shortFormatOptions = {
     notation: 'compact',
@@ -98,12 +100,6 @@ export const getAssetBalances = async (
   }
   await api.isReady;
 
-  //@ts-ignore
-  const { data: balance } = await api.query.system.account(address);
-
-  const chainDecimals = api.registry.chainDecimals[0];
-  formatBalance.setDefaults({ unit: api.registry.chainTokens[0] });
-
   const balanceUSDT: any = (
     await api.query.assets.account(process.env.NEXT_PUBLIC_USDT_PAYMENT_TOKEN, address)
   ).toHuman();
@@ -112,34 +108,138 @@ export const getAssetBalances = async (
     await api.query.assets.account(process.env.NEXT_PUBLIC_USDC_PAYMENT_TOKEN, address)
   ).toHuman();
 
-  const coreBalace = formatBalance(balance.free, {
-    withSiFull: false,
-    withZero: false,
-    decimals: chainDecimals
-  }).replace(/\.(\d{2})\d+/g, '.$1');
+  // const asset: any = await api.query.assets.account(1984, address);
 
+  // if (asset.isSome) {
+  //   console.log('Balance:', asset.unwrap().balance);
+
+  //   formatBalance.setDefaults({ unit: 'USDT' });
+  //   formatBalance.getDefaults();
+
+  //   console.log('FREE_UDT', asset.unwrap().balance.free);
+
+  //   const final = formatBalance(asset.unwrap().balance, {
+  //     forceUnit: '',
+  //     withSiFull: false,
+  //     withZero: false,
+  //     decimals: 6
+  //   });
+
+  //   // .replace(/\.(\d{2})\d+/g, '.$1');
+  //   console.log('FI', final);
+  // } else {
+  //   console.log('No balance or asset not found');
+  // }
+
+  // const metadata: any = await api.query.assets.metadata(assetId);
+
+  // console.log(metadata.toHuman());
+
+  // const usdtAsset = await api.query.assets.account(assetId, address);
+  // if (asset.isSome) {
+  //   const rawAssetBalance = asset.unwrap().balance.toString(); // Full balance as a string
+  //   // Convert rawAssetBalance to a number with 6 decimals
+  //   const rawAssetBalanceNum = Number(rawAssetBalance) / 10 ** 6;
+  //   console.log('RawBalance (6 decimals):', rawAssetBalanceNum);
+  // }
+
+  const balance = await getFormattedAssetBalance({
+    asset: process.env.NEXT_PUBLIC_USDT_PAYMENT_TOKEN,
+    address,
+    api
+  });
+  console.log(balance);
   return {
     usdc: balanceUSDC?.balance!,
     usdt: balanceUSDT?.balance
   };
 };
 
-export function convertEstimate(estimate: any) {
-  // Constants
-  const PLANCKS_PER_DOT = 10_000_000_000; // 1 DOT = 10^10 plancks
-  const BLOCK_TIME_SECONDS = 6; // typical Polkadot block time
-  const MAX_REF_TIME = 1_000_000_000; // max refTime per block
+// export function convertEstimate(estimate: any) {
+//   // Constants
+//   const PLANCKS_PER_DOT = 10_000_000_000; // 1 DOT = 10^10 plancks
+//   const BLOCK_TIME_SECONDS = 6; // typical Polkadot block time
+//   const MAX_REF_TIME = 1_000_000_000; // max refTime per block
 
-  // Convert fee from plancks to DOT
-  const feePlancks = BigInt(estimate.partialFee);
-  const feeDOT = Number(feePlancks) / PLANCKS_PER_DOT;
+//   // Convert fee from plancks to DOT
+//   const feePlancks = BigInt(estimate.partialFee);
+//   const feeDOT = Number(feePlancks) / PLANCKS_PER_DOT;
 
-  // Convert refTime to seconds (approximate)
-  const refTime = BigInt(estimate.weight.refTime);
-  const refTimeSeconds = Number(refTime) * (BLOCK_TIME_SECONDS / MAX_REF_TIME);
+//   // Convert refTime to seconds (approximate)
+//   const refTime = BigInt(estimate.weight.refTime);
+//   const refTimeSeconds = Number(refTime) * (BLOCK_TIME_SECONDS / MAX_REF_TIME);
 
-  return {
-    feeDOT,
-    refTimeSeconds
-  };
+//   return {
+//     feeDOT,
+//     refTimeSeconds
+//   };
+// }
+
+/**
+ * Parses a human-readable asset balance (with 6 decimals) to the raw format (as string).
+ * @param formattedBalance - The balance as a string or number (e.g., "10.123456")
+ * @returns The raw balance as a string (e.g., "10123456")
+ */
+export function parseAssetBalance(formattedBalance: string | number): string {
+  const num = Number(formattedBalance);
+  const raw = Math.round(num * 1_000_000);
+  return raw.toString();
+}
+
+interface IGetFormattedBalance {
+  asset?: string;
+  address: string;
+  api?: ApiPromise | null;
+}
+
+export const getFormattedAssetBalance = async ({ ...rest }: IGetFormattedBalance) => {
+  const { api, address, asset } = rest;
+  if (!api) return '';
+
+  await api.isReady;
+
+  if (asset) {
+    const assetAccount: any = await api.query.assets.account(asset, address);
+    if (assetAccount.isSome) {
+      const foundAsset = assetAccount.unwrap();
+      return formatUnits(foundAsset.balance.toString(), 6);
+    } else {
+      return '0.000000';
+    }
+  } else {
+    const result: any = await api.query.system.account(address);
+    return formatUnits(result.data.free);
+  }
+};
+
+/**
+ * Formats a raw asset balance (string, number, or bigint) into a human-readable string,
+ *  with a specified number of decimal places (default is 12).
+ * @param rawBalance - The raw balance value to be formatted.
+ * @returns The formatted balance as a string with the specified number of decimals.
+ */
+export const formatUnits = (value: string | number | bigint, decimals: number = 12) => {
+  if (!value) return '';
+
+  const raw = BigInt(value);
+  const divisor = 10n ** BigInt(decimals);
+  const whole = raw / divisor;
+  const fraction = raw % divisor;
+  const balance = Number(whole) + Number(fraction) / Number(divisor);
+  return balance;
+};
+
+export function parseUnits(value: string, decimals: number = 12): bigint {
+  if (!new RegExp(`^\\d+(\\.\\d{0,${decimals}})?$`).test(value)) {
+    throw new Error(`Invalid value format for ${decimals} decimals`);
+  }
+  const [whole, fraction = ''] = value.split('.');
+  const wholeUnits = BigInt(whole) * 10n ** BigInt(decimals);
+  // Pad or trim the fraction to the correct number of digits
+  const fractionUnits = BigInt((fraction + '0'.repeat(decimals)).slice(0, decimals));
+  return wholeUnits + fractionUnits;
+}
+
+export function parseValue(amount: string): bigint {
+  return parseUnits(amount, 6);
 }

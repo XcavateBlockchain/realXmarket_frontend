@@ -41,9 +41,9 @@ export default function PropertyFeaturesForm({
         toast.error('Please connect your wallet');
         return;
       }
-      const formData = new FormData();
       // Process images sequentially
       for (const file of data.property_images) {
+        const formData = new FormData(); // <-- Move inside the loop
         formData.append('property_image', file);
         const fileKey = await uploadFileToS3(
           address,
