@@ -57,7 +57,7 @@ export async function listNFT(senderAddress: string, collectionId: number, nftId
 export async function buyNft(
   senderAddress: string,
   listingId: number,
-  amount: number,
+  amount: number | string | bigint,
   asset: number
 ) {
   try {
@@ -94,6 +94,8 @@ export async function listProperty(
   tokenAmount: number,
   data: any
 ): Promise<any> {
+  console.log('REGION ID', region);
+  console.log('LOCATION_ID', location);
   try {
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');

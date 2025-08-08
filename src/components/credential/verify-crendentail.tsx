@@ -36,7 +36,7 @@ export default function VerifyCredential() {
   };
 
   return (
-    <AlertDialogContent className="h-full w-full gap-2 rounded-lg md:h-auto md:w-[518px] md:gap-6">
+    <AlertDialogContent className="size-full gap-2 rounded-lg md:h-auto md:w-[518px] md:gap-6">
       {actions[index]}
     </AlertDialogContent>
   );

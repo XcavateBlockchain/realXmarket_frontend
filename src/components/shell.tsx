@@ -7,7 +7,7 @@ const shellVariants = cva('grid gap-10', {
   variants: {
     variant: {
       default:
-        'container mx-auto w-full max-w-screen-2xl px-4 py-[100px]  md:py-[140px]  md:px-6 lg:px-[100px]',
+        'container mx-auto w-full max-w-screen-2xl px-4 py-[100px]  md:px-6  md:py-[140px] lg:px-[100px]',
       basic: 'container mx-auto w-full max-w-screen-2xl gap-0 px-0 pt-[100px]'
     }
   },

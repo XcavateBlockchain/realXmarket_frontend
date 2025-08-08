@@ -56,7 +56,7 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
         'bg-white': isScrolled
       })}
     >
-      <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 md:px-[50px]">
+      <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between p-4 md:px-[50px]">
         <Link href={'/'}>
           <Image
             src={'/images/company_logo.png'}

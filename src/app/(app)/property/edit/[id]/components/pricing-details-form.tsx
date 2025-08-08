@@ -55,7 +55,7 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           >
             Price per token
           </label>
-          <div className="flex w-full items-center gap-1 rounded-lg border border-[#A6A6A6] bg-white px-4 py-2">
+          <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
             <span>£</span>
             <NumberInput
               thousandSeparator=","
@@ -75,7 +75,7 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           >
             Price
           </label>
-          <div className="flex w-full items-center gap-1 rounded-lg border border-[#A6A6A6] bg-white px-4 py-2">
+          <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
             <span>£</span>
             <NumberInput
               thousandSeparator=","
@@ -93,7 +93,7 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           >
             estimated monthly rental income
           </label>
-          <div className="flex w-full items-center gap-1 rounded-lg border border-[#A6A6A6] bg-white px-4 py-2">
+          <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
             <span>£</span>
             <NumberInput
               thousandSeparator=","

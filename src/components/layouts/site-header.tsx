@@ -28,13 +28,13 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        'fixed z-10 w-full border-b border-[#4E4E4E]/[0.10] bg-transparent backdrop-blur-[12px] backdrop-filter',
+        'fixed z-10 w-full border-b border-[#4E4E4E]/[0.10] bg-transparent backdrop-blur-md',
         {
           'bg-white': isScrolled
         }
       )}
     >
-      <div className="container mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-4 md:px-10 lg:px-[100px]">
+      <div className="container mx-auto flex max-w-screen-2xl items-center justify-between p-4 md:px-10 lg:px-[100px]">
         <Link href={'/'}>
           <Image
             src={'/images/Real_Market_logo.svg'}

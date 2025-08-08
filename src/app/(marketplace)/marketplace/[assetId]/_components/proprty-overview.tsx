@@ -37,7 +37,7 @@ export default function PropertyOverView({
             alt="logo"
             width={54}
             height={54}
-            className="border-spacing-3 rounded-full border-[#A6A6A6]"
+            className="border-spacing-3 rounded-full border-caption"
             priority
           />
           <h3 className="font-mona text-[18px]/[24px] font-semibold">Bob T Builder</h3>
@@ -159,7 +159,7 @@ const PropertyStatsWithProgress = ({ className, ...prop }: PropertyStatsWithProg
     <dd className=" relative w-full">
       <ProgressGradient value={prop.value} className="h-1" />
       <span className="absolute -bottom-6 start-0 text-xs text-gray-500">{prop.start}</span>
-      <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 transform text-xs text-gray-500">
+      <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-500">
         {prop.mid}
       </span>
       <span className="absolute -bottom-6 end-0 text-xs text-gray-500">{prop.end}</span>

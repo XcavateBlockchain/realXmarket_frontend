@@ -8,7 +8,7 @@ export const FilterInput = ({ label, className, type, ...props }: InputProps) =>
 
       <input
         className={cn(
-          'flex h-10 w-full rounded-md border border-[#A6A6A6] bg-background px-4 py-2 text-sm placeholder:text-muted-foreground'
+          'flex h-10 w-full rounded-md border border-caption bg-background px-4 py-2 text-sm placeholder:text-muted-foreground'
         )}
         {...props}
       />
