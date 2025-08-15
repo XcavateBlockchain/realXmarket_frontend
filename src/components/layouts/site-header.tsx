@@ -10,8 +10,6 @@ import ConnectWalletButton from '../wallet/connect-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import { cn } from '@/lib/utils';
 import AuthMenu from './auth-menu';
-import { ConnectButton } from '../connect';
-import { useXcavateContext } from '@/providers/xcavate-provider';
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);

@@ -6,8 +6,6 @@ import MobileNav from './mobile-nav';
 import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import AuthMenu from './auth-menu';
-import { ConnectButton } from '../connect';
-import { useXcavateContext } from '@/providers/xcavate-provider';
 export function MarketPlaceHeader() {
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;

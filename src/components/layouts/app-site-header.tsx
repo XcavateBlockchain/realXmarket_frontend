@@ -10,8 +10,8 @@ import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import { useRouter } from 'next/navigation';
 import AuthMenu from './auth-menu';
-import { ConnectButton } from '../connect';
-import { useXcavateContext } from '@/providers/xcavate-provider';
+// import { ConnectButton } from '../connect';
+// import { useXcavateContext } from '@/providers/xcavate-provider';
 
 type HeaderProps = {
   open: boolean;
