@@ -18,6 +18,7 @@ import { getCookieStorage } from '@/lib/cookie-storage';
 import { Shell } from '@/components/shell';
 import { generatePresignedUrl } from '@/lib/s3';
 import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
@@ -96,7 +97,9 @@ export default async function Marketplace() {
 
   return (
     <Shell variant={'basic'} className="gap-10 pb-32">
-      <FilterTabs />
+      <Suspense fallback={<div>Loading filters...</div>}>
+        <FilterTabs />
+      </Suspense>
       <div className="flex flex-col gap-6 px-4 md:px-[50px]">
         <div className="flex w-full items-center justify-between rounded-full bg-foreground/[0.07] px-3.5 py-3">
           <div className="flex items-center gap-4">

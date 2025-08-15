@@ -76,7 +76,7 @@ const FileInput = ({
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files.length > 0) {
       if (event.target.files.length > maxFiles) {
-        toast.error(`File size should be less than ${maxFileSize}MB`);
+        toast.error(`Maximum ${maxFiles} files allowed`);
         return;
       }
       const { acceptable, unacceptable } = validateFiles(
