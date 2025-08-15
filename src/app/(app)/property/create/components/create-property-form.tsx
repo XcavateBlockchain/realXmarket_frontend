@@ -1,5 +1,6 @@
 'use client';
-import { Button, useZodForm } from '@/components/ui';
+import { Button } from '@/components/ui/button';
+import { useZodForm } from '@/components/ui/form';
 import { propertyFormSchema, PropertyInput } from '@/lib/validations/property-schema';
 import { useState } from 'react';
 import { PropertyData, PropertyDetails, PropertyPricing } from './property-forms';

@@ -17,7 +17,7 @@ import { hexToString } from '@/lib/utils';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { Shell } from '@/components/shell';
 import { generatePresignedUrl } from '@/lib/s3';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
