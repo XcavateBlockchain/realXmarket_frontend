@@ -36,7 +36,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       }
       await listProperty(
         address,
-        0,
+        2,
         'SG23 5TH',
         property.price_per_token,
         property.number_of_tokens,

@@ -9,6 +9,8 @@ export const config = {
   // DynamoDB Configuration
   dynamodb: {
     questionnaireTableName:
-      process.env['REALXMARKET_QUESTIONNAIRE_TABLE_NAME'] ?? 'realxmarket-questionnaire'
+      process.env['REALXMARKET_QUESTIONNAIRE_TABLE_NAME'] ?? 'realxmarket-questionnaire',
+    propertyTableName:
+      process.env['REALXMARKET_PROPERTY_TABLE_NAME'] ?? 'realxmarket-properties'
   }
 };

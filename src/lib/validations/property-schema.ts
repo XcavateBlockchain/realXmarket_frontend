@@ -1,45 +1,45 @@
 // src/config/property.ts
 import { z } from 'zod';
 
-export const propertySchema = z.object({
-  property_name: z.string(),
-  address_street: z.string(),
-  address_town_city: z.string(),
-  post_code: z.string(),
-  description: z.string(),
-  area: z.string(),
-  quality: z.string(),
-  property_type: z.string(),
-  no_of_Bedrooms: z.number(),
-  outdoor_space: z.string(),
-  construction_date: z.string(),
-  number_of_bathrooms: z.number(),
-  Off_street_parking: z.string(),
-  floor_Plan: z.string(),
-  sales_agreement: z.string(),
-  property_image: z.string(),
-  images: z.array(z.instanceof(File)),
-  property_price: z.number(),
-  estimated_rental_income: z.number(),
-  property_development_Code: z.string(),
-  planning_permission_Code: z.string(),
-  title_deed_number: z.string(),
-  map: z.string()
-});
+// export const propertySchema = z.object({
+//   property_name: z.string(),
+//   address_street: z.string(),
+//   address_town_city: z.string(),
+//   post_code: z.string(),
+//   description: z.string(),
+//   area: z.string(),
+//   quality: z.string(),
+//   property_type: z.string(),
+//   no_of_Bedrooms: z.number(),
+//   outdoor_space: z.string(),
+//   construction_date: z.string(),
+//   number_of_bathrooms: z.number(),
+//   Off_street_parking: z.string(),
+//   floor_Plan: z.string(),
+//   sales_agreement: z.string(),
+//   property_image: z.string(),
+//   images: z.array(z.instanceof(File)),
+//   property_price: z.number(),
+//   estimated_rental_income: z.number(),
+//   property_development_Code: z.string(),
+//   planning_permission_Code: z.string(),
+//   title_deed_number: z.string(),
+//   map: z.string()
+// });
 
 export const propertyInformationSchema = z.object({
-  property_name: z.string().min(1),
-  address_street: z.string().min(1),
-  address_town_city: z.string().min(1),
-  post_code: z.string().min(1),
-  property_type: z.string().min(1),
-  property_number: z.string().min(1),
-  local_authority: z.string().min(1),
-  planning_permission_Code: z.string(),
+  property_name: z.string().min(1, 'Property name is required'),
+  address_street: z.string().min(1, 'Street address is required'),
+  address_town_city: z.string().min(1, 'Town/City is required'),
+  post_code: z.string().min(1, 'Postal code is required'),
+  property_type: z.string().min(1, 'Property type is required'),
+  property_number: z.string().min(1, 'Property number is required'),
+  local_authority: z.string().min(1, 'Local authority is required'),
+  planning_permission_Code: z.string().min(1, 'Planning permission code is required'),
   // title_deed_number: z.string().min(1),
-  map: z.string().min(1),
-  floor_plan: z.instanceof(File),
-  sales_agreement: z.instanceof(File),
+  map: z.string().min(1, 'Map link is required'),
+  floor_plan: z.instanceof(File, { message: 'Floor plan is required' }),
+  sales_agreement: z.instanceof(File, { message: 'Sales agreement is required' }),
   property_images: z.array(z.instanceof(File)).optional().nullish()
   // region: z.number(),
   // location: z.number()
@@ -48,27 +48,29 @@ export const propertyInformationSchema = z.object({
 export type IPropertyInformationInput = z.infer<typeof propertyInformationSchema>;
 
 export const propertyPricingSchema = z.object({
-  number_of_tokens: z.string(),
-  price_per_token: z.string(),
-  property_price: z.string(),
-  estimated_rental_income: z.string()
+  number_of_tokens: z.string().min(1, 'Number of tokens is required'),
+  price_per_token: z.string().min(1, 'Price per token is required'),
+  property_price: z.string().min(1, 'Property price is required'),
+  estimated_rental_income: z.string().min(1, 'Estimated rental income is required')
 });
 
 export type IPricingDetails = z.infer<typeof propertyPricingSchema>;
 
 export const propertyFeaturesSchema = z.object({
-  area: z.string(),
-  quality: z.string(),
-  outdoor_space: z.string(),
-  no_of_Bedrooms: z.string(),
-  construction_date: z.string(),
-  no_of_bathrooms: z.string(),
-  Off_street_parking: z.string(),
-  property_description: z.string(),
-  property_development_Code: z.string(),
+  area: z.string().min(1, 'Area is required'),
+  quality: z.string().min(1, 'Quality is required'),
+  outdoor_space: z.string().min(1, 'Outdoor space is required'),
+  no_of_Bedrooms: z.string().min(1, 'Number of bedrooms is required'),
+  construction_date: z.string().min(1, 'Construction date is required'),
+  no_of_bathrooms: z.string().min(1, 'Number of bathrooms is required'),
+  Off_street_parking: z.string().min(1, 'Off-street parking is required'),
+  property_description: z.string().min(1, 'Property description is required'),
+  property_development_Code: z.string().min(1, 'Property development code is required'),
   // planning_permission_Code: z.string(),
-  title_deed_number: z.string().min(1),
-  property_images: z.array(z.instanceof(File))
+  title_deed_number: z.string().min(1, 'Title deed number is required'),
+  property_images: z
+    .array(z.instanceof(File))
+    .min(1, 'At least one property image is required')
 });
 
 // .refine(file => file.type.startsWith('image/'), {
@@ -76,3 +78,44 @@ export const propertyFeaturesSchema = z.object({
 // })
 
 export type IPropertyFeatures = z.infer<typeof propertyFeaturesSchema>;
+
+export const propertyFormSchema = propertyInformationSchema
+  .merge(propertyPricingSchema)
+  .merge(propertyFeaturesSchema);
+
+export type PropertyInput = z.infer<typeof propertyFormSchema>;
+
+export const PROPERTY_STATUSES = [
+  'draft',
+  'inprogress',
+  'approved',
+  'listed',
+  'archived'
+] as const;
+
+export const propertyTypes: { label: string; value: string }[] = [
+  {
+    label: 'Apartment',
+    value: 'Apartment'
+  },
+  {
+    label: 'Flat',
+    value: 'Flat'
+  },
+  {
+    label: 'Bungalow',
+    value: 'Bungalow'
+  },
+  {
+    label: 'Detached',
+    value: 'Detached'
+  },
+  {
+    label: 'Semi-Detached',
+    value: 'Semi-Detached'
+  },
+  {
+    label: 'Terraced',
+    value: 'Terraced'
+  }
+];

@@ -18,6 +18,13 @@ export const hexDecode = (hexString: string) => {
   return result;
 };
 
+export function formatAddress(address: string, charLength = 4) {
+  if (!address) return '';
+  const prefix = address.substring(0, charLength); // Take first 6 characters
+  const suffix = address.substring(address.length - charLength); // Take last 4 characters
+  return `${prefix}...${suffix}`; // Combine with ellipsis in the middle
+}
+
 // // Example usage
 // const decodedString = hexDecode('0x48656c6c6f20576f726c64');
 // console.log(decodedString); // Outputs: Hello World

@@ -16,7 +16,7 @@ const apiPRomise = getApi(new HttpProvider(process.env.NEXT_PUBLIC_RPC_HTTP));
 export async function getNextListingId() {
   try {
     const api = await apiPRomise;
-    const result = await api.query.nftMarketplace.nextListingId();
+    const result = await api.query.marketplace.nextListingId();
     const output = result.toHuman();
     return output;
   } catch (error) {
@@ -26,17 +26,25 @@ export async function getNextListingId() {
 export async function checkIfWhiteListed(address: string) {
   try {
     const api = await apiPRomise;
-    const result = await api.query.xcavateWhitelist.whitelistedAccounts(address);
-    const output = result.toHuman();
+    // Query all account roles for the given address
+    const result = await api.query.xcavateWhitelist.accountRoles.entries();
+    const output = result
+      .filter(([key, value]) => key.args[0].toString() === address)
+      .map(([key, value]) => ({
+        role: key.args[1].toHuman(),
+        value: value.toHuman()
+      }));
+    console.log('output', output);
     return output;
   } catch (error) {
+    console.log(error);
     return null;
   }
 }
 export async function getTokenRemaining(itemId: number) {
   try {
     const api = await apiPRomise;
-    const result = await api.query.nftMarketplace.listedToken(itemId);
+    const result = await api.query.marketplace.listedToken(itemId);
     const output = result.toHuman();
     return output;
   } catch (error) {
@@ -56,7 +64,7 @@ export async function getPropertyDetails(itemId: number) {
   noStore();
   try {
     const api = await apiPRomise;
-    const result = await api.query.nftMarketplace.ongoingObjectListing(itemId);
+    const result = await api.query.marketplace.ongoingObjectListing(itemId);
     const output = result.toHuman();
     return output;
   } catch (error) {
@@ -107,33 +115,69 @@ export async function getAllListingsByAddress(address: string) {
 }
 
 export async function getAllOngoingListings() {
-  const api = await apiPRomise;
-  const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+  try {
+    const api = await apiPRomise;
+    const data = await api.query.marketplace.ongoingObjectListing.entries();
 
-  return data.map(([key, exposure]) => {
-    return { listingId: key.args[0].toHuman(), listingDetails: exposure.toHuman() };
-  });
+    return data
+      .map(([key, exposure]) => {
+        try {
+          return {
+            listingId: key.args[0].toHuman(),
+            listingDetails: exposure.toHuman()
+          };
+        } catch (error) {
+          console.warn('Error processing listing data:', error);
+          return null;
+        }
+      })
+      .filter(Boolean); // Remove null entries
+  } catch (error) {
+    console.error('Error fetching ongoing listings:', error);
+    throw new Error(
+      `Failed to fetch ongoing listings: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
 }
 
 export async function getAllOngoingListingsWhereAddressIsDeveloper(address: string) {
-  const api = await apiPRomise;
-  const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+  try {
+    const api = await apiPRomise;
+    const data = await api.query.marketplace.ongoingObjectListing.entries();
 
-  return data
-    .filter(
-      ([key, exposure]: [any, any]) => exposure.toHuman()['realEstateDeveloper'] == address
-    )
-    .map(([key, exposure]) => {
-      return {
-        listingId: key.args[0].toHuman() as any,
-        listingDetails: exposure.toHuman() as any
-      };
-    });
+    return data
+      .filter(([key, exposure]: [any, any]) => {
+        try {
+          const humanData = exposure.toHuman();
+          return humanData && humanData['realEstateDeveloper'] === address;
+        } catch (error) {
+          console.warn('Error processing exposure data:', error);
+          return false;
+        }
+      })
+      .map(([key, exposure]) => {
+        try {
+          return {
+            listingId: key.args[0].toHuman() as any,
+            listingDetails: exposure.toHuman() as any
+          };
+        } catch (error) {
+          console.warn('Error processing listing data:', error);
+          return null;
+        }
+      })
+      .filter(Boolean); // Remove null entries
+  } catch (error) {
+    // console.error('Error fetching developer listings:', error);
+    // throw new Error(
+    //   `Failed to fetch listings for developer ${address}: ${error instanceof Error ? error.message : 'Unknown error'}`
+    // );
+  }
 }
 
 export async function getAllTokenBuyers() {
   const api = await apiPRomise;
-  const data = await api.query.nftMarketplace.tokenBuyer.entries();
+  const data = await api.query.marketplace.tokenBuyer.entries();
 
   return data.map(([key, exposure]) => {
     return { listingId: key.args[0].toHuman(), owners: exposure.toHuman() };
@@ -142,14 +186,14 @@ export async function getAllTokenBuyers() {
 
 export async function getAllTokenBuyerForListing(listingId: number) {
   const api = await apiPRomise;
-  const data = await api.query.nftMarketplace.tokenBuyer(listingId);
+  const data = await api.query.marketplace.tokenBuyer(listingId);
 
   return data.toHuman();
 }
 
 export async function getTokensAndListingsOwnedByAccount(address: string) {
   const api = await apiPRomise;
-  const data = await api.query.nftMarketplace.tokenOwner.entries(address);
+  const data = await api.query.marketplace.tokenOwner.entries(address);
 
   return data.map(([key, exposure]) => {
     // console.log('KEY1', key.args[0].toHuman());
@@ -166,7 +210,7 @@ export async function getTokensAndListingsOwnedByAccount(address: string) {
 export async function getOnGoingObjectListing(listingId: number) {
   const api = await apiPRomise;
 
-  const result = await api.query.nftMarketplace.ongoingObjectListing(listingId);
+  const result = await api.query.marketplace.ongoingObjectListing(listingId);
   const output = result.toHuman();
   return output as any; // output.data should contain the metadata
 }
@@ -177,7 +221,7 @@ function getIntegersLessThan(n: any) {
 
 // export async function getListingById() {
 //   const api = await apiPRomise
-//   const data = await api.query.nftMarketplace.ongoingObjectListing.entries();
+//   const data = await api.query.marketplace.ongoingObjectListing.entries();
 
 //   return data
 //     .filter(([key, exposure]: [any, any]) => exposure.toHuman())

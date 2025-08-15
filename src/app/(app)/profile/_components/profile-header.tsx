@@ -44,7 +44,7 @@ export default function ProfileHeaderOverview({
   return (
     <>
       <div className="flex w-full flex-col gap-6">
-        <div className="-mt-28 flex size-[155px] items-center justify-center rounded-full bg-white">
+        {/* <div className="-mt-28 flex size-[155px] items-center justify-center rounded-full bg-white">
           <Image
             src={profile?.avatar ?? '/images/avatar.png'}
             alt="avatar"
@@ -53,7 +53,7 @@ export default function ProfileHeaderOverview({
             className="rounded-full bg-cover bg-no-repeat"
             priority
           />
-        </div>
+        </div> */}
         <div className="flex w-full items-center justify-between">
           <div className="grid gap-2">
             <div className="flex items-center gap-2">

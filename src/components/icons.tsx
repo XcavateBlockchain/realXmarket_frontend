@@ -175,6 +175,17 @@ export const Icons = {
       />
     </svg>
   ),
+  arroWBack: (props: IconProps) => (
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M10.9416 4.46973L7.05835 9.00013L10.9416 13.5305"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
   USDT: USDTIcon,
   USDC: USDCIcon
 };

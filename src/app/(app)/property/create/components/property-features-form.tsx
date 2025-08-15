@@ -155,6 +155,7 @@ export default function PropertyFeaturesForm({
         <div className="grid grid-cols-4 gap-2">
           <FileInput
             name="Upload Images"
+            maxFiles={10}
             handleFileChange={files => {
               form.setValue('property_images', files);
               form.trigger(); // Trigger validation after setting the files
@@ -163,13 +164,10 @@ export default function PropertyFeaturesForm({
           />
         </div>
       </div>
-      <div className="flex w-full items-center justify-end gap-4">
-        <Button variant={'outline'} size={'md'}>
-          Cancel
-        </Button>
+      <div className="flex w-full items-center justify-center gap-4">
+        <Button variant={'outline'}>Cancel</Button>
         <Button
           type="submit"
-          size={'md'}
           className="text-white"
           disabled={
             !form.formState.isDirty ||

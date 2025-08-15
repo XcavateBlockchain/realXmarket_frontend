@@ -40,13 +40,14 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
 
   return (
     <Form form={form} onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="flex w-full items-center gap-2">
+      <div className="flex w-full flex-col items-center gap-2">
         <NumberInput
           label="NUMBER OF TOKENS"
           {...form.register('number_of_tokens')}
+          max={100}
           thousandSeparator=","
           allowNegative={false}
-          placeholder="0.00"
+          placeholder="0"
         />
         <div className="flex w-full flex-col gap-2">
           <label
@@ -55,8 +56,8 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           >
             Price per token
           </label>
-          <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
-            <span>£</span>
+          <div className="flex w-full items-center  rounded-lg border border-caption bg-white px-4 py-2">
+            <span className="mr-1">£</span>
             <NumberInput
               thousandSeparator=","
               allowNegative={false}
@@ -66,8 +67,8 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
             />
           </div>
         </div>
-      </div>
-      <div className="flex w-full items-center gap-2">
+        {/* </div> */}
+        {/* <div className="flex w-full items-center gap-2"> */}
         <div className="flex w-full flex-col gap-2">
           <label
             htmlFor={'number of tokens'}
@@ -105,13 +106,10 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           </div>
         </div>
       </div>
-      <div className="flex w-full items-center justify-end gap-4">
-        <Button variant={'outline'} size={'md'}>
-          Cancel
-        </Button>
+      <div className="mt-10 flex w-full items-center justify-center gap-4">
+        <Button variant={'outline'}>Cancel</Button>
         <Button
           type="submit"
-          size={'md'}
           className="text-white"
           disabled={
             !form.formState.isDirty ||

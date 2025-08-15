@@ -29,6 +29,7 @@ export enum MimeTypes {
 
 type IFileInput = {
   name?: string;
+  maxFiles?: number;
   types?: MimeTypes[];
   isMultiple?: boolean;
   maxFileSize?: number;
@@ -43,13 +44,14 @@ const FileInput = ({
   name = 'Upload image',
   handleFileChange,
   isMultiple = false,
+  maxFiles = 4,
   disabled
 }: IFileInput) => {
   const documentInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
-  const show = isMultiple === false ? files.length !== 1 : files.length !== 4;
+  const show = isMultiple === false ? files.length !== 1 : files.length !== maxFiles;
 
   const handleButtonClick = () => {
     if (documentInputRef.current) {
@@ -73,7 +75,7 @@ const FileInput = ({
 
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files.length > 0) {
-      if (event.target.files.length > 4) {
+      if (event.target.files.length > maxFiles) {
         toast.error(`File size should be less than ${maxFileSize}MB`);
         return;
       }

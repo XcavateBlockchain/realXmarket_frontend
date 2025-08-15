@@ -29,8 +29,16 @@ export async function initializeAccount(keyring: Keyring): Promise<KeyringPair> 
 }
 
 export async function WhiteListExtrinsic(
-  address: string
+  address: string,
+  role: 'developer' | 'investor' | 'agent' | 'lawyer'
 ): Promise<{ txHash: string; address: string }> {
+  const roleMap: Record<'developer' | 'investor' | 'agent' | 'lawyer', string> = {
+    developer: 'RealEstateDeveloper',
+    investor: 'RealEstateInvestor',
+    agent: 'LettingAgent',
+    lawyer: 'Lawyer'
+  };
+
   const provider = new HttpProvider(process.env.NEXT_PUBLIC_RPC_HTTP);
   const api = await ApiPromise.create({ provider });
 
@@ -38,7 +46,7 @@ export async function WhiteListExtrinsic(
   const account = await initializeAccount(keyring);
 
   account.unlock(process.env.PASSPHRASE!);
-  const extrinsic = api.tx.xcavateWhitelist.addToWhitelist(address);
+  const extrinsic = api.tx.xcavateWhitelist.addToWhitelist(address, roleMap[role]);
 
   //   const signedTx = await extrinsic.signAsync(account);
   //   const txHash = await api.rpc.author.submitExtrinsic(signedTx.toHex());

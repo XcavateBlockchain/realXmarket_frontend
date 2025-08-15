@@ -30,7 +30,8 @@ export default async function Page({ params }: { params: { assetId: string } }) 
   const listingDetails = await getOnGoingObjectListing(Number(params.assetId));
   const item: any = await getItemMetadata(listingDetails.collectionId, listingDetails.itemId);
 
-  const tokensRemaining = await getTokenRemaining(Number(params.assetId));
+  // const tokensRemaining = await getTokenRemaining(Number(params.assetId));
+  const tokensRemaining = listingDetails.listedTokenAmount;
   const propertyInfo = (await getPropertyDetails(Number(params.assetId))) as FetchedProperty;
 
   const tokensOwned: any = await getTokensAndListingsOwnedByAccount(address as string);

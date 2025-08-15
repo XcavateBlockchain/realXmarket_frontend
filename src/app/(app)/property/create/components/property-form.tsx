@@ -35,12 +35,15 @@ export default function PropertyForm() {
   return (
     <>
       <section className="flex w-full items-center justify-between gap-2">
-        <Link href={'/developer/properties'} className="flex items-center gap-2 ">
-          <span className="size-10 rounded-lg border border-primary p-3.5">
-            <Icons.back className="size-3" />
-          </span>
-          <span className="font-mona text-[18px]/[24px]"> Back</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={'/developer/properties'}
+            className="flex size-10 items-center justify-center rounded-full bg-foreground/10 transition-all duration-300 hover:bg-foreground/25"
+          >
+            <Icons.arroWBack className="size-7 text-foreground" />
+          </Link>
+          <span className="text-[18px]/[24px]">Add property</span>
+        </div>
 
         <div className="flex items-center">
           <Step
@@ -89,27 +92,27 @@ function Step({
 }) {
   return (
     <div className="flex items-center gap-2">
-      {passed ? (
+      {/* {passed ? (
         <span className="flex size-7 items-center justify-center rounded-full bg-[#78B36E] text-white">
           <CircleCheckBig size={16} />
         </span>
-      ) : (
-        <span
-          className={cn(
-            'flex size-7 items-center justify-center rounded-full border border-[#9D9D9D] font-mona text-[14px]/[13.5px] font-semibold text-[#9D9D9D]',
-            {
-              'border-[#457461] text-[#457461]': current,
-              'text-[#78B36E]': passed
-            }
-          )}
-        >
-          {step}
-        </span>
-      )}
+      ) : ( */}
+      <span
+        className={cn(
+          'flex size-7 items-center justify-center rounded-full border border-[#9D9D9D] font-mona text-[14px]/[13.5px] font-semibold text-[#9D9D9D]',
+          {
+            'border-[#457461] text-[#457461]': current,
+            'bg-primary text-white': passed
+          }
+        )}
+      >
+        {step}
+      </span>
+      {/* // )} */}
       <span
         className={cn('font-sans text-[14px]/[24px]', {
           'border-[#457461] text-[#457461]': current,
-          'text-[#78B36E]': passed
+          'text-primary': passed
         })}
       >
         {title}
