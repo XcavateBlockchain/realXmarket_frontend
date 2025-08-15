@@ -15,7 +15,7 @@ const s3Client = new S3Client({
 
 export async function uploadFileToS3(
   accountAddress: string,
-  propertyId: number,
+  propertyId: number | string,
   fieldName: string,
   fileName: string,
   fileType: string,

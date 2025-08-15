@@ -5,7 +5,6 @@ import Image from 'next/image';
 import BuyToken from './buy-token';
 import { IProperty, ListingDetails } from '@/types';
 import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
-import AssetSwitcher from '@/components/asset-switcher';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -33,14 +32,16 @@ export default function PropertyOverView({
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Image
-            src={'/images/developer_logo.png'}
-            alt="logo"
+            src={metaData.company?.logo ?? '/images/developer_logo.png'}
+            alt={metaData.company ? metaData.company.name : 'logo'}
             width={54}
             height={54}
             className="border-spacing-3 rounded-full border-caption"
             priority
           />
-          <h3 className="font-mona text-[18px]/[24px] font-semibold">Bob T Builder</h3>
+          <h3 className="font-mona text-[18px]/[24px] font-semibold">
+            {metaData.company ? metaData.company.name : 'Bob T Builde'}
+          </h3>
         </div>
         <div className="flex items-center gap-4">
           <Button variant={'text'} size={'icon'}>

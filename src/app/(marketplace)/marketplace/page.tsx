@@ -17,17 +17,21 @@ import { hexToString } from '@/lib/utils';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { Shell } from '@/components/shell';
 import { generatePresignedUrl } from '@/lib/s3';
+import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
 
 export const maxDuration = 300;
 export default async function Marketplace() {
-  const address = await getCookieStorage('accountKey');
-  // const data = await getAllOngoingListings();
+  const data = await getAllOngoingListings();
+
+  // console.log('data', data);
   // console.log('ALL ONGOING LISTINGS', data);
 
-  const activeListingsWhereAccountIsDeveloper =
-    await getAllOngoingListingsWhereAddressIsDeveloper(
-      '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
-    );
+  // const activeListingsWhereAccountIsDeveloper =
+  //   await getAllOngoingListingsWhereAddressIsDeveloper(
+  //     '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'
+  //   );
+  // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
   // console.log('activeListingsWhereAccountIsDeveloper', activeListingsWhereAccountIsDeveloper);
 
   // const allTokenBuyers = await getAllTokenBuyers();
@@ -63,18 +67,22 @@ export default async function Marketplace() {
 
   async function FetchMetaData() {
     const results = await Promise.all(
-      activeListingsWhereAccountIsDeveloper.map(async listing => {
+      data.map(async (listing: any) => {
         if (listing.listingDetails && typeof listing.listingDetails === 'object') {
           const metaData = await getItemMetadata(
             listing.listingDetails.collectionId,
             listing.listingDetails.itemId
           );
-          const tokenRemaining = await getTokenRemaining(listing.listingId);
+          // const tokenRemaining = await getTokenRemaining(listing.listingId);
           // const metadata = hexToString(metaData.data);
           const metadata = metaData.data.startsWith('0x')
             ? hexToString(metaData.data)
             : metaData.data;
-          return { listing, tokenRemaining, metadata };
+          return {
+            listing,
+            tokenRemaining: listing?.listingDetails.listedTokenAmount,
+            metadata
+          };
         }
       })
     );
@@ -87,17 +95,25 @@ export default async function Marketplace() {
     (item): item is Listing => item !== undefined
   );
 
-  //   console.log(listings);
-
   return (
     <Shell variant={'basic'} className="gap-10 pb-32">
-      <FilterTabs />
+      <Suspense fallback={<div>Loading filters...</div>}>
+        <FilterTabs />
+      </Suspense>
       <div className="flex flex-col gap-6 px-4 md:px-[50px]">
-        <div className="flex items-end justify-end">
-          <span className="flex items-center gap-2 font-sans text-[1rem]">
-            Sort: Recommended
-            <SortIcon />
-          </span>
+        <div className="flex w-full items-center justify-between rounded-full bg-foreground/[0.07] px-3.5 py-3">
+          <div className="flex items-center gap-4">
+            <Button>Marketplace</Button>
+            <Button variant="outline" className="border border-black/10 bg-white text-caption">
+              Notice Board
+            </Button>
+          </div>
+          <div className="flex items-end justify-end">
+            <span className="flex items-center gap-2 font-sans text-[1rem]">
+              Sort: Recommended
+              <SortIcon />
+            </span>
+          </div>
         </div>
 
         {listings && listings.length >= 1 ? (

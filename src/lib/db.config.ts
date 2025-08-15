@@ -13,5 +13,6 @@ const client = new DynamoDBClient({
 export const dynamoDbClient = DynamoDBDocumentClient.from(client);
 
 export const TABLES = {
-  QUESTIONNAIRE_RESPONSES: config.dynamodb.questionnaireTableName
+  QUESTIONNAIRE_RESPONSES: config.dynamodb.questionnaireTableName,
+  PROPERTIES: config.dynamodb.propertyTableName
 } as const;

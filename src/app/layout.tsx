@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { NodeSocketProvider, WalletProvider } from '@/context';
 import { Toaster } from 'sonner';
 import { ApolloWrapper } from '@/providers/appolo-client-provider';
+// import XcavateProvider from '@/providers/xcavate-provider';
 
 const dm_sans = DM_Sans({
   weight: ['400', '700'],
@@ -27,6 +28,7 @@ export default function RootLayout({
     <ApolloWrapper>
       <NodeSocketProvider>
         <WalletProvider>
+          {/* <XcavateProvider> */}
           <html lang="en">
             <body
               className={cn(
@@ -39,6 +41,7 @@ export default function RootLayout({
               <Toaster position="top-center" richColors />
             </body>
           </html>
+          {/* </XcavateProvider> */}
         </WalletProvider>
       </NodeSocketProvider>
     </ApolloWrapper>

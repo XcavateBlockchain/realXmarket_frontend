@@ -10,6 +10,8 @@ import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import { useRouter } from 'next/navigation';
 import AuthMenu from './auth-menu';
+// import { ConnectButton } from '../connect';
+// import { useXcavateContext } from '@/providers/xcavate-provider';
 
 type HeaderProps = {
   open: boolean;
@@ -20,6 +22,7 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
   const router = useRouter();
   const { setModalOpen, selectedAccount, showCredentialDialog } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
+  // const { isConnected } = useXcavateContext();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [showVerifyModal, setShowVerifyModal] = React.useState(!showCredentialDialog);
   // const [walletModal, showModal] = React.useState(open);
@@ -85,6 +88,7 @@ export function AppSiteHeader({ open = false }: HeaderProps) {
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <ConnectWalletButton />
+          {/* <ConnectButton /> */}
           {isConnected ? <AuthMenu /> : null}
         </div>
       </div>

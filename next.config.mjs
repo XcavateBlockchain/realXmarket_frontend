@@ -20,6 +20,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'real-marketplace-properties.s3.eu-west-1.amazonaws.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'realxmartet.xcavate.io'
       }
     ]
   }

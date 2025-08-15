@@ -131,6 +131,7 @@ export type IProperty = {
   property_description: string;
   property_price: number;
   fileUrls: string[];
+  company?: Company;
 };
 
 export interface Company {

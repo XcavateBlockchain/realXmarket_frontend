@@ -41,6 +41,11 @@ export const tabConfig: DashboardConfig = {
   ],
   developer: [
     {
+      title: 'properties',
+      href: '/developer/properties',
+      icon: '/icons/portfolio.svg'
+    },
+    {
       title: 'profile',
       href: '/developer',
       icon: '/icons/profile.svg'
@@ -50,11 +55,7 @@ export const tabConfig: DashboardConfig = {
       href: '/developer/company',
       icon: '/icons/company.svg'
     },
-    {
-      title: 'properties',
-      href: '/developer/properties',
-      icon: '/icons/portfolio.svg'
-    },
+
     {
       title: 'development loan',
       href: '/developer/loan',
@@ -66,7 +67,7 @@ export const tabConfig: DashboardConfig = {
       icon: '/icons/capital_purchase.svg'
     },
     {
-      title: 'wallet access',
+      title: 'Account',
       href: '/developer/wallet',
       icon: '/icons/bank.svg'
     },

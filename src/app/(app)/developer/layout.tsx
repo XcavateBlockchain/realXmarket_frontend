@@ -6,6 +6,7 @@ import { getCookieStorage } from '@/lib/cookie-storage';
 import { profiles } from '@/config/profiles';
 import { getAllOngoingListingsWhereAddressIsDeveloper } from '@/lib/queries';
 import ConnectWalletButton from '@/components/wallet/connect-wallet';
+import { developers, findDeveloperByPartnerAddress } from '@/config/white-list';
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -15,7 +16,14 @@ export default async function DeveloperLayout({ children }: Readonly<ProfileLayo
   const address = await getCookieStorage('accountKey');
 
   const data = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
+
+  const developer = findDeveloperByPartnerAddress(address!) ?? developers[0];
+
   const profile = profiles['developer'];
+
+  const partner = developer?.partners.find(
+    partner => partner.whitelistedAccountAddress === address
+  );
 
   if (!address || !profile) {
     return (
@@ -28,9 +36,12 @@ export default async function DeveloperLayout({ children }: Readonly<ProfileLayo
 
   return (
     <>
-      <ProfileBannerImage profile={profile} />
-      <div className="container relative mx-auto flex min-h-screen max-w-screen-2xl flex-col items-start justify-start gap-10 px-4 md:px-4 lg:gap-16 lg:px-[50px]">
-        <ProfileHeaderOverview profile={profile} accountDetails={data} />
+      {/* <ProfileBannerImage profile={profile} /> */}
+      <div className="container relative mx-auto flex min-h-screen max-w-screen-2xl flex-col items-start justify-start gap-10 px-4 py-[140px] md:px-4 lg:gap-16 lg:px-[50px]">
+        <ProfileHeaderOverview
+          profile={partner?.name ?? 'Bob Builder'}
+          accountDetails={data}
+        />
         <ProfileTabs items={tabConfig.developer} />
         {children}
       </div>

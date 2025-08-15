@@ -9,6 +9,7 @@ import AuthMenu from './auth-menu';
 export function MarketPlaceHeader() {
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
+  // const { isConnected } = useXcavateContext();
   return (
     <header className="fixed z-10 w-full bg-transparent backdrop-blur-md">
       <div className="container mx-auto flex w-full max-w-screen-2xl items-center justify-between p-4 md:px-[50px]">
@@ -38,6 +39,7 @@ export function MarketPlaceHeader() {
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <ConnectWalletButton />
+          {/* <ConnectButton /> */}
           {isConnected ? <AuthMenu /> : null}
         </div>
       </div>

@@ -225,13 +225,12 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
           />
         </div>
       </div>
-      <div className="flex w-full items-center justify-end gap-4">
-        <Button type="button" variant={'outline'} size={'md'}>
+      <div className="flex w-full items-center justify-center gap-4">
+        <Button type="button" variant={'outline'}>
           Cancel
         </Button>
         <Button
           type="submit"
-          size={'md'}
           className="text-white"
           disabled={
             !form.formState.isDirty ||

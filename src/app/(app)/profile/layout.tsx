@@ -28,8 +28,8 @@ export default async function DeveloperLayout({ children }: Readonly<ProfileLayo
 
   return (
     <>
-      <ProfileBannerImage profile={profile} />
-      <div className="container relative mx-auto flex min-h-screen max-w-screen-2xl flex-col items-start justify-start gap-10 px-4 md:px-4 lg:gap-16 lg:px-[50px]">
+      {/* <ProfileBannerImage profile={profile} /> */}
+      <div className="container relative mx-auto flex min-h-screen max-w-screen-2xl flex-col items-start justify-start gap-10 px-4 py-[140px] md:px-4 lg:gap-16 lg:px-[50px]">
         <ProfileHeaderOverview profile={profile} properties={tokensOwned} />
         <ProfileTabs items={tabConfig.invertor} />
         {children}

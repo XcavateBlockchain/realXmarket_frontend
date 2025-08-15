@@ -3,7 +3,7 @@ import { cn, hexToString } from '@/lib/utils';
 import Link from 'next/link';
 import PropertyCard from './components/property-card';
 import { getCookieStorage } from '@/lib/cookie-storage';
-import { fetchPropertiesWithFiles } from '@/lib/dynamo';
+// import { fetchPropertiesWithFiles } from '@/lib/dynamo';
 import { Button } from '@/components/ui/button';
 import { IComponent, IProperty, Listing } from '@/types';
 import {
@@ -15,6 +15,7 @@ import {
   ViewAllListedPropertiesCreated,
   ViewAllPropertiesCreated
 } from './components/property-list';
+import { fetchPropertiesForDeveloperPartners } from '@/lib/properties.service';
 
 export default async function Page({
   searchParams: { status }
@@ -25,13 +26,14 @@ export default async function Page({
 
   const address = await getCookieStorage('accountKey');
 
-  const properties: IProperty[] = await fetchPropertiesWithFiles(address as string);
+  const properties: IProperty[] = await fetchPropertiesForDeveloperPartners(address as string);
 
   const accountDetails = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
   async function fetchListedIProperties() {
+    if (!accountDetails) return [];
     const results = await Promise.all(
       accountDetails.map(async listing => {
-        if (listing.listingDetails && typeof listing.listingDetails === 'object') {
+        if (listing?.listingDetails && typeof listing.listingDetails === 'object') {
           const metaData = await getItemMetadata(
             listing.listingDetails.collectionId,
             listing.listingDetails.itemId

@@ -100,7 +100,7 @@ export async function listProperty(
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
-    const extrinsic = api.tx.nftMarketplace.listObject(
+    const extrinsic = api.tx.marketplace.listProperty(
       region,
       location,
       tokenPrice,

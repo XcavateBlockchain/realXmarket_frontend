@@ -103,7 +103,7 @@ function SelectUserType({ setIndex, close }: DialogProps) {
 
 function ConnectCredential({ setIndex, close }: DialogProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle');
-  const { selectedAccount } = useWalletContext();
+  const { selectedAccount, investorType } = useWalletContext();
   const address = selectedAccount?.[0]?.address;
 
   async function onWhiteListUser() {
@@ -112,20 +112,21 @@ function ConnectCredential({ setIndex, close }: DialogProps) {
       const isWhiteListed = await checkIfWhiteListed(address!);
       console.log(isWhiteListed);
 
-      if (isWhiteListed === true) {
+      if (isWhiteListed && isWhiteListed.length >= 1) {
         setStatus('success');
         setIndex(3);
         setCookieStorage('isWhiteListed', 'true');
         return;
       }
 
-      const result = await WhiteListExtrinsic(address!);
+      const result = await WhiteListExtrinsic(address!, investorType!);
       // console.log(result);
       if (!result) {
         setStatus('error');
         return;
       }
       await listenForWhiteListEvent(result.txHash, address!, data => {
+        console.log(data);
         if (!data) {
           setStatus('error');
           return;
