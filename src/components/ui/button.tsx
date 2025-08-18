@@ -15,8 +15,7 @@ const buttonVariants = cva(
         text: 'rounded-none bg-none uppercase text-primary'
       },
       size: {
-        default:
-          'px-4 py-2 text-[0.875rem]/[1.5rem] font-bold md:h-[50px] md:w-[208px] lg:px-7 lg:py-3',
+        default: 'px-4 py-2 text-[0.875rem]/[1.5rem] font-bold md:h-[50px]  lg:px-7 lg:py-3',
         lg: 'px-7 py-2 text-[0.875rem]/[1.5rem] font-bold',
         md: 'p-2 font-sans text-[1rem]/[1.5rem]',
         icon: 'p-[5px]'
