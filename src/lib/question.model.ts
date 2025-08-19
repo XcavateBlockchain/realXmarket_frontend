@@ -257,8 +257,8 @@ export function combineResults(
 }
 
 export const TermsServiceAgreementMessages = {
-  pass: 'Thanks for passing our questionnaire, please accept our privacy, terms & agreement to start investing',
+  pass: 'Thank you for passing our questionnaire, please accept our privacy, terms & agreement to start investing',
   warning:
-    'Thanks for taking our questionnaire, you may not be suitable for this type of investing. Are you sure you still wish to proceed? If Yes... please accept our privacy, terms and agreement to start investing',
-  fail: 'Sorry but you have not passed our questionnaire and you are not suitable for this type of investment.'
+    'Thank you for taking our questionnaire, you may not be suitable for this type of investing. Are you sure you still wish to proceed? If Yes... please accept our privacy, terms and agreement to start investing',
+  fail: 'Unfortunately, based on the answers you have given, we believe it is unlikely that this investment will be appropriate for you and we will not therefore be able to register you as a customer'
 };
