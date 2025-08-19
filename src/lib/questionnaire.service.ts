@@ -77,6 +77,7 @@ export class QuestionnaireService {
   async getQuestionnaireResponse(address: string): Promise<QuestionnaireResponse | null> {
     const params = {
       TableName: TABLES.QUESTIONNAIRE_RESPONSES,
+      IndexName: 'account_address-submittedAt-index',
       KeyConditionExpression: 'account_address = :address',
       ExpressionAttributeValues: {
         ':address': address
