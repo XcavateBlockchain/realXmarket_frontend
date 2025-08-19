@@ -4,7 +4,7 @@ export default function PropertyInfoFees() {
   return (
     <Shell>
       <div className={'flex w-full max-w-screen-lg flex-col items-start justify-center gap-6'}>
-        <h1 className=" text-3xl font-bold">RealXmarket Property Info & Fees</h1>
+        <h1 className=" text-3xl font-bold">Property Info & Fees</h1>
         <p>
           <strong> Price per token</strong> <br />
           This price is based on the Listing price divided by the total number of tokens for
