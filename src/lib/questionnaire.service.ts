@@ -11,7 +11,8 @@ import {
   evaluateSection1,
   evaluateSection2Experience,
   evaluateSection2Transactions,
-  QuestionnaireResponse
+  QuestionnaireResponse,
+  TermsServiceAgreementMessages
 } from './question.model';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,7 +23,7 @@ interface EvaluationResultResponse {
     section1Result: 'Pass' | 'Fail';
     experienceResult: 'Pass' | 'Warning' | 'Fail';
     transactionResult: 'Pass' | 'Warning' | 'Fail';
-    warningMessage?: string;
+    message?: string;
     evaluation: {
       section1: {
         result: 'Pass' | 'Fail';
@@ -124,10 +125,10 @@ export class QuestionnaireService {
       throw new Error('Failed to get user responses');
     }
   }
-
   async updateQuestionnaireResponse(
     address: string,
-    updates: Partial<Omit<QuestionnaireResponse, 'id' | 'submittedAt'>>
+    id: string,
+    updates: Partial<Omit<QuestionnaireResponse, 'account_address' | 'id' | 'submittedAt'>>
   ): Promise<QuestionnaireResponse | null> {
     const updateExpressions: string[] = [];
     const expressionAttributeNames: Record<string, string> = {};
@@ -151,13 +152,28 @@ export class QuestionnaireService {
       expressionAttributeValues[':userId'] = updates.userId;
     }
 
+    if (updates.hasAgreedToTerms !== undefined) {
+      updateExpressions.push('#hasAgreedToTerms = :hasAgreedToTerms');
+      expressionAttributeNames['#hasAgreedToTerms'] = 'hasAgreedToTerms';
+      expressionAttributeValues[':hasAgreedToTerms'] = updates.hasAgreedToTerms;
+    }
+
+    if (updates.acceptedAt) {
+      updateExpressions.push('#acceptedAt = :acceptedAt');
+      expressionAttributeNames['#acceptedAt'] = 'acceptedAt';
+      expressionAttributeValues[':acceptedAt'] = updates.acceptedAt;
+    }
+
     if (updateExpressions.length === 0) {
       throw new Error('No valid updates provided');
     }
 
     const params = {
       TableName: TABLES.QUESTIONNAIRE_RESPONSES,
-      Key: { account_address: address },
+      Key: {
+        account_address: address,
+        id: id
+      },
       UpdateExpression: `SET ${updateExpressions.join(', ')}`,
       ExpressionAttributeNames: expressionAttributeNames,
       ExpressionAttributeValues: expressionAttributeValues,
@@ -171,6 +187,39 @@ export class QuestionnaireService {
       console.error('Error updating questionnaire response:', error);
       throw new Error('Failed to update questionnaire response');
     }
+  }
+
+  async acceptTermsAndUpdateUser(address: string, hasAgreedToTerms: boolean): Promise<any> {
+    // First, get the most recent response for this address
+    const response = await this.getQuestionnaireResponse(address);
+
+    if (!response) {
+      throw new Error('Questionnaire response not found');
+    }
+
+    // Check if the user has already agreed to terms
+    if (response.hasAgreedToTerms) {
+      throw new Error('User has already agreed to terms');
+    }
+
+    // Check if the questionnaire result allows terms acceptance
+    if (!response.result || (response.result !== 'Pass' && response.result !== 'Warning')) {
+      throw new Error(
+        'Only users with Pass or Warning results can accept terms. Your result: ' +
+          (response.result || 'Not evaluated')
+      );
+    }
+
+    // Prepare updates
+    const updates: Partial<QuestionnaireResponse> = {
+      hasAgreedToTerms,
+      acceptedAt: new Date().toISOString()
+    };
+
+    await this.updateQuestionnaireResponse(address, response.id!, updates);
+
+    // Update the response
+    return updates;
   }
 
   async evaluateQuestionnaireResponse(address: string): Promise<EvaluationResultResponse> {
@@ -242,12 +291,17 @@ export class QuestionnaireService {
       const result = await dynamoDbClient.send(new UpdateCommand(updateParams));
       const updatedResponse = result.Attributes as QuestionnaireResponse;
 
-      // Prepare response based on result
-      let warningMessage: string | undefined;
-      if (overallResult === 'Warning') {
-        warningMessage =
-          'Based on your answers, we believe investment into real estate via the realxmarket app might not be right for you. If you still wish to proceed, please confirm that you understand this and that you are happy to go ahead regardless. If you are in any doubt as to whether to proceed, you should seek financial advice before doing so';
-      }
+      // // Prepare response based on result
+      // let warningMessage: string | undefined;
+      // if (overallResult === 'Warning') {
+      //   warningMessage =
+      //     'Based on your answers, we believe investment into real estate via the realxmarket app might not be right for you. If you still wish to proceed, please confirm that you understand this and that you are happy to go ahead regardless. If you are in any doubt as to whether to proceed, you should seek financial advice before doing so';
+      // }
+
+      const message =
+        TermsServiceAgreementMessages[
+          overallResult.toLowerCase() as keyof typeof TermsServiceAgreementMessages
+        ];
 
       return {
         // response: updatedResponse,
@@ -256,7 +310,8 @@ export class QuestionnaireService {
           section1Result,
           experienceResult,
           transactionResult,
-          ...(warningMessage && { warningMessage }),
+          // ...(warningMessage && { warningMessage }),
+          ...(message && { message: message }),
           evaluation: {
             section1: {
               result: section1Result,
