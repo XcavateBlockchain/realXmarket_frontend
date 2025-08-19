@@ -9,8 +9,8 @@ export default function SiteFooter() {
     <footer className="container mx-auto flex w-full flex-col justify-between gap-3 p-6">
       <div className="flex flex-wrap items-center  justify-center gap-4">
         <FooterLink href="/privacy" title="Privacy" />
-        <FooterLink href="#" title="Agreement" />
-        <FooterLink href="#" title="Terms" />
+        <FooterLink href="/agreement" title="Agreement" />
+        <FooterLink href="/terms" title="Terms" />
         <FooterLink href="risk-warning" title="Risk Warning" />
         <FooterLink href="property-info-fees" title=" Property Info & Fees " />
       </div>
