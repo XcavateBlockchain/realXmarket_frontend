@@ -82,7 +82,7 @@ export const QUESTIONNAIRE_DATA = {
         heading:
           'Please indicate the number of transactions you have undertaken in the past five years involving:',
         questionText:
-          'nvestment in unlisted shares (that is, shares that are not subject to trading on a stock exchange',
+          'Investment in unlisted shares (that is, shares that are not subject to trading on a stock exchange',
         answers: ['Over 5', '1 to 5', 'None']
       },
       {
