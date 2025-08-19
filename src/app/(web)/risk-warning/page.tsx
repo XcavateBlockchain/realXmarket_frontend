@@ -6,16 +6,16 @@ export default function RiskWarning() {
       <div className={'flex w-full max-w-screen-lg flex-col items-start justify-center gap-6'}>
         <h1 className=" text-3xl font-bold">Risk warning</h1>
         <p>
-          Don’t invest unless you’re prepared to lose all the money you invest. This is a
+          Do not invest unless you are prepared to lose all the money you invest. This is a
           high-risk investment and you are unlikely to be protected if something goes wrong.
         </p>
 
         <p>
           Learn more about the risks connected to investing in cryptoassets. <br /> <br />
           Investing in cryptoassets comes with a unique set of risks and challenges that
-          everyone who invests in crypto should be aware of. The nature of – and uncertainty
-          around – these risks mean that cryptoasset investments can suffer extreme price
-          swings, and even drop down to zero in some cases. <br /> <br />
+          everyone who invests in crypto should be aware of. The nature of and uncertainty
+          around these risks mean that cryptoasset investments can suffer extreme price swings,
+          and even drop down to zero in some cases. <br /> <br />
           For this reason, the UK’s FCA suggests that no more than 10% of your assets should be
           allocated to high-risk investments like crypto.
         </p>
