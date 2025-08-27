@@ -100,7 +100,7 @@ export const PropertyDetails = ({ form }: IForm) => (
         type="text"
         label="BUILDING CONTROL CODE"
         placeholder=""
-        {...form.register('property_number')}
+        {...form.register('building_control_code')}
       />
       {/* <Input
           type="text"
@@ -112,7 +112,7 @@ export const PropertyDetails = ({ form }: IForm) => (
         label="ADD A LIGAL REPRESENTATIVE"
         placeholder="select"
         options={legalRepresentatives}
-        {...form.register('property_type')}
+        {...form.register('legal_representative')}
       />
     </div>
     <div className="flex w-full flex-col">

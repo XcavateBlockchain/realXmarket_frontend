@@ -129,27 +129,19 @@ export const propertyTypes: { label: string; value: string }[] = [
 
 export const legalRepresentatives: { label: string; value: string }[] = [
   {
-    label: 'Sarah Middleton',
-    value: 'sarah-middleton'
+    label: 'St Albans Property Law LLP',
+    value: 'St Albans Property Law LLP'
   },
   {
-    label: 'Peter Lawson',
-    value: 'peter-lawson'
+    label: 'Thames Legal Chambers',
+    value: 'Thames Legal Chambers'
   },
   {
-    label: 'Helena Duarte',
-    value: 'helena-duarte'
+    label: 'Watford Conveyancing & Legal Services Ltd',
+    value: 'Watford Conveyancing & Legal Services Ltd'
   },
   {
-    label: 'James Houghton',
-    value: 'james-houghton'
-  },
-  {
-    label: 'Natalie Carter',
-    value: 'natalie-carter'
-  },
-  {
-    label: 'David Harrington',
-    value: 'david-harrington'
+    label: 'Capital & Counties Legal Associates',
+    value: 'Capital & Counties Legal Associates'
   }
 ];
