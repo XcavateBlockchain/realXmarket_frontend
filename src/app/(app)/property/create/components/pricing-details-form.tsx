@@ -26,7 +26,7 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
       }
       const newData = {
         number_of_tokens: parseInt(data.number_of_tokens.replace(/,/g, '')),
-        price_per_token: parseFloat(data.price_per_token.replace(/,/g, '')),
+        // price_per_token: parseFloat(data.price_per_token.replace(/,/g, '')),
         property_price: parseFloat(data.property_price.replace(/,/g, '')),
         estimated_rental_income: parseFloat(data.estimated_rental_income.replace(/,/g, ''))
       };
@@ -49,7 +49,7 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
           allowNegative={false}
           placeholder="0"
         />
-        <div className="flex w-full flex-col gap-2">
+        {/* <div className="flex w-full flex-col gap-2">
           <label
             htmlFor={'number of tokens'}
             className="text-[16px]/[24px] font-medium uppercase"
@@ -66,7 +66,7 @@ export default function PricingDetailsForm({ propertyId }: { propertyId: number 
               className="w-full border-0 p-0 focus:outline-none focus-visible:ring-0"
             />
           </div>
-        </div>
+        </div> */}
         {/* </div> */}
         {/* <div className="flex w-full items-center gap-2"> */}
         <div className="flex w-full flex-col gap-2">
