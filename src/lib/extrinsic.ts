@@ -64,7 +64,7 @@ export async function buyNft(
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
-    const extrinsic = api.tx.nftMarketplace.buyToken(listingId, amount, asset);
+    const extrinsic = api.tx.nftMarketplace.buyPropertyToken(listingId, amount, asset);
     const signer = injected.signer;
 
     const estimatedFee = await extrinsic.paymentInfo(senderAddress);

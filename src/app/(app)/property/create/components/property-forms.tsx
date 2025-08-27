@@ -1,10 +1,16 @@
 import FileInput, { MimeTypes } from '@/components/file-input';
 import NumberInput from '@/components/number-input';
 import SelectInput from '@/components/select-input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { PropertyInput, propertyTypes } from '@/lib/validations/property-schema';
+import {
+  legalRepresentatives,
+  PropertyInput,
+  propertyTypes
+} from '@/lib/validations/property-schema';
+import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface IForm {
@@ -77,7 +83,7 @@ export const PropertyDetails = ({ form }: IForm) => (
       />
       <Input
         type="text"
-        label="Planning Permission code"
+        label="Planning code"
         placeholder=""
         {...form.register('planning_permission_Code', { required: true })}
       />
@@ -88,6 +94,26 @@ export const PropertyDetails = ({ form }: IForm) => (
           {...form.register('title_deed_number')}
         /> */}
       <Input type="text" label="google map link" placeholder="" {...form.register('map')} />
+    </div>
+    <div className="grid w-full grid-cols-3 gap-2">
+      <Input
+        type="text"
+        label="BUILDING CONTROL CODE"
+        placeholder=""
+        {...form.register('property_number')}
+      />
+      {/* <Input
+          type="text"
+          label="Property Type"
+          placeholder="E.G (Flat, Apartment)"
+          {...form.register('property_type')}
+        /> */}
+      <SelectInput
+        label="ADD A LIGAL REPRESENTATIVE"
+        placeholder="select"
+        options={legalRepresentatives}
+        {...form.register('property_type')}
+      />
     </div>
     <div className="flex w-full flex-col">
       <span className="font-mona text-[18px]/[24px] font-semibold">Document</span>
@@ -103,6 +129,7 @@ export const PropertyDetails = ({ form }: IForm) => (
             });
           }}
         />
+
         <FileInput
           name="Upload Floor plan"
           types={[MimeTypes.PDF]}
@@ -116,7 +143,7 @@ export const PropertyDetails = ({ form }: IForm) => (
         <FileInput
           name="Other"
           types={[MimeTypes.PDF]}
-          handleFileChange={files => form.setValue('property_images', files)}
+          handleFileChange={files => form.setValue('other_documents', files)}
           isMultiple
           disabled
         />
@@ -125,22 +152,32 @@ export const PropertyDetails = ({ form }: IForm) => (
   </>
 );
 
-export const PropertyPricing = ({ form }: IForm) => (
-  <>
-    <div className="flex w-full flex-col items-center gap-2">
-      <NumberInput
-        label="NUMBER OF TOKENS"
-        {...form.register('number_of_tokens')}
-        max={100}
-        thousandSeparator=","
-        allowNegative={false}
-        placeholder="0"
-      />
-      <div className="flex w-full flex-col gap-2">
-        <label
-          htmlFor={'number of tokens'}
-          className="text-[16px]/[24px] font-medium uppercase"
-        >
+export const PropertyPricing = ({
+  form,
+  pricePerToken
+}: {
+  form: UseFormReturn<PropertyInput>;
+  pricePerToken: number;
+}) => {
+  return (
+    <div className=" flex w-full flex-col items-center gap-5">
+      <div className="flex w-full flex-col gap-1">
+        <NumberInput
+          label="NUMBER OF TOKENS"
+          {...form.register('number_of_tokens')}
+          max={100}
+          thousandSeparator=","
+          allowNegative={false}
+          placeholder="0"
+        />
+        {pricePerToken !== 0 && (
+          <span className="flex items-center justify-end text-[14px]/[20px] uppercase">
+            Price per token : £ {pricePerToken}
+          </span>
+        )}
+      </div>
+      {/* <div className="flex w-full flex-col gap-2">
+        <label htmlFor={'number of tokens'} className="text-[16px]/[24px] uppercase">
           Price per token
         </label>
         <div className="flex w-full items-center  rounded-lg border border-caption bg-white px-4 py-2">
@@ -153,15 +190,12 @@ export const PropertyPricing = ({ form }: IForm) => (
             className="w-full border-0 p-0 focus:outline-none focus-visible:ring-0"
           />
         </div>
-      </div>
+      </div> */}
       {/* </div> */}
       {/* <div className="flex w-full items-center gap-2"> */}
       <div className="flex w-full flex-col gap-2">
-        <label
-          htmlFor={'number of tokens'}
-          className="text-[16px]/[24px] font-medium uppercase"
-        >
-          Price
+        <label htmlFor={'number of tokens'} className="text-[16px]/[24px] uppercase">
+          LISTING PRICE
         </label>
         <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
           <span>£</span>
@@ -175,10 +209,7 @@ export const PropertyPricing = ({ form }: IForm) => (
         </div>
       </div>
       <div className="flex w-full flex-col gap-2">
-        <label
-          htmlFor={'number of tokens'}
-          className="text-[16px]/[24px] font-medium uppercase"
-        >
+        <label htmlFor={'number of tokens'} className="text-[16px]/[24px] uppercase">
           estimated monthly rental income
         </label>
         <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
@@ -192,15 +223,89 @@ export const PropertyPricing = ({ form }: IForm) => (
           />
         </div>
       </div>
+      <div className="flex w-full flex-col gap-2">
+        <label
+          htmlFor={'number of tokens'}
+          className="flex w-full items-center justify-between"
+        >
+          <span className="text-[16px]/[24px] uppercase"> ANNUAL SERVICE CHARGE</span>{' '}
+          <span className="flex items-center gap-1">
+            Paid{' '}
+            <Checkbox
+              checked={form.watch('isAnnualServiceChargePaid')}
+              onCheckedChange={value => {
+                form.setValue('isAnnualServiceChargePaid', value as boolean);
+              }}
+            />
+          </span>
+        </label>
+        <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
+          <span>£</span>
+          <NumberInput
+            thousandSeparator=","
+            allowNegative={false}
+            placeholder="0.00"
+            {...form.register('annualServiceCharge')}
+            className="w-full border-0 p-0 focus:outline-none focus-visible:ring-0"
+          />
+        </div>
+      </div>
+      <div className=" flex w-full flex-col gap-2">
+        <label
+          htmlFor={'number of tokens'}
+          className="flex w-full items-center justify-between"
+        >
+          <span className="text-[16px]/[24px] uppercase">STAMP DUTY TAX</span>{' '}
+          <span className="flex items-center gap-1">
+            Paid{' '}
+            <Checkbox
+              checked={form.watch('isStampDutyPaid')}
+              onCheckedChange={value => {
+                form.setValue('isStampDutyPaid', value as boolean);
+              }}
+            />
+          </span>
+        </label>
+        <div className="flex w-full items-center gap-1 rounded-lg border border-caption bg-white px-4 py-2">
+          <span>£</span>
+          <NumberInput
+            thousandSeparator=","
+            allowNegative={false}
+            placeholder="0.00"
+            {...form.register('stampDutyTax')}
+            className="w-full border-0 p-0 focus:outline-none focus-visible:ring-0"
+          />
+        </div>
+      </div>
     </div>
-  </>
-);
+  );
+};
 
 export const PropertyData = ({ form }: IForm) => (
   <>
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-5">
       <span className="font-mona text-[18px]/[24px] font-semibold">Property Features</span>
       <Separator className="mb-8 mt-4" />
+      <div className="grid w-full grid-cols-3 gap-4">
+        <Input
+          type="text"
+          label="INTERNAL AREA"
+          placeholder=""
+          {...form.register('area', { required: true })}
+        />
+        <Input
+          type="text"
+          label="FINISHING QUALITY"
+          placeholder=""
+          {...form.register('quality', { required: true })}
+        />
+        <Input
+          type="date"
+          label="CONSTRUCTION DATE"
+          placeholder=""
+          {...form.register('construction_date', { required: true })}
+        />
+      </div>
       <div className="grid w-full grid-cols-3 gap-4">
         <Input
           type="number"
@@ -225,44 +330,7 @@ export const PropertyData = ({ form }: IForm) => (
         />
       </div>
     </div>
-    {/* orthers */}
-    <div className="flex flex-col">
-      <span className="font-mona text-[18px]/[24px] font-semibold">Extra</span>
-      <Separator className="mb-8 mt-4" />
-      <div className="grid w-full grid-cols-3 gap-4">
-        <Input
-          type="text"
-          label="INTERNAL AREA"
-          placeholder=""
-          {...form.register('area', { required: true })}
-        />
-        <Input
-          type="text"
-          label="FINISHING QUALITY"
-          placeholder=""
-          {...form.register('quality', { required: true })}
-        />
-        <Input
-          type="text"
-          label="CONSTRUCTION DATE"
-          placeholder=""
-          {...form.register('construction_date', { required: true })}
-        />
 
-        <Input
-          type="text"
-          label="PROPERTY Development code"
-          placeholder=""
-          {...form.register('property_development_Code', { required: true })}
-        />
-        <Input
-          type="text"
-          label="Land registration code"
-          placeholder="e.g"
-          {...form.register('title_deed_number')}
-        />
-      </div>
-    </div>
     <div className="flex w-full flex-col">
       <span className="font-mona text-[18px]/[24px] font-semibold">Property Description</span>
       <Separator className="mb-8 mt-4" />

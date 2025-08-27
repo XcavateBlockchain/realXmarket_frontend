@@ -27,7 +27,7 @@ export default function MarketCard({
       href={`/marketplace/${id}`}
       className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1"
     >
-      {metaData.fileUrls.length >= 1 ? (
+      {metaData.fileUrls?.length && metaData.fileUrls.length >= 1 ? (
         <Link href={`/marketplace/${id}`} className="relative">
           <div className="aspect-square h-[255px] w-full">
             <ImageComponent

@@ -216,13 +216,13 @@ export default function PropertyInformationForm({ propertyId }: { propertyId: nu
               })
             }
           />
-          <FileInput
+          {/* <FileInput
             name="Other"
             types={[MimeTypes.PDF]}
             handleFileChange={files => form.setValue('property_images', files)}
             isMultiple
             disabled
-          />
+          /> */}
         </div>
       </div>
       <div className="flex w-full items-center justify-center gap-4">

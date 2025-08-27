@@ -2,6 +2,7 @@ import MarketCard from '@/components/cards/market-card';
 import {
   checkBlock,
   getActiveProperties,
+  getAllAssets,
   getAllOngoingListings,
   getAllOngoingListingsWhereAddressIsDeveloper,
   getAllTokenBuyerForListing,
@@ -23,6 +24,9 @@ import { Suspense } from 'react';
 export const maxDuration = 300;
 export default async function Marketplace() {
   const data = await getAllOngoingListings();
+  const assets = await getAllAssets();
+
+  // console.log('assets', assets);
 
   // console.log('data', data);
   // console.log('ALL ONGOING LISTINGS', data);

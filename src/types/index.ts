@@ -132,6 +132,10 @@ export type IProperty = {
   property_price: number;
   fileUrls: string[];
   company?: Company;
+  annualServiceCharge: number;
+  stampDutyTax: number;
+  building_control_code: string;
+  legal_representative: string;
 };
 
 export interface Company {

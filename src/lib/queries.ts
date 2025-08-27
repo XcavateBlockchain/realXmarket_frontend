@@ -245,3 +245,29 @@ export async function checkBlock(targetBlock: number) {
 
   return false;
 }
+
+export async function getAllAssets() {
+  try {
+    const api = await apiPRomise;
+    const data = await api.query.realEstateAsset.propertyAssetInfo.entries();
+
+    return data
+      .map(([key, exposure]) => {
+        try {
+          return {
+            listingId: key.args[0].toHuman(),
+            propertyInfo: exposure.toHuman()
+          };
+        } catch (error) {
+          console.warn('Error processing asset data:', error);
+          return null;
+        }
+      })
+      .filter(Boolean); // Remove null entries
+  } catch (error) {
+    console.error('Error fetching assets:', error);
+    throw new Error(
+      `Failed to fetch assets: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}

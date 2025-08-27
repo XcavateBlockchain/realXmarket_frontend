@@ -37,7 +37,7 @@ export const QUESTIONNAIRE_DATA = {
     },
     {
       heading:
-        'Property tokens purchased via Xcavate realxmarket may be resold via the noticeboard section within the application. However, these tokens are not as liquid as, for example, shares that are listed on a stock exchange. As such, you might not be able to find a buyer for your token(s) should you wish to sell, and where you are able to, this might take some time.',
+        'Property tokens purchased via Xcavate realXmarket may be resold via the noticeboard section within the application. However, these tokens are not as liquid as, for example, shares that are listed on a stock exchange. As such, you might not be able to find a buyer for your token(s) should you wish to sell, and where you are able to, this might take some time.',
       questionText:
         'Please confirm you have understood this and that you are only investing money you are able to lock away for a period of time without having access to',
       answers: ['Yes', 'No']
