@@ -62,6 +62,13 @@ export const developers: Developer[] = [
         background: '15 years in luxury property sales across London and Dubai.',
         bio: 'Priya oversees brand strategy, off-plan sales campaigns, and international investor outreach for Thames Horizon Estates.',
         whitelistedAccountAddress: '5GgF5FL4TLKxmGRKiLqd382zUXCNhJ9vBy8p95nudT1EwsxV'
+      },
+      {
+        name: 'Jon Da Builder',
+        title: 'Managing Director',
+        background: '15 years in luxury property sales across London and Dubai.',
+        bio: 'Priya oversees brand strategy, off-plan sales campaigns, and international investor outreach for Thames Horizon Estates.',
+        whitelistedAccountAddress: '5GC5UM4V4LQL2vcvhqZEQaMWN3XWDN97ca3dpJ8erwSqsQqk'
       }
     ]
   },

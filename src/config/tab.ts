@@ -47,7 +47,7 @@ export const tabConfig: DashboardConfig = {
     },
     {
       title: 'profile',
-      href: '/developer',
+      href: '/developer/profile',
       icon: '/icons/profile.svg'
     },
     {
