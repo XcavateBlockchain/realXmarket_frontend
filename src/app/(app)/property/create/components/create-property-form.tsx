@@ -360,7 +360,7 @@ export default function CreatePropertyForm() {
           'max-w-[574px]': page === 1
         })}
       >
-        <Form form={form} onSubmit={form.handleSubmit(onSubmit)}>
+        <Form form={form} onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
           {/* Progress indicator */}
           <div className="mb-6">
             <div className="mb-2 flex items-center justify-between">
