@@ -143,27 +143,6 @@ export const legalRepresentatives: { label: string; value: string }[] = [
 
 export const localAuthorities: { label: string; value: string }[] = [
   {
-    label: 'Greenwich Council',
-    value: 'Greenwich Council'
-  },
-  {
-    label: 'St Albans City and District Council',
-    value: 'St Albans City and District Council'
-  },
-
-  {
-    label: 'West Herts District Council',
-    value: 'West Herts District Council'
-  },
-  {
-    label: 'East London District Council',
-    value: 'East London District Council'
-  },
-  {
-    label: 'Croydon District Council',
-    value: 'Croydon District Council'
-  },
-  {
     label: 'Battersea District Council',
     value: 'Battersea District Council'
   },
@@ -174,5 +153,25 @@ export const localAuthorities: { label: string; value: string }[] = [
   {
     label: 'City of London Council',
     value: 'City of London Council'
+  },
+  {
+    label: 'Croydon District Council',
+    value: 'Croydon District Council'
+  },
+  {
+    label: 'East London District Council',
+    value: 'East London District Council'
+  },
+  {
+    label: 'Greenwich Council',
+    value: 'Greenwich Council'
+  },
+  {
+    label: 'St Albans City and District Council',
+    value: 'St Albans City and District Council'
+  },
+  {
+    label: 'West Herts District Council',
+    value: 'West Herts District Council'
   }
 ];
