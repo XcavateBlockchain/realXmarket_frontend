@@ -22,7 +22,7 @@ export const developers: Developer[] = [
     website: 'www.oakandspire.co.uk',
     summary:
       "Oak & Spire Developments has over 25 years' experience in creating sustainable residential communities in Hertfordshire and North London. They specialise in restoring heritage buildings, blending modern luxury with historic charm, and delivering award-winning eco-homes with cutting-edge energy efficiency.",
-    logo: 'https://app.realxmarktet.io/images/logos/Oak_Spire_Logo.png',
+    logo: 'https://app.realxmarket.io/images/logos/Oak_Spire_Logo.png',
     partners: [
       {
         name: 'Jonathan "Jon" Fairhurst',
@@ -46,7 +46,7 @@ export const developers: Developer[] = [
     website: 'www.thameshorizon.co.uk',
     summary:
       'Thames Horizon Estates is a London-based developer known for large riverside regeneration projects. Their portfolio includes mixed-use high-rise schemes, boutique apartment blocks, and vibrant public spaces designed to foster community interaction and improve urban living standards.',
-    logo: 'https://app.realxmarktet.io/images/logos/Thames_Horizon_Logo.png',
+    logo: 'https://app.realxmarket.io/images/logos/Thames_Horizon_Logo.png',
     partners: [
       {
         name: 'Marcus Caldwell',
@@ -71,7 +71,7 @@ export const developers: Developer[] = [
     website: 'www.maplegatehomes.co.uk',
     summary:
       'Maple Gate Homes is a family-run developer with a strong focus on suburban family housing. With a reputation for timely delivery and a personal approach, they integrate landscaped parks, schools, and local amenities into every project to create well-connected neighbourhoods.',
-    logo: 'https://app.realxmarktet.io/images/logos/Maple_Gate_Logo.jpg',
+    logo: 'https://app.realxmarket.io/images/logos/Maple_Gate_Logo.jpg',
     partners: [
       {
         name: 'Thomas "Tom" Kavanagh',
