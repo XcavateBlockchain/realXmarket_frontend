@@ -37,8 +37,16 @@ export default function CreatePropertyForm() {
   };
 
   const form = useZodForm({
-    schema: propertyFormSchema
+    schema: propertyFormSchema,
+    defaultValues: {
+      number_of_tokens: '100'
+    }
   });
+
+  const propertyPrice = parseInt(form.watch('property_price')?.replace(/,/g, '') || '0');
+  const numberOfTokens = parseInt(form.watch('number_of_tokens')?.replace(/,/g, '') || '0');
+
+  const tokenPrice = propertyPrice / numberOfTokens;
 
   const {
     formState: { errors, dirtyFields },
@@ -58,13 +66,16 @@ export default function CreatePropertyForm() {
       'planning_permission_Code',
       'map',
       'floor_plan',
-      'sales_agreement'
+      'sales_agreement',
+      'building_control_code',
+      'legal_representative'
     ] as const,
     1: [
       'number_of_tokens',
-      'price_per_token',
       'property_price',
-      'estimated_rental_income'
+      'estimated_rental_income',
+      'annualServiceCharge',
+      'stampDutyTax'
     ] as const,
     2: [
       'area',
@@ -157,7 +168,7 @@ export default function CreatePropertyForm() {
 
   const pages = {
     0: <PropertyDetails form={form} />,
-    1: <PropertyPricing form={form} />,
+    1: <PropertyPricing form={form} pricePerToken={tokenPrice} />,
     2: <PropertyData form={form} />
   };
 
@@ -187,7 +198,7 @@ export default function CreatePropertyForm() {
         ...propertyData,
         company,
         number_of_tokens: parseInt(data.number_of_tokens.replace(/,/g, '')),
-        price_per_token: parseFloat(data.price_per_token.replace(/,/g, '')),
+        price_per_token: parseFloat(String(tokenPrice).replace(/,/g, '')),
         property_price: parseFloat(data.property_price.replace(/,/g, '')),
         estimated_rental_income: parseFloat(data.estimated_rental_income.replace(/,/g, ''))
       };
@@ -378,8 +389,13 @@ export default function CreatePropertyForm() {
 
           {pages[page as keyof typeof pages]}
 
-          <div className="flex w-full items-center justify-center gap-4">
-            <Button type="button" variant={'outline'} asChild>
+          <div className="mt-10 flex w-full items-center justify-center gap-4">
+            <Button
+              type="button"
+              className=" md:h-[50px] md:w-[208px]"
+              variant={'outline'}
+              asChild
+            >
               <Link href={'/developer/properties'}>Cancel</Link>
             </Button>
 
@@ -387,7 +403,7 @@ export default function CreatePropertyForm() {
               <Button
                 type="button"
                 onClick={handleNext}
-                className="text-white"
+                className="text-white  md:h-[50px] md:w-[208px]"
                 disabled={!canSubmitCurrentPage()}
               >
                 Continue
@@ -395,7 +411,7 @@ export default function CreatePropertyForm() {
             ) : (
               <Button
                 type="submit"
-                className="text-white"
+                className="text-white md:h-[50px] md:w-[208px]"
                 disabled={!canSubmitCurrentPage() || status === STATE_STATUS.LOADING}
               >
                 {status === STATE_STATUS.LOADING ? (

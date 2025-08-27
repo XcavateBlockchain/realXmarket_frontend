@@ -99,69 +99,72 @@ export default function Terms() {
                 violations, which may also require internal controls to detect, prevent,
                 report, and maintain records of suspected money laundering or terrorist
                 financing;
-              </p>
+              </p>{' '}
+              <br />
               <p>
                 “Anti-Corruption Laws” means all applicable Laws prohibiting corruption or
                 bribery of Government Officials, kickbacks, inducements, and other related
                 forms of commercial corruption or bribery;
-              </p>
+              </p>{' '}
+              <br />
               <p>
                 related forms of commercial corruption or bribery; “CTF” means
-                counter-terrorist financing; “Economic Sanctions” means financial sanctions,
-                trade embargoes, export or import controls, anti-boycott, and restrictive trade
-                measures enacted, administered, enforced, or penalized by any Laws; “Eligible
-                User” means Users of the Xcavate Services where: (i) they are not Prohibited
-                Persons; and (ii) they do not utilise the Xcavate Services to facilitate any
-                Prohibited Uses; “Government” means any national, federal, state, municipal,
-                local, or foreign branch of government, including any department, agency,
-                subdivision, bureau, commission, court, tribunal, arbitral body, or other
-                governmental, government appointed, or quasi-governmental authority or
-                component exercising executive, legislative, juridical, regulatory, or
-                administrative powers, authority, or functions of or pertaining to a government
-                instrumentality, including any parasternal company, or state-owned (majority or
-                greater) or controlled business enterprise; “Government Approval” means any
-                authorization, license, permit, consent, approval, franchise, concession,
-                lease, ruling, certification, exemption, exception, filing or waiver by or with
-                any Government necessary to conduct the business of either Party or the
-                execution, delivery and performance of the Xcavate Services; “Government
-                Official” means an officer or employee of any Government, a director, officer,
-                or employee of any instrumentality of any Government, a candidate for public
-                office, a political party or political party official, an officer or employee
-                of a public international organization, and any Person who is acting in an
-                official capacity for any of the foregoing, even if such Person is acting in
-                that capacity temporarily and without compensation; “Law” means all laws,
-                statutes, orders, regulations, rules, treaties, and/or official obligations or
-                requirements enacted, promulgated, issued, ratified, enforced, or administered
-                by any Government that apply to you, Xcavate or the Xcavate Services; “Losses”
-                means, collectively, any claim, application, loss, injury, delay, accident,
-                cost, business interruption costs, or any other expenses (including attorneys’
-                fees or the costs of any claim or suit), including any incidental, direct,
-                indirect, general, special, punitive, exemplary, or consequential damages, loss
-                of goodwill or business profits, work stoppage, data loss, computer failure or
-                malfunction, or any and all other commercial losses; “Person” includes an
-                individual, association, partnership, corporation, company, other body
-                corporate, trust, estate, and any form of organization, group, or entity
-                (whether or not having separate legal personality); “Prohibited Jurisdiction”
-                means any jurisdiction subject to a comprehensive embargo by the United Kingdom
-                or the United Nations including Governmental Authorities of those
-                jurisdictions; “Prohibited Person” means any resident of, Government or
-                Government Official of, any Prohibited Jurisdiction; and any Sanctioned Person;
-                “Prohibited Use” has the meaning given to it in Section 5; “Sanctions List”
-                means any foreign terrorist organization or other sanctioned, restricted, or
-                debarred party list published under the Laws of the United Kingdom or the
-                United Nations; “Sanctioned Person” refers to any Person or Digital Assets
-                network address that is: (i) specifically listed in any Sanctions List; (ii)
-                directly or indirectly owned 50 percent or more by any Person or group of
-                Persons in the aggregate or Digital Assets network address associated with such
-                Person or Persons that is included in any Sanctions List, (iii) the Government
-                or any Government Official of any Prohibited Jurisdiction; or (v) whose
-                dealings with Xcavate, and/or the User is subject to any Government Approval or
-                otherwise sanctioned, restricted, or penalized under applicable Economic
-                Sanctions, AML, or CTF Laws; “Tax Information Exchange Laws” means Laws
-                relating to the exchange of information relating to taxes between Governments;
-                “Third Party Services” means any website, node, programming interface, product,
-                data or service that is not controlled by Xcavate; “Xcavate Services” means the
-                services provided by Xcavate through the [site] [any apps?];
+                counter-terrorist financing; <br />
+                “Economic Sanctions” means financial sanctions, trade embargoes, export or
+                import controls, anti-boycott, and restrictive trade measures enacted,
+                administered, enforced, or penalized by any Laws; “Eligible User” means Users
+                of the Xcavate Services where: (i) they are not Prohibited Persons; and (ii)
+                they do not utilise the Xcavate Services to facilitate any Prohibited Uses;
+                “Government” means any national, federal, state, municipal, local, or foreign
+                branch of government, including any department, agency, subdivision, bureau,
+                commission, court, tribunal, arbitral body, or other governmental, government
+                appointed, or quasi-governmental authority or component exercising executive,
+                legislative, juridical, regulatory, or administrative powers, authority, or
+                functions of or pertaining to a government instrumentality, including any
+                parasternal company, or state-owned (majority or greater) or controlled
+                business enterprise; “Government Approval” means any authorization, license,
+                permit, consent, approval, franchise, concession, lease, ruling, certification,
+                exemption, exception, filing or waiver by or with any Government necessary to
+                conduct the business of either Party or the execution, delivery and performance
+                of the Xcavate Services; “Government Official” means an officer or employee of
+                any Government, a director, officer, or employee of any instrumentality of any
+                Government, a candidate for public office, a political party or political party
+                official, an officer or employee of a public international organization, and
+                any Person who is acting in an official capacity for any of the foregoing, even
+                if such Person is acting in that capacity temporarily and without compensation;
+                “Law” means all laws, statutes, orders, regulations, rules, treaties, and/or
+                official obligations or requirements enacted, promulgated, issued, ratified,
+                enforced, or administered by any Government that apply to you, Xcavate or the
+                Xcavate Services; “Losses” means, collectively, any claim, application, loss,
+                injury, delay, accident, cost, business interruption costs, or any other
+                expenses (including attorneys’ fees or the costs of any claim or suit),
+                including any incidental, direct, indirect, general, special, punitive,
+                exemplary, or consequential damages, loss of goodwill or business profits, work
+                stoppage, data loss, computer failure or malfunction, or any and all other
+                commercial losses; “Person” includes an individual, association, partnership,
+                corporation, company, other body corporate, trust, estate, and any form of
+                organization, group, or entity (whether or not having separate legal
+                personality); “Prohibited Jurisdiction” means any jurisdiction subject to a
+                comprehensive embargo by the United Kingdom or the United Nations including
+                Governmental Authorities of those jurisdictions; “Prohibited Person” means any
+                resident of, Government or Government Official of, any Prohibited Jurisdiction;
+                and any Sanctioned Person; “Prohibited Use” has the meaning given to it in
+                Section 5; “Sanctions List” means any foreign terrorist organization or other
+                sanctioned, restricted, or debarred party list published under the Laws of the
+                United Kingdom or the United Nations; “Sanctioned Person” refers to any Person
+                or Digital Assets network address that is: (i) specifically listed in any
+                Sanctions List; (ii) directly or indirectly owned 50 percent or more by any
+                Person or group of Persons in the aggregate or Digital Assets network address
+                associated with such Person or Persons that is included in any Sanctions List,
+                (iii) the Government or any Government Official of any Prohibited Jurisdiction;
+                or (v) whose dealings with Xcavate, and/or the User is subject to any
+                Government Approval or otherwise sanctioned, restricted, or penalized under
+                applicable Economic Sanctions, AML, or CTF Laws; “Tax Information Exchange
+                Laws” means Laws relating to the exchange of information relating to taxes
+                between Governments; “Third Party Services” means any website, node,
+                programming interface, product, data or service that is not controlled by
+                Xcavate; “Xcavate Services” means the services provided by Xcavate through the
+                [site] [any apps?];
               </p>
             </li>
             <li>

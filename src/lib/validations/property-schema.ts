@@ -1,4 +1,5 @@
 // src/config/property.ts
+import exp from 'constants';
 import { z } from 'zod';
 
 // export const propertySchema = z.object({
@@ -40,7 +41,9 @@ export const propertyInformationSchema = z.object({
   map: z.string().min(1, 'Map link is required'),
   floor_plan: z.instanceof(File, { message: 'Floor plan is required' }),
   sales_agreement: z.instanceof(File, { message: 'Sales agreement is required' }),
-  property_images: z.array(z.instanceof(File)).optional().nullish()
+  building_control_code: z.string().min(1, 'Building control code is required'),
+  legal_representative: z.string().min(1, 'Legal representative is required'),
+  other_documents: z.array(z.instanceof(File)).optional().nullish()
   // region: z.number(),
   // location: z.number()
 });
@@ -49,9 +52,13 @@ export type IPropertyInformationInput = z.infer<typeof propertyInformationSchema
 
 export const propertyPricingSchema = z.object({
   number_of_tokens: z.string().min(1, 'Number of tokens is required'),
-  price_per_token: z.string().min(1, 'Price per token is required'),
+  // price_per_token: z.string().min(1, 'Price per token is required'),
   property_price: z.string().min(1, 'Property price is required'),
-  estimated_rental_income: z.string().min(1, 'Estimated rental income is required')
+  estimated_rental_income: z.string().min(1, 'Estimated rental income is required'),
+  annualServiceCharge: z.string().min(1, 'Annual service charge is required'),
+  stampDutyTax: z.string().min(1, 'Stamp duty tax is required'),
+  isStampDutyPaid: z.boolean().optional().default(false),
+  isAnnualServiceChargePaid: z.boolean().optional().default(false)
 });
 
 export type IPricingDetails = z.infer<typeof propertyPricingSchema>;
@@ -117,5 +124,32 @@ export const propertyTypes: { label: string; value: string }[] = [
   {
     label: 'Terraced',
     value: 'Terraced'
+  }
+];
+
+export const legalRepresentatives: { label: string; value: string }[] = [
+  {
+    label: 'Sarah Middleton',
+    value: 'sarah-middleton'
+  },
+  {
+    label: 'Peter Lawson',
+    value: 'peter-lawson'
+  },
+  {
+    label: 'Helena Duarte',
+    value: 'helena-duarte'
+  },
+  {
+    label: 'James Houghton',
+    value: 'james-houghton'
+  },
+  {
+    label: 'Natalie Carter',
+    value: 'natalie-carter'
+  },
+  {
+    label: 'David Harrington',
+    value: 'david-harrington'
   }
 ];

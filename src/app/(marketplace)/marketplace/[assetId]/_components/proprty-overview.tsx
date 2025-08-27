@@ -105,7 +105,10 @@ export default function PropertyOverView({
           title="Tokens available"
           value={`${tokensRemaining} / ${propertyInfo.tokenAmount}`}
         />
-        <PropertyStats title="Property type " value={metaData.property_type} />
+        <PropertyStats
+          title={`${metaData.annualServiceCharge ? 'Annual service charge' : 'Property type'}`}
+          value={metaData.annualServiceCharge ?? metaData.property_type}
+        />
         <PropertyStatsWithProgress
           title="Similar property prices"
           value={SimilarPropertyPrice.percentage}
