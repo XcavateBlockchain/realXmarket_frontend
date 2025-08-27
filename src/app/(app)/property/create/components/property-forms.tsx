@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import {
   legalRepresentatives,
+  localAuthorities,
   PropertyInput,
   propertyTypes
 } from '@/lib/validations/property-schema';
@@ -75,10 +76,10 @@ export const PropertyDetails = ({ form }: IForm) => (
       />
     </div>
     <div className="grid w-full grid-cols-3 gap-2">
-      <Input
-        type="text"
-        label="local authority"
-        placeholder=""
+      <SelectInput
+        label="Local Authority"
+        placeholder="select"
+        options={localAuthorities}
         {...form.register('local_authority')}
       />
       <Input
