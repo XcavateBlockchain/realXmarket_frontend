@@ -62,7 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
             return (
               <Link
                 key={type}
-                href={`/developer/properties?status=${type}`}
+                href={`/developer?status=${type}`}
                 className={cn(
                   'flex items-center justify-center px-2 pb-2 text-[1rem]/[1.5rem] uppercase transition-colors duration-200 ease-in hover:text-primary',
                   active ? 'text-primary' : 'text-caption'

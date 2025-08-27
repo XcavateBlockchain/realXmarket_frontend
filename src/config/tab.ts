@@ -42,7 +42,7 @@ export const tabConfig: DashboardConfig = {
   developer: [
     {
       title: 'properties',
-      href: '/developer/properties',
+      href: '/developer',
       icon: '/icons/portfolio.svg'
     },
     {

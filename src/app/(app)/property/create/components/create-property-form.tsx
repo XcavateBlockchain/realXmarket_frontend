@@ -86,8 +86,6 @@ export default function CreatePropertyForm() {
       'no_of_bathrooms',
       'Off_street_parking',
       'property_description',
-      'property_development_Code',
-      'title_deed_number',
       'property_images'
     ] as const
   };
@@ -396,7 +394,7 @@ export default function CreatePropertyForm() {
               variant={'outline'}
               asChild
             >
-              <Link href={'/developer/properties'}>Cancel</Link>
+              <Link href={'/developer'}>Cancel</Link>
             </Button>
 
             {page !== 2 ? (
@@ -455,7 +453,7 @@ export default function CreatePropertyForm() {
                 </div>
 
                 <Button asChild>
-                  <Link href={'/developer/properties'}>View Draft</Link>
+                  <Link href={'/developer'}>View Draft</Link>
                 </Button>
               </>
             ) : (
