@@ -169,6 +169,7 @@ export const PropertyPricing = ({
           thousandSeparator=","
           allowNegative={false}
           placeholder="0"
+          disabled={true}
         />
         {pricePerToken !== 0 && (
           <span className="flex items-center justify-end text-[14px]/[20px] uppercase">

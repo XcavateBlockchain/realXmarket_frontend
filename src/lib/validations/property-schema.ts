@@ -1,5 +1,3 @@
-// src/config/property.ts
-import exp from 'constants';
 import { z } from 'zod';
 
 // export const propertySchema = z.object({
@@ -72,9 +70,6 @@ export const propertyFeaturesSchema = z.object({
   no_of_bathrooms: z.string().min(1, 'Number of bathrooms is required'),
   Off_street_parking: z.string().min(1, 'Off-street parking is required'),
   property_description: z.string().min(1, 'Property description is required'),
-  property_development_Code: z.string().min(1, 'Property development code is required'),
-  // planning_permission_Code: z.string(),
-  title_deed_number: z.string().min(1, 'Title deed number is required'),
   property_images: z
     .array(z.instanceof(File))
     .min(1, 'At least one property image is required')

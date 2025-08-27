@@ -24,11 +24,12 @@ export function ProfileTabs({ items }: ProfileTabsProps) {
             key={index}
             href={item.href}
             className={cn(
-              'flex items-center justify-center gap-2 border-b-2 border-transparent px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase text-caption transition-all duration-300 hover:text-primary lg:text-[1rem]/[1.5rem]',
-              {
-                'border-primary text-primary hover:text-primary/80':
-                  pathname === item.href || pathname === 'developer'
-              }
+              'flex items-center justify-center gap-2 border-b-2 px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase transition-all duration-300 lg:text-[1rem]/[1.5rem]',
+              pathname === item.href
+                ? 'border-primary text-primary hover:text-primary/80'
+                : 'border-transparent text-caption hover:text-primary',
+
+              `${item.title === 'properties' && pathname === '/developer/properties' ? 'border-primary text-primary hover:text-primary/80' : ''}`
             )}
           >
             <Image

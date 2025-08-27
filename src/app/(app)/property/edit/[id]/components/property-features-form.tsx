@@ -124,7 +124,7 @@ export default function PropertyFeaturesForm({
             {...form.register('construction_date', { required: true })}
           />
 
-          <Input
+          {/* <Input
             type="text"
             label="PROPERTY Development code"
             placeholder=""
@@ -135,7 +135,7 @@ export default function PropertyFeaturesForm({
             label="title deed number"
             placeholder="e.g"
             {...form.register('title_deed_number')}
-          />
+          /> */}
         </div>
       </div>
       <div className="flex w-full flex-col">
