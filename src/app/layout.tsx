@@ -15,7 +15,7 @@ const dm_sans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'RealXMarket',
+  title: 'realXmarket',
   description: 'All properties are independently verified prior to listing on the marketplace'
 };
 
