@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Icons } from '../icons';
 import { IProperty, ListingDetails } from '@/types';
 import { ImageIcon } from 'lucide-react';
-import { formatAPY, formatPrice } from '@/lib/utils';
+import { formatAPY, formatPrice, truncate } from '@/lib/utils';
 import ImageComponent from '../image-component';
 
 export default function MarketCard({
@@ -80,7 +80,7 @@ export default function MarketCard({
         </div>
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
-            <dt className=" font-bold">{metaData.property_name}</dt>
+            <dt className=" font-bold">{truncate(metaData.property_name, 20)}</dt>
             <dd className="">
               APY{' '}
               <span className="font-bold">

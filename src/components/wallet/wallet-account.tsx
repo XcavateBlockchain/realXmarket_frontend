@@ -17,6 +17,9 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 // import { DrawerContent, DrawerTrigger } from '../ui/drawer';
 import { useBalance } from '@/hooks/use-balance';
 import { formatNumber } from '@/lib/utils';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
+import { toast } from 'sonner';
+import { Check } from 'lucide-react';
 
 interface ISection {
   [key: number]: React.ReactNode;
@@ -125,6 +128,7 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
   const walletContext = useWalletContext();
   const account = walletContext.selectedAccount?.[0];
   const { balance } = useBalance();
+  const { isCopied, copyToClipboard } = useCopyToClipboard();
 
   return (
     <>
@@ -147,7 +151,19 @@ export function AccountDetails({ formattedAddress, walletInfo, onClick, setIndex
               <span>
                 {account?.name} ({formattedAddress})
               </span>{' '}
-              <Icons.copy className="size-6" />
+              <button
+                onClick={() => {
+                  copyToClipboard(account?.address!);
+                  toast.info(`Copied to clipboard.`);
+                }}
+                className="rounded-full p-px hover:bg-gray-200"
+              >
+                {isCopied ? (
+                  <Check className="size-[11px] text-accent-200 md:size-4" />
+                ) : (
+                  <Icons.copy className="size-[11px] md:size-6" />
+                )}
+              </button>
             </div>
           </div>
           <AssetSwitcher />

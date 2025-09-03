@@ -79,3 +79,7 @@ export function priceRangeFormat(price: number) {
     percentage: Number((price * 100) / percentageIncrease)
   };
 }
+
+export function truncate(str: string, length: number) {
+  return str.length > length ? `${str.substring(0, length)}...` : str;
+}
