@@ -105,7 +105,7 @@ export default async function Marketplace() {
         <FilterTabs />
       </Suspense>
       <div className="flex flex-col gap-6 px-4 md:px-[50px]">
-        <div className="flex w-full items-center justify-between rounded-full bg-foreground/[0.07] px-3.5 py-3">
+        <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <Button>Marketplace</Button>
             <Button variant="outline" className="border border-black/10 bg-white text-caption">
