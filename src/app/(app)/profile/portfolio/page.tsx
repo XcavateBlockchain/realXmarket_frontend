@@ -1,17 +1,15 @@
-import MarketCard from '@/components/cards/market-card';
 import { Button } from '@/components/ui/button';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import {
   getItemMetadata,
   getOnGoingObjectListing,
-  getPropertyOwners,
   getTokenOwnerByListingId,
   getTokensAndListingsOwnedByAccount,
   getTokensAndPropertyOwnedByAccount
 } from '@/lib/queries';
 import { generatePresignedUrl } from '@/lib/s3';
 import { cn, hexToString } from '@/lib/utils';
-import { IComponent, Listing, ListingInfo, TokenOwnership } from '@/types';
+import { IComponent, ListingInfo, TokenOwnership } from '@/types';
 import Link from 'next/link';
 import OwnedPropertyCard from './owned-property-card';
 
@@ -31,20 +29,24 @@ export default async function Page({ searchParams }: PageProps) {
   );
 
   const getListings = await Promise.all(
-    tokensOwned.map(async (item: TokenOwnership) => {
-      return await getOnGoingObjectListing(Number(item.listingId));
-    })
+    (tokensOwned ?? [])
+      .filter((item: TokenOwnership | null | undefined) => item && item.listingId != null)
+      .map(async (item: TokenOwnership) => {
+        return await getOnGoingObjectListing(Number(item.listingId));
+      })
   );
 
   const getClaimedListings = await Promise.all(
-    tokensAndPropertyOwned.map(async (item: any) => {
-      return await getOnGoingObjectListing(Number(item.listingId));
-    })
+    (tokensAndPropertyOwned ?? [])
+      .filter((item: any) => item && item.listingId != null)
+      .map(async (item: any) => {
+        return await getOnGoingObjectListing(Number(item.listingId));
+      })
   );
 
   async function FetchMetaData() {
     const results = await Promise.all(
-      getListings.map(async listing => {
+      getListings.filter(Boolean).map(async listing => {
         const metaData = await getItemMetadata(listing.collectionId, listing.itemId);
         const tokenRemaining = tokensOwned.find(
           (item: any) => item.listingId === listing.listingId
@@ -60,7 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   async function FetchMetaDataClaimed() {
     const results = await Promise.all(
-      getClaimedListings.map(async listing => {
+      getClaimedListings.filter(Boolean).map(async listing => {
         const metaData = await getItemMetadata(listing.collectionId, listing.itemId);
         const tokenRemaining = tokensOwned.find(
           (item: any) => item.listingId === listing.listingId
@@ -83,7 +85,7 @@ export default async function Page({ searchParams }: PageProps) {
   );
 
   const queries: IComponent = {
-    properties: <ViewAllPropertiesOwned listings={listings} tokensOwned={tokensOwned} />,
+    properties: <ViewAllPropertiesOwned listings={listings} />,
     claimed: (
       <ViewAllPropertiesClaimed
         listings={listingsClaimed}
@@ -121,13 +123,7 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-function ViewAllPropertiesOwned({
-  listings,
-  tokensOwned
-}: {
-  listings: ListingInfo[];
-  tokensOwned: any;
-}) {
+function ViewAllPropertiesOwned({ listings }: { listings: ListingInfo[] }) {
   if (listings.length <= 0) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
@@ -144,14 +140,15 @@ function ViewAllPropertiesOwned({
 
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {listings.map(async (listing, index) => {
+      {listings.map(async listing => {
         const data = JSON.parse(listing.metadata);
         const fileUrls = await Promise.all(
           data.files
             .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
             .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
         );
-        const tokenRemaining = tokensOwned[index] as TokenOwnership;
+        // const tokenRemaining = tokensOwned[index] as TokenOwnership;
+        const tokenRemaining = listing.tokenRemaining as TokenOwnership;
 
         return (
           <OwnedPropertyCard
@@ -159,7 +156,7 @@ function ViewAllPropertiesOwned({
             id={listing.listing.assetId}
             fileUrls={fileUrls}
             details={listing.listing}
-            tokenRemaining={tokenRemaining.tokensOwned.tokenAmount}
+            tokenRemaining={tokenRemaining?.tokensOwned?.tokenAmount}
             metaData={data}
             // price={parseInt(tokenRemaining.tokensOwned.paidFunds.replace(/,/g, ''), 10)}
           />
@@ -193,7 +190,7 @@ function ViewAllPropertiesClaimed({
 
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {listings.map(async (listing, index) => {
+      {listings.map(async listing => {
         const data = JSON.parse(listing.metadata);
         const fileUrls = await Promise.all(
           data.files
