@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Icons } from '@/components/icons';
 import { IProperty, ListingDetails, STATE_STATUS } from '@/types';
 import { Check, ImageIcon, LoaderCircle, X } from 'lucide-react';
-import { formatAPY, formatPrice } from '@/lib/utils';
+import { formatAPY, formatPrice, truncate } from '@/lib/utils';
 import ImageComponent from '@/components/image-component';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
@@ -136,7 +136,7 @@ export default function OwnedPropertyCard({
 
   return (
     <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1">
-      {metaData.fileUrls.length >= 1 ? (
+      {metaData.fileUrls?.length >= 1 ? (
         <Link href={`/marketplace/${id}`} className="relative">
           <div className="aspect-square h-[255px] w-full">
             <ImageComponent
@@ -197,7 +197,7 @@ export default function OwnedPropertyCard({
         </div>
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
-            <dt className=" font-bold">{metaData.property_name}</dt>
+            <dt className=" font-bold">{truncate(metaData.property_name, 20)}</dt>
             <dd className="">
               APY{' '}
               <span className="font-bold">

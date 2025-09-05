@@ -64,7 +64,7 @@ export async function buyNft(
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
-    const extrinsic = api.tx.nftMarketplace.buyPropertyToken(listingId, amount, asset);
+    const extrinsic = api.tx.marketplace.buyPropertyToken(listingId, amount, asset);
     const signer = injected.signer;
 
     const estimatedFee = await extrinsic.paymentInfo(senderAddress);
@@ -167,5 +167,32 @@ export async function listenForWhiteListEvent(
     });
   } catch (error) {
     handleResult(null);
+  }
+}
+
+export async function claimProperty(senderAddress: string, listingId: number) {
+  try {
+    const api = await apiPRomise;
+    const extensions = await web3Enable('RealXMarket');
+    const injected = await web3FromAddress(senderAddress);
+    const extrinsic = api.tx.marketplace.claimPropertyToken(listingId);
+    const signer = injected.signer;
+
+    const estimatedFee = await extrinsic.paymentInfo(senderAddress);
+    console.log(`Estimated transaction fee: ${estimatedFee.partialFee.toHuman()}`);
+
+    const unsub = await extrinsic.signAndSend(senderAddress, { signer }, result => {
+      console.log(result);
+      if (result.status.isInBlock) {
+        console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
+      } else if (result.status.isBroadcast) {
+        console.log(`Transaction finalized at blockHash ${result.status.asBroadcast}`);
+      }
+    });
+
+    console.log('Transaction sent:', unsub);
+  } catch (error: any) {
+    // Throwing a custom error
+    throw new NftError(`Failed to claim property: ${error.message}`);
   }
 }
