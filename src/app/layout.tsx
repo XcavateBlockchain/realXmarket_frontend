@@ -16,7 +16,37 @@ const dm_sans = DM_Sans({
 
 export const metadata: Metadata = {
   title: 'realXmarket',
-  description: 'All properties are independently verified prior to listing on the marketplace'
+  description: 'All properties are independently verified prior to listing on the marketplace',
+  applicationName: 'realXmarket',
+  openGraph: {
+    title: 'realXmarket',
+    description:
+      'All properties are independently verified prior to listing on the marketplace',
+    url: 'https://app.realxmarket.i0',
+    type: 'website',
+    images: [
+      {
+        url: 'https://app.realxmarket.io/realXmarket_preview.png',
+        width: 1200,
+        height: 630
+      }
+    ],
+    siteName: 'app.realxmarket.io'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: 'https://app.realxmarket.io',
+    title: 'realXmarket',
+    description:
+      'All properties are independently verified prior to listing on the marketplace',
+    images: [
+      {
+        url: 'https://app.realxmarket.io/realXmarket_preview.png',
+        width: 1200,
+        height: 630
+      }
+    ]
+  }
 };
 
 export default function RootLayout({
