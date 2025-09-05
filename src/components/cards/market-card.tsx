@@ -90,7 +90,15 @@ export default function MarketCard({
           </div>
           <div className="flex items-center justify-between">
             <dt className="font-sans text-[0.875rem]/[1.5rem]">
-              Tokens <span className="font-bold">{tokenRemaining}</span>
+              {tokenRemaining === '0' ? (
+                <span className="rounded bg-primary-300 p-1 font-bold text-white">
+                  Sold Out
+                </span>
+              ) : (
+                <>
+                  Tokens <span className="font-bold">{tokenRemaining}</span>
+                </>
+              )}
             </dt>
             <dd className="font-sans text-[0.875rem]/[1.5rem]">
               Price{' '}

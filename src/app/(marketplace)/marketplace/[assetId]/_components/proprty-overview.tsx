@@ -5,6 +5,7 @@ import Image from 'next/image';
 import BuyToken from './buy-token';
 import { IProperty, ListingDetails } from '@/types';
 import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
+import ClaimProperty from './claim-property';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -13,7 +14,11 @@ type PropertyOverviewProps = {
   listingDetails: ListingDetails;
   propertyInfo: any;
   fileUrls: string[];
-  totalTokensOwned: number;
+  totalTokensOwned: number | undefined;
+  spvCreated: boolean;
+  propertyOwners: any[];
+  isPropertyOwner: boolean;
+  tokenOwner: any;
 };
 
 export default function PropertyOverView({
@@ -23,7 +28,11 @@ export default function PropertyOverView({
   metaData,
   listingDetails,
   propertyInfo,
-  totalTokensOwned
+  totalTokensOwned,
+  spvCreated,
+  propertyOwners,
+  isPropertyOwner,
+  tokenOwner
 }: PropertyOverviewProps) {
   const SimilarPropertyPrice = priceRangeFormat(metaData.property_price);
   return (
@@ -76,7 +85,11 @@ export default function PropertyOverView({
             <p className="text-[14px]/[24px]">
               Tokens owned <span className="text-[#717171]">{totalTokensOwned}</span>
             </p>
-          ) : null}
+          ) : (
+            <p className="text-[14px]/[24px]">
+              Tokens owned: <span className="text-[#717171]">{tokenOwner}</span>
+            </p>
+          )}
         </div>
       </div>
       <div className="flex w-full items-center justify-between">
@@ -86,14 +99,25 @@ export default function PropertyOverView({
             {formatPrice(metaData.property_price)}
           </dd>
         </div>
-        <BuyToken
-          fileUrls={fileUrls}
-          listingId={Number(listingId)}
-          tokens={tokensRemaining}
-          property={metaData}
-          data={listingDetails}
-          totalTokensOwned={totalTokensOwned}
-        />
+        {spvCreated === false && propertyOwners.length === 0 && (
+          <span className="rounded-full bg-gray-300 px-2 py-0.5 font-sans text-[0.875rem]/[1.5rem]">
+            Processing Approval
+          </span>
+        )}
+        {isPropertyOwner ? <Button>Re-list</Button> : null}
+        {totalTokensOwned && spvCreated ? (
+          <ClaimProperty listingId={Number(listingId)} />
+        ) : null}
+        {tokensRemaining !== '0' ? (
+          <BuyToken
+            fileUrls={fileUrls}
+            listingId={Number(listingId)}
+            tokens={tokensRemaining}
+            property={metaData}
+            data={listingDetails}
+            totalTokensOwned={totalTokensOwned}
+          />
+        ) : null}
       </div>
       <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 md:gap-10">
         <PropertyStats title="Price per Token" value={propertyInfo.tokenPrice} />
@@ -103,7 +127,11 @@ export default function PropertyOverView({
         />
         <PropertyStats
           title="Tokens available"
-          value={`${tokensRemaining} / ${propertyInfo.tokenAmount}`}
+          value={
+            tokensRemaining === '0'
+              ? 'Sold'
+              : `${tokensRemaining} / ${propertyInfo.tokenAmount}`
+          }
         />
         <PropertyStats
           title={`${metaData.annualServiceCharge ? 'Annual service charge' : 'Property type'}`}

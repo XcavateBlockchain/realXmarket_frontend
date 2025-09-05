@@ -8,6 +8,7 @@ import {
   getAllTokenBuyerForListing,
   getAllTokenBuyers,
   getItemMetadata,
+  getPropertyById,
   getTokenRemaining,
   getTokensAndListingsOwnedByAccount
 } from '@/lib/queries';
@@ -82,6 +83,7 @@ export default async function Marketplace() {
           const metadata = metaData.data.startsWith('0x')
             ? hexToString(metaData.data)
             : metaData.data;
+          // console.log(listing?.listingDetails.listedTokenAmount);
           return {
             listing,
             tokenRemaining: listing?.listingDetails.listedTokenAmount,

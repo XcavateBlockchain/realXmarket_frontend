@@ -27,6 +27,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'realxmartet.xcavate.io'
+      },
+      {
+        protocol: 'https',
         hostname: 'app.realxmarktet.io'
       }
     ]

@@ -271,3 +271,87 @@ export async function getAllAssets() {
     );
   }
 }
+
+export async function getAllProperties() {
+  try {
+    const api = await apiPRomise;
+    const data = await api.query.realEstateAsset.propertyAssetInfo.entries();
+
+    return data
+      .map(([key, exposure]) => {
+        try {
+          return {
+            propertyId: key.args[0].toHuman(),
+            propertyInfo: exposure.toHuman()
+          };
+        } catch (error) {
+          console.warn('Error processing listing data:', error);
+          return null;
+        }
+      })
+      .filter(Boolean); // Remove null entries
+  } catch (error) {
+    console.error('Error fetching ongoing listings:', error);
+    throw new Error(
+      `Failed to fetch ongoing listings: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}
+
+export async function getPropertyById(itemId: number) {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.realEstateAsset.propertyAssetInfo(itemId);
+    const output = result.toHuman();
+    return output;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getPropertyOwners(itemId: number) {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.realEstateAsset.propertyOwner(itemId);
+    const output = result.toHuman();
+    return output;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getTokenOwnerByListingId(address: string, listingId: number) {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.realEstateAsset.propertyOwnerToken(listingId, address);
+    const output = result.toHuman();
+    return output;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getTokensAndPropertyClaimed() {
+  const api = await apiPRomise;
+  const data = await api.query.realEstateAsset.propertyOwner.entries();
+
+  return data.map(([key, exposure]) => {
+    return {
+      listingId: key.args[0].toHuman(),
+      address: exposure.toHuman()
+    };
+  });
+}
+
+export async function getTokensAndPropertyOwnedByAccount(address: string) {
+  const propertyClaimed: any = await getTokensAndPropertyClaimed();
+  const propertyOwned = propertyClaimed.map((item: any) => {
+    return item.address.includes(address) ? item : null;
+  });
+
+  // {
+  //   listingId: item.listingId,
+  //   address: item.address.includes(address)
+  // };
+  return propertyOwned;
+}
