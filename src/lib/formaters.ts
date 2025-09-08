@@ -1,4 +1,4 @@
-import { BN, formatBalance } from '@polkadot/util';
+import { formatBalance } from '@polkadot/util';
 import { ApiPromise } from '@polkadot/api';
 
 export const getPercentageDiff = (value: number) => {
@@ -23,8 +23,6 @@ export const abbriviateNumber = (number: number, fraction = 2, shortFormat = tru
   let defaultOptions = {
     maximumFractionDigits: fraction
   };
-
-  console.log(JSON.parse);
 
   const shortFormatOptions = {
     notation: 'compact',
@@ -143,12 +141,7 @@ export const getAssetBalances = async (
   //   console.log('RawBalance (6 decimals):', rawAssetBalanceNum);
   // }
 
-  const balance = await getFormattedAssetBalance({
-    asset: process.env.NEXT_PUBLIC_USDT_PAYMENT_TOKEN,
-    address,
-    api
-  });
-  console.log(balance);
+  // Removed unused formatted balance fetch and console logging
   return {
     usdc: balanceUSDC?.balance!,
     usdt: balanceUSDT?.balance
@@ -221,7 +214,12 @@ export const getFormattedAssetBalance = async ({ ...rest }: IGetFormattedBalance
 export const formatUnits = (value: string | number | bigint, decimals: number = 12) => {
   if (!value) return '';
 
-  const raw = BigInt(value);
+  const sanitizeNumericString = (input: string) => input.replace(/[,_\s]/g, '');
+
+  const normalizedValue =
+    typeof value === 'string' ? sanitizeNumericString(value) : (value as number | bigint);
+
+  const raw = BigInt(normalizedValue);
   const divisor = 10n ** BigInt(decimals);
   const whole = raw / divisor;
   const fraction = raw % divisor;
@@ -230,10 +228,13 @@ export const formatUnits = (value: string | number | bigint, decimals: number = 
 };
 
 export function parseUnits(value: string, decimals: number = 12): bigint {
-  if (!new RegExp(`^\\d+(\\.\\d{0,${decimals}})?$`).test(value)) {
+  const sanitizeNumericString = (input: string) => input.replace(/[,_\s]/g, '');
+  const sanitized = sanitizeNumericString(value);
+
+  if (!new RegExp(`^\\d+(\\.\\d{0,${decimals}})?$`).test(sanitized)) {
     throw new Error(`Invalid value format for ${decimals} decimals`);
   }
-  const [whole, fraction = ''] = value.split('.');
+  const [whole, fraction = ''] = sanitized.split('.');
   const wholeUnits = BigInt(whole) * 10n ** BigInt(decimals);
   // Pad or trim the fraction to the correct number of digits
   const fractionUnits = BigInt((fraction + '0'.repeat(decimals)).slice(0, decimals));

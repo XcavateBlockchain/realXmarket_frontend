@@ -32,6 +32,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'app.realxmarktet.io'
+      },
+      {
+        protocol: 'https',
+        hostname: 'app.realxmarket.io'
       }
     ]
   }

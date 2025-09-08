@@ -27,7 +27,7 @@ import { NodeContext } from '@/context';
 import { useWalletContext } from '@/context/wallet-context';
 import usePaymentAsset from '@/hooks/use-payment-asset';
 import { useBalance } from '@/hooks/use-balance';
-import { formatUnits, parseUnits } from '@/lib/formaters';
+import { formatUnits } from '@/lib/formaters';
 
 type AmountProps = {
   amount: number;
@@ -211,7 +211,7 @@ function PurchaseSummary({
         toast.error('Please connect your wallet');
         return;
       }
-      const parseAmount = parseUnits(`${amount}`, 6);
+
       await buyNft(address, listingId, amount, Number(paymentAsset.id));
       setIndex(3);
       router.refresh();
