@@ -6,6 +6,7 @@ import BuyToken from './buy-token';
 import { IProperty, ListingDetails } from '@/types';
 import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
 import ClaimProperty from './claim-property';
+import { formatUnits } from '@/lib/formaters';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -120,7 +121,14 @@ export default function PropertyOverView({
         ) : null}
       </div>
       <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 md:gap-10">
-        <PropertyStats title="Price per Token" value={propertyInfo.tokenPrice} />
+        <PropertyStats
+          title="Price per Token"
+          value={
+            propertyInfo.tokenPrice.length > 5
+              ? formatNumber(formatUnits(propertyInfo.tokenPrice, 6))
+              : propertyInfo.tokenPrice
+          }
+        />
         <PropertyStats
           title="Rental Yield"
           value={`${formatAPY(metaData.estimated_rental_income, metaData.property_price)}`}

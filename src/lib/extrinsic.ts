@@ -1,6 +1,7 @@
 import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { getApi } from './polkadot';
 import { WsProvider } from '@polkadot/api';
+import { parseUnits } from './formaters';
 
 const apiPRomise = getApi(new WsProvider(process.env.NEXT_PUBLIC_RPC_URL));
 
@@ -100,10 +101,11 @@ export async function listProperty(
     const api = await apiPRomise;
     const extensions = await web3Enable('RealXMarket');
     const injected = await web3FromAddress(senderAddress);
+    const parsePrice = parseUnits(String(tokenPrice), 6);
     const extrinsic = api.tx.marketplace.listProperty(
       region,
       location,
-      tokenPrice,
+      parsePrice,
       tokenAmount,
       JSON.stringify(data),
       true
