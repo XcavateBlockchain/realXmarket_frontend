@@ -355,3 +355,16 @@ export async function getTokensAndPropertyOwnedByAccount(address: string) {
   // };
   return propertyOwned;
 }
+
+export async function getAllProperty() {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.realEstateAsset.propertyAssetInfo.entries();
+
+    return result.map(([_key, exposure]) => {
+      return exposure.toHuman();
+    });
+  } catch (error) {
+    return null;
+  }
+}

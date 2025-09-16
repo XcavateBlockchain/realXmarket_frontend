@@ -56,6 +56,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
     ?.tokensOwned.tokenAmount;
 
   const property: any = await getPropertyById(Number(params.assetId));
+  console.log('property', property);
   const propertyOwners: any = await getPropertyOwners(Number(params.assetId));
   const isPropertyOwner = propertyOwners.includes(address);
   const tokenOwner = await getTokenOwnerByListingId(address as string, Number(params.assetId));

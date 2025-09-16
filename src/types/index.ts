@@ -224,6 +224,7 @@ export interface Listing {
   };
   tokenRemaining: any;
   metadata: string; // This can be parsed into a Metadata object if needed
+  fileUrls: string[];
 }
 
 export type IComponent = {

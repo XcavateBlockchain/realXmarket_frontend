@@ -18,7 +18,7 @@ export function ProfileTabs({ items }: ProfileTabsProps) {
 
   return (
     <div className="sticky top-[80px] z-10 w-full overflow-auto bg-white">
-      <div className="flex w-full items-center gap-[47px] border-b border-primary-foreground/[0.10] px-2 lg:justify-between lg:gap-0">
+      <div className="flex w-full items-center gap-[47px] border-b border-primary-foreground/[0.10] px-2 lg:gap-6">
         {items.map((item, index) => (
           <Link
             key={index}
@@ -32,14 +32,14 @@ export function ProfileTabs({ items }: ProfileTabsProps) {
               `${item.title === 'properties' && pathname === '/developer/properties' ? 'border-primary text-primary hover:text-primary/80' : ''}`
             )}
           >
-            <Image
+            {/* <Image
               src={item.icon}
               alt={item.title}
               width={24}
               height={24}
               className="pointer-events-none"
               priority
-            />
+            /> */}
             {item.title}
           </Link>
         ))}
