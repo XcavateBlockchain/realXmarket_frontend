@@ -20,11 +20,16 @@ import { getCookieStorage } from '@/lib/cookie-storage';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ImageComponent from '@/components/image-component';
+import { useSendTransaction } from '@/hooks/use-send-txt';
+import { useNodeContext } from '@/context';
+import { parseUnits } from '@/lib/formaters';
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   const router = useRouter();
+  const { api } = useNodeContext();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
   const [showListedModal, setShowListedModal] = useState(false);
+  const { sendTransactionAsync, isPending } = useSendTransaction();
 
   async function onListProperty() {
     setStatus(STATE_STATUS.LOADING);
@@ -50,6 +55,47 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       toast.error(error?.error ? error?.error?.message : error?.message);
     }
     setStatus(STATE_STATUS.SUCCESS);
+  }
+
+  async function handleListProperty() {
+    setStatus(STATE_STATUS.LOADING);
+    if (!api) return;
+    try {
+      const region = 2;
+      const location = 'SG23 5TH';
+      const tokenAmount = property.number_of_tokens;
+      const parsePricePerToken = parseUnits(String(property.price_per_token), 6);
+      const data = JSON.stringify(property);
+      const taxPaid = true;
+      const listPropertyExtrinsic = api.tx.marketplace.listProperty(
+        region,
+        location,
+        parsePricePerToken,
+        tokenAmount,
+        data,
+        taxPaid
+      );
+
+      const receipt = await sendTransactionAsync({
+        extrinsic: listPropertyExtrinsic as any
+      });
+      if (receipt.status === 'success') {
+        console.log('Transaction successful:', receipt.transactionHash);
+        setShowListedModal(true);
+        router.refresh();
+        router.push('/developer/properties?status=listed');
+      } else {
+        console.log('Transaction failed:', receipt.errorMessage);
+        setStatus(STATE_STATUS.ERROR);
+        toast.error(receipt.errorMessage);
+      }
+    } catch (error: any) {
+      console.log(error);
+      setStatus(STATE_STATUS.ERROR);
+      toast.error(error?.error ? error?.error?.message : error?.message);
+    } finally {
+      setStatus(STATE_STATUS.SUCCESS);
+    }
   }
 
   return (
@@ -106,8 +152,8 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             <Button
               variant={'filled'}
               fullWidth
-              disabled={status === STATE_STATUS.LOADING}
-              onClick={onListProperty}
+              disabled={isPending || status === STATE_STATUS.LOADING}
+              onClick={handleListProperty}
             >
               {status === STATE_STATUS.LOADING && (
                 <LoaderCircle size={16} className=" animate-spin" />

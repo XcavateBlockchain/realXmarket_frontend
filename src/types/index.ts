@@ -247,3 +247,4 @@ export interface ListingInfo {
   tokenRemaining: any;
   metadata: string; // This can be parsed into a Metadata object if needed
 }
+export type TxStatus = 'idle' | 'signing' | 'pending' | 'success' | 'failed';

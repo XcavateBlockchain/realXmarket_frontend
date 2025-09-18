@@ -7,6 +7,8 @@ import { IProperty, ListingDetails } from '@/types';
 import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
 import ClaimProperty from './claim-property';
 import { formatUnits } from '@/lib/formaters';
+import LegalClaimProperty from './legal-claim-property';
+import { PropertyVote } from './property-vote';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -20,6 +22,7 @@ type PropertyOverviewProps = {
   propertyOwners: any[];
   isPropertyOwner: boolean;
   tokenOwner: any;
+  investorType?: string;
 };
 
 export default function PropertyOverView({
@@ -33,9 +36,11 @@ export default function PropertyOverView({
   spvCreated,
   propertyOwners,
   isPropertyOwner,
-  tokenOwner
+  tokenOwner,
+  investorType
 }: PropertyOverviewProps) {
   const SimilarPropertyPrice = priceRangeFormat(metaData.property_price);
+
   return (
     <div className="grid w-full place-items-start gap-6">
       {/* <div className="grid w-full gap-6"> */}
@@ -92,6 +97,7 @@ export default function PropertyOverView({
             </p>
           )}
         </div>
+        {spvCreated ? <PropertyVote /> : null}
       </div>
       <div className="flex w-full items-center justify-between">
         <div className="flex flex-col items-start gap-2">
@@ -100,16 +106,16 @@ export default function PropertyOverView({
             {formatPrice(metaData.property_price)}
           </dd>
         </div>
-        {spvCreated === false && propertyOwners.length === 0 && (
+        {/* {spvCreated === false && propertyOwners.length === 0 && (
           <span className="rounded-full bg-gray-300 px-2 py-0.5 font-sans text-[0.875rem]/[1.5rem]">
             Processing Approval
           </span>
-        )}
+        )} */}
         {isPropertyOwner ? <Button>Re-list</Button> : null}
         {totalTokensOwned && spvCreated ? (
           <ClaimProperty listingId={Number(listingId)} />
         ) : null}
-        {tokensRemaining !== '0' ? (
+        {tokensRemaining !== '0' && investorType !== 'lawyer' ? (
           <BuyToken
             fileUrls={fileUrls}
             listingId={Number(listingId)}
@@ -118,6 +124,9 @@ export default function PropertyOverView({
             data={listingDetails}
             totalTokensOwned={totalTokensOwned}
           />
+        ) : null}
+        {investorType && investorType === 'lawyer' ? (
+          <LegalClaimProperty listingId={Number(listingId)} price={metaData.property_price} />
         ) : null}
       </div>
       <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 md:gap-10">
