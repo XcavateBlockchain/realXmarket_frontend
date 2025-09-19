@@ -4,6 +4,7 @@ export interface DashboardConfig {
   developer: TabNavItem[];
   invertor: TabNavItem[];
   agent: TabNavItem[];
+  lawyer: TabNavItem[];
 }
 
 export const tabConfig: DashboardConfig = {
@@ -107,6 +108,28 @@ export const tabConfig: DashboardConfig = {
       title: 'message',
       href: '/agent/wallet',
       icon: '/icons/id.svg'
+    }
+  ],
+  lawyer: [
+    {
+      title: 'properties',
+      href: '/lawyer',
+      icon: '/icons/portfolio.svg'
+    },
+    {
+      title: 'message',
+      href: '/lawyer/message',
+      icon: '/icons/profile.svg'
+    },
+    {
+      title: 'transactions',
+      href: '/lawyer/transactions',
+      icon: '/icons/capital_purchase.svg'
+    },
+    {
+      title: 'Account',
+      href: '/lawyer/account',
+      icon: '/icons/profile.svg'
     }
   ]
 };

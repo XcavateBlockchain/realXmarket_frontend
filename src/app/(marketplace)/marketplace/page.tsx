@@ -84,10 +84,29 @@ export default async function Marketplace() {
             ? hexToString(metaData.data)
             : metaData.data;
           // console.log(listing?.listingDetails.listedTokenAmount);
+
+          // Parse metadata and generate file URLs
+          let fileUrls: string[] = [];
+          try {
+            if (metadata && typeof metadata === 'string') {
+              const data = JSON.parse(metadata);
+              if (data.files && Array.isArray(data.files)) {
+                fileUrls = await Promise.all(
+                  data.files
+                    .filter((fileKey: string) => fileKey.split('/')[2] === 'property_image')
+                    .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+                );
+              }
+            }
+          } catch (error) {
+            // Error generating file URLs, continue with empty array
+          }
+
           return {
             listing,
             tokenRemaining: listing?.listingDetails.listedTokenAmount,
-            metadata
+            metadata,
+            fileUrls
           };
         }
       })
@@ -146,7 +165,7 @@ export default async function Marketplace() {
                   key={listing.listing.listingId}
                   //   price={listing.listing.listingDetails.tokenPrice}
                   id={listing.listing.listingId}
-                  fileUrls={fileUrls}
+                  fileUrls={listing.fileUrls || []}
                   details={listing.listing.listingDetails}
                   tokenRemaining={listing.tokenRemaining}
                   metaData={data}

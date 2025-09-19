@@ -52,7 +52,7 @@ function SelectUserType({ setIndex, close }: DialogProps) {
   // const address = selectedAccount?.[0]?.address;
 
   // const profile = address ? profiles[address] : null;
-  const handleSelect = (type: 'developer' | 'investor' | 'agent') => {
+  const handleSelect = (type: 'developer' | 'investor' | 'agent' | 'lawyer') => {
     onSelectInvestorType(type);
     setIndex(2);
   };
@@ -94,7 +94,7 @@ function SelectUserType({ setIndex, close }: DialogProps) {
           variant={'lawyer'}
           account="lawyer"
           icon="/icons/loan_evaluator.svg"
-          disabled={true}
+          onClick={() => handleSelect('lawyer')}
         />
       </div>
     </>

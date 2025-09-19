@@ -13,7 +13,8 @@ type Profiles = {
 
 export const profiles: Profiles = {
   investor: alice,
-  developer: bob
+  developer: bob,
+  lawyer: alice
 };
 
 const companies: Company[] = [

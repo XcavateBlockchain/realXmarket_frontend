@@ -84,7 +84,9 @@ export function WalletContextProvider({ open = false, children }: Props) {
   const [accounts, setAccounts] = useState<WalletAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<WalletAccount[] | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
-  const [investorType, setInvestorType] = useState<'developer' | 'investor' | 'agent'>();
+  const [investorType, setInvestorType] = useState<
+    'developer' | 'investor' | 'agent' | 'lawyer'
+  >();
   const [showCredentialDialog, setShowCredentialDialog] = useState(false);
   const [asset, setAsset] = useState<'usdt' | 'usdc'>('usdt');
   const [modalOpen, setModalOpen] = useState(false);
@@ -194,7 +196,7 @@ export function WalletContextProvider({ open = false, children }: Props) {
   };
 
   const onSelectInvestorType = useCallback(
-    async (type: 'developer' | 'investor' | 'agent') => {
+    async (type: 'developer' | 'investor' | 'agent' | 'lawyer') => {
       setCookieStorage('investorType', type);
       setInvestorType(type);
     },

@@ -27,7 +27,8 @@ export default function MarketCard({
       href={`/marketplace/${id}`}
       className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1"
     >
-      {metaData.fileUrls?.length && metaData.fileUrls.length >= 1 ? (
+      {/* {metaData.fileUrls?.length && metaData.fileUrls.length >= 1 ? ( */}
+      {fileUrls && fileUrls.length >= 1 ? (
         <Link href={`/marketplace/${id}`} className="relative">
           <div className="aspect-square h-[255px] w-full">
             <ImageComponent
@@ -63,13 +64,14 @@ export default function MarketCard({
       <Link href={`/marketplace/${id}`} className="relative flex flex-col gap-4 px-4">
         <div className="flex w-full items-center justify-between px-0">
           <div className="flex items-center justify-start">
-            <Image
+            <Icons.location className="size-6 p-0 text-primary" />
+            {/* <Image
               src={'/icons/pin_location.svg'}
               alt="loc"
               width={32}
               height={32}
               // className="pointer-events-none"
-            />
+            /> */}
             <h3 className="text-md mt-1">
               <span className="capitalize">{metaData.address_street}</span>
               {', '}

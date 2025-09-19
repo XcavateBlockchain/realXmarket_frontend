@@ -355,3 +355,115 @@ export async function getTokensAndPropertyOwnedByAccount(address: string) {
   // };
   return propertyOwned;
 }
+
+export async function getAllProperty() {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.realEstateAsset.propertyAssetInfo.entries();
+
+    return result.map(([_key, exposure]) => {
+      return exposure.toHuman();
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+type LawyerVoting = { yesVotingPower: string; noVotingPower: string };
+
+export async function getOngoingLawyerVoting(listingId: number): Promise<LawyerVoting | null> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.ongoingLawyerVoting(listingId);
+    const output = result.toHuman();
+    return output as LawyerVoting;
+  } catch (error) {
+    return null;
+  }
+}
+
+type UserLawyerVote = {
+  address: string;
+  vote: string;
+};
+
+export async function getUserLawyerVote(listingId: number): Promise<UserLawyerVote[] | null> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.userLawyerVote(listingId);
+    const output = result.toHuman() as { [key: string]: string };
+
+    // Convert object to array format
+    const voteArray = Object.entries(output).map(([address, vote]) => ({
+      address,
+      vote
+    }));
+
+    return voteArray;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchPropertyOwnersViaListing(id: number): Promise<string[] | null> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.realEstateAsset.propertyOwner(id);
+    const output = result.toHuman();
+    return output as string[];
+  } catch (error) {
+    return null;
+  }
+}
+
+type PropertyLawyer = {
+  realEstateDeveloperLawyer: string | null;
+  spvLawyer: string | null;
+  realEstateDeveloperStatus: string;
+  spvStatus: string;
+  realEstateDeveloperLawyerCosts: {
+    [key: number]: number;
+    [key: string]: number;
+  };
+  spvLawyerCosts: {
+    [key: number]: number;
+    [key: string]: number;
+  };
+  legalProcessExpiry: number;
+  secondAttempt: boolean;
+};
+
+export async function getPropertyLawyerInfo(
+  listingId: number
+): Promise<PropertyLawyer | null> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.propertyLawyer(listingId);
+    const output = result.toHuman();
+    return output as PropertyLawyer;
+  } catch (error) {
+    return null;
+  }
+}
+
+type SpvLawyerProposalItem = {
+  lawyer: string;
+  assetId: number;
+  costs: number;
+  expiryBlock: string;
+};
+
+export async function getAllSpvLawyerProposals(address: string) {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.spvLawyerProposal.entries();
+
+    return result.map(([_key, exposure]) => {
+      const item = exposure.toHuman() as any;
+      console.log('ff', item);
+      return item.filter((item: any) => item.lawyer === address);
+    });
+  } catch (error) {
+    return null;
+  }
+}
