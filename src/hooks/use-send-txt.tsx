@@ -200,7 +200,7 @@ export function useSendTransaction(
                 reject(error);
               };
 
-              switch (status.type) {
+              switch ((status as any).type) {
                 case 'Broadcasting':
                   setDetailedTxStatus('broadcasting');
                   break;
@@ -213,9 +213,9 @@ export function useSendTransaction(
                   if (dispatchError) {
                     resolveAndUnsubscribe({
                       transactionHash: txHash,
-                      blockHash: status.value?.blockHash,
-                      blockNumber: status.value?.blockNumber,
-                      events,
+                      blockHash: (status as any).value?.blockHash,
+                      blockNumber: (status as any).value?.blockNumber,
+                      events: events as any,
                       status: 'failed',
                       dispatchError,
                       errorMessage: getReadableDispatchError(currentApi, dispatchError),
@@ -224,9 +224,9 @@ export function useSendTransaction(
                   } else {
                     resolveAndUnsubscribe({
                       transactionHash: txHash,
-                      blockHash: status.value?.blockHash,
-                      blockNumber: status.value?.blockNumber,
-                      events,
+                      blockHash: (status as any).value?.blockHash,
+                      blockNumber: (status as any).value?.blockNumber,
+                      events: events as any,
                       status: 'success',
                       dispatchError: undefined,
                       errorMessage: undefined,

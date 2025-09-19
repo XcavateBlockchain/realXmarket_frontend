@@ -32,6 +32,8 @@ export default async function Page({ params }: { params: { assetId: string } }) 
   const investorType = await getCookieStorage('investorType');
 
   const listingDetails = await getOnGoingObjectListing(Number(params.assetId));
+
+  const isLoggedInDeveloper = listingDetails.realEstateDeveloper === address;
   const item: any = await getItemMetadata(listingDetails.collectionId, listingDetails.itemId);
 
   // const tokensRemaining = await getTokenRemaining(Number(params.assetId));
@@ -57,7 +59,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
     ?.tokensOwned.tokenAmount;
 
   const property: any = await getPropertyById(Number(params.assetId));
-  console.log('property', property);
+  // console.log('property', property);
   const propertyOwners: any = await getPropertyOwners(Number(params.assetId));
   const isPropertyOwner = propertyOwners.includes(address);
   const tokenOwner = await getTokenOwnerByListingId(address as string, Number(params.assetId));
@@ -116,6 +118,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
           isPropertyOwner={isPropertyOwner}
           tokenOwner={tokenOwner}
           investorType={investorType}
+          isLoggedInDeveloper={isLoggedInDeveloper}
         />
       </section>
       <section className="mb-10 flex flex-col gap-10 bg-[#F4F4F4] px-4 py-10 md:flex-row md:gap-[103px] md:px-[50px] md:py-16">

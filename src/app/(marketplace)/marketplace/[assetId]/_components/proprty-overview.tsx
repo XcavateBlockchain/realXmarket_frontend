@@ -9,6 +9,7 @@ import ClaimProperty from './claim-property';
 import { formatUnits } from '@/lib/formaters';
 import LegalClaimProperty from './legal-claim-property';
 import { PropertyVote } from './property-vote';
+import { FinalizeSPVLawyer } from './finalize-spv-lawyer';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -23,6 +24,7 @@ type PropertyOverviewProps = {
   isPropertyOwner: boolean;
   tokenOwner: any;
   investorType?: string;
+  isLoggedInDeveloper: boolean;
 };
 
 export default function PropertyOverView({
@@ -37,7 +39,8 @@ export default function PropertyOverView({
   propertyOwners,
   isPropertyOwner,
   tokenOwner,
-  investorType
+  investorType,
+  isLoggedInDeveloper
 }: PropertyOverviewProps) {
   const SimilarPropertyPrice = priceRangeFormat(metaData.property_price);
 
@@ -97,7 +100,7 @@ export default function PropertyOverView({
             </p>
           )}
         </div>
-        {spvCreated ? <PropertyVote /> : null}
+        {spvCreated ? <PropertyVote listingId={Number(listingId)} /> : null}
       </div>
       <div className="flex w-full items-center justify-between">
         <div className="flex flex-col items-start gap-2">
@@ -127,6 +130,9 @@ export default function PropertyOverView({
         ) : null}
         {investorType && investorType === 'lawyer' ? (
           <LegalClaimProperty listingId={Number(listingId)} price={metaData.property_price} />
+        ) : null}
+        {isLoggedInDeveloper && investorType && investorType === 'developer' && spvCreated ? (
+          <FinalizeSPVLawyer listingId={Number(listingId)} />
         ) : null}
       </div>
       <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 md:gap-10">
