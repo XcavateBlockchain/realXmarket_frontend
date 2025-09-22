@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { calcCurvePercent, convertBlocksToTime } from '@/lib/utils';
 import {
   useGetLawyerVotes,
+  useGetPropertyLawyerInfo,
   useGetPropertyOwnersViaListing,
   useGetUserLawyerVoteForListing
 } from '@/lib/system-queries';
@@ -76,6 +77,8 @@ export function PropertyVote({ listingId }: { listingId: number }) {
       toast.error(error?.error ? error?.error?.message : error?.message);
     }
   }
+
+  if (lawyerVotes === null) return null;
 
   return (
     <div className="w-full space-y-2.5">

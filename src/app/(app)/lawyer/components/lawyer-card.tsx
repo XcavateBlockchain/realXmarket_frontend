@@ -1,18 +1,46 @@
+'use client';
+
 import Link from 'next/link';
 import { IProperty } from '@/types';
 import { ImageIcon } from 'lucide-react';
-import { formatAPY, truncate } from '@/lib/utils';
+import { cn, formatAPY, truncate } from '@/lib/utils';
 import ImageComponent from '@/components/image-component';
+import { useGetPropertyLawyerInfo } from '@/lib/system-queries';
+import { useWalletContext } from '@/context/wallet-context';
+import { useMemo } from 'react';
+import { getCookieStorage } from '@/lib/cookie-storage';
 
 export default function LawyerCard({
   id,
   fileUrls,
-  metaData
+  metaData,
+  proposedLawyer,
+  spvLawyerProposal
 }: {
   id: string;
   fileUrls: string[];
   metaData: IProperty;
+  proposedLawyer?: any | null;
+  spvLawyerProposal?: any | null;
 }) {
+  const { data: lawyerInfo, isLoading: isPropertyLawyerInfoLoading } =
+    useGetPropertyLawyerInfo(Number(id));
+
+  // console.log(lawyerInfo);
+
+  const address = useMemo(() => {
+    if (!lawyerInfo) return null;
+    const accountKey = localStorage.getItem('acc-key');
+
+    if (!accountKey) return null;
+    const isLawyer =
+      lawyerInfo.realEstateDeveloperLawyer &&
+      lawyerInfo.realEstateDeveloperLawyer === accountKey!;
+
+    const isSpvLawyer = lawyerInfo.spvLawyer && lawyerInfo.spvLawyer === accountKey!;
+    return { isLawyer, isSpvLawyer };
+  }, [lawyerInfo]);
+
   return (
     <Link
       href={`/marketplace/${id}`}
@@ -64,11 +92,23 @@ export default function LawyerCard({
           </div>
           <div className="flex items-center justify-between text-[14px]/[24px]">
             <dt>Developer lawyer</dt>
-            <dd>Assigned</dd>
+            <dd
+              className={cn('text-[#717171]', {
+                'text-[#78B36E]': address?.isLawyer
+              })}
+            >
+              {address?.isLawyer || proposedLawyer ? 'Assigned' : 'Unassigned'}
+            </dd>
           </div>
           <div className="flex items-center justify-between text-[14px]/[24px]">
             <dt>SPV lawyer</dt>
-            <dd>Assigned</dd>
+            <dd
+              className={cn('text-[#717171]', {
+                'text-[#78B36E]': address?.isSpvLawyer
+              })}
+            >
+              {address?.isSpvLawyer || spvLawyerProposal ? 'Assigned' : 'Unassigned'}
+            </dd>
           </div>
         </div>
       </Link>

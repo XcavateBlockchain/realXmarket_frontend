@@ -34,7 +34,7 @@ export async function checkIfWhiteListed(address: string) {
         role: key.args[1].toHuman(),
         value: value.toHuman()
       }));
-    console.log('output', output);
+    // console.log('output', output);
     return output;
   } catch (error) {
     console.log(error);
@@ -453,17 +453,94 @@ type SpvLawyerProposalItem = {
   expiryBlock: string;
 };
 
-export async function getAllSpvLawyerProposals(address: string) {
+export async function getAllSpvLawyerProposal() {
   try {
     const api = await apiPRomise;
     const result = await api.query.marketplace.spvLawyerProposal.entries();
-
     return result.map(([_key, exposure]) => {
-      const item = exposure.toHuman() as any;
-      console.log('ff', item);
-      return item.filter((item: any) => item.lawyer === address);
+      return exposure.toHuman();
     });
   } catch (error) {
     return null;
+  }
+}
+
+export async function getAllSpvLawyerProposals(address: string) {
+  try {
+    const api = await apiPRomise;
+    // const result = await api.query.marketplace.spvLawyerProposal.entries();
+
+    const output: any = await getAllSpvLawyerProposal();
+    // console.log('output', output);
+
+    if (!output) {
+      return [];
+    }
+
+    return output.filter((item: any) => item.lawyer === address) || [];
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getSpvLawyerProposal(
+  listingId: number
+): Promise<SpvLawyerProposalItem | null> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.spvLawyerProposal(listingId);
+    return result.toHuman() as SpvLawyerProposalItem;
+  } catch (error) {
+    return null;
+  }
+}
+
+type ProposedLawyer = {
+  lawyer: string;
+  costs: number;
+};
+
+export async function getProposedLawyer(listingId: number): Promise<ProposedLawyer | null> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.proposedLawyers(listingId);
+    return result.toHuman() as ProposedLawyer;
+  } catch (error) {
+    return null;
+  }
+}
+
+type AllPropertyLawyerInfo = {
+  listingId: number;
+  property: PropertyLawyer;
+};
+
+export async function getAllPropertyLawyerInfo(): Promise<AllPropertyLawyerInfo[]> {
+  try {
+    const api = await apiPRomise;
+    const result = await api.query.marketplace.propertyLawyer.entries();
+    return result.map(([_key, exposure]) => {
+      return {
+        listingId: _key.args[0].toHuman(),
+        property: exposure.toHuman()
+      };
+    }) as AllPropertyLawyerInfo[];
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function getPropertyLawyerByAddress(
+  address: string
+): Promise<AllPropertyLawyerInfo[]> {
+  try {
+    const data = await getAllPropertyLawyerInfo();
+    const deveLawyer = data?.filter(
+      item => item.property.realEstateDeveloperLawyer === address
+    );
+    const spvLawyer = data?.filter(item => item.property.spvLawyer === address);
+    return [...deveLawyer, ...spvLawyer];
+  } catch (error) {
+    return [];
   }
 }
