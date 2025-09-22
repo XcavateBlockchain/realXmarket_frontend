@@ -79,8 +79,8 @@ export default function ManagementMessage() {
                 </div>
                 <div className="rounded-lg border border-gray-200 bg-white p-4">
                   <p className="text-sm text-gray-900">
-                    I've reviewed your property listing for Plot 1 lea wharf. Before we can
-                    proceed, please upload the Land Title Certificate and Approved Building
+                    I&apos;ve reviewed your property listing for Plot 1 lea wharf. Before we
+                    can proceed, please upload the Land Title Certificate and Approved Building
                     Plan. These documents are required to finalize the legal review and proceed
                     with token issuance.
                   </p>
@@ -119,8 +119,8 @@ export default function ManagementMessage() {
                 </div>
                 <div className="rounded-lg border border-gray-200 bg-white p-4">
                   <p className="text-sm text-gray-900">
-                    I'm starting document review now. Expect my signed consent in 24-48 hours
-                    unless I find material issues
+                    I&apos;m starting document review now. Expect my signed consent in 24-48
+                    hours unless I find material issues
                   </p>
                 </div>
               </div>

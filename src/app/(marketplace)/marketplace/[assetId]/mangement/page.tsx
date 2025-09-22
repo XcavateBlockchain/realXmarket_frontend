@@ -32,7 +32,7 @@ export default function PropertyManagement({ params }: { params: { assetId: stri
               </Link>
             </Button>
             {tabs.map(tab => (
-              <TabsTrigger variant={'vertical'} value={tab}>
+              <TabsTrigger key={tab} variant={'vertical'} value={tab}>
                 {tab}
               </TabsTrigger>
             ))}
