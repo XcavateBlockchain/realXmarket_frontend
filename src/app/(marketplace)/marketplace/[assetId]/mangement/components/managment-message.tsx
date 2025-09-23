@@ -24,7 +24,7 @@ export default function ManagementMessage() {
   });
 
   const { api } = useNodeContext();
-  const { sendTransactionAsync } = useSendTransaction();
+  const { sendTransactionAsync, isPending, txStatus } = useSendTransaction();
 
   async function handleSubmit(vote: number) {
     if (!api) return;
@@ -168,17 +168,17 @@ export default function ManagementMessage() {
               className="bg-[#457461] hover:bg-[#457461]/90"
               fullWidth
               onClick={() => handleSubmit(1)}
-              disabled={success === STATE_STATUS.LOADING}
+              disabled={success === STATE_STATUS.LOADING || isPending}
             >
-              Approve
+              {isPending ? txStatus : 'Approve'}
             </Button>
             <Button
               className="bg-[#FF544B] hover:bg-[#FF544B]/90"
               fullWidth
               onClick={() => handleSubmit(0)}
-              disabled={success === STATE_STATUS.LOADING}
+              disabled={success === STATE_STATUS.LOADING || isPending}
             >
-              Reject
+              {isPending ? txStatus : 'Reject'}
             </Button>
           </div>
         </div>

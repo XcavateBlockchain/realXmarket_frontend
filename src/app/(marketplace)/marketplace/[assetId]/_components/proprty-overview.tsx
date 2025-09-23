@@ -36,6 +36,7 @@ type PropertyOverviewProps = {
   tokenOwner: any;
   investorType?: string;
   isLoggedInDeveloper: boolean;
+  address: string;
 };
 
 export default function PropertyOverView({
@@ -51,7 +52,8 @@ export default function PropertyOverView({
   isPropertyOwner,
   tokenOwner,
   investorType,
-  isLoggedInDeveloper
+  isLoggedInDeveloper,
+  address
 }: PropertyOverviewProps) {
   const { api } = useNodeContext();
 
@@ -224,7 +226,7 @@ export default function PropertyOverView({
             </div>
           )}
         </div>
-        {spvCreated ? <PropertyVote listingId={Number(listingId)} /> : null}
+        {spvCreated ? <PropertyVote listingId={Number(listingId)} address={address} /> : null}
       </div>
       <div className="flex w-full items-center justify-between">
         <div className="flex flex-col items-start gap-2">

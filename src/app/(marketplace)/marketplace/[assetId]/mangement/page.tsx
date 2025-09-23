@@ -1,9 +1,10 @@
 import { Shell } from '@/components/shell';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeftIcon, Link } from 'lucide-react';
+import { ArrowLeftIcon } from 'lucide-react';
 import { ManagmentDetails } from './components/managment-details';
 import ManagementMessage from './components/managment-message';
+import Link from 'next/link';
 
 const tabs = ['details', 'message', 'documents', 'actions'];
 
