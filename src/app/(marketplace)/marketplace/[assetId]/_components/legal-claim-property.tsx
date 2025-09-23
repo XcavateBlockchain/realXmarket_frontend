@@ -119,7 +119,8 @@ function SelectRole({
         Number(cost)
       );
       const receipt = await sendTransactionAsync({
-        extrinsic: extrinsic as any
+        extrinsic: extrinsic as any,
+        eventFilter: e => api.events.marketplace.DeveloperLawyerProposed.is(e.event)
       });
       if (receipt.status !== 'success') {
         throw new Error(receipt.errorMessage);

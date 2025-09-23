@@ -57,7 +57,9 @@ export function PropertyVote({ listingId, address }: { listingId: number; addres
     try {
       const extrinsic = api.tx.marketplace.voteOnSpvLawyer(listingId, vote);
       const receipt = await sendTransactionAsync({
-        extrinsic: extrinsic as any
+        extrinsic: extrinsic as any,
+        waitForFinalization: false,
+        eventFilter: e => api.events.marketplace.VotedOnLawyer.is(e.event)
       });
 
       if (receipt.status !== 'success') {
