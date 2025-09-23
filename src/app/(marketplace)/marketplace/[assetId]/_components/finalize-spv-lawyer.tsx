@@ -9,32 +9,30 @@ import { toast } from 'sonner';
 
 export function FinalizeSPVLawyer({ listingId }: { listingId: number }) {
   const { api } = useNodeContext();
-  const { sendTransactionAsync, isPending } = useSendTransaction();
+  const { sendTransactionAsync, isPending, detailedStatus } = useSendTransaction();
 
   async function handleFinalizeSPVLawyer() {
     if (!api) return;
     try {
       const extrinsic = api.tx.marketplace.finalizeSpvLawyer(listingId);
       const receipt = await sendTransactionAsync({
-        extrinsic: extrinsic as any
+        extrinsic: extrinsic as any,
+        eventFilter: e => api.events.marketplace.SpvLawyerVoteFinalized.is(e.event)
       });
 
-      console.log(receipt.errorMessage);
-      console.log(receipt.events);
-      console.log(receipt.blockHash);
-      console.log(receipt.status);
-      if (receipt.status === 'success') {
-        toast.success('Transaction successful');
-      } else {
-        toast.error(receipt.errorMessage);
+      if (receipt.status == 'success') {
+        throw new Error(receipt.errorMessage);
       }
+      toast.success('Transaction successful', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
     } catch (error) {
-      console.log(error);
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   }
   return (
     <Button disabled={isPending} onClick={handleFinalizeSPVLawyer}>
-      Finalize
+      {isPending ? detailedStatus : 'Finalize'}
     </Button>
   );
 }

@@ -15,7 +15,7 @@ import { z } from 'zod';
 
 export default function ManagementMessage() {
   const params = useParams<{ assetId: string }>();
-  const [success, setSuccess] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
+  const { api } = useNodeContext();
 
   const form = useZodForm({
     schema: z.object({
@@ -23,29 +23,56 @@ export default function ManagementMessage() {
     })
   });
 
-  const { api } = useNodeContext();
-  const { sendTransactionAsync, isPending, txStatus } = useSendTransaction();
+  const { sendTransactionAsync, isPending, detailedStatus } = useSendTransaction();
+  const {
+    sendTransactionAsync: sendTransactionAsyncReject,
+    isPending: isPendingReject,
+    detailedStatus: rejectStatus
+  } = useSendTransaction();
 
-  async function handleSubmit(vote: number) {
+  async function handleSubmit() {
     if (!api) return;
-    setSuccess(STATE_STATUS.LOADING);
+    const vote = 1;
     try {
       const extrinsic = api.tx.marketplace.lawyerConfirmDocuments(
         Number(params.assetId),
         vote
       );
       const receipt = await sendTransactionAsync({
-        extrinsic: extrinsic as any
+        extrinsic: extrinsic as any,
+        eventFilter: e => api.events.marketplace.DocumentsConfirmed.is(e.event)
       });
       if (receipt.status !== 'success') {
-        setSuccess(STATE_STATUS.ERROR);
         throw new Error(receipt.errorMessage);
       }
-      setSuccess(STATE_STATUS.SUCCESS);
-      toast.success('Transaction successful');
+      toast.success('Transaction successful', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
-      setSuccess(STATE_STATUS.ERROR);
+    }
+  }
+
+  async function handleSubmitReject() {
+    if (!api) return;
+    const vote = 0;
+    try {
+      const extrinsic = api.tx.marketplace.lawyerConfirmDocuments(
+        Number(params.assetId),
+        vote
+      );
+      const receipt = await sendTransactionAsyncReject({
+        extrinsic: extrinsic as any,
+        eventFilter: e => api.events.marketplace.DocumentsConfirmed.is(e.event)
+      });
+      if (receipt.status !== 'success') {
+        throw new Error(receipt.errorMessage);
+      }
+      toast.success('Transaction successful', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   }
   return (
@@ -167,18 +194,18 @@ export default function ManagementMessage() {
             <Button
               className="bg-[#457461] hover:bg-[#457461]/90"
               fullWidth
-              onClick={() => handleSubmit(1)}
-              disabled={success === STATE_STATUS.LOADING || isPending}
+              onClick={() => handleSubmit()}
+              disabled={isPending || isPendingReject}
             >
-              {isPending ? txStatus : 'Approve'}
+              {isPending ? detailedStatus : 'Approve'}
             </Button>
             <Button
               className="bg-[#FF544B] hover:bg-[#FF544B]/90"
               fullWidth
-              onClick={() => handleSubmit(0)}
-              disabled={success === STATE_STATUS.LOADING || isPending}
+              onClick={() => handleSubmitReject()}
+              disabled={isPending || isPendingReject}
             >
-              {isPending ? txStatus : 'Reject'}
+              {isPendingReject ? detailedStatus : 'Reject'}
             </Button>
           </div>
         </div>
