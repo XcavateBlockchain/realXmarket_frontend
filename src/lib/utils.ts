@@ -117,3 +117,26 @@ export function convertBlocksToTime(blockCount: number, blockTimeSeconds: number
 export function calcCurvePercent(currentLiquidity: number, targetLiquidity: number): number {
   return Number((currentLiquidity * 100) / targetLiquidity);
 }
+
+export function blocksLeftToTime(
+  currentBlock: number,
+  targetBlock: number,
+  blockTimeSeconds: number = 6
+): string {
+  // remaining blocks
+  const remainingBlocks = Math.max(targetBlock - currentBlock, 0);
+  const totalSeconds = remainingBlocks * blockTimeSeconds;
+
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  const parts = [];
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
+
+  return parts.join(' ');
+}

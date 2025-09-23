@@ -29,7 +29,8 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   const { api } = useNodeContext();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
   const [showListedModal, setShowListedModal] = useState(false);
-  const { sendTransactionAsync, isPending } = useSendTransaction();
+  const { sendTransactionAsync, isPending, error, detailedStatus, data } =
+    useSendTransaction();
 
   async function onListProperty() {
     setStatus(STATE_STATUS.LOADING);
@@ -77,18 +78,20 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       );
 
       const receipt = await sendTransactionAsync({
-        extrinsic: listPropertyExtrinsic as any
+        extrinsic: listPropertyExtrinsic as any,
+        waitForFinalization: false,
+        eventFilter: e => api.events.marketplace.ObjectListed.is(e.event)
       });
-      if (receipt.status === 'success') {
-        console.log('Transaction successful:', receipt.transactionHash);
-        setShowListedModal(true);
-        router.refresh();
-        router.push('/developer/properties?status=listed');
-      } else {
-        console.log('Transaction failed:', receipt.errorMessage);
-        setStatus(STATE_STATUS.ERROR);
-        toast.error(receipt.errorMessage);
+      if (receipt.status !== 'success') {
+        throw new Error(receipt.errorMessage);
       }
+
+      setShowListedModal(true);
+      toast.success('Property successfully listed!', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
+      router.refresh();
+      router.push('/developer/properties?status=listed');
     } catch (error: any) {
       console.log(error);
       setStatus(STATE_STATUS.ERROR);
@@ -158,7 +161,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               {status === STATE_STATUS.LOADING && (
                 <LoaderCircle size={16} className=" animate-spin" />
               )}
-              List
+              {isPending ? detailedStatus : 'List'}
             </Button>
             <Button asChild variant={'outline'} fullWidth>
               <Link href={`/property/edit/${property.propertyId}`}>Details</Link>

@@ -9,12 +9,13 @@ import { toast } from 'sonner';
 import { calcCurvePercent, convertBlocksToTime } from '@/lib/utils';
 import {
   useGetLawyerVotes,
+  useGetPropertyLawyerInfo,
   useGetPropertyOwnersViaListing,
   useGetUserLawyerVoteForListing
 } from '@/lib/system-queries';
 import Skeleton from '@/components/skelton';
 
-export function PropertyVote({ listingId }: { listingId: number }) {
+export function PropertyVote({ listingId, address }: { listingId: number; address: string }) {
   const { api } = useNodeContext();
   const { sendTransactionAsync, isPending } = useSendTransaction();
   const { data: lawyerVotes, isLoading, refetch } = useGetLawyerVotes(listingId);
@@ -58,24 +59,22 @@ export function PropertyVote({ listingId }: { listingId: number }) {
       const receipt = await sendTransactionAsync({
         extrinsic: extrinsic as any
       });
-      console.log(receipt.errorMessage);
-      console.log(receipt.events);
-      console.log(receipt.blockHash);
-      console.log(receipt.status);
-      // if (!receipt.)
-      // if (receipt.dispatchError)
-      if (receipt.status === 'success') {
-        toast.success('Transaction successful');
-        refetch();
-        refetchUserLawyerVote();
-        refetchPropertyOwners();
-      } else {
-        toast.error(receipt.errorMessage);
+
+      if (receipt.status !== 'success') {
+        throw new Error(receipt.errorMessage);
       }
+      toast.success('Transaction successful', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
+      refetch();
+      refetchUserLawyerVote();
+      refetchPropertyOwners();
     } catch (error: any) {
-      toast.error(error?.error ? error?.error?.message : error?.message);
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   }
+
+  if (lawyerVotes === null) return null;
 
   return (
     <div className="w-full space-y-2.5">
@@ -105,13 +104,18 @@ export function PropertyVote({ listingId }: { listingId: number }) {
                 Approve {voteData?.yesPercent}%
               </span>
             )}
-            <button
-              className="rounded bg-[#78B36E] px-2 py-1 font-sans text-[14px]/[100%] font-bold text-white disabled:bg-[#78B36E]/50 disabled:text-white/50"
-              onClick={() => handleSPVLawyerVoting(0)}
-              disabled={isPending || voteData?.percent === 100}
-            >
-              Accept
-            </button>
+
+            {isPropertyOwnersLoading ? (
+              <Skeleton className="h-[18px] w-[86px]" />
+            ) : propertyOwners && propertyOwners.includes(address) ? (
+              <button
+                className="rounded bg-[#78B36E] px-2 py-1 font-sans text-[14px]/[100%] font-bold text-white disabled:bg-[#78B36E]/50 disabled:text-white/50"
+                onClick={() => handleSPVLawyerVoting(0)}
+                disabled={isPending || voteData?.percent === 100}
+              >
+                Accept
+              </button>
+            ) : null}
           </div>
           <div className="flex items-center gap-2.5">
             {isLoading ? (
@@ -121,13 +125,24 @@ export function PropertyVote({ listingId }: { listingId: number }) {
                 Reject {voteData?.noPercent}%
               </span>
             )}
-            <button
+            {isPropertyOwnersLoading ? (
+              <Skeleton className="h-[18px] w-[86px]" />
+            ) : propertyOwners && propertyOwners.includes(address) ? (
+              <button
+                className="rounded bg-[#FF3B30] px-2 py-1 font-sans text-[14px]/[100%] font-bold text-white disabled:bg-[#FF3B30]/50 disabled:text-white/50"
+                onClick={() => handleSPVLawyerVoting(1)}
+                disabled={isPending || voteData?.percent === 100}
+              >
+                Reject
+              </button>
+            ) : null}
+            {/* <button
               className="rounded bg-[#FF3B30] px-2 py-1 font-sans text-[14px]/[100%] font-bold text-white disabled:bg-[#FF3B30]/50 disabled:text-white/50"
               onClick={() => handleSPVLawyerVoting(1)}
               disabled={isPending || voteData?.percent === 100}
             >
               Reject
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

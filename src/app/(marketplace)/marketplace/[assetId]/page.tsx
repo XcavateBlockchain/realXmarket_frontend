@@ -119,6 +119,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
           tokenOwner={tokenOwner}
           investorType={investorType}
           isLoggedInDeveloper={isLoggedInDeveloper}
+          address={address as string}
         />
       </section>
       <section className="mb-10 flex flex-col gap-10 bg-[#F4F4F4] px-4 py-10 md:flex-row md:gap-[103px] md:px-[50px] md:py-16">

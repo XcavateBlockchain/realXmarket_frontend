@@ -12,7 +12,8 @@ const tabListVariants = cva('', {
       default:
         'flex w-full items-center gap-[47px] border-b border-primary-foreground/[0.10] px-2 lg:justify-between lg:gap-0',
       simple:
-        'inline-flex w-full items-center  justify-start gap-6 border-b border-[#4E4E4E]/[0.10]'
+        'inline-flex w-full items-center  justify-start gap-6 border-b border-[#4E4E4E]/[0.10]',
+      vertical: 'flex-col gap-[42px] flex items-start'
     }
   },
   defaultVariants: {
@@ -20,7 +21,15 @@ const tabListVariants = cva('', {
   }
 });
 
-const Tabs = TabsPrimitive.Root;
+function Tabs({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) {
+  return (
+    <TabsPrimitive.Root
+      data-slot="tabs"
+      className={cn('flex flex-col gap-2', className)}
+      {...props}
+    />
+  );
+}
 
 interface TabListProps
   extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
@@ -44,7 +53,9 @@ const tabTriggerVariants = cva('disabled:pointer-events-none disabled:opacity-50
         'flex items-center justify-center gap-2 border-b-2 border-transparent px-2 pb-2 text-[0.75rem]/[1.5rem] uppercase text-caption transition-all duration-300 hover:text-primary data-[state=active]:border-primary-300 data-[state=active]:text-primary-300 data-[state=active]:hover:text-primary-300/80 lg:text-[1rem]/[1.5rem]',
 
       simple:
-        'flex items-start justify-center gap-2 border-b-2 border-transparent p-2 font-sans text-[1rem]/[1.5rem] text-caption transition-all duration-200 ease-in data-[state=active]:border-primary data-[state=active]:text-primary'
+        'flex items-start justify-center gap-2 border-b-2 border-transparent p-2 font-sans text-[1rem]/[1.5rem] text-caption transition-all duration-200 ease-in data-[state=active]:border-primary data-[state=active]:text-primary',
+      vertical:
+        'uppercase text-[16px]/[24px] font-sans font-normal text-[#424242] data-[state=active]:text-primary data-[state=active]:font-medium'
     }
   },
   defaultVariants: {
@@ -68,12 +79,25 @@ const TabsTrigger = React.forwardRef<
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
-const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content ref={ref} className={cn('w-full', className)} {...props} />
-));
-TabsContent.displayName = TabsPrimitive.Content.displayName;
+// const TabsContent = React.forwardRef<
+//   React.ElementRef<typeof TabsPrimitive.Content>,
+//   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+// >(({ className, ...props }, ref) => (
+//   <TabsPrimitive.Content ref={ref} className={cn('w-full', className)} {...props} />
+// ));
+// TabsContent.displayName = TabsPrimitive.Content.displayName;
+
+function TabsContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+  return (
+    <TabsPrimitive.Content
+      data-slot="tabs-content"
+      className={cn('flex-1 outline-none', className)}
+      {...props}
+    />
+  );
+}
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };

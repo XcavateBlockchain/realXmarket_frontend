@@ -1,10 +1,19 @@
-import { getAllProperty, getAllSpvLawyerProposals, getItemMetadata } from '@/lib/queries';
+import {
+  getAllProperty,
+  getAllSpvLawyerProposals,
+  getItemMetadata,
+  getOnGoingObjectListing,
+  getPropertyLawyerByAddress,
+  getProposedLawyer,
+  getSpvLawyerProposal
+} from '@/lib/queries';
 import { cn, hexToString } from '@/lib/utils';
 import Link from 'next/link';
 import LawyerCard from './components/lawyer-card';
 import { generatePresignedUrl } from '@/lib/s3';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { IComponent } from '@/types';
+import PropertyUnderInstruction from './components/property-under-instruction';
 
 type PageProps = {
   searchParams: { status: string };
@@ -25,6 +34,9 @@ type PropertyWithMetadata = {
   listing: PropertyListing;
   metadata: string | null;
   fileUrls?: string[];
+  property?: any;
+  proposedLawyer?: any;
+  spvLawyerProposal?: any;
 };
 
 export default async function Properties({ searchParams }: PageProps) {
@@ -33,8 +45,25 @@ export default async function Properties({ searchParams }: PageProps) {
 
   const getAllTokes = await getAllProperty();
   const getUserSpvLawyerProposals = await getAllSpvLawyerProposals(address!);
+  const getPropertyUnderInstruction = await getPropertyLawyerByAddress(address!);
 
-  console.log(getUserSpvLawyerProposals);
+  const getListings = await Promise.all(
+    (getUserSpvLawyerProposals ?? []).map(async (item: any) => {
+      if (item && item.assetId != null) {
+        const listing = await getOnGoingObjectListing(Number(item.assetId));
+        // console.log('getOnGoingObjectListing result for assetId', item.assetId, ':', listing);
+        return listing;
+      }
+      return null;
+    })
+  );
+
+  const getPropertyUnderInstructionListings = await Promise.all(
+    (getPropertyUnderInstruction ?? []).map(async (item: any) => {
+      const listing = await getOnGoingObjectListing(Number(item.listingId));
+      return { listing, property: item.property };
+    })
+  );
 
   async function FetchMetaData(): Promise<PropertyWithMetadata[]> {
     if (!getAllTokes || getAllTokes.length === 0) {
@@ -81,16 +110,75 @@ export default async function Properties({ searchParams }: PageProps) {
   }
 
   async function FetchUserSpvLawyerProposalsMetaData(): Promise<PropertyWithMetadata[]> {
-    if (!getUserSpvLawyerProposals || getUserSpvLawyerProposals.length === 0) {
+    if (!getListings || getListings.length === 0) {
       return [];
     }
 
     const results = await Promise.all(
-      getUserSpvLawyerProposals.filter(Boolean).map(async (listing: any) => {
+      getListings.filter(Boolean).map(async (listing: any) => {
         try {
+          // listing may be null or undefined, so check for required fields
+          if (!listing.collectionId || !listing.itemId) {
+            return { listing, metadata: null, fileUrls: [] };
+          }
+
           const metaData = await getItemMetadata(
-            Number(listing.assetId),
-            Number(listing.assetId)
+            Number(listing.collectionId),
+            Number(listing.itemId)
+          );
+
+          const metadata =
+            metaData.data &&
+            typeof metaData.data === 'string' &&
+            metaData.data.startsWith('0x')
+              ? hexToString(metaData.data)
+              : metaData.data;
+
+          // Parse metadata and generate file URLs
+          let fileUrls: string[] = [];
+          try {
+            if (metadata && typeof metadata === 'string') {
+              const data = JSON.parse(metadata);
+              if (data.files && Array.isArray(data.files)) {
+                fileUrls = await Promise.all(
+                  data.files
+                    .filter((fileKey: string) => {
+                      const parts = fileKey.split('/');
+                      return parts.length > 2 && parts[2] === 'property_image';
+                    })
+                    .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+                );
+              }
+            }
+          } catch (error) {
+            // Error generating file URLs, continue with empty array
+          }
+
+          // Use the full listing object, not just assetId, for consistency with PropertyWithMetadata
+          return { listing, metadata, fileUrls };
+        } catch (error) {
+          return { listing, metadata: null, fileUrls: [] };
+        }
+      })
+    );
+    return results;
+  }
+
+  async function FetchPropertyUnderInstructionMetaData(): Promise<PropertyWithMetadata[]> {
+    if (
+      !getPropertyUnderInstructionListings ||
+      getPropertyUnderInstructionListings.length === 0
+    ) {
+      return [];
+    }
+
+    const results = await Promise.all(
+      getPropertyUnderInstructionListings.filter(Boolean).map(async (listing: any) => {
+        try {
+          const typedListing = listing.listing as PropertyListing;
+          const metaData = await getItemMetadata(
+            Number(typedListing.collectionId),
+            Number(typedListing.itemId)
           );
 
           const metadata = metaData.data.startsWith('0x')
@@ -114,9 +202,9 @@ export default async function Properties({ searchParams }: PageProps) {
             // Error generating file URLs, continue with empty array
           }
 
-          return { listing: listing.assetId, metadata, fileUrls };
+          return { listing: typedListing, property: listing.property, metadata, fileUrls };
         } catch (error) {
-          return { listing: listing.assetId, metadata: null, fileUrls: [] };
+          return { listing: listing as PropertyListing, metadata: null, fileUrls: [] };
         }
       })
     );
@@ -126,14 +214,70 @@ export default async function Properties({ searchParams }: PageProps) {
   // Fetch metadata for all properties
   const propertiesWithMetadata = await FetchMetaData();
   const userSpvLawyerProposalsWithMetadata = await FetchUserSpvLawyerProposalsMetaData();
+  const propertiesWithUnderInstructionMetaData = await FetchPropertyUnderInstructionMetaData();
 
-  console.log(userSpvLawyerProposalsWithMetadata);
+  const propertiesWithMetaData = await Promise.all(
+    propertiesWithMetadata.map(async property => {
+      try {
+        const proposedLawyer = await getProposedLawyer(Number(property.listing.itemId));
+        const spvLawyerProposal = await getSpvLawyerProposal(Number(property.listing.itemId));
+
+        return {
+          ...property,
+          proposedLawyer,
+          spvLawyerProposal
+        };
+      } catch (error) {
+        console.error(
+          `Error fetching lawyer data for property ${property.listing.itemId}:`,
+          error
+        );
+        return {
+          ...property,
+          proposedLawyer: null,
+          spvLawyerProposal: null
+        };
+      }
+    })
+  );
+
+  // Fetch lawyer data for all properties in parallel
+  const propertiesWithLawyerData = await Promise.all(
+    userSpvLawyerProposalsWithMetadata.map(async property => {
+      try {
+        const proposedLawyer = await getProposedLawyer(Number(property.listing.itemId));
+        const spvLawyerProposal = await getSpvLawyerProposal(Number(property.listing.itemId));
+
+        return {
+          ...property,
+          proposedLawyer,
+          spvLawyerProposal
+        };
+      } catch (error) {
+        console.error(
+          `Error fetching lawyer data for property ${property.listing.itemId}:`,
+          error
+        );
+        return {
+          ...property,
+          proposedLawyer: null,
+          spvLawyerProposal: null
+        };
+      }
+    })
+  );
 
   const queries: IComponent = {
-    'Newly listed': <DisplayProperties propertiesWithMetadata={propertiesWithMetadata} />,
+    'Newly listed': <DisplayProperties propertiesWithMetadata={propertiesWithMetaData} />,
     claimed: (
       <DisplayUserSpvLawyerProposals
-        userSpvLawyerProposalsWithMetadata={userSpvLawyerProposalsWithMetadata}
+        userSpvLawyerProposalsWithMetadata={propertiesWithLawyerData}
+      />
+    ),
+    'Under Instruction': (
+      <DisplayPropertiesUnderInstruction
+        address={address!}
+        propertiesWithUnderInstructionMetaData={propertiesWithUnderInstructionMetaData}
       />
     )
   };
@@ -190,12 +334,16 @@ function DisplayProperties({
               ? JSON.parse(property.metadata)
               : null;
 
+          if (property.spvLawyerProposal!) return null;
+
           return (
             <LawyerCard
               key={index}
               id={property.listing.itemId as any}
               metaData={data as any}
               fileUrls={property.fileUrls || []}
+              proposedLawyer={property.proposedLawyer}
+              spvLawyerProposal={property.spvLawyerProposal}
             />
           );
         })}
@@ -208,5 +356,87 @@ function DisplayUserSpvLawyerProposals({
 }: {
   userSpvLawyerProposalsWithMetadata: PropertyWithMetadata[];
 }) {
-  return <DisplayProperties propertiesWithMetadata={userSpvLawyerProposalsWithMetadata} />;
+  if (userSpvLawyerProposalsWithMetadata.length === 0) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-gray-500">No properties found.</p>
+      </div>
+    );
+  }
+
+  const filteredProperties = userSpvLawyerProposalsWithMetadata.filter(property => {
+    if ('spvCreated' in property.listing) {
+      return property.listing.spvCreated === true;
+    }
+    return true;
+  });
+
+  // console.log('Filtered properties:', filteredProperties);
+
+  if (filteredProperties.length === 0) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-gray-500">No SPV properties found.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid w-full grid-cols-4 gap-6">
+      {userSpvLawyerProposalsWithMetadata.map((property, index) => {
+        const data =
+          property.metadata && typeof property.metadata === 'string'
+            ? JSON.parse(property.metadata)
+            : null;
+
+        return (
+          <LawyerCard
+            key={index}
+            id={property.listing.itemId as any}
+            metaData={data as any}
+            fileUrls={property.fileUrls || []}
+            proposedLawyer={property.proposedLawyer}
+            spvLawyerProposal={property.spvLawyerProposal}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function DisplayPropertiesUnderInstruction({
+  address,
+  propertiesWithUnderInstructionMetaData
+}: {
+  address: string;
+  propertiesWithUnderInstructionMetaData: PropertyWithMetadata[];
+}) {
+  if (propertiesWithUnderInstructionMetaData.length === 0) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-gray-500">No properties found.</p>
+      </div>
+    );
+  }
+  return (
+    <div className="grid w-full grid-cols-4 gap-6">
+      {propertiesWithUnderInstructionMetaData.map((property, index) => {
+        const data =
+          property.metadata && typeof property.metadata === 'string'
+            ? JSON.parse(property.metadata)
+            : null;
+
+        return (
+          <PropertyUnderInstruction
+            key={index}
+            id={property.listing.itemId as any}
+            metaData={data as any}
+            fileUrls={property.fileUrls || []}
+            property={property.property}
+            address={address}
+          />
+        );
+      })}
+    </div>
+  );
 }

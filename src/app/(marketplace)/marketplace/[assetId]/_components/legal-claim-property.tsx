@@ -107,7 +107,7 @@ function SelectRole({
   const { api } = useNodeContext();
   const [selectedValue, setSelectedValue] = useState('0');
   const [cost, setCost] = useState(0);
-  const { sendTransactionAsync, isPending } = useSendTransaction();
+  const { sendTransactionAsync, isPending, detailedStatus } = useSendTransaction();
 
   async function handleSubmit() {
     try {
@@ -121,14 +121,15 @@ function SelectRole({
       const receipt = await sendTransactionAsync({
         extrinsic: extrinsic as any
       });
-      if (receipt.status === 'success') {
-        console.log('Transaction successful:', receipt.transactionHash);
-        setIndex(1);
-      } else {
-        console.log('Transaction failed:', receipt.errorMessage);
+      if (receipt.status !== 'success') {
+        throw new Error(receipt.errorMessage);
       }
+      setIndex(1);
+      toast.success('Transaction successful', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
     } catch (error) {
-      console.log('Transaction failed:', error);
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   }
 
@@ -208,66 +209,8 @@ function SelectRole({
         </div>
       </RadioGroup>
       <Button variant={'outline'} fullWidth disabled={isPending} onClick={handleSubmit}>
-        Claim & Submit Terms
+        {isPending ? detailedStatus : 'Claim & Submit Terms'}
       </Button>
     </>
-  );
-}
-
-function LawyerConfirmDocument({ listingId }: { listingId: number }) {
-  const { api } = useNodeContext();
-  const { sendTransactionAsync, isPending } = useSendTransaction();
-
-  const schema = z.object({
-    vote: z.number()
-  });
-
-  const form = useZodForm({
-    schema: schema
-  });
-
-  async function handleSubmit(data: z.infer<typeof schema>) {
-    if (!api) return;
-    const extrinsic = api.tx.marketplace.lawyerConfirmDocuments(listingId, Number(data.vote));
-    const receipt = await sendTransactionAsync({
-      extrinsic: extrinsic as any
-    });
-    if (receipt.status === 'success') {
-      toast.success('Transaction successful');
-    }
-  }
-
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button>Confirm Document</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">Confirm Document</AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogContent className="p-6">
-          <Form form={form}>
-            <SelectInput
-              label=""
-              placeholder="select"
-              options={[
-                { label: 'Yes', value: '1' },
-                { label: 'No', value: '0' }
-              ]}
-              {...form.register('vote')}
-            />
-            <Button
-              variant={'outline'}
-              fullWidth
-              onClick={form.handleSubmit(handleSubmit)}
-              disabled={isPending}
-            >
-              Confirm
-            </Button>
-          </Form>
-        </AlertDialogContent>
-      </AlertDialogContent>
-    </AlertDialog>
   );
 }
