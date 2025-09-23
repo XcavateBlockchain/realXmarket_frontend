@@ -28,6 +28,7 @@ import { useWalletContext } from '@/context/wallet-context';
 import usePaymentAsset from '@/hooks/use-payment-asset';
 import { useBalance } from '@/hooks/use-balance';
 import { formatUnits } from '@/lib/formaters';
+import { useSendTransaction } from '@/hooks/use-send-txt';
 
 type AmountProps = {
   amount: number;
@@ -50,7 +51,6 @@ function SelectAmount({
   property,
   setAmount
 }: AmountProps) {
-  const { api } = useContext(NodeContext);
   const { asset, selectedAccount } = useWalletContext();
   const address = selectedAccount?.[0]?.address;
   const paymentAsset = usePaymentAsset(asset);
@@ -197,6 +197,7 @@ function PurchaseSummary({
   const router = useRouter();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
   const [statusFee, setStatusFee] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
+  const { sendTransactionAsync, isPending, detailedStatus } = useSendTransaction();
 
   const { asset } = useWalletContext();
   const { api } = useContext(NodeContext);
@@ -211,7 +212,6 @@ function PurchaseSummary({
         toast.error('Please connect your wallet');
         return;
       }
-
       await buyNft(address, listingId, amount, Number(paymentAsset.id));
       setIndex(3);
       router.refresh();
@@ -219,6 +219,35 @@ function PurchaseSummary({
       setIndex(1);
       setStatus(STATE_STATUS.ERROR);
       toast.error(error?.error ? error?.error?.message : error?.message);
+    } finally {
+      setStatus(STATE_STATUS.SUCCESS);
+    }
+  }
+
+  async function handleBuyToken() {
+    if (!api) return;
+    try {
+      const extrinsic = api.tx.marketplace.buyPropertyToken(
+        listingId,
+        amount,
+        Number(paymentAsset.id)
+      );
+      const receipt = await sendTransactionAsync({
+        extrinsic: extrinsic as any,
+        eventFilter: e => api.events.marketplace.PropertyTokenBought.is(e.event)
+      });
+      if (receipt.status !== 'success') {
+        throw new Error(receipt.errorMessage);
+      }
+      setIndex(3);
+      router.refresh();
+      toast.success('Transaction successful', {
+        description: `TX Hash: ${receipt.transactionHash}`
+      });
+    } catch (error) {
+      setIndex(1);
+      setStatus(STATE_STATUS.ERROR);
+      toast.error(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
       setStatus(STATE_STATUS.SUCCESS);
     }
@@ -245,7 +274,7 @@ function PurchaseSummary({
           return;
         }
 
-        const extrinsic = api.tx.nftMarketplace.buyToken(
+        const extrinsic = api.tx.marketplace.buyPropertyToken(
           listingId,
           amount,
           Number(paymentAsset.id)
@@ -346,10 +375,10 @@ function PurchaseSummary({
           size={'md'}
           className="px-7 py-2 font-sans text-[0.875rem]/[1.5rem] font-bold text-white disabled:opacity-90"
           type="submit"
-          onClick={onSubmit}
-          disabled={status === STATE_STATUS.LOADING}
+          onClick={handleBuyToken}
+          disabled={isPending}
         >
-          Pay
+          {isPending ? detailedStatus : 'Pay'}
         </Button>
       </div>
     </>
