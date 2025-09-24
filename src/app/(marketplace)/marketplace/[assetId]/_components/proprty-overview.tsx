@@ -6,21 +6,25 @@ import { ProgressGradient } from '@/components/ui/progress';
 import Image from 'next/image';
 import BuyToken from './buy-token';
 import { IProperty, ListingDetails } from '@/types';
-import { cn, formatAPY, formatNumber, formatPrice, priceRangeFormat } from '@/lib/utils';
+import {
+  blocksLeftToTime,
+  cn,
+  formatAPY,
+  formatNumber,
+  formatPrice,
+  priceRangeFormat
+} from '@/lib/utils';
 import ClaimProperty from './claim-property';
 import { formatUnits } from '@/lib/formaters';
 import LegalClaimProperty from './legal-claim-property';
 import { PropertyVote } from './property-vote';
 import { FinalizeSPVLawyer } from './finalize-spv-lawyer';
-import {
-  useFetchBlocksLeftToTime,
-  useFetchSpvLawyerProposal,
-  useGetPropertyLawyerInfo
-} from '@/lib/system-queries';
+import { useFetchSpvLawyerProposal, useGetPropertyLawyerInfo } from '@/lib/system-queries';
 import Skeleton from '@/components/skelton';
 import Link from 'next/link';
+// import { useNodeContext } from '@/context';
+import { useMemo, memo, useState, useEffect } from 'react';
 import { useNodeContext } from '@/context';
-import { useMemo, memo } from 'react';
 
 type PropertyOverviewProps = {
   listingId: any;
@@ -48,40 +52,62 @@ export default function PropertyOverView({
   propertyInfo,
   totalTokensOwned,
   spvCreated,
-  propertyOwners,
+  propertyOwners: _propertyOwners,
   isPropertyOwner,
   tokenOwner,
   investorType,
   isLoggedInDeveloper,
   address
 }: PropertyOverviewProps) {
-  const { api } = useNodeContext();
-
   // Memoize expensive calculations
+  const { api } = useNodeContext();
+  const [expiryTimeForLegalProcess, setExpiryTimeForLegalProcess] = useState<string>('');
+  const [expiryTimeForVoting, setExpiryTimeForVoting] = useState<string>('');
   const SimilarPropertyPrice = useMemo(
     () => priceRangeFormat(metaData.property_price),
     [metaData.property_price]
   );
 
-  const { data: lawyerInfo, isLoading: isPropertyLawyerInfoLoading } =
-    useGetPropertyLawyerInfo(Number(listingId));
-  const { data: spvLawyerProposal, isLoading: isSpvLawyerProposalLoading } =
-    useFetchSpvLawyerProposal(Number(listingId));
+  const {
+    data: lawyerInfo,
+    isLoading: isPropertyLawyerInfoLoading
+    // error: lawyerInfoError
+  } = useGetPropertyLawyerInfo(Number(listingId));
+  const {
+    data: spvLawyerProposal,
+    isLoading: isSpvLawyerProposalLoading
+    // error: spvLawyerProposalError
+  } = useFetchSpvLawyerProposal(Number(listingId));
 
-  // Memoize block number calculation to avoid string operations on every render
-  const blockNumber = useMemo(() => {
-    if (!lawyerInfo?.legalProcessExpiry) return 0;
-    return Number(lawyerInfo.legalProcessExpiry.toString().replace(/,/g, ''));
-  }, [lawyerInfo?.legalProcessExpiry]);
-  const blockNumberVoting = useMemo(() => {
-    if (!spvLawyerProposal?.expiryBlock) return 0;
-    return Number(spvLawyerProposal.expiryBlock.toString().replace(/,/g, ''));
-  }, [spvLawyerProposal?.expiryBlock]);
+  useEffect(() => {
+    async function getExpiryTimeForLegalProcess() {
+      if (!api) return 0;
+      if (!api) return '0s';
+      const header = await api.rpc.chain.getHeader();
+      const currentBlock = header.number.toNumber();
+      const expiryTime = blocksLeftToTime(
+        currentBlock,
+        Number(lawyerInfo?.legalProcessExpiry!.toString().replace(/,/g, ''))
+      );
+      // console.log(expiryTime, 'expiryTime');
+      setExpiryTimeForLegalProcess(expiryTime);
+    }
 
-  const { data: blocksLeftToTime, isLoading: isBlocksLeftToTimeLoading } =
-    useFetchBlocksLeftToTime(api, blockNumber);
-  const { data: blocksLeftVotingToTime, isLoading: isBlocksLeftVotingToTimeLoading } =
-    useFetchBlocksLeftToTime(api, blockNumberVoting);
+    async function getExpiryTimeForVoting() {
+      if (!api) return 0;
+      if (!api) return '0s';
+      const header = await api.rpc.chain.getHeader();
+      const currentBlock = header.number.toNumber();
+      const expiryTime = blocksLeftToTime(
+        currentBlock,
+        Number(spvLawyerProposal?.expiryBlock!.toString().replace(/,/g, ''))
+      );
+      // console.log(expiryTime, 'expiryTime');
+      setExpiryTimeForVoting(expiryTime);
+    }
+    getExpiryTimeForLegalProcess();
+    getExpiryTimeForVoting();
+  }, [api, lawyerInfo, spvLawyerProposal]);
 
   // Memoize formatted values to avoid recalculation on every render
   const formattedTokenPrice = useMemo(() => {
@@ -126,11 +152,15 @@ export default function PropertyOverView({
 
   const shouldShowManageProperty = useMemo(
     () =>
-      investorType === 'lawyer' &&
-      lawyerInfo?.spvLawyer !== null &&
-      lawyerInfo?.realEstateDeveloperLawyer !== null,
-    [investorType, lawyerInfo?.spvLawyer, lawyerInfo?.realEstateDeveloperLawyer]
+      investorType === 'lawyer' && lawyerInfo?.spvLawyer !== null
+        ? lawyerInfo?.spvLawyer === address
+        : lawyerInfo?.realEstateDeveloperLawyer !== null
+          ? lawyerInfo?.realEstateDeveloperLawyer === address
+          : false,
+    [investorType, lawyerInfo?.spvLawyer, lawyerInfo?.realEstateDeveloperLawyer, address]
   );
+
+  // const isLoggedInLawyer = lawyerInfo?.spvLawyer && lawyerInfo?.spvLawyer! === address;
 
   const shouldShowFinalizeSPVLawyer = useMemo(
     () => isLoggedInDeveloper && investorType === 'developer' && spvCreated,
@@ -194,36 +224,38 @@ export default function PropertyOverView({
           <h1 className="font-mona text-[1.5rem]/[2rem] font-bold">
             {metaData.property_name}
           </h1>
+
           {isPropertyLawyerInfoLoading ? (
-            <Skeleton className="h-[25px] w-[155px]" />
-          ) : (
-            <div>
-              {lawyerInfo && (
-                <div className="flex items-center gap-2">
-                  {isBlocksLeftVotingToTimeLoading || isBlocksLeftToTimeLoading ? (
-                    <Skeleton className="h-[25px] w-[155px]" />
-                  ) : (
-                    <>
-                      <span>
-                        {lawyerInfo.spvLawyer === null
-                          ? blocksLeftVotingToTime
-                          : blocksLeftToTime}
-                      </span>
-                    </>
+            <Skeleton className="h-[25px] w-[124px]" />
+          ) : lawyerInfo ? (
+            lawyerInfo.spvLawyer !== null && (
+              <div className="flex items-center gap-1">
+                <span>{expiryTimeForLegalProcess}</span>
+                <span
+                  className={cn(
+                    'flex gap-1 rounded bg-foreground/10 px-[5px] py-[2px] text-[16px] text-foreground'
                   )}
-                  <span
-                    className={cn(
-                      'flex gap-1 rounded bg-[#4E4E4E]/10 px-[5px] py-[2px] text-[16px] text-[#4E4E4E]',
-                      {
-                        'bg-[#78B36E]/10 text-[#78B36E]': lawyerInfo.spvLawyer === null
-                      }
-                    )}
-                  >
-                    {lawyerInfo.spvLawyer !== null ? 'Legal Started' : 'Voting  in progress'}
-                  </span>
-                </div>
-              )}
-            </div>
+                >
+                  Legal Started
+                </span>
+              </div>
+            )
+          ) : null}
+          {isSpvLawyerProposalLoading ? (
+            <Skeleton className="h-[25px] w-[124px]" />
+          ) : (
+            spvLawyerProposal !== null && (
+              <div className="flex items-center gap-1">
+                <span>{expiryTimeForVoting}</span>
+                <span
+                  className={cn(
+                    'flex gap-1 rounded bg-[#78B36E]/10 px-[5px] py-[2px] text-[16px] text-[#78B36E]'
+                  )}
+                >
+                  Voting in progress
+                </span>
+              </div>
+            )
           )}
         </div>
         {spvCreated ? <PropertyVote listingId={Number(listingId)} address={address} /> : null}
@@ -235,11 +267,6 @@ export default function PropertyOverView({
             {formattedPropertyPrice}
           </dd>
         </div>
-        {/* {spvCreated === false && propertyOwners.length === 0 && (
-          <span className="rounded-full bg-gray-300 px-2 py-0.5 font-sans text-[0.875rem]/[1.5rem]">
-            Processing Approval
-          </span>
-        )} */}
         {isPropertyOwner ? <Button>Re-list</Button> : null}
         {shouldShowClaimProperty ? <ClaimProperty listingId={Number(listingId)} /> : null}
         {shouldShowBuyToken ? (
@@ -314,7 +341,7 @@ export default function PropertyOverView({
 
 const PropertyStats = memo(({ title, value }: { title: string; value: any }) => (
   <div className="flex w-full flex-col items-start gap-2 border-t border-gray-200 pt-3.5 font-sans text-[0.875rem]/[1.5rem]">
-    <dt className="text-[#4E4E4E]">{title}</dt>
+    <dt className="text-foreground">{title}</dt>
     <dd className="text-[#717171]">{value}</dd>
   </div>
 ));
@@ -338,7 +365,7 @@ const PropertyStatsWithProgress = memo(
         className
       )}
     >
-      <dt className="text-[#4E4E4E]">{prop.title}</dt>
+      <dt className="text-foreground">{prop.title}</dt>
       <dd className=" relative w-full">
         <ProgressGradient value={prop.value} className="h-1" />
         <span className="absolute -bottom-6 start-0 text-xs text-gray-500">{prop.start}</span>
