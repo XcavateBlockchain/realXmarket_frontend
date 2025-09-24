@@ -127,7 +127,6 @@ export function WalletContextProvider({ open = false, children }: Props) {
   const selectWallet = useCallback(
     async (wallet: Wallet) => {
       if (!wallet) {
-        toast.error('Wallet is not defined');
         return;
       }
 
