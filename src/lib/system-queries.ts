@@ -4,6 +4,7 @@ import {
   getAllSpvLawyerProposals,
   getOngoingLawyerVoting,
   getPropertyLawyerInfo,
+  getProposedLawyer,
   getSpvLawyerProposal,
   getUserLawyerVote
 } from './queries';
@@ -64,6 +65,19 @@ export function useFetchSpvLawyerProposal(listingId: number) {
     queryKey: ['spv_lawyer_proposal', listingId],
     queryFn: async () => {
       return await getSpvLawyerProposal(listingId);
+    },
+    retry: 3,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false
+  });
+}
+
+export function useFetchProposedDeveloperLawyerProposal(listingId: number) {
+  return useQuery({
+    queryKey: ['proposed_developer_lawyer_proposal', listingId],
+    queryFn: async () => {
+      return await getProposedLawyer(listingId);
     },
     retry: 3,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),

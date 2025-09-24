@@ -95,7 +95,7 @@ export function PropertyVote({ listingId, address }: { listingId: number; addres
               {propertyOwners ? propertyOwners.length : 0}
             </span>
           )}
-          <span>Investors have voted</span>
+          <span> Investors have voted</span>
         </div>
         <div className="flex items-center gap-3.5">
           <div className="flex items-center gap-2.5">
@@ -138,13 +138,6 @@ export function PropertyVote({ listingId, address }: { listingId: number; addres
                 Reject
               </button>
             ) : null}
-            {/* <button
-              className="rounded bg-[#FF3B30] px-2 py-1 font-sans text-[14px]/[100%] font-bold text-white disabled:bg-[#FF3B30]/50 disabled:text-white/50"
-              onClick={() => handleSPVLawyerVoting(1)}
-              disabled={isPending || voteData?.percent === 100}
-            >
-              Reject
-            </button> */}
           </div>
         </div>
       </div>
