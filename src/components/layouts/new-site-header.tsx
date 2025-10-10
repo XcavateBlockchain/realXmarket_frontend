@@ -5,8 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import MobileNav from './mobile-nav';
 import { useWalletContext } from '@/context/wallet-context';
-import { ConnectButton } from '../connect';
+// import { ConnectButton } from '../connect';
 import AuthMenu from './auth-menu';
+// import { ConnectCredentialWallet } from './connect-credential-wallet';
+import ConnectWalletButton from '../wallet/connect-wallet';
 
 export default function NewSiteHeader() {
   const { selectedAccount } = useWalletContext();
@@ -50,7 +52,9 @@ export default function NewSiteHeader() {
               height={24}
             />
           </button> */}
-          <ConnectButton />
+          {/* <ConnectButton />
+          // {isConnected ? <AuthMenu /> : null} */}
+          <ConnectWalletButton />
           {isConnected ? <AuthMenu /> : null}
         </div>
       </div>

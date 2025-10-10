@@ -11,6 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import WalletConnectors from './wallet-connectors';
 import { WalletAccount } from './wallet-account';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import Image from 'next/image';
 
 export default function ConnectWalletButton() {
   const { setModalOpen, selectedAccount, modalOpen } = useWalletContext();
@@ -33,9 +34,9 @@ export default function ConnectWalletButton() {
       <Popover open={modalOpen} onOpenChange={setModalOpen}>
         <PopoverTrigger asChild>
           <Button
-            variant={selectedAddress ? 'outline' : 'default'}
+            variant={'outline'}
             className={cn('flex shrink-0', {
-              'text-foreground': selectedAddress !== undefined
+              'border-primary-300 hover:bg-primary/10': selectedAddress !== undefined
             })}
             onClick={handleButtonClick}
             fullWidth={screenSize === SCREENS.mobile}
@@ -47,7 +48,13 @@ export default function ConnectWalletButton() {
               </>
             ) : (
               <>
-                CONNECT <Icons.wallet className="size-6" />
+                CONNECT{' '}
+                <Image
+                  src="/images/mobile_connect.svg"
+                  alt="mobile_connect"
+                  width={24}
+                  height={24}
+                />
               </>
             )}
             <span className="sr-only">Toggle View Wallet</span>

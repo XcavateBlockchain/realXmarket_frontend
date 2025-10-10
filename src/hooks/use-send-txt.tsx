@@ -364,11 +364,11 @@ export interface UseSendTransactionResult {
 export function useSendTransaction(
   hookLevelConfig?: UseSendTransactionOptions
 ): UseSendTransactionResult {
-  // const { api: currentApi } = useNodeContext();
+  const { api: currentApi } = useNodeContext();
   const { wallet, selectedAccount } = useWalletContext();
-  const { api: currentApi, activeAccount, activeSigner } = useXcavateContext();
-  // const account = selectedAccount?.[0];
-  const account = activeAccount;
+  // const { api: currentApi, activeAccount, activeSigner } = useXcavateContext();
+  const account = selectedAccount?.[0];
+  // const account = activeAccount;
 
   const [txStatus, setTxStatus] = useState<TxStatus>('idle');
   const [detailedTxStatus, setDetailedTxStatus] = useState<DetailedTxStatus>('idle');
@@ -381,11 +381,11 @@ export function useSendTransaction(
       eventFilter
     }: SendTransactionVariables): Promise<TransactionReceipt> => {
       if (!currentApi) throw new Error('Polkadot API not ready');
-      if (!activeSigner) throw new Error('No active connector found');
+      // if (!activeSigner) throw new Error('No active connector found');
       if (!account?.address) throw new Error('No active account');
       if (!extrinsic) throw new Error('No extrinsic provided');
 
-      const signer = activeSigner;
+      const signer = account?.signer;
       if (!signer) throw new Error('Could not retrieve signer from injector');
 
       setTxStatus('signing');

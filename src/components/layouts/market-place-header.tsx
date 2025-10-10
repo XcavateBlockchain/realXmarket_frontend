@@ -6,7 +6,7 @@ import MobileNav from './mobile-nav';
 import { useWalletContext } from '@/context/wallet-context';
 import ConnectWalletButton from '../wallet/connect-wallet';
 import AuthMenu from './auth-menu';
-import { ConnectButton } from '../connect';
+// import { ConnectButton } from '../connect';
 export function MarketPlaceHeader() {
   const { selectedAccount } = useWalletContext();
   const isConnected = selectedAccount?.[0]?.address;
@@ -39,8 +39,8 @@ export function MarketPlaceHeader() {
         </nav>
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
-          {/* <ConnectWalletButton /> */}
-          <ConnectButton />
+          <ConnectWalletButton />
+          {/* <ConnectButton /> */}
           {isConnected ? <AuthMenu /> : null}
         </div>
       </div>
