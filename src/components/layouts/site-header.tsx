@@ -10,6 +10,7 @@ import ConnectWalletButton from '../wallet/connect-wallet';
 import { useWalletContext } from '@/context/wallet-context';
 import { cn } from '@/lib/utils';
 import AuthMenu from './auth-menu';
+import { ConnectButton } from '../connect';
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,7 +30,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        'fixed z-10 w-full border-b border-[#4E4E4E]/[0.10] bg-transparent backdrop-blur-md',
+        'fixed z-10 w-full border-b border-[#4E4E4E]/[0.10] bg-white backdrop-blur-md',
         {
           'bg-white': isScrolled
         }
@@ -61,8 +62,8 @@ export function SiteHeader() {
         </nav>
         <MobileNav />
         <div className="hidden shrink-0 items-center gap-2 md:flex">
-          <ConnectWalletButton />
-          {/* <ConnectButton /> */}
+          {/* <ConnectWalletButton /> */}
+          <ConnectButton />
           {isConnected ? <AuthMenu /> : null}
         </div>
       </div>

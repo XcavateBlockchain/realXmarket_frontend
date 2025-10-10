@@ -5,7 +5,7 @@ import React from 'react';
 import { Icons } from '@/components/icons';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useMediaQuery } from '@/hooks/use-media-query';
-import { formatAddress } from '@/lib/utils';
+import { formatAddress, formatNumber } from '@/lib/utils';
 // import Identicon from '@polkadot/react-identicon';
 import { useXcavateContext } from '@/providers/xcavate-provider';
 import Image from 'next/image';
@@ -13,6 +13,11 @@ import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import { AccountOptions } from './account-options';
 import IdentIcon from './identicon';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
+import { Check } from 'lucide-react';
+import { toast } from 'sonner';
+import { useBalance } from '@/hooks';
+import { USDCIcon, USDTIcon } from '../coin';
 
 interface ISection {
   [key: number]: React.ReactNode;
@@ -34,6 +39,7 @@ export function ConnectButton() {
         name={activeAccount?.name}
         formattedAddress={formattedAddress}
         balance={balance}
+        address={activeAccount?.address!}
         disconnect={disconnect}
         setIndex={setIndex}
       />
@@ -60,8 +66,19 @@ export function ConnectButton() {
           </Button>
         </PopoverTrigger>
       ) : (
-        <Button type="button" onClick={toggleModal}>
-          SIGN IN <Icons.wallet className="size-6" />
+        <Button
+          variant={'outline'}
+          type="button"
+          onClick={toggleModal}
+          className="border-primary-300 hover:bg-primary/10"
+        >
+          CONNECT{' '}
+          <Image
+            src="/images/mobile_connect.svg"
+            alt="mobile_connect"
+            width={24}
+            height={24}
+          />
         </Button>
       )}
       <PopoverContent
@@ -78,6 +95,7 @@ type TAccount = {
   name: any;
   formattedAddress: string;
   balance: string | null;
+  address: string;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   disconnect: () => void;
 };
@@ -85,11 +103,15 @@ type TAccount = {
 export function AccountDetails({
   formattedAddress,
   name,
-  balance,
+  address,
+  // balance,
   setIndex,
   disconnect
 }: TAccount) {
   const router = useRouter();
+  const { balance } = useBalance();
+  const { isCopied, copyToClipboard } = useCopyToClipboard();
+
   return (
     <>
       <div className="flex w-full gap-2">
@@ -109,15 +131,52 @@ export function AccountDetails({
               <span>
                 {name} {formattedAddress}
               </span>{' '}
-              <Icons.copy className="size-6" />
+              <button
+                onClick={() => {
+                  copyToClipboard(address);
+                  toast.info(`Copied to clipboard.`);
+                }}
+                className="rounded-full p-px hover:bg-gray-200"
+              >
+                {isCopied ? (
+                  <Check className="size-[11px] text-accent-200 md:size-4" />
+                ) : (
+                  <Icons.copy className="size-[11px] md:size-6" />
+                )}
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div className="grid justify-items-start gap-2 rounded-lg border px-4 py-2">
-        <dl className="flex w-full items-center justify-between">
+        {/* <dl className="flex w-full items-center justify-between">
           <dt>XCAV tokens</dt>
           <dd>{balance}</dd>
+        </dl> */}
+        <dl className="flex w-full items-center justify-between">
+          <dt className="flex items-center gap-1">
+            <Image
+              src="/images/avatar.png"
+              width={26}
+              height={24}
+              alt="xcav"
+              className="size-6"
+            />{' '}
+            XCAV
+          </dt>
+          <dd>{formatNumber(balance.XCAV)} XCAV</dd>
+        </dl>
+        <dl className="flex w-full items-center justify-between">
+          <dt className="flex items-center gap-1">
+            <USDCIcon className="size-6 rounded-full" /> USDC
+          </dt>
+          <dd>{formatNumber(balance.USDC)} USDC</dd>
+        </dl>
+        <dl className="flex w-full items-center justify-between">
+          <dt className="flex items-center gap-1">
+            <USDTIcon className=" size-6 rounded-full" /> USDT
+          </dt>
+          <dd>{formatNumber(balance.USDT)} USDT</dd>
         </dl>
       </div>
       <div className="flex w-full items-center gap-4 md:justify-end md:gap-2">
