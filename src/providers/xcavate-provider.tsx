@@ -27,6 +27,7 @@ import {
   useRef,
   useState
 } from 'react';
+import { NodeContext } from '@/context';
 export const LS_ACTIVE_ACCOUNT_ADDRESS = 'activeAccountAddress';
 export const LS_PLUTONICATION_KEY = 'plutonication_key';
 
@@ -76,13 +77,14 @@ export default function XcavateProvider({
   const [isLoading, setIsLoading] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<XcavateError | undefined>();
-  const [api, setApi] = useState<ApiPromise>();
+  // const [api, setApi] = useState<ApiPromise>();
   const [provider, setProvider] = useState<WsProvider | HttpProvider>();
   const [accounts, setAccounts] = useState<InjectedAccount[]>([]);
   const [activeAccount, setActiveAccount] = useState<InjectedAccount>();
   const [activeSigner, setActiveSigner] = useState<Signer>();
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
+  const { api } = useContext(NodeContext);
   // const accessCredentialsRef = useRef<AccessCredentials | null>(null);
   const [_publicKey, setPublicKey] = useState<string>();
   // const activeSigner = useRef<Signer>(undefined);
@@ -96,42 +98,42 @@ export default function XcavateProvider({
 
   let injectedAccount: Injected;
 
-  const initialize = async () => {
-    isInitializing.current = true;
-    setIsConnected(false);
-    setError(undefined);
-    let _api: ApiPromise | undefined;
-    let _provider: WsProvider | HttpProvider | undefined;
-    try {
-      ({ api: _api, provider: _provider } = await initPolkadot(dotenv.RPC_URL!));
+  // const initialize = async () => {
+  //   isInitializing.current = true;
+  //   setIsConnected(false);
+  //   setError(undefined);
+  //   let _api: ApiPromise | undefined;
+  //   let _provider: WsProvider | HttpProvider | undefined;
+  //   try {
+  //     ({ api: _api, provider: _provider } = await initPolkadot(dotenv.RPC_URL!));
 
-      setApi(_api);
-      provider?.disconnect();
-      setProvider(_provider);
-      isInitialized.current = true;
-      console.log('Connected to node: XCAVATE CHAIN');
-    } catch (err: any) {
-      const message = 'Error while initializing Polkadot.js API';
-      console.error(message, err);
-      setError({ code: XcavateErrorCode.InitializationError, message });
-      setIsConnected(false);
-      setIsConnecting(false);
-      setApi(undefined);
-      setProvider(undefined);
-      isInitialized.current = false;
-    } finally {
-      setIsConnecting(false);
-    }
-  };
+  //     setApi(_api);
+  //     provider?.disconnect();
+  //     setProvider(_provider);
+  //     isInitialized.current = true;
+  //     console.log('Connected to node: XCAVATE CHAIN');
+  //   } catch (err: any) {
+  //     const message = 'Error while initializing Polkadot.js API';
+  //     console.error(message, err);
+  //     setError({ code: XcavateErrorCode.InitializationError, message });
+  //     setIsConnected(false);
+  //     setIsConnecting(false);
+  //     setApi(undefined);
+  //     setProvider(undefined);
+  //     isInitialized.current = false;
+  //   } finally {
+  //     setIsConnecting(false);
+  //   }
+  // };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    initialize();
-    return () => {
-      api?.off('disconnected', disconnect);
-      api?.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   initialize();
+  //   return () => {
+  //     api?.off('disconnected', disconnect);
+  //     api?.disconnect();
+  //   };
+  // }, []);
 
   // Add effect for auto-reconnection
   useEffect(() => {
@@ -386,7 +388,7 @@ export default function XcavateProvider({
     error,
     open,
     qrCodeDataUrl,
-    api,
+    api: api || undefined,
     provider,
     connect,
     disconnect,

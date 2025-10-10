@@ -1,139 +1,115 @@
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { FaArrowDown } from 'react-icons/fa';
-import { Shell } from '@/components/shell';
-import FeatureSlide from './components/feature-slide';
-const how_it_works = [
-  {
-    id: 1,
-    title: 'Connect digital identity & verify your credentials',
-    img: '/icons/id_white.svg'
-  },
-  {
-    id: 2,
-    title: 'Choose a property and number of fractions',
-    img: '/icons/portfolio_white.svg'
-  },
-  {
-    id: 3,
-    title: 'Agree to the terms of the smart contract & digitally sign',
-    img: '/icons/verify_your_identity_white.svg'
-  },
-  {
-    id: 4,
-    title: 'Make payment & receive your property tokens',
-    img: '/icons/capital_purchase_white.svg'
-  }
-];
-
-//  className="container flex w-[90%] flex-col items-center space-y-12 md:space-y-12"
+import { siteConfig } from '@/config/site';
+import { cn } from '@/lib/utils';
+import LandingCarousel from './components/landing-slide';
 
 export default function Home() {
   return (
-    <Shell className="gap-12">
-      <div className="flex w-full flex-col items-center justify-center gap-10">
-        <div className="flex w-full flex-col items-center justify-center gap-4">
-          <h1 className="bg-[linear-gradient(90deg,_#ecb278_-25.47%,_#dc7da6_35.16%,_#3b4f74_69.39%,_#57a0c5_103.47%)] bg-clip-text text-center font-mona text-[1.7rem] font-black uppercase text-transparent md:text-[1.875rem]/[2.5rem] lg:text-[2.5rem]/[3.5rem]">
-            REAL ESTATE INVESTMENT MADE SIMPLE
+    <div>
+      <div className="container mx-auto mt-[90px] w-full  max-w-screen-2xl md:mt-[90px] ">
+        <div className="bg-primary px-1 py-[7px] text-[8px] font-semibold text-white md:px-[15px] md:py-4 md:text-[15px]">
+          Don&apos;t invest unless you&apos;re prepared to lose all the money you invest. This
+          is a high-risk investment and you should not expect to be protected if something goes
+          wrong. Take 2 mins to learn more
+        </div>
+        <div className="mt:pt-[64px] min-h-[238px] bg-[url('/images/mobile_realXmarket_background.svg')] bg-cover bg-no-repeat px-4 pt-3 tracking-normal md:min-h-[853px] md:px-[107px] lg:bg-[url('/images/bg_realXmarket.svg')]">
+          <h1 className=" max-w-5xl font-sans text-[24px]/[110%] font-bold text-primary md:text-[62px]/[72px] md:font-black">
+            A new way to invest in property. Start small.{' '}
+            <br className="block pt-1 md:hidden" /> Think big.
           </h1>
-          <p className="text-center text-[16px]/[24px] md:text-balance md:text-[18px]/[24px] lg:text-[22px]/[24px]">
-            All properties are independently verified prior to listing on the marketplace
-          </p>
+          <Image
+            src={'/svgs/powerd_by_xcavate.svg'}
+            alt="powered by xcavate"
+            width={447}
+            height={71}
+            className="absolute left-0 top-[235px] h-6 w-[134px] md:top-[396px] md:h-[71px] md:w-[447px]"
+          />
         </div>
-        <div className="hidden w-full items-center justify-between md:flex">
-          <div className="flex flex-col items-center justify-center gap-6">
-            <Image src={'/images/frame_1.png'} alt="hero" width={257} height={242} />
-            <p className="font-sans text-[18px]/[24px] font-medium">Browse & Buy</p>
-          </div>
-          <HomeArrow className="mb-20 h-[110px] w-[70px]" />
-          <div className="flex flex-col items-center justify-center gap-6">
-            <Image src={'/images/frame_2.png'} alt="hero" width={361} height={290} />
-            <p className="font-sans text-[18px]/[24px] font-medium">Property Management</p>
-          </div>
-          <HomeArrow className="mb-20 h-[110px] w-[70px]" />
-          <div className="flex flex-col items-center justify-center gap-6">
-            <Image src={'/images/frame_3.png'} alt="hero" width={257} height={242} />
-            <p className="font-sans text-[18px]/[24px] font-medium">Relist & Sell</p>
-          </div>
-        </div>
-        <FeatureSlide />
-        <Button asChild variant={'outline'}>
-          <Link href={'/marketplace'}>EXPLORE MARKETPLACE</Link>
-        </Button>
-        <ArrowDown />
       </div>
-      {/* About  */}
-      <section className="flex flex-col-reverse items-center justify-between gap-10 md:flex-row md:gap-2 md:py-[100px] lg:gap-20">
-        <div className="flex flex-col items-start justify-start gap-4">
-          <h2 className="font-mona text-[1.125rem]/[1.5rem] font-black text-primary-foreground lg:text-[2.5rem]/[3.5rem]">
-            Making property investment simple
-          </h2>
-          <p className="text-[1rem]/[1.5rem] md:text-[1.125rem]/[1.5rem]">
-            Create your own property portfolio in minutes. No fund managers or agents required.
-          </p>
-        </div>
-        <Image
-          src={'/images/about.svg'}
-          width={445}
-          height={388}
-          alt="property"
-          className="md:w-[353px] lg:w-[445px]"
-          priority
-        />
-      </section>
-      {/* Features */}
-      <section className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:gap-[54px]">
-        {how_it_works.map(steps => (
-          <div
-            key={steps.title}
-            className='flex size-full shrink-0 rounded-lg bg-[url("/images/feature_card.png")] bg-cover bg-no-repeat'
-          >
-            <div className="inline-flex w-full flex-col items-start gap-3.5 px-8 py-7 md:gap-4 lg:max-w-lg lg:px-[54px] lg:pb-[57px] lg:pt-[46px]">
+      <div className="mx-auto flex w-full max-w-screen-2xl flex-col justify-start gap-2.5 px-4 py-[23px] md:gap-6 md:px-[127px] md:py-[56px]">
+        <p className="font-sans text-[19px]/[100%] font-normal text-primary-300 md:text-[62px]/[72px]">
+          Access fractional ownership with our app. Join the real estate investment revolution.
+        </p>
+
+        <p className="font-sans text-[14px]/[100%] font-normal tracking-normal md:text-[32px]/[100%]">
+          At realXmarket, Our mission is to give anyone aspiring to property ownership a
+          strating ploint as a fractional landlord. Scan verified investment opportunities in
+          the new-build rfental market, start at a level you’re coimfortable with, and build up
+          your portfolio. We carefully select propedrty developers who respect regional
+          communities and the enviroment.
+        </p>
+      </div>
+      <LandingCarousel slides={siteConfig.features} options={{ loop: true }} />
+      <div className="container mx-auto flex w-full max-w-screen-2xl flex-col gap-[29px] px-4 py-[23px] md:gap-[52px] md:px-[107px] md:py-[64px]">
+        <h4 className="text-[20px] font-bold text-primary md:text-[40px]/[74px]">
+          Why choose realXmarket
+        </h4>
+
+        <div className="flex w-full flex-row flex-wrap justify-center gap-4 md:grid md:grid-cols-6 md:gap-10">
+          {siteConfig.whyChoose.map((feature, index) => (
+            <div
+              key={index}
+              className={cn(
+                'mt-4 flex h-[64px] max-w-[71px] flex-col items-center gap-6 text-center md:mt-0 md:h-[176px] md:max-w-[141px]',
+                {
+                  'max-w-[81px] md:max-w-[161px]': index === 3
+                }
+              )}
+            >
               <Image
-                src={steps.img}
-                width={65}
-                height={43}
-                alt=""
-                className="pointer-events-none fill-white"
+                src={feature.icon}
+                alt={feature.title}
+                width={100}
+                height={100}
+                className={cn('h-[30px] w-[25px]  md:h-[100px] md:w-[84px]', {
+                  'h-[30px] w-[30px] md:h-[100px] md:w-[100px]': index === 3
+                })}
               />
-              <h4 className="font-mona text-[1.125rem]/[1.5rem] font-bold text-white lg:text-[1.5rem]/[2.5rem]">
-                {steps.title}
-              </h4>
+              <p className="text-[10px] font-bold text-primary md:text-[20px]/[100%]">
+                {feature.title}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="relative bg-primary-300">
+        <div className="container mx-auto flex w-full max-w-screen-2xl flex-col justify-between px-4 pb-2 pt-4 md:flex-row md:px-[107px] md:pb-[48px] md:pt-[72px]">
+          <div className="max-w-[620px] space-x-2.5 md:space-y-20">
+            <h4 className="text-[19px] font-normal text-white md:text-[50.98px]/[60px]">
+              Download the realXmarket app and unlock the future of real estate today
+            </h4>
+            <div className="flex items-center gap-4">
+              <Link href="">
+                <Image
+                  src={'/images/realXmarket_app_store.svg'}
+                  alt="app_store"
+                  width={257}
+                  height={76}
+                  className="h-10 w-[135px] md:h-[76px] md:w-[257px]"
+                />
+              </Link>
+              <Link href={'/'}>
+                <Image
+                  src={'/images/realXmarket_play_store.svg'}
+                  alt="app_store"
+                  width={257}
+                  height={76}
+                  className="h-10 w-[135px] md:h-[76px] md:w-[257px]"
+                />
+              </Link>
             </div>
           </div>
-        ))}
-      </section>
-    </Shell>
+          <Image
+            src={'/images/realXmarket_marketplace_download.png'}
+            height={434}
+            width={746}
+            alt=""
+            className="mt-5 h-[215px] w-[370px] md:absolute md:right-0 md:top-[62px] md:mt-0 md:h-[434px] md:w-[746px]"
+            priority
+          />
+        </div>
+      </div>
+    </div>
   );
 }
-
-const HomeArrow = (props: any) => (
-  <svg viewBox="0 0 70 110" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path
-      d="M37.9167 77.9167L52.5 55L37.9167 32.0833M17.5 77.9167L32.0833 55L17.5 32.0833"
-      stroke="#3B4F74"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const ArrowDown = () => (
-  <svg
-    width="21"
-    height="20"
-    viewBox="0 0 21 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M10.9808 4.16669V15.8334M10.9808 15.8334L16.8141 10M10.9808 15.8334L5.14746 10"
-      stroke="#56A0C6"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);

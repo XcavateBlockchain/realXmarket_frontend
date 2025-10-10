@@ -126,3 +126,43 @@ export function findAllDevelopersByPartnerAddress(whitelistedAddress: string): D
     )
   );
 }
+
+const assetByDeveloper = [
+  {
+    assetID: 4,
+    address: '5DnfwiFtfWtEm7SNKpu3RK52uLMcdfzEmkNfBPXYQWXbMqhX',
+    devSeed: 'general simple hurt ignore list kick brush tackle balance author sleep rifle',
+    lawyerAddress: '5D58k4xvoC6cxshkfy2EAsPe1AHKpLzaNTmKD6Nb5UbyddX5',
+    lawyerSeed:
+      'address wash deputy wide wave axis foster attitude voyage identify verify miss'
+  },
+  {
+    assetID: 6,
+    address: '5DDZseMFYY31jpnqUsgRhwTtkHZgy72GNUs4ZdVr2y2QUBRH',
+    devSeed: 'old ice chef poem attack educate first slogan give drop aware frame',
+    lawyerAddress: '5CJFratZ8i1wqYFkBY9UK66AHffLqDm92zSbh9ZPCL2pw5yn',
+    lawyerSeed: 'resist enjoy holiday donkey kid essay jelly chat lonely inform cannon long'
+  },
+  {
+    assetID: 7,
+    address: '5HVTf7n7s2Tifw3whT3TdX7sh4uMr5b6RKMThZtatKYCTTnR',
+    devSeed: 'trash keen thrive energy nose bleak secret swear setup rose bulk attract',
+    lawyerAddress: '5DHbTPGfeQKCeKvdqXxsK3X6TnnzTwCvg4J6rWCYwr5EVEmM',
+    lawyerSeed: 'height region fury fringe guess over local cheap powder develop wheat expect'
+  },
+  {
+    assetID: 15,
+    address: '5C84PwkYcCryRA1bD7Xh2ffJEPFyViqmmfewdfTzcCpA4nw3',
+    devSeed:
+      'brand indicate chaos sword pledge enough second awful always vivid ensure service',
+    lawyerAddress: '5GsS2BX7ZZtzWH8JxbRxsNhHcxhC3C8oj3jtux3MAcxukeLp',
+    lawyerSeed: 'sunset army clinic hire often humble soccer add cinnamon proud place bus'
+  },
+  {
+    assetID: 16,
+    address: '5EPBypXAjkQJyW3fRHuRoRbAmE97EDE386RttLBkHm6MC8ES',
+    devSeed: 'tank short antique cave bike journey blame foster retire antique estate price',
+    lawyerAddress: '5GpRRQti79wqXCY9LY41S2b2mpq7DUKHiipqxPmxuT69G8KJ',
+    lawyerSeed: 'island what thing health alarm scout lounge derive episode twist melt keen'
+  }
+];

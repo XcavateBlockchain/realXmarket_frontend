@@ -7,9 +7,10 @@ import { NodeSocketProvider, WalletProvider } from '@/context';
 import { Toaster } from 'sonner';
 import { ApolloWrapper } from '@/providers/appolo-client-provider';
 // import XcavateProvider from '@/providers/xcavate-provider';
+// import XcavateProvider from '@/providers/xcavate-provider';
 
 const dm_sans = DM_Sans({
-  weight: ['400', '700'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900', '1000'],
   subsets: ['latin'],
   variable: '--font-dm-sans'
 });

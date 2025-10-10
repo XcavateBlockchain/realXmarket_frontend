@@ -1,6 +1,7 @@
 import { useNodeContext } from '@/context';
 import { useWalletContext } from '@/context/wallet-context';
 import { getFormattedAssetBalance } from '@/lib/formaters';
+import { useXcavateContext } from '@/providers/xcavate-provider';
 import { useEffect, useState } from 'react';
 
 type Balance = {
@@ -13,6 +14,8 @@ export function useBalance() {
   const { api } = useNodeContext();
   const { selectedAccount } = useWalletContext();
   const selectedAddress = selectedAccount?.[0]?.address;
+  // const { activeAccount } = useXcavateContext();
+  // const selectedAddress = activeAccount?.address;
 
   const [balance, setBalance] = useState<Balance>({ XCAV: 0, USDC: 0, USDT: 0 });
 
