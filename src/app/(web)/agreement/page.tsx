@@ -16,11 +16,11 @@ export default function Agreement() {
               Investments Limited (&ldquo;H&W&rdquo;, &ldquo;the Firm&rdquo;, &ldquo;we&rdquo;,
               &ldquo;us&rdquo;) will provide investment services to you (&ldquo;the
               Client&rdquo;, &ldquo;you&rdquo;). It is designed to comply with the requirements
-              of the FCA's Conduct of Business Sourcebook (COBS) and the Markets in Financial
-              Instruments Directive (MiFID II). It should be read in conjunction with the Terms
-              of Use for the realXmarket application and our Data Privacy Policy. By signing
-              this Agreement, you confirm that you have read, understood, and accepted its
-              terms.
+              of the FCA&apos;s Conduct of Business Sourcebook (COBS) and the Markets in
+              Financial Instruments Directive (MiFID II). It should be read in conjunction with
+              the Terms of Use for the realXmarket application and our Data Privacy Policy. By
+              signing this Agreement, you confirm that you have read, understood, and accepted
+              its terms.
             </p>
           </div>
 
@@ -30,7 +30,7 @@ export default function Agreement() {
             </h2>
             <p className="leading-relaxed text-gray-700">
               H&W is authorised and regulated by the Financial Conduct Authority (FCA) and is
-              permitted to carry on investment business. The FCA's address is 12 Endeavour
+              permitted to carry on investment business. The FCA&apos;s address is 12 Endeavour
               Square, London, E20 1JN.
             </p>
           </div>
