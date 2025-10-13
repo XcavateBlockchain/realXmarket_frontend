@@ -9,7 +9,7 @@ export default function Home() {
     <div>
       <div className="container relative mx-auto min-h-[60vh] w-full max-w-screen-2xl md:mt-[52px] md:min-h-[95vh]">
         <Image
-          src={'/images/realXmarket_main_bg.jpg'}
+          src={'/images/bg_realxmarket_main.svg'}
           alt={'background'}
           width={1536}
           height={853}
