@@ -7,13 +7,49 @@ import LandingCarousel from './components/landing-slide';
 export default function Home() {
   return (
     <div>
-      <div className="container mx-auto mt-[90px] w-full  max-w-screen-2xl md:mt-[90px] ">
-        <div className="bg-primary px-1 py-[7px] text-[8px] font-semibold text-white md:px-[15px] md:py-4 md:text-[15px]">
+      <div className="container relative mx-auto min-h-[60vh] w-full max-w-screen-2xl md:mt-[52px] md:min-h-[95vh]">
+        <Image
+          src={'/images/realXmarket_main_bg.jpg'}
+          alt={'background'}
+          fill
+          className="object-cover object-center"
+          priority
+        />
+
+        <div className="absolute top-[30px] w-full text-wrap bg-primary px-1 py-[7px] pt-[52px] text-center text-[8px] font-semibold text-white md:px-[15px] md:py-4 md:text-[15px]">
           Don&apos;t invest unless you&apos;re prepared to lose all the money you invest. This
           is a high-risk investment and you should not expect to be protected if something goes
           wrong. Take 2 mins to learn more
         </div>
-        <div className="mt:pt-[64px] min-h-[238px] bg-[url('/images/mobile_realXmarket_background.svg')] bg-cover bg-no-repeat px-4 pt-3 tracking-normal md:min-h-[853px] md:px-[107px] lg:bg-[url('/images/bg_realXmarket.svg')]">
+        <h1 className="relative hidden px-4 pt-[150px] font-sans text-[24px]/[110%] font-bold text-primary md:block md:px-[107px] md:pt-[180px] md:text-[62px]/[72px] md:font-black">
+          A new way to invest in property. Start small. Think big.
+        </h1>
+
+        <h1 className="relative block px-4 pt-[150px] font-sans text-[24px]/[100%] font-bold text-primary md:hidden md:px-[107px] md:pt-[180px] md:text-[62px]/[72px] md:font-black">
+          A new way to invest in property. Start small.
+          <br /> Think big.
+        </h1>
+
+        <Image
+          src={'/svgs/powerd_by_xcavate.svg'}
+          alt="powered by xcavate"
+          width={447}
+          height={71}
+          className="absolute left-0 top-[245px] h-6 w-[134px] md:top-[396px] md:h-[71px] md:w-[447px]"
+        />
+        {/* <div className="bg-primary px-1 py-[7px] text-[8px] font-semibold text-white md:px-[15px] md:py-4 md:text-[15px]">
+          Don&apos;t invest unless you&apos;re prepared to lose all the money you invest. This
+          is a high-risk investment and you should not expect to be protected if something goes
+          wrong. Take 2 mins to learn more
+        </div> */}
+        {/* <div className="mt:pt-[52px] relative min-h-[238px] bg-[url('/images/mobile_realXmarket_background.svg')] bg-cover bg-no-repeat px-4 pt-3 tracking-normal md:min-h-screen md:px-[107px] lg:bg-[url('/images/bg_realXmarket.svg')]">
+          <Image
+            src={'/images/realXmarket_main_bg.jpg'}
+            alt={'background'}
+            fill
+            className="object-cover object-center"
+            priority
+          />
           <h1 className=" max-w-5xl font-sans text-[24px]/[110%] font-bold text-primary md:text-[62px]/[72px] md:font-black">
             A new way to invest in property. Start small.{' '}
             <br className="block pt-1 md:hidden" /> Think big.
@@ -25,19 +61,24 @@ export default function Home() {
             height={71}
             className="absolute left-0 top-[235px] h-6 w-[134px] md:top-[396px] md:h-[71px] md:w-[447px]"
           />
-        </div>
+        </div> */}
       </div>
       <div className="mx-auto flex w-full max-w-screen-2xl flex-col justify-start gap-2.5 px-4 py-[23px] md:gap-6 md:px-[127px] md:py-[56px]">
-        <p className="font-sans text-[19px]/[100%] font-normal text-primary-300 md:text-[62px]/[72px]">
-          Access fractional ownership with our app. Join the real estate investment revolution.
-        </p>
+        <div>
+          <p className="font-sans text-[19px]/[100%] font-normal text-primary-300 md:text-[62px]/[72px]">
+            Access fractional ownership with our app.
+          </p>
+          <p className="font-sans text-[19px]/[100%] font-normal text-primary-300 md:text-[62px]/[72px]">
+            Join the real estate investment revolution.
+          </p>
+        </div>
 
-        <p className="font-sans text-[14px]/[100%] font-normal tracking-normal md:text-[32px]/[100%]">
+        <p className="font-sans text-[14px]/[100%] font-normal tracking-normal md:text-[32px]/[47px]">
           At realXmarket, Our mission is to give anyone aspiring to property ownership a
-          strating ploint as a fractional landlord. Scan verified investment opportunities in
-          the new-build rfental market, start at a level you’re coimfortable with, and build up
-          your portfolio. We carefully select propedrty developers who respect regional
-          communities and the enviroment.
+          starting point as a fractional landlord. Scan verified investment opportunities in
+          the new-build rental market, start at a level you’re comfortable with, and build up
+          your portfolio. The system rewards property developers who respect regional
+          communities and the environment.
         </p>
       </div>
       <LandingCarousel slides={siteConfig.features} options={{ loop: true }} />

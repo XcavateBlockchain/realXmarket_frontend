@@ -23,7 +23,7 @@ type PropType = {
 const LandingCarousel: React.FC<PropType> = props => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ playOnInit: true, delay: 3000 })
+    Autoplay({ playOnInit: true, delay: 5000 })
   ]);
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);

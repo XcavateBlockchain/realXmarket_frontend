@@ -16,14 +16,14 @@ export default function NewSiteHeader() {
 
   return (
     <div className="fixed z-10 w-full border-b border-[#4E4E4E]/[0.10] bg-white">
-      <div className="container mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-4 lg:px-[107px]">
+      <div className="container mx-auto flex max-w-screen-2xl items-center justify-between p-4 lg:px-[107px]">
         <Link href={'/'}>
           <Image
             src={'/images/Real_Market_logo.svg'}
             alt="logo"
             width={191}
             height={48}
-            className="h-10 w-[145px] md:h-[56px] md:w-[200px]"
+            className="h-10 w-[145px] md:h-[48px] md:w-[191px]"
             priority
           />
         </Link>
