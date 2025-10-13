@@ -59,7 +59,7 @@ export const siteConfig = {
     {
       title: 'Property Developers',
       description:
-        'Owners and developers listing their properties go through verification processes, which provide reassurances for investors. Our tamper-proof blockchain tech and tokenisation processes build transparency and mutual trust. Developers in our network are rewarded for doing things the right way as we connect them with investors like you.',
+        'Owners and developers listing their properties go through verification processes, which provide reassurances for investors. Our tamper-proof blockchain tech and tokenisation processes build transparency and mutual trust.',
       image: '/svgs/realXmarket_property-developer_image.png',
       text: 'Ready to raise capital faster? List your next project on realXmarket and connect with global investors today'
     },
