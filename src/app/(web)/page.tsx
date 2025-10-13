@@ -11,8 +11,9 @@ export default function Home() {
         <Image
           src={'/images/realXmarket_main_bg.jpg'}
           alt={'background'}
-          fill
-          className="object-cover object-center"
+          width={1536}
+          height={853}
+          className="absolute left-0 top-0 size-full object-cover object-center"
           priority
         />
 
