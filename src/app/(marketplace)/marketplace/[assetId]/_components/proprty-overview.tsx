@@ -177,11 +177,11 @@ export default function PropertyOverView({
             alt={metaData.company ? metaData.company.name : 'logo'}
             width={54}
             height={54}
-            className="border-spacing-3 rounded-full border-caption"
+            className="rounded-full"
             priority
           />
           <h3 className="font-mona text-[18px]/[24px] font-semibold">
-            {metaData.company ? metaData.company.name : 'Bob T Builde'}
+            {metaData.company ? metaData.company.name : 'Bob T Builder'}
           </h3>
         </div>
         <div className="flex items-center gap-4">
@@ -196,13 +196,7 @@ export default function PropertyOverView({
       <div className="flex w-full flex-col items-start gap-6">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-1">
-            <Image
-              src={'/icons/pin_location.svg'}
-              alt="loc"
-              width={24}
-              height={24}
-              className="pointer-events-none"
-            />
+            <Icons.location className="size-6 p-0 text-primary" />
             <span className="flex items-center font-mona text-[1rem]/[1.5rem] font-medium">
               <span className="capitalize">{metaData.address_street}</span>
               <span className="capitalize">
