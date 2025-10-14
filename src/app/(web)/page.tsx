@@ -103,8 +103,8 @@ export default function Home() {
           ))}
         </div>
       </div>
-      {/* <div className="relative bg-primary-300">
-        <div className="container mx-auto flex w-full max-w-screen-2xl flex-col justify-between px-4 pb-2 pt-4 md:flex-row md:px-[107px] md:pb-[48px] md:pt-[72px]">
+      <div className="relative bg-primary-300">
+        <div className="container relative mx-auto flex w-full max-w-screen-2xl flex-col justify-between px-4 pb-2 pt-4 md:flex-row md:px-[107px] md:pb-[48px] md:pt-[72px]">
           <div className="max-w-[620px] space-x-2.5 md:space-y-20">
             <h4 className="text-[19px] font-normal text-white sm:text-[24px]/[32px] md:text-[32px]/[42px] lg:text-[42px]/[52px] xl:text-[50.98px]/[60px]">
               Download the realXmarket app and unlock the future of real estate today
@@ -139,9 +139,9 @@ export default function Home() {
             priority
           />
         </div>
-      </div> */}
+      </div>
 
-      <div className="relative bg-primary-300">
+      {/* <div className="relative bg-primary-300">
         <div className="container mx-auto flex w-full max-w-screen-2xl flex-col  justify-between px-4 py-8 md:flex-col md:px-6 md:pb-[48px] md:pt-[72px] lg:px-10 xl:flex-row xl:px-[107px]">
           <div className="max-w-[620px] space-y-6 md:space-y-20">
             <h4 className="text-[19px] font-normal text-white md:text-[50.98px]/[60px]">
@@ -174,12 +174,12 @@ export default function Home() {
               height={434}
               width={746}
               alt="realXmarket app preview"
-              className="h-[215px] w-[370px] md:h-[434px] md:w-[746px]"
+              className="h-[215px] w-[370px] md:w-full"
               priority
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
