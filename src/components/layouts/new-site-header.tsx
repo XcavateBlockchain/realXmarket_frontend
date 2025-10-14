@@ -19,7 +19,7 @@ export default function NewSiteHeader() {
       <div className="container mx-auto flex max-w-screen-2xl items-center justify-between p-4 lg:px-[107px]">
         <Link href={'/'}>
           <Image
-            src={'/images/Real_Market_logo.svg'}
+            src={'/svgs/realXmarket_logo.png'}
             alt="logo"
             width={191}
             height={48}

@@ -31,27 +31,27 @@ export const siteConfig = {
   whyChoose: [
     {
       title: 'Lower barrier to entry',
-      icon: '/svgs/realXmarket_low-barrier-to-entry.svg'
+      icon: '/svgs/realXmarket_lower-barrier-to-entry.png'
     },
     {
       title: 'Simplicity and automation',
-      icon: '/svgs/realXmarket_simplicity-and-automation.svg'
+      icon: '/svgs/realXmarket_simplicity-and-automation.png'
     },
     {
       title: 'Security and transparency',
-      icon: '/svgs/realXmarket_security-and-transparency.svg'
+      icon: '/svgs/realXmarket_security-and-transparency.png'
     },
     {
       title: 'Access to global investments',
-      icon: '/svgs/realXmarket_access-to-global-investments.svg'
+      icon: '/svgs/realXmarket_access-to-global-investments.png'
     },
     {
       title: 'All-in-one ecosystem',
-      icon: '/svgs/realXmarket_all-in-one-ecosystem.svg'
+      icon: '/svgs/realXmarket_all-in-one-ecosystem.png'
     },
     {
       title: 'Real-time insights',
-      icon: '/svgs/realXmarket_real-time-insights.svg'
+      icon: '/svgs/realXmarket_real-time-insights.png'
     }
   ],
 
@@ -73,7 +73,7 @@ export const siteConfig = {
     {
       title: 'Service Providers',
       description:
-        'Lawyers, letting agents, and property managers who add genuie value to realXmarket are also welcomed into our community. Gain visibility, generate leads automatically and position your business at the heart of the future property economy.',
+        'Verified lawyers, letting agents and property managers help deliver real value to the realXmarket and form part of the network. As their contribution grows, so does the value generated through the network effects.',
       image: '/svgs/realXmarket_service-provider-Image.png',
       text: 'Connect with more projects and grow your client base join realXmarket today'
     }

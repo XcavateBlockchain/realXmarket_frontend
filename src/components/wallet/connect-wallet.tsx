@@ -52,8 +52,8 @@ export default function ConnectWalletButton() {
                 <Image
                   src="/images/mobile_connect.svg"
                   alt="mobile_connect"
-                  width={24}
-                  height={24}
+                  width={48}
+                  height={48}
                 />
               </>
             )}
@@ -90,9 +90,9 @@ export default function ConnectWalletButton() {
 
   return (
     <Button
-      variant={selectedAddress ? 'outline' : 'default'}
+      variant={'outline'}
       className={cn('flex shrink-0', {
-        'text-foreground': selectedAddress !== undefined
+        'border-primary-300 hover:bg-primary/10': selectedAddress !== undefined
       })}
       onClick={handleButtonClick}
       fullWidth={screenSize === SCREENS.mobile}
@@ -104,7 +104,14 @@ export default function ConnectWalletButton() {
         </>
       ) : (
         <>
-          CONNECT <Icons.wallet className="size-6" />
+          CONNECT
+          <Image
+            src="/images/mobile_connect.svg"
+            alt="mobile_connect"
+            width={48}
+            height={48}
+            className="size-6 md:size-7"
+          />
         </>
       )}
       <span className="sr-only">Toggle View Wallet</span>
