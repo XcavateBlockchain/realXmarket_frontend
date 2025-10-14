@@ -21,26 +21,36 @@ export default function SiteFooter() {
             Powered by
           </span>
           <Image
-            src={'/images/xcavate_logo.svg'}
+            src={'/images/xcavate_logo.png'}
             alt="logo"
             width={100}
             height={32}
+            className="w-[100px] md:w-[200px]"
             priority
           />
         </div>
 
         <div className="flex flex-col gap-6 md:gap-1">
           <div className="flex items-center justify-center gap-6 md:justify-end">
-            <Link href={'#'} className="text-primary hover:text-primary-300">
+            <Link
+              href={'https://x.com/realXmarketuk'}
+              className="text-primary hover:text-primary-300"
+            >
               <Icons.xTwitter className="size-8" />
             </Link>
-            <Link href={'#'} className="text-primary hover:text-primary-300">
-              <Icons.discord className="size-8" />
+            <Link
+              href={'https://www.instagram.com/xcavate_realxmarket/'}
+              className="text-primary hover:text-primary-300"
+            >
+              <Icons.instagram className="size-8" />
             </Link>
             {/* <Link href={'#'} className="text-primary hover:text-transparent hover:text-clip hover:bg-x-gradient">
             <Icons.linkedin className="size-8" />
           </Link> */}
-            <Link href={'#'} className="text-primary hover:text-primary-300">
+            <Link
+              href={'https://www.youtube.com/@Xcavate-RealXMarket'}
+              className="text-primary hover:text-primary-300"
+            >
               <Icons.youtube className="size-8" />
             </Link>
           </div>
@@ -56,6 +66,8 @@ export default function SiteFooter() {
 const FooterLink = ({ title, href }: { title: string; href: string }) => (
   <Link
     href={href}
+    target="_blank"
+    rel="noopener noreferrer"
     className="font-sans text-[14px]/[18px] text-[#191A1B]/[0.85] underline-offset-4 hover:underline lg:text-[1.125rem]"
   >
     {title}
