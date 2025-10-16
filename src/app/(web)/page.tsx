@@ -62,7 +62,7 @@ export default function Home() {
           At realXmarket, Our mission is to give anyone aspiring to property ownership a
           starting point as a fractional landlord. Scan verified investment opportunities in
           the new-build rental market, start at a level you&apos;re comfortable with, and build
-          up your portfolio. he system provides extra rewards for network participants, like
+          up your portfolio. The system provides extra rewards for network participants, like
           real estate developers, who respect regional communities and the environment.
         </p>
       </div>

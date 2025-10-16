@@ -110,7 +110,7 @@ export const PropertyDetails = ({ form }: IForm) => (
           {...form.register('property_type')}
         /> */}
       <SelectInput
-        label="ADD A LIGAL REPRESENTATIVE"
+        label="ADD A LEGAL REPRESENTATIVE"
         placeholder="select"
         options={legalRepresentatives}
         {...form.register('legal_representative')}

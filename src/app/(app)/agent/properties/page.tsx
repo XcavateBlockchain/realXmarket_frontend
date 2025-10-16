@@ -7,7 +7,7 @@ export default function AgentProperties({
 }: {
   searchParams: { status: string };
 }) {
-  const types = ['NEWLY LISTED', 'UNDER INSTRCTION', 'RENTED'];
+  const types = ['NEWLY LISTED', 'UNDER INSTRUCTION', 'RENTED'];
 
   const BASE_URL = '/developer/properties';
   const selected = status === undefined ? 'NEWLY LISTED' : status;
