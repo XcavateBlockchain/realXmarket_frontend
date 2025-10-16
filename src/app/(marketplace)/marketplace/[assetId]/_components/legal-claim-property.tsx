@@ -89,7 +89,7 @@ function ClaimPropertySuccess() {
             View Draft
           </Button>
           <Button variant={'outline'} fullWidth>
-            Cancel Clam
+            Cancel Claim
           </Button>
         </div>
       </div>

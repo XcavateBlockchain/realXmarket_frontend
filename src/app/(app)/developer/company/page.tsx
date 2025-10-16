@@ -33,7 +33,7 @@ export default function Page() {
           title="Address"
           value={
             developer?.address ??
-            'Developed over five hundred different developemnts all across UK'
+            'Developed over five hundred different developments all across UK'
           }
         />
         <DescriptionList
@@ -45,7 +45,7 @@ export default function Page() {
           title="Summary"
           value={
             developer?.summary ??
-            'Developed over five hundred different developemnts all across UK'
+            'Developed over five hundred different developments all across UK'
           }
         />
       </div>
