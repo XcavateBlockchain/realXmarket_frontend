@@ -24,7 +24,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          run_install: false
+          run_install: true
 
       - name: Get pnpm store directory
         id: pnpm-cache
