@@ -59,8 +59,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.6.1
-          run_install: false
+          run_install: true
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -97,8 +96,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.6.1
-          run_install: false
+          run_install: true
 
       - name: Get pnpm store directory
         id: pnpm-cache
