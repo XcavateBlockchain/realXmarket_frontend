@@ -2,7 +2,7 @@ import { checkBlock, getItemMetadata } from '@/lib/queries';
 import { generatePresignedUrl } from '@/lib/s3';
 import { hexToString } from '@/lib/utils';
 import { Listing } from '@/types';
-import { AnyJson } from '@polkadot/types/types';
+import { RawListing } from './page';
 
 export function getKeyValue<T = unknown>(obj: unknown, key: string): T | undefined {
   if (obj && typeof obj === 'object' && key in (obj as Record<string, unknown>)) {
@@ -78,7 +78,7 @@ export function extractPropertyPrice(listing: Listing, meta: any): number | null
 }
 
 export async function fetchListingMetadata(
-  rawListings: Array<{ listingId: AnyJson; listingDetails: AnyJson }>
+  rawListings: RawListing[]
 ): Promise<Array<Listing>> {
   const listingData: Array<Listing> = (
     await Promise.all(

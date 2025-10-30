@@ -11,6 +11,7 @@ import {
   norm,
   parseRange
 } from './utils';
+import { AnyJson } from '@polkadot/types/types';
 
 // This doesn't seem to be used anywhere.
 export const maxDuration = 300;
@@ -19,10 +20,15 @@ type MarketplaceProps = {
   searchParams?: Record<string, string>;
 };
 
-export default async function Marketplace({ searchParams }: MarketplaceProps) {
-  const rawListings = await getAllOngoingListings();
+export type RawListing = {
+  listingId: AnyJson;
+  listingDetails: AnyJson;
+};
 
-  const listingData = await fetchListingMetadata(rawListings.filter(l => l !== null));
+export default async function Marketplace({ searchParams }: MarketplaceProps) {
+  const rawListings = (await getAllOngoingListings()).filter(Boolean) as RawListing[];
+
+  const listingData = await fetchListingMetadata(rawListings);
 
   const townCitySet = new Map<string, string>();
   for (const l of listingData) {
