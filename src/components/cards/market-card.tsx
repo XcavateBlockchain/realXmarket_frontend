@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState, MouseEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Icons } from '../icons';
@@ -5,6 +8,29 @@ import { IProperty, ListingDetails } from '@/types';
 import { ImageIcon } from 'lucide-react';
 import { formatAPY, formatPrice, truncate } from '@/lib/utils';
 import ImageComponent from '../image-component';
+import { useWalletContext } from '@/context/wallet-context';
+
+function favKey(addr?: string) {
+  return `market_favorites_v1:${addr || 'guest'}`;
+}
+
+function readFavs(addr?: string): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(favKey(addr));
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeFavs(next: string[], addr?: string) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(favKey(addr), JSON.stringify([...new Set(next)]));
+  } catch {}
+}
 
 export default function MarketCard({
   id,
@@ -21,7 +47,38 @@ export default function MarketCard({
   metaData: IProperty;
   price?: any;
 }) {
-  //
+  const { selectedAccount } = useWalletContext();
+  const address = selectedAccount?.[0]?.address as string | undefined;
+
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    const favs = readFavs(address);
+    setIsFav(favs.includes(id));
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === favKey(address)) setIsFav(readFavs(address).includes(id));
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, [id, address]);
+
+  const toggleFav = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const favs = readFavs(address);
+    const next = favs.includes(id) ? favs.filter((x) => x !== id) : [...favs, id];
+    writeFavs(next, address);
+    setIsFav(next.includes(id));
+    try {
+      window.dispatchEvent(new CustomEvent('favorites:update', { detail: { address } }));
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('favorites');
+        bc.postMessage({ type: 'update', address });
+        bc.close();
+      }
+    } catch {}
+  };
+
   return (
     <Link
       href={`/marketplace/${id}`}
@@ -78,8 +135,19 @@ export default function MarketCard({
               <span className="capitalize">{metaData.address_town_city}</span>
             </h3>
           </div>
-          <Icons.heart className="size-8" />
+
+          <button
+            onClick={toggleFav}
+            aria-pressed={isFav}
+            aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+            className="rounded-full p-1"
+          >
+            <Icons.heart
+              className={`size-8 transition ${isFav ? 'text-red-500' : 'text-gray-300 hover:text-primary'}`}
+            />
+          </button>
         </div>
+
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
             <dt className=" font-bold">{truncate(metaData.property_name, 20)}</dt>
@@ -93,9 +161,7 @@ export default function MarketCard({
           <div className="flex items-center justify-between">
             <dt className="font-sans text-[0.875rem]/[1.5rem]">
               {tokenRemaining === '0' ? (
-                <span className="rounded bg-primary-300 p-1 font-bold text-white">
-                  Sold Out
-                </span>
+                <span className="rounded bg-primary-300 p-1 font-bold text-white">Sold Out</span>
               ) : (
                 <>
                   Tokens <span className="font-bold">{tokenRemaining}</span>
