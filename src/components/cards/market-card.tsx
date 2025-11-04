@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState, MouseEvent, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Icons } from '../icons';
@@ -5,6 +8,8 @@ import { IProperty, ListingDetails } from '@/types';
 import { ImageIcon } from 'lucide-react';
 import { formatAPY, formatPrice, truncate } from '@/lib/utils';
 import ImageComponent from '../image-component';
+import { useWalletContext } from '@/context/wallet-context';
+import { readFavs, writeFavs } from '@/app/(marketplace)/marketplace/utils';
 
 export default function MarketCard({
   id,
@@ -21,7 +26,39 @@ export default function MarketCard({
   metaData: IProperty;
   price?: any;
 }) {
-  //
+  const { selectedAccount } = useWalletContext();
+  const address = selectedAccount?.[0]?.address as string | undefined;
+
+  const [favs, setFavs] = useState<string[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const list = await readFavs(address);
+        if (!alive) return;
+        setFavs(Array.isArray(list) ? list : []);
+      } catch {
+        if (alive) setFavs([]);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [address]);
+
+  const isFav = useMemo(() => favs.includes(id), [favs, id]);
+
+  const toggleFav = useCallback(() => {
+    setFavs(prev => {
+      const next = prev.includes(id) ? prev.filter(x => x !== id) : [id, ...prev];
+      Promise.resolve(writeFavs(next, address)).catch(() => {
+        /* optionally revert on error */
+      });
+      return next;
+    });
+  }, [address, id]);
+
   return (
     <Link
       href={`/marketplace/${id}`}
@@ -78,8 +115,22 @@ export default function MarketCard({
               <span className="capitalize">{metaData.address_town_city}</span>
             </h3>
           </div>
-          <Icons.heart className="size-8" />
+
+          <button
+            onClick={e => {
+              e.preventDefault();
+              toggleFav();
+            }}
+            aria-pressed={isFav}
+            aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+            className="rounded-full p-1"
+          >
+            <Icons.heart
+              className={`size-8 transition ${isFav ? 'text-red-500' : 'text-gray-300 hover:text-primary'}`}
+            />
+          </button>
         </div>
+
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
             <dt className=" font-bold">{truncate(metaData.property_name, 20)}</dt>
