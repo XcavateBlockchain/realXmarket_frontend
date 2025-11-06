@@ -4,15 +4,29 @@ import { gql, useQuery } from '@apollo/client';
 import PropertyListingCard from './property-listing-card';
 import { useSearchParams } from 'next/navigation';
 import Skeleton from '@/components/skelton';
+import Pagination from './pagination';
+import {
+  ITEMS_PER_PAGE,
+  DEFAULT_PAGE,
+  DEFAULT_MIN_PROPERTY_PRICE,
+  DEFAULT_MAX_PROPERTY_PRICE,
+  DEFAULT_MIN_TOKEN_PRICE,
+  DEFAULT_MAX_TOKEN_PRICE,
+  DEFAULT_SORT_ORDER,
+  LOADING_SKELETON_COUNT,
+  FILTER_ALL_VALUE
+} from '../constants';
 
-// GraphQL query with filter variables
+// GraphQL query with filter variables and pagination
 const GET_PROPERTY_LISTINGS = gql`
   query GetPropertyListings(
     $first: Int
+    $offset: Int
     $orderBy: [PropertyListingsOrderBy!]
     $filter: PropertyListingFilter
   ) {
-    propertyListings(first: $first, orderBy: $orderBy, filter: $filter) {
+    propertyListings(first: $first, offset: $offset, orderBy: $orderBy, filter: $filter) {
+      totalCount
       nodes {
         id
         nftItemId
@@ -59,18 +73,25 @@ export default function Listings() {
   const tokenPrice = searchParams?.get('tokenPrice') ?? '';
   const propertyType = searchParams?.get('propertyType') ?? '';
 
+  // Get current page from URL (default to 1)
+  const currentPage = parseInt(searchParams?.get('page') ?? String(DEFAULT_PAGE), 10);
+
   const isPropertyPrice = propertyPrice ? propertyPrice?.split('-').map(Number) : null;
   const isTokenPrice = tokenPrice ? tokenPrice?.split('-').map(Number) : null;
 
-  const minPropertyPrice = isPropertyPrice ? isPropertyPrice[0] : 0;
-  const maxPropertyPrice = isPropertyPrice ? isPropertyPrice[1] : 1000000;
-  const minTokenPrice = isTokenPrice ? isTokenPrice[0] : 0;
-  const maxTokenPrice = isTokenPrice ? isTokenPrice[1] : 10000;
+  const minPropertyPrice = isPropertyPrice ? isPropertyPrice[0] : DEFAULT_MIN_PROPERTY_PRICE;
+  const maxPropertyPrice = isPropertyPrice ? isPropertyPrice[1] : DEFAULT_MAX_PROPERTY_PRICE;
+  const minTokenPrice = isTokenPrice ? isTokenPrice[0] : DEFAULT_MIN_TOKEN_PRICE;
+  const maxTokenPrice = isTokenPrice ? isTokenPrice[1] : DEFAULT_MAX_TOKEN_PRICE;
 
   const buildFilterObject = () => {
+    // Calculate offset for pagination: (page - 1) * items_per_page
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
     const variables: any = {
-      first: 10,
-      orderBy: ['BLOCK_NUMBER_DESC']
+      first: ITEMS_PER_PAGE, // Number of items per page
+      offset: offset, // Skip items from previous pages
+      orderBy: [DEFAULT_SORT_ORDER]
     };
 
     if (
@@ -117,7 +138,7 @@ export default function Listings() {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 gap-4 rounded-lg sm:grid-cols-2 lg:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: LOADING_SKELETON_COUNT }).map((_, i) => (
           <Skeleton
             key={i}
             className="h-[442px] w-full md:h-[383px] md:w-[320px] lg:h-[366px] lg:w-[317px]"
@@ -138,14 +159,26 @@ export default function Listings() {
     );
   }
 
+  // Calculate total pages from GraphQL totalCount
+  const totalCount = data?.propertyListings?.totalCount ?? 0;
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
   return (
     <>
       {data && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {data.propertyListings.nodes.map((property: any) => (
-            <PropertyListingCard key={property.id} listing={property} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {data.propertyListings.nodes.map((property: any) => (
+              <PropertyListingCard key={property.id} listing={property} />
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="mt-6">
+              <Pagination currentPage={currentPage} totalPages={totalPages} />
+            </div>
+          )}
+        </>
       )}
     </>
   );
