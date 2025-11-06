@@ -34,16 +34,25 @@ export default function SiteFooter() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link href={'#'} className="text-black hover:text-primary-300">
+          <Link
+            href={'https://x.com/realXmarketuk'}
+            className="text-black hover:text-primary-300"
+          >
             <Icons.xTwitter className="size-6" />
           </Link>
-          <Link href={'#'} className="text-black hover:text-primary-300">
+          <Link
+            href={'https://discord.gg/4d5Pxq5q'}
+            className="text-black hover:text-primary-300"
+          >
             <Icons.discord className="size-6" />
           </Link>
           {/* <Link href={'#'} className="text-black hover:text-transparent hover:text-clip hover:bg-x-gradient">
             <Icons.linkedin className="size-6" />
           </Link> */}
-          <Link href={'#'} className="text-black hover:text-primary-300">
+          <Link
+            href={'https://www.youtube.com/@Xcavate-RealXMarket'}
+            className="text-black hover:text-primary-300"
+          >
             <Icons.youtube className="size-6" />
           </Link>
         </div>
