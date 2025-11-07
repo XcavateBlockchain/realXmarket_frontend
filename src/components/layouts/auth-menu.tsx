@@ -27,8 +27,8 @@ export default function AuthMenu() {
             investorType
               ? `/${investorType}`
               : investorType === 'investor'
-                ? '/profile'
-                : '/profile'
+                ? '/profile/portfolio'
+                : '/profile/portfolio'
           }
           title="Profile"
         />

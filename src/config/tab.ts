@@ -10,19 +10,14 @@ export interface DashboardConfig {
 export const tabConfig: DashboardConfig = {
   invertor: [
     {
-      title: 'profile',
-      href: '/profile',
-      icon: '/icons/profile.svg'
-    },
-    {
-      title: 'portfolio',
+      title: 'properties',
       href: '/profile/portfolio',
       icon: '/icons/portfolio.svg'
     },
     {
-      title: 'loan',
-      href: '/profile/loan',
-      icon: '/icons/loan-pool.svg'
+      title: 'message',
+      href: '/profile/wallet',
+      icon: '/icons/id.svg'
     },
     {
       title: 'transactions',
@@ -30,14 +25,9 @@ export const tabConfig: DashboardConfig = {
       icon: '/icons/capital_purchase.svg'
     },
     {
-      title: 'wallet access',
-      href: '/profile/wallet',
-      icon: '/icons/bank.svg'
-    },
-    {
-      title: 'message',
-      href: '/profile/wallet',
-      icon: '/icons/id.svg'
+      title: 'Account',
+      href: '/profile',
+      icon: '/icons/profile.svg'
     }
   ],
   developer: [
