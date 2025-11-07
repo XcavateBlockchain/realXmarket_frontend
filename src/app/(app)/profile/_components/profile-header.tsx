@@ -77,7 +77,10 @@ export default function ProfileHeaderOverview({
 
       <div className="grid w-full grid-cols-2 gap-5 lg:grid-cols-4">
         <OverviewCard title="Property tokens bought" value={totalTokensOwned} />
-        <OverviewCard title="Total invested" value={`$${formatNumber(totalInvested)}`} />
+        <OverviewCard
+          title="Total invested"
+          value={`$${formatNumber(totalInvested, { notation: 'compact' })}`}
+        />
         <OverviewCard title="ROI" value={'0%'} />
         <OverviewCard title="Active loan" value={'£0'} />
       </div>
