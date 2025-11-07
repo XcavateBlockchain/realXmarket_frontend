@@ -137,7 +137,7 @@ export default async function Marketplace({ searchParams }: MarketplaceProps) {
         />
       </Suspense>
 
-      <div className="flex flex-col gap-6 px-4">
+      <div className="flex flex-col gap-6 px-4 md:p-[50px]">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <Button>Marketplace</Button>

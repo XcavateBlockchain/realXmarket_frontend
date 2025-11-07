@@ -213,7 +213,7 @@ export default function FilterTabs({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between pb-6">
+      <div className="flex items-center justify-between px-4 pb-6 md:px-[50px]">
         <Popover open={searchOpen} onOpenChange={setSearchOpen}>
           <PopoverTrigger asChild>
             <div className="w-[520px]">
@@ -267,7 +267,7 @@ export default function FilterTabs({
       </div>
 
       <Popover>
-        <div className="hidden w-full grid-cols-5 gap-6 border-b pb-10  lg:grid">
+        <div className="hidden w-full grid-cols-5 gap-6 border-b px-4 pb-10 md:px-[50px] lg:grid">
           <FilterSelect
             key={`country-${resetKey}`}
             label="COUNTRY"
