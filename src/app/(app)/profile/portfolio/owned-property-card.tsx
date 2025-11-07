@@ -168,10 +168,9 @@ export default function OwnedPropertyCard({
           {metaData.property_type}
         </span>
       </div>
-
       {passed && (
-        <div className=" absolute left-[50px] top-[50px]">
-          <span className="absolute rotate-[-30.6deg] text-[60px] font-bold text-primary-400">
+        <div className="absolute right-4 top-4">
+          <span className="items-center gap-1 rounded-lg bg-primary-300 px-2 py-[2px] text-[0.75rem] text-white">
             Expired
           </span>
         </div>
