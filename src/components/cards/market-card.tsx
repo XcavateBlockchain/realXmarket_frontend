@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState, MouseEvent, useCallback, useMemo } from 'react';
-import Image from 'next/image';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { Icons } from '../icons';
-import { IProperty, ListingDetails } from '@/types';
+import { IPropertyMetadata, ListingDetails } from '@/types';
 import { ImageIcon } from 'lucide-react';
 import { formatAPY, formatPrice, truncate } from '@/lib/utils';
 import ImageComponent from '../image-component';
@@ -16,14 +15,14 @@ export default function MarketCard({
   fileUrls,
   tokenRemaining,
   metaData,
-  details,
+  details: _details,
   price
 }: {
   id: string;
   fileUrls: string[];
   details: ListingDetails;
   tokenRemaining: any;
-  metaData: IProperty;
+  metaData: IPropertyMetadata;
   price?: any;
 }) {
   const { selectedAccount } = useWalletContext();
@@ -71,9 +70,7 @@ export default function MarketCard({
             <ImageComponent
               fill={true}
               src={fileUrls[0]}
-              alt={metaData.property_name}
-              // width={320}
-              //   height={255}
+              alt={metaData.propertyName}
               className="rounded-t-lg object-cover"
             />
           </div>
@@ -94,7 +91,7 @@ export default function MarketCard({
 
       <div className="absolute inset-4">
         <span className="items-center gap-1 rounded-lg bg-white px-2 py-[2px] text-[0.75rem] text-primary-200">
-          {metaData.property_type}
+          {metaData.propertyType}
         </span>
       </div>
 
@@ -109,10 +106,10 @@ export default function MarketCard({
               height={32}
               // className="pointer-events-none"
             /> */}
-            <h3 className="text-md mt-1">
-              <span className="capitalize">{metaData.address_street}</span>
+            <h3 className="mt-1 text-base">
+              <span className="capitalize">{metaData.address.street}</span>
               {', '}
-              <span className="capitalize">{metaData.address_town_city}</span>
+              <span className="capitalize">{metaData.address.townCity}</span>
             </h3>
           </div>
 
@@ -133,11 +130,14 @@ export default function MarketCard({
 
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
-            <dt className=" font-bold">{truncate(metaData.property_name, 20)}</dt>
+            <dt className=" font-bold">{truncate(metaData.propertyName, 20)}</dt>
             <dd className="">
               APY{' '}
               <span className="font-bold">
-                {formatAPY(metaData.estimated_rental_income, metaData.property_price)}
+                {formatAPY(
+                  metaData.financials.estimatedRentalIncome || 0,
+                  metaData.financials.propertyPrice
+                )}
               </span>
             </dd>
           </div>
@@ -156,7 +156,7 @@ export default function MarketCard({
             <dd className="font-sans text-[0.875rem]/[1.5rem]">
               Price{' '}
               <span className="font-bold">
-                {price ? formatPrice(price) : formatPrice(metaData.property_price)}
+                {price ? formatPrice(price) : formatPrice(metaData.financials.propertyPrice)}
               </span>
             </dd>
           </div>

@@ -76,6 +76,7 @@ export type MediaRefs = {
 export type Address = {
   street: string;
   townCity: string;
+  flatOrUnit: string;
   postCode: string;
   localAuthority: string;
   region?: string; // Optional; string is more flexible than number
@@ -107,7 +108,6 @@ export type PropertyMetadata = {
   id: string; // canonical resource ID (UUID or slug)
   status: PropertyStatus;
   developerAddress: string; // chain address (SS58/hex)
-  propertyNumber: string; // developer internal reference
   propertyName: string;
   propertyType: PropertyType;
   address: Address;

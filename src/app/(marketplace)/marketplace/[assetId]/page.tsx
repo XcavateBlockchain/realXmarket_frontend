@@ -7,10 +7,9 @@ import {
   getPropertyDetails,
   getPropertyOwners,
   getTokenOwnerByListingId,
-  getTokenRemaining,
   getTokensAndListingsOwnedByAccount
 } from '@/lib/queries';
-import { IProperty } from '@/types';
+import { IPropertyMetadata } from '@/types';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { hexToString } from '@/lib/utils';
@@ -47,11 +46,17 @@ export default async function Page({ params }: { params: { assetId: string } }) 
   }
 
   const itemString = item.data.startsWith('0x') ? hexToString(item.data) : item.data;
-  const metadata: IProperty = JSON.parse(itemString);
+  const metadata: IPropertyMetadata = JSON.parse(itemString);
+
+  // Get files from metadata (IPropertyMetadata has files array)
+  const filesArray = metadata.files || [];
 
   const fileUrls = await Promise.all(
-    metadata.files
-      .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
+    filesArray
+      .filter((fileKey: string) => {
+        const key = typeof fileKey === 'string' ? fileKey : String(fileKey);
+        return key.split('/')[2] === 'property_image' || key.includes('property_image');
+      })
       .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
   );
 
@@ -61,7 +66,8 @@ export default async function Page({ params }: { params: { assetId: string } }) 
   const property: any = await getPropertyById(Number(params.assetId));
   // console.log('property', property);
   const propertyOwners: any = await getPropertyOwners(Number(params.assetId));
-  const isPropertyOwner = propertyOwners.includes(address);
+  const isPropertyOwner =
+    propertyOwners && Array.isArray(propertyOwners) ? propertyOwners.includes(address) : false;
   const tokenOwner = await getTokenOwnerByListingId(address as string, Number(params.assetId));
 
   return (
@@ -98,7 +104,7 @@ export default async function Page({ params }: { params: { assetId: string } }) 
                   <img
                     key={file}
                     src={file}
-                    alt={metadata.property_name}
+                    alt={metadata.propertyName}
                     className="size-12 rounded-[2px]"
                   />
                 ))

@@ -5,7 +5,7 @@ import PropertyCard from './components/property-card';
 import { getCookieStorage } from '@/lib/cookie-storage';
 // import { fetchPropertiesWithFiles } from '@/lib/dynamo';
 import { Button } from '@/components/ui/button';
-import { IComponent, IProperty, Listing } from '@/types';
+import { IComponent, IProperty, IPropertyMetadata, Listing } from '@/types';
 import {
   getAllOngoingListingsWhereAddressIsDeveloper,
   getItemMetadata,
@@ -26,7 +26,9 @@ export default async function Page({
 
   const address = await getCookieStorage('accountKey');
 
-  const properties: IProperty[] = await fetchPropertiesForDeveloperPartners(address as string);
+  const properties: IPropertyMetadata[] = await fetchPropertiesForDeveloperPartners(
+    address as string
+  );
 
   const accountDetails = await getAllOngoingListingsWhereAddressIsDeveloper(address as string);
   async function fetchListedIProperties() {

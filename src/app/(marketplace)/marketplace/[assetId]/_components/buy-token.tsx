@@ -1,6 +1,6 @@
 'use client';
 
-import { IProperty, ListingDetails, STATE_STATUS } from '@/types';
+import { IPropertyMetadata, ListingDetails, STATE_STATUS } from '@/types';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -35,7 +35,7 @@ type AmountProps = {
   tokens: any;
   fileUrls: string[];
   data: ListingDetails;
-  property: IProperty;
+  property: IPropertyMetadata;
   close: () => void;
   setIndex: Dispatch<SetStateAction<number>>;
   setAmount: Dispatch<SetStateAction<number>>;
@@ -58,7 +58,7 @@ function SelectAmount({
 
   const handleAmountChange: OnValueChange = ({ value }) =>
     setAmount(parseInt(value.replace(/,/g, '')));
-  const totalPrice = 1.5 * property.price_per_token;
+  const totalPrice = 1.5 * property.financials.pricePerToken;
 
   return (
     <>
@@ -71,7 +71,7 @@ function SelectAmount({
       <div className="flex items-center gap-4">
         <Image
           src={fileUrls[0]}
-          alt={property.property_name}
+          alt={property.propertyName}
           width={100}
           height={100}
           className=" size-[100px] object-cover"
@@ -80,7 +80,7 @@ function SelectAmount({
         <div className="flex flex-col gap-2 text-[#4E4E4E]/[0.50]">
           <p className="text-[0.875rem]/[1.5rem]">Gade Homes</p>
           <h1 className="font-mona text-[1rem]/[1.5rem] font-medium text-foreground">
-            {property.property_name}
+            {property.propertyName}
           </h1>
           <div className="flex items-center gap-1">
             <Image
@@ -91,14 +91,14 @@ function SelectAmount({
               className="pointer-events-none"
             />
             <h3 className="font-sans  text-[0.875rem]/[1.5rem]">
-              {property.address_street} {property.address_town_city}
+              {property.address.street} {property.address.townCity}
             </h3>
           </div>
         </div>
       </div>
       <div className="flex w-full items-center justify-between  font-mona text-[1rem]/[1.5rem] font-medium">
         <span>Price per Token</span>
-        <span>{formatPrice(property.price_per_token)}</span>
+        <span>{formatPrice(property.financials.pricePerToken)}</span>
       </div>
 
       <div className="flex w-full flex-col gap-2 rounded bg-[#4E4E4E]/[0.06] p-2 font-sans text-[0.875rem]/[1.5rem]">
@@ -129,7 +129,7 @@ function SelectAmount({
               placeholder="0"
               thousandSeparator=","
               allowNegative={false}
-              max={property.number_of_tokens}
+              max={property.financials.numberOfTokens}
               onValueChange={handleAmountChange}
             />
             <button
@@ -179,7 +179,7 @@ type SummaryProps = {
   amount: number;
   fileUrls: string[];
   data: ListingDetails;
-  property: IProperty;
+  property: IPropertyMetadata;
   listingId: number;
   close: () => void;
   setIndex: Dispatch<SetStateAction<number>>;
@@ -304,7 +304,7 @@ function PurchaseSummary({
     };
   }, [api, listingId, amount, asset]);
 
-  const totalPrice = 1.3 * property.price_per_token;
+  const totalPrice = 1.3 * property.financials.pricePerToken;
   return (
     <>
       <div className="flex w-full items-center justify-between">
@@ -317,7 +317,7 @@ function PurchaseSummary({
         <div className="flex items-center gap-4">
           <Image
             src={fileUrls[0]}
-            alt={property.property_name}
+            alt={property.propertyName}
             width={100}
             height={100}
             className=" size-[100px] object-cover"
@@ -326,7 +326,7 @@ function PurchaseSummary({
           <div className="flex flex-col gap-2 text-[#4E4E4E]/[0.50]">
             <p className="text-[0.875rem]/[1.5rem]">Gade Homes</p>
             <h1 className="font-mona text-[1rem]/[1.5rem] font-medium text-foreground">
-              {property.property_name}
+              {property.propertyName}
             </h1>
             <div className="flex items-center gap-1">
               <Image
@@ -337,13 +337,16 @@ function PurchaseSummary({
                 className="pointer-events-none"
               />
               <h3 className="font-sans  text-[0.875rem]/[1.5rem]">
-                {property.address_street} {property.address_town_city}
+                {property.address.street} {property.address.townCity}
               </h3>
             </div>
           </div>
         </div>
         <dl className="flex w-full flex-col items-start gap-4">
-          <ItemList title="Token price" value={formatPrice(property.price_per_token)} />
+          <ItemList
+            title="Token price"
+            value={formatPrice(property.financials.pricePerToken)}
+          />
           <ItemList title="To buy" value={`${amount} Tokens`} />
           <ItemList title="To pay" value={`${formatNumber(amount * totalPrice)} USDT`} />
           <ItemList
@@ -436,7 +439,7 @@ export default function BuyToken({
   listingId: number;
   tokens: any;
   fileUrls: string[];
-  property: IProperty;
+  property: IPropertyMetadata;
   data: ListingDetails;
   totalTokensOwned: any;
 }) {

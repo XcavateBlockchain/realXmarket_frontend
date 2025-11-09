@@ -332,28 +332,52 @@ export async function getTokenOwnerByListingId(address: string, listingId: numbe
 }
 
 export async function getTokensAndPropertyClaimed() {
-  const api = await apiPRomise;
-  const data = await api.query.realEstateAsset.propertyOwner.entries();
+  try {
+    const api = await apiPRomise;
+    // Check if propertyOwner exists and supports entries()
+    if (!api.query.realEstateAsset?.propertyOwner) {
+      return [];
+    }
 
-  return data.map(([key, exposure]) => {
-    return {
-      listingId: key.args[0].toHuman(),
-      address: exposure.toHuman()
-    };
-  });
+    const propertyOwnerQuery = api.query.realEstateAsset.propertyOwner;
+    // Check if it's a storage map that supports entries()
+    if (typeof propertyOwnerQuery.entries !== 'function') {
+      return [];
+    }
+
+    const data = await propertyOwnerQuery.entries();
+
+    return data.map(([key, exposure]) => {
+      return {
+        listingId: key.args[0].toHuman(),
+        address: exposure.toHuman()
+      };
+    });
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function getTokensAndPropertyOwnedByAccount(address: string) {
-  const propertyClaimed: any = await getTokensAndPropertyClaimed();
-  const propertyOwned = propertyClaimed.map((item: any) => {
-    return item.address.includes(address) ? item : null;
-  });
+  try {
+    const propertyClaimed: any = await getTokensAndPropertyClaimed();
+    if (!propertyClaimed || !Array.isArray(propertyClaimed)) {
+      return [];
+    }
 
-  // {
-  //   listingId: item.listingId,
-  //   address: item.address.includes(address)
-  // };
-  return propertyOwned;
+    const propertyOwned = propertyClaimed
+      .filter((item: any) => item && item.address)
+      .map((item: any) => {
+        // Handle both array and string addresses
+        const addresses = Array.isArray(item.address) ? item.address : [item.address];
+        return addresses.includes(address) ? item : null;
+      })
+      .filter((item: any) => item !== null);
+
+    return propertyOwned;
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function getAllProperty() {

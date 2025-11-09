@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import PropertyInformationForm from './property-informtion-form';
 import PricingDetailsForm from './pricing-details-form';
 import PropertyFeaturesForm from './property-features-form';
-import { CircleCheckBig, LoaderCircle } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
 import { STATE_STATUS } from '@/types';
 import { useState } from 'react';
@@ -92,11 +92,6 @@ function Step({
 }) {
   return (
     <div className="flex items-center gap-2">
-      {/* {passed ? (
-        <span className="flex size-7 items-center justify-center rounded-full bg-[#78B36E] text-white">
-          <CircleCheckBig size={16} />
-        </span>
-      ) : ( */}
       <span
         className={cn(
           'flex size-7 items-center justify-center rounded-full border border-[#9D9D9D] font-mona text-[14px]/[13.5px] font-semibold text-[#9D9D9D]',
@@ -108,7 +103,6 @@ function Step({
       >
         {step}
       </span>
-      {/* // )} */}
       <span
         className={cn('font-sans text-[14px]/[24px]', {
           'border-[#457461] text-[#457461]': current,

@@ -138,6 +138,26 @@ export type IProperty = {
   legal_representative: string;
 };
 
+// New property type based on PropertyMetadata schema
+import { PropertyMetadata } from '@/lib/property-model';
+
+/**
+ * Property type based on the new PropertyMetadata schema structure.
+ * This is the new standard type that uses nested objects and camelCase naming.
+ *
+ * Additional fields for database/UI compatibility:
+ * - propertyId: Database ID
+ * - accountAddress: Developer's account address
+ * - files: Array of file keys/URIs
+ * - fileUrls: Pre-signed URLs for file access
+ */
+export type IPropertyMetadata = PropertyMetadata & {
+  propertyId?: number | string; // Database ID (optional for new properties)
+  accountAddress?: string; // Developer's account address
+  files?: string[]; // Array of file keys/URIs stored in database
+  fileUrls?: string[]; // Pre-signed URLs for file access (computed)
+};
+
 export interface Company {
   name: string;
   description: string;

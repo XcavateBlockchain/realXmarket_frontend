@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ProgressGradient } from '@/components/ui/progress';
 import Image from 'next/image';
 import BuyToken from './buy-token';
-import { IProperty, ListingDetails } from '@/types';
+import { IPropertyMetadata, ListingDetails } from '@/types';
 import {
   blocksLeftToTime,
   cn,
@@ -29,7 +29,7 @@ import { useNodeContext } from '@/context';
 type PropertyOverviewProps = {
   listingId: any;
   tokensRemaining: any;
-  metaData: IProperty;
+  metaData: IPropertyMetadata;
   listingDetails: ListingDetails;
   propertyInfo: any;
   fileUrls: string[];
@@ -64,8 +64,8 @@ export default function PropertyOverView({
   const [expiryTimeForLegalProcess, setExpiryTimeForLegalProcess] = useState<string>('');
   const [expiryTimeForVoting, setExpiryTimeForVoting] = useState<string>('');
   const SimilarPropertyPrice = useMemo(
-    () => priceRangeFormat(metaData.property_price),
-    [metaData.property_price]
+    () => priceRangeFormat(metaData.financials.propertyPrice),
+    [metaData.financials.propertyPrice]
   );
 
   const {
@@ -118,18 +118,22 @@ export default function PropertyOverView({
   }, [propertyInfo.tokenPrice]);
 
   const formattedRentalYield = useMemo(
-    () => formatAPY(metaData.estimated_rental_income, metaData.property_price),
-    [metaData.estimated_rental_income, metaData.property_price]
+    () =>
+      formatAPY(
+        metaData.financials.estimatedRentalIncome || 0,
+        metaData.financials.propertyPrice
+      ),
+    [metaData.financials.estimatedRentalIncome, metaData.financials.propertyPrice]
   );
 
   const formattedRentalIncome = useMemo(
-    () => formatPrice(metaData.estimated_rental_income),
-    [metaData.estimated_rental_income]
+    () => formatPrice(metaData.financials.estimatedRentalIncome || 0),
+    [metaData.financials.estimatedRentalIncome]
   );
 
   const formattedPropertyPrice = useMemo(
-    () => formatPrice(metaData.property_price),
-    [metaData.property_price]
+    () => formatPrice(metaData.financials.propertyPrice),
+    [metaData.financials.propertyPrice]
   );
 
   // Memoize conditional rendering logic
@@ -198,9 +202,9 @@ export default function PropertyOverView({
           <div className="flex items-center gap-1">
             <Icons.location className="size-6 p-0 text-primary" />
             <span className="flex items-center font-mona text-[1rem]/[1.5rem] font-medium">
-              <span className="capitalize">{metaData.address_street}</span>
+              <span className="capitalize">{metaData.address.street}</span>
               <span className="capitalize">
-                {`, `} {metaData.address_town_city}
+                {`, `} {metaData.address.townCity}
               </span>
             </span>
           </div>
@@ -215,9 +219,7 @@ export default function PropertyOverView({
           )}
         </div>
         <div className="flex w-full items-center justify-between">
-          <h1 className="font-mona text-[1.5rem]/[2rem] font-bold">
-            {metaData.property_name}
-          </h1>
+          <h1 className="font-mona text-[1.5rem]/[2rem] font-bold">{metaData.propertyName}</h1>
 
           {isPropertyLawyerInfoLoading ? (
             <Skeleton className="h-[25px] w-[124px]" />
@@ -281,7 +283,7 @@ export default function PropertyOverView({
             {shouldShowLegalClaimProperty ? (
               <LegalClaimProperty
                 listingId={Number(listingId)}
-                price={metaData.property_price}
+                price={metaData.financials.propertyPrice}
               />
             ) : shouldShowManageProperty ? (
               <Button asChild>
@@ -306,8 +308,12 @@ export default function PropertyOverView({
           }
         />
         <PropertyStats
-          title={`${metaData.annualServiceCharge ? 'Annual service charge' : 'Property type'}`}
-          value={metaData.annualServiceCharge ?? metaData.property_type}
+          title={`${metaData.financials.annualServiceCharge ? 'Annual service charge' : 'Property type'}`}
+          value={
+            metaData.financials.annualServiceCharge
+              ? formatPrice(metaData.financials.annualServiceCharge)
+              : metaData.propertyType
+          }
         />
         <PropertyStatsWithProgress
           title="Similar property prices"

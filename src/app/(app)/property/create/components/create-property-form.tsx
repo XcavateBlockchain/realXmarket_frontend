@@ -1,7 +1,13 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useZodForm } from '@/components/ui/form';
-import { propertyFormSchema, PropertyInput } from '@/lib/validations/property-schema';
+import {
+  propertyMetadataFormSchema,
+  PropertyMetadataFormInput,
+  propertyMetadataSchema,
+  PropertyMetadataInput
+} from '@/lib/validations/property-schema';
+import { PropertyStatus, PropertyType } from '@/lib/property-model';
 import { useState } from 'react';
 import { PropertyData, PropertyDetails, PropertyPricing } from './property-forms';
 import { cn } from '@/lib/utils';
@@ -37,56 +43,62 @@ export default function CreatePropertyForm() {
   };
 
   const form = useZodForm({
-    schema: propertyFormSchema,
+    schema: propertyMetadataFormSchema,
     defaultValues: {
-      number_of_tokens: '100'
+      financials: {
+        numberOfTokens: '100'
+      }
     }
   });
 
-  const propertyPrice = parseInt(form.watch('property_price')?.replace(/,/g, '') || '0');
-  const numberOfTokens = parseInt(form.watch('number_of_tokens')?.replace(/,/g, '') || '0');
+  const propertyPrice = parseInt(
+    form.watch('financials.propertyPrice')?.replace(/,/g, '') || '0'
+  );
+  const numberOfTokens = parseInt(
+    form.watch('financials.numberOfTokens')?.replace(/,/g, '') || '0'
+  );
 
   const tokenPrice = propertyPrice / numberOfTokens;
 
   const {
-    formState: { errors, dirtyFields },
+    formState: { errors },
     trigger
   } = form;
 
   // Define field groups for each page
   const pageFields = {
     0: [
-      'property_name',
-      'address_street',
-      'address_town_city',
-      'post_code',
-      'property_type',
-      'property_number',
-      'local_authority',
-      'planning_permission_Code',
+      'propertyName',
+      'address.street',
+      'address.townCity',
+      'address.postCode',
+      'propertyType',
+      'address.flatOrUnit',
+      'address.localAuthority',
+      'planningCode',
       'map',
-      'floor_plan',
-      'sales_agreement',
-      'building_control_code',
-      'legal_representative'
+      'floorPlan',
+      'salesAgreement',
+      'buildingControlCode',
+      'legalRepresentative'
     ] as const,
     1: [
-      'number_of_tokens',
-      'property_price',
-      'estimated_rental_income',
-      'annualServiceCharge',
-      'stampDutyTax'
+      'financials.numberOfTokens',
+      'financials.propertyPrice',
+      'financials.estimatedRentalIncome',
+      'financials.annualServiceCharge',
+      'financials.stampDutyTax'
     ] as const,
     2: [
-      'area',
-      'quality',
-      'outdoor_space',
-      'no_of_Bedrooms',
-      'construction_date',
-      'no_of_bathrooms',
-      'Off_street_parking',
-      'property_description',
-      'property_images'
+      'attributes.area',
+      'attributes.quality',
+      'attributes.outdoorSpace',
+      'attributes.numberOfBedrooms',
+      'attributes.constructionDate',
+      'attributes.numberOfBathrooms',
+      'attributes.offStreetParking',
+      'propertyDescription',
+      'propertyImages'
     ] as const
   };
 
@@ -174,7 +186,24 @@ export default function CreatePropertyForm() {
   //     setPage(page - 1);
   //   };
 
-  const onSubmit = async (data: PropertyInput) => {
+  // Helper function to map form property type string to PropertyType enum
+  const mapPropertyType = (formType: string): PropertyType => {
+    const typeMap: Record<string, PropertyType> = {
+      Apartment: PropertyType.Apartment,
+      Flat: PropertyType.Apartment, // Map Flat to Apartment
+      Bungalow: PropertyType.House, // Map Bungalow to House
+      Detached: PropertyType.House, // Map Detached to House
+      'Semi-Detached': PropertyType.House, // Map Semi-Detached to House
+      Terraced: PropertyType.Townhouse, // Map Terraced to Townhouse
+      House: PropertyType.House,
+      Townhouse: PropertyType.Townhouse,
+      Land: PropertyType.Land,
+      Commercial: PropertyType.Commercial
+    };
+    return typeMap[formType] || PropertyType.Apartment; // Default to Apartment if not found
+  };
+
+  const onSubmit = async (data: PropertyMetadataFormInput) => {
     setStatus(STATE_STATUS.LOADING);
 
     try {
@@ -189,16 +218,103 @@ export default function CreatePropertyForm() {
         return;
       }
 
-      // Create property first
-      const { floor_plan, sales_agreement, property_images, ...propertyData } = data;
+      // Transform form data to PropertyMetadata structure
+      const propertyPriceNum = parseFloat(data.financials.propertyPrice.replace(/,/g, ''));
+      const numberOfTokensNum = parseInt(data.financials.numberOfTokens.replace(/,/g, ''));
+      const pricePerTokenNum = propertyPriceNum / numberOfTokensNum;
+      const estimatedRentalIncomeNum = parseFloat(
+        data.financials.estimatedRentalIncome.replace(/,/g, '')
+      );
+      const annualServiceChargeNum = parseFloat(
+        data.financials.annualServiceCharge.replace(/,/g, '')
+      );
+      const stampDutyTaxNum = parseFloat(data.financials.stampDutyTax.replace(/,/g, ''));
+
+      const now = new Date().toISOString();
+      const propertyId = crypto.randomUUID();
+
+      // Build PropertyMetadata object
+      const propertyMetadata: PropertyMetadataInput = {
+        id: propertyId,
+        status: PropertyStatus.Draft,
+        developerAddress: address,
+        propertyName: data.propertyName,
+        propertyType: mapPropertyType(data.propertyType),
+        address: data.address,
+        planningCode: data.planningCode,
+        buildingControlCode: data.buildingControlCode,
+        legalRepresentative: data.legalRepresentative,
+        map: data.map || undefined, // Convert empty string to undefined for optional field
+        financials: {
+          propertyPrice: propertyPriceNum,
+          numberOfTokens: numberOfTokensNum,
+          pricePerToken: pricePerTokenNum,
+          estimatedRentalIncome: estimatedRentalIncomeNum,
+          annualServiceCharge: annualServiceChargeNum,
+          stampDutyTax: stampDutyTaxNum,
+          isStampDutyPaid: data.financials.isStampDutyPaid || false,
+          isAnnualServiceChargePaid: data.financials.isAnnualServiceChargePaid || false
+        },
+        attributes: {
+          area: data.attributes.area,
+          quality: data.attributes.quality,
+          outdoorSpace: data.attributes.outdoorSpace,
+          numberOfBedrooms: parseInt(data.attributes.numberOfBedrooms),
+          numberOfBathrooms: parseInt(data.attributes.numberOfBathrooms),
+          constructionDate: data.attributes.constructionDate,
+          offStreetParking: data.attributes.offStreetParking
+        },
+        propertyDescription: data.propertyDescription,
+        company: {
+          name: company.name,
+          logo: company.logo
+        },
+        createdAt: now,
+        updatedAt: now
+      };
+
+      // Validate against propertyMetadataSchema
+      const validationResult = propertyMetadataSchema.safeParse(propertyMetadata);
+      if (!validationResult.success) {
+        throw new Error(
+          `Validation failed: ${validationResult.error.errors.map(e => e.message).join(', ')}`
+        );
+      }
+
+      // Create property first - transform back to flat structure for API compatibility
+      const { floorPlan, salesAgreement, propertyImages } = data;
 
       const newData = {
-        ...propertyData,
-        company,
-        number_of_tokens: parseInt(data.number_of_tokens.replace(/,/g, '')),
-        price_per_token: parseFloat(String(tokenPrice).replace(/,/g, '')),
-        property_price: parseFloat(data.property_price.replace(/,/g, '')),
-        estimated_rental_income: parseFloat(data.estimated_rental_income.replace(/,/g, ''))
+        // property_name: propertyMetadata.propertyName,
+        // address_street: propertyMetadata.address.street,
+        // address_town_city: propertyMetadata.address.townCity,
+        // post_code: propertyMetadata.address.postCode,
+        // property_type: propertyMetadata.propertyType,
+        // property_number: propertyMetadata.address.flatOrUnit,
+        // local_authority: propertyMetadata.address.localAuthority,
+        // planning_permission_Code: propertyMetadata.planningCode,
+        // map: propertyMetadata.map,
+        // building_control_code: propertyMetadata.buildingControlCode,
+        // legal_representative: propertyMetadata.legalRepresentative,
+        // number_of_tokens: propertyMetadata.financials.numberOfTokens,
+        // price_per_token: propertyMetadata.financials.pricePerToken,
+        // property_price: propertyMetadata.financials.propertyPrice,
+        // estimated_rental_income: propertyMetadata.financials.estimatedRentalIncome || 0,
+        // annualServiceCharge: propertyMetadata.financials.annualServiceCharge || 0,
+        // stampDutyTax: propertyMetadata.financials.stampDutyTax || 0,
+        // isStampDutyPaid: propertyMetadata.financials.isStampDutyPaid || false,
+        // isAnnualServiceChargePaid:
+        //   propertyMetadata.financials.isAnnualServiceChargePaid || false,
+        // area: propertyMetadata.attributes?.area || '',
+        // quality: propertyMetadata.attributes?.quality || '',
+        // outdoor_space: propertyMetadata.attributes?.outdoorSpace || '',
+        // no_of_Bedrooms: String(propertyMetadata.attributes?.numberOfBedrooms || ''),
+        // no_of_bathrooms: String(propertyMetadata.attributes?.numberOfBathrooms || ''),
+        // construction_date: propertyMetadata.attributes?.constructionDate || '',
+        // Off_street_parking: propertyMetadata.attributes?.offStreetParking || '',
+        // property_description: propertyMetadata.propertyDescription || '',
+        ...propertyMetadata,
+        company
       };
 
       const property = await createProperty(address, newData);
@@ -210,43 +326,43 @@ export default function CreatePropertyForm() {
       const uploadPromises: Promise<{ type: string; result: string | null }>[] = [];
 
       // Upload floor plan if provided
-      if (floor_plan) {
+      if (floorPlan) {
         setFloorPlanUploadStatus(STATE_STATUS.LOADING);
         const floorPlanFormData = new FormData();
-        floorPlanFormData.append('floor_plan', floor_plan);
+        floorPlanFormData.append('floor_plan', floorPlan);
 
         uploadPromises.push(
           uploadFileToS3(
             address,
             property.propertyId,
             'floor_plan',
-            floor_plan.name,
-            floor_plan.type,
+            floorPlan.name,
+            floorPlan.type,
             floorPlanFormData
           ).then(result => ({ type: 'floor_plan', result }))
         );
       }
 
       // Upload sales agreement if provided
-      if (sales_agreement) {
+      if (salesAgreement) {
         setSalesAgreementUploadStatus(STATE_STATUS.LOADING);
         const salesFormData = new FormData();
-        salesFormData.append('sales_agreement', sales_agreement);
+        salesFormData.append('sales_agreement', salesAgreement);
 
         uploadPromises.push(
           uploadFileToS3(
             address,
             property.propertyId,
             'sales_agreement',
-            sales_agreement.name,
-            sales_agreement.type,
+            salesAgreement.name,
+            salesAgreement.type,
             salesFormData
           ).then(result => ({ type: 'sales_agreement', result }))
         );
       }
 
       // Upload property images
-      for (const file of property_images) {
+      for (const file of propertyImages) {
         setImageUploadStatus(STATE_STATUS.LOADING);
         const formData = new FormData();
         formData.append('property_image', file);
@@ -308,7 +424,6 @@ export default function CreatePropertyForm() {
       setStatus(STATE_STATUS.SUCCESS);
       // You might want to redirect or show success message here
     } catch (error) {
-      console.error('Error submitting form:', error);
       setStatus(STATE_STATUS.ERROR);
 
       // Provide more specific error messages

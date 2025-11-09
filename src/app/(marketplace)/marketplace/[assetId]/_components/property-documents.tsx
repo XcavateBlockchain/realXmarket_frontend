@@ -1,9 +1,9 @@
 import { GoogleMapsEmbed } from '@next/third-parties/google';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Image from 'next/image';
-import { IProperty } from '@/types';
+import { IPropertyMetadata } from '@/types';
 
-export default function PropertyDocuments({ metadata }: { metadata: IProperty }) {
+export default function PropertyDocuments({ metadata }: { metadata: IPropertyMetadata }) {
   return (
     <div className="flex w-full flex-col items-start md:w-1/2">
       <div className="w-full">
@@ -30,7 +30,7 @@ export default function PropertyDocuments({ metadata }: { metadata: IProperty })
               height={424}
               width="100%"
               mode="place"
-              q={`${metadata.address_street},${metadata.address_town_city}`}
+              q={`${metadata.address.street},${metadata.address.townCity}`}
             />
             {/* 
             <Image
