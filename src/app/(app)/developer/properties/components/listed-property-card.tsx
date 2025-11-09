@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { formatAPY, formatNumber, formatPrice } from '@/lib/utils';
-import { IProperty, STATE_STATUS } from '@/types';
+import { IPropertyMetadata, STATE_STATUS } from '@/types';
 import { listProperty } from '@/lib/extrinsic';
 import {
   AlertDialog,
@@ -25,7 +25,7 @@ import { useNodeContext } from '@/context';
 
 export default function ListedPropertyCard({
   listingId,
-  tokenRemaining,
+  tokenRemaining: _tokenRemaining,
   listingExpiry,
   property,
   fileUrls
@@ -34,12 +34,11 @@ export default function ListedPropertyCard({
   listingId: string;
   tokenRemaining: string;
   listingExpiry: string;
-  property: IProperty;
+  property: IPropertyMetadata;
 }) {
   const router = useRouter();
   const { api } = useNodeContext();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
-  const [trasaction, setTransaction] = useState<TransactionStatus>();
   const [showListedModal, setShowListedModal] = useState(false);
   const [passed, setPassed] = useState<boolean>(false);
 
@@ -65,8 +64,8 @@ export default function ListedPropertyCard({
         address,
         1,
         'London',
-        property.price_per_token,
-        property.number_of_tokens,
+        property.financials.pricePerToken,
+        property.financials.numberOfTokens,
         property
       );
       setShowListedModal(true);
@@ -108,7 +107,6 @@ export default function ListedPropertyCard({
           break;
       }
     } catch (error: any) {
-      console.error('Unexpected error:', error);
       toast.error(error?.message || 'Failed to reclaim property');
     } finally {
       setStatus(STATE_STATUS.SUCCESS);
@@ -165,23 +163,13 @@ export default function ListedPropertyCard({
   return (
     <>
       <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
-        {property.fileUrls.length >= 1 ? (
-          // <Image
-          //   src={property.fileUrls[0]}
-          //   alt={property.property_name}
-          //   width={320}
-          //   height={255}
-          //   priority
-          //   className="rounded-t-lg"
-          // />
+        {fileUrls && fileUrls.length >= 1 ? (
           <div className="relative">
             <div className="aspect-square h-[255px] w-full">
               <ImageComponent
                 fill={true}
                 src={fileUrls[0]}
-                alt={property.property_name}
-                // width={320}
-                //   height={255}
+                alt={property.propertyName}
                 className="rounded-t-lg object-cover"
               />
             </div>
@@ -194,7 +182,7 @@ export default function ListedPropertyCard({
 
         <div className="absolute inset-4">
           <span className="items-center gap-1 rounded-lg bg-white px-2 py-[2px] text-[0.75rem] text-primary-200">
-            {property.property_type}
+            {property.propertyType}
           </span>
         </div>
 
@@ -209,14 +197,18 @@ export default function ListedPropertyCard({
         <div className="relative flex flex-col gap-4 px-4">
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between">
-              <dt>{property.property_name}</dt>
+              <dt>{property.propertyName}</dt>
               <dd className="">
-                APY {formatAPY(property.estimated_rental_income, property.property_price)}
+                APY{' '}
+                {formatAPY(
+                  property.financials.estimatedRentalIncome || 0,
+                  property.financials.propertyPrice
+                )}
               </dd>
             </div>
             <div className="flex items-center justify-between">
-              <dt>Tokens {formatNumber(property.number_of_tokens)}</dt>
-              <dd className="">Price {formatPrice(property.property_price)}</dd>
+              <dt>Tokens {formatNumber(property.financials.numberOfTokens)}</dt>
+              <dd className="">Price {formatPrice(property.financials.propertyPrice)}</dd>
             </div>
           </div>
 
@@ -256,14 +248,14 @@ export default function ListedPropertyCard({
         </AlertDialogHeader>
         <AlertDialogContent className="flex max-w-[518px] flex-col items-center gap-10 p-6">
           <div className="flex flex-col items-center space-y-4 p-4 py-1 md:p-5">
-            <div className=" flex size-[140px] items-center justify-center rounded-full bg-[#4E4E4E]/[0.10]">
+            <div className="flex size-[140px] items-center justify-center rounded-full bg-white/[0.10]">
               <Image
                 src={'/icons/tick.svg'}
                 alt="success"
                 width={115}
                 height={115}
                 priority
-                className=" 5pointer-events-none rounded-full"
+                className="pointer-events-none rounded-full"
               />
             </div>
             <h1 className="text-center text-xl font-bold text-black">

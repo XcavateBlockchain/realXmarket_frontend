@@ -7,6 +7,7 @@ import { IProfile } from '@/types';
 import { formatNumber } from '@/lib/utils';
 import { useWalletContext } from '@/context/wallet-context';
 import usePaymentAsset from '@/hooks/use-payment-asset';
+import { formatUnits } from '@/lib/formaters';
 
 export type TokenDetails = {
   tokenAmount: string;
@@ -35,6 +36,7 @@ export default function ProfileHeaderOverview({
   }, 0);
 
   const totalInvested = properties.reduce((total, item) => {
+    console.log('TOTAL INVESTED', item);
     return (
       total +
       parseInt(item.tokensOwned.paidFunds[Number(paymentAsset.id)].replace(/,/g, ''), 10)
@@ -79,7 +81,7 @@ export default function ProfileHeaderOverview({
         <OverviewCard title="Property tokens bought" value={totalTokensOwned} />
         <OverviewCard
           title="Total invested"
-          value={`$${formatNumber(totalInvested, { notation: 'compact' })}`}
+          value={`$${formatNumber(formatUnits(totalInvested, 6), { notation: 'compact' })}`}
         />
         <OverviewCard title="ROI" value={'0%'} />
         <OverviewCard title="Active loan" value={'£0'} />

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { PropertyStatus, PropertyType } from '../property-model';
 
 // export const propertySchema = z.object({
 //   property_name: z.string(),
@@ -175,3 +176,118 @@ export const localAuthorities: { label: string; value: string }[] = [
     value: 'West Herts District Council'
   }
 ];
+
+// Zod schemas for PropertyMetadata and nested types
+export const addressSchema = z.object({
+  street: z.string().min(1, 'Street is required'),
+  townCity: z.string().min(1, 'Town/City is required'),
+  flatOrUnit: z.string().min(1, 'Flat or unit is required'),
+  postCode: z.string().min(1, 'Post code is required'),
+  localAuthority: z.string().min(1, 'Local authority is required'),
+  region: z.string().optional(),
+  location: z.string().optional()
+});
+
+export const financialsSchema = z.object({
+  propertyPrice: z.number().positive('Property price must be positive'),
+  numberOfTokens: z.number().int().positive('Number of tokens must be a positive integer'),
+  pricePerToken: z.number().positive('Price per token must be positive'),
+  estimatedRentalIncome: z.number().nonnegative().optional(),
+  annualServiceCharge: z.number().nonnegative().optional(),
+  stampDutyTax: z.number().nonnegative().optional(),
+  isStampDutyPaid: z.boolean().optional(),
+  isAnnualServiceChargePaid: z.boolean().optional()
+});
+
+export const attributesSchema = z.object({
+  area: z.string().optional(),
+  quality: z.string().optional(),
+  outdoorSpace: z.string().optional(),
+  numberOfBedrooms: z.number().int().nonnegative().optional(),
+  numberOfBathrooms: z.number().int().nonnegative().optional(),
+  constructionDate: z.string().optional(), // ISO date string
+  offStreetParking: z.string().optional()
+});
+
+export const mediaRefsSchema = z.object({
+  images: z
+    .array(z.string().url('Image must be a valid URI'))
+    .min(1, 'At least one image is required'),
+  floorPlan: z.array(z.string().url('Floor plan must be a valid URI')).optional(),
+  salesAgreement: z.array(z.string().url('Sales agreement must be a valid URI')).optional(),
+  otherDocuments: z.array(z.string().url('Document must be a valid URI')).optional()
+});
+
+export const companySchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(1, 'Company name is required'),
+  logo: z.string().url('Logo must be a valid URI').optional()
+});
+
+export const propertyMetadataSchema = z.object({
+  id: z.string().min(1, 'ID is required'),
+  status: z.nativeEnum(PropertyStatus, {
+    errorMap: () => ({ message: 'Invalid property status' })
+  }),
+  developerAddress: z.string().min(1, 'Developer address is required'),
+  propertyName: z.string().min(1, 'Property name is required'),
+  propertyType: z.nativeEnum(PropertyType, {
+    errorMap: () => ({ message: 'Invalid property type' })
+  }),
+  address: addressSchema,
+  planningCode: z.string().optional(),
+  buildingControlCode: z.string().optional(),
+  legalRepresentative: z.string().optional(),
+  map: z.string().url('Map must be a valid URI').optional(),
+  financials: financialsSchema,
+  attributes: attributesSchema.optional(),
+  propertyDescription: z.string().optional(),
+  media: mediaRefsSchema.optional(),
+  company: companySchema.optional(),
+  createdAt: z.string().datetime('Created at must be a valid ISO timestamp'),
+  updatedAt: z.string().datetime('Updated at must be a valid ISO timestamp')
+});
+
+export type PropertyMetadataInput = z.infer<typeof propertyMetadataSchema>;
+
+// Form- schspecificema based on propertyMetadataSchema but adapted for form inputs
+// - Uses string types for financials (form inputs are strings)
+// - Uses File types for media uploads
+// - Makes auto-generated fields optional
+export const propertyMetadataFormSchema = z.object({
+  propertyName: z.string().min(1, 'Property name is required'),
+  propertyType: z.string().min(1, 'Property type is required'), // Accept string, validate enum in onSubmit
+  address: addressSchema,
+  planningCode: z.string().optional(),
+  buildingControlCode: z.string().optional(),
+  legalRepresentative: z.string().optional(),
+  map: z.string().optional(),
+  financials: z.object({
+    propertyPrice: z.string().min(1, 'Property price is required'),
+    numberOfTokens: z.string().min(1, 'Number of tokens is required'),
+    estimatedRentalIncome: z.string().min(1, 'Estimated rental income is required'),
+    annualServiceCharge: z.string().min(1, 'Annual service charge is required'),
+    stampDutyTax: z.string().min(1, 'Stamp duty tax is required'),
+    isStampDutyPaid: z.boolean().optional().default(false),
+    isAnnualServiceChargePaid: z.boolean().optional().default(false)
+  }),
+  attributes: z.object({
+    area: z.string().min(1, 'Area is required'),
+    quality: z.string().min(1, 'Quality is required'),
+    outdoorSpace: z.string().min(1, 'Outdoor space is required'),
+    numberOfBedrooms: z.string().min(1, 'Number of bedrooms is required'),
+    numberOfBathrooms: z.string().min(1, 'Number of bathrooms is required'),
+    constructionDate: z.string().min(1, 'Construction date is required'),
+    offStreetParking: z.string().min(1, 'Off-street parking is required')
+  }),
+  propertyDescription: z.string().min(1, 'Property description is required'),
+  // File uploads - handled separately
+  floorPlan: z.instanceof(File, { message: 'Floor plan is required' }),
+  salesAgreement: z.instanceof(File, { message: 'Sales agreement is required' }),
+  propertyImages: z
+    .array(z.instanceof(File))
+    .min(1, 'At least one property image is required'),
+  otherDocuments: z.array(z.instanceof(File)).optional()
+});
+
+export type PropertyMetadataFormInput = z.infer<typeof propertyMetadataFormSchema>;

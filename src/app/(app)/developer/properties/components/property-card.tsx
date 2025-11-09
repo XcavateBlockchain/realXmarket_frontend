@@ -2,8 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { formatAPY, formatNumber, formatPrice } from '@/lib/utils';
-import { IProperty, STATE_STATUS } from '@/types';
-import { listProperty } from '@/lib/extrinsic';
+import { IPropertyMetadata, STATE_STATUS } from '@/types';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -16,7 +15,6 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { getCookieStorage } from '@/lib/cookie-storage';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ImageComponent from '@/components/image-component';
@@ -24,48 +22,21 @@ import { useSendTransaction } from '@/hooks/use-send-txt';
 import { useNodeContext } from '@/context';
 import { parseUnits } from '@/lib/formaters';
 
-export default function PropertyCard({ property }: { property: IProperty }) {
+export default function PropertyCard({ property }: { property: IPropertyMetadata }) {
   const router = useRouter();
   const { api } = useNodeContext();
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
   const [showListedModal, setShowListedModal] = useState(false);
-  const { sendTransactionAsync, isPending, error, detailedStatus, data } =
-    useSendTransaction();
-
-  async function onListProperty() {
-    setStatus(STATE_STATUS.LOADING);
-    try {
-      const address = await getCookieStorage('accountKey');
-      if (!address) {
-        toast.error('Please connect your wallet');
-        return;
-      }
-      await listProperty(
-        address,
-        2,
-        'SG23 5TH',
-        property.price_per_token,
-        property.number_of_tokens,
-        property
-      );
-      setShowListedModal(true);
-      router.refresh();
-      router.push('/developer/properties?status=listed');
-    } catch (error: any) {
-      setStatus(STATE_STATUS.ERROR);
-      toast.error(error?.error ? error?.error?.message : error?.message);
-    }
-    setStatus(STATE_STATUS.SUCCESS);
-  }
+  const { sendTransactionAsync, isPending, detailedStatus } = useSendTransaction();
 
   async function handleListProperty() {
     setStatus(STATE_STATUS.LOADING);
     if (!api) return;
     try {
-      const region = 2;
+      const region = 1;
       const location = 'SG23 5TH';
-      const tokenAmount = property.number_of_tokens;
-      const parsePricePerToken = parseUnits(String(property.price_per_token), 6);
+      const tokenAmount = property.financials.numberOfTokens;
+      const parsePricePerToken = parseUnits(String(property.financials.pricePerToken), 6);
       const data = JSON.stringify(property);
       const taxPaid = true;
       const listPropertyExtrinsic = api.tx.marketplace.listProperty(
@@ -93,7 +64,6 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       router.refresh();
       router.push('/developer/properties?status=listed');
     } catch (error: any) {
-      console.log(error);
       setStatus(STATE_STATUS.ERROR);
       toast.error(error?.error ? error?.error?.message : error?.message);
     } finally {
@@ -104,23 +74,13 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   return (
     <>
       <div className="relative flex w-[320px] flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card">
-        {property.fileUrls.length >= 1 ? (
-          // <Image
-          //   src={property.fileUrls[0]}
-          //   alt={property.property_name}
-          //   width={320}
-          //   height={255}
-          //   priority
-          //   className="rounded-t-lg"
-          // />
+        {property.fileUrls && property.fileUrls.length >= 1 ? (
           <div className="relative">
             <div className="aspect-square h-[255px] w-full">
               <ImageComponent
                 fill={true}
                 src={property.fileUrls[0]}
-                alt={property.property_name}
-                // width={320}
-                //   height={255}
+                alt={property.propertyName}
                 className="rounded-t-lg object-cover"
               />
             </div>
@@ -133,21 +93,25 @@ export default function PropertyCard({ property }: { property: IProperty }) {
 
         <div className="absolute inset-4">
           <span className="items-center gap-1 rounded-lg bg-white px-2 py-[2px] text-[0.75rem] text-primary-200">
-            {property.property_type}
+            {property.propertyType}
           </span>
         </div>
 
         <div className="relative flex flex-col gap-4 px-4">
           <div className="w-full space-y-2">
             <div className="flex items-center justify-between">
-              <dt>{property.property_name}</dt>
+              <dt>{property.propertyName}</dt>
               <dd className="">
-                APY {formatAPY(property.estimated_rental_income, property.property_price)}
+                APY{' '}
+                {formatAPY(
+                  property.financials.estimatedRentalIncome || 0,
+                  property.financials.propertyPrice
+                )}
               </dd>
             </div>
             <div className="flex items-center justify-between">
-              <dt>Tokens {formatNumber(property.number_of_tokens)}</dt>
-              <dd className="">Price {formatPrice(property.property_price)}</dd>
+              <dt>Tokens {formatNumber(property.financials.numberOfTokens)}</dt>
+              <dd className="">Price {formatPrice(property.financials.propertyPrice)}</dd>
             </div>
           </div>
 
@@ -176,14 +140,14 @@ export default function PropertyCard({ property }: { property: IProperty }) {
         </AlertDialogHeader>
         <AlertDialogContent className="flex max-w-[518px] flex-col items-center gap-10 p-6">
           <div className="flex flex-col items-center space-y-4 p-4 py-1 md:p-5">
-            <div className=" bg-white/[#4E4E4E]/[0.10] flex size-[140px] items-center justify-center rounded-full">
+            <div className="flex size-[140px] items-center justify-center rounded-full bg-white/[0.10]">
               <Image
                 src={'/icons/tick.svg'}
                 alt="success"
                 width={115}
                 height={115}
                 priority
-                className=" 5pointer-events-none rounded-full"
+                className="pointer-events-none rounded-full"
               />
             </div>
             <h1 className="text-center text-xl font-bold text-black">

@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
-import { IProperty, Listing } from '@/types';
+import { IPropertyMetadata, Listing } from '@/types';
 import Link from 'next/link';
 import PropertyCard from './property-card';
 import ListedPropertyCard from './listed-property-card';
 import { generatePresignedUrl } from '@/lib/s3';
 
-export function ViewAllPropertiesCreated({ properties }: { properties: IProperty[] }) {
+export function ViewAllPropertiesCreated({ properties }: { properties: IPropertyMetadata[] }) {
   if (properties.length <= 0) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-6 py-20">

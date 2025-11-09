@@ -3,14 +3,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Icons } from '@/components/icons';
-import { IProperty, ListingDetails, STATE_STATUS } from '@/types';
-import { Check, ImageIcon, LoaderCircle, X } from 'lucide-react';
+import { IPropertyMetadata, ListingDetails, STATE_STATUS } from '@/types';
+import { ImageIcon, LoaderCircle, X } from 'lucide-react';
 import { formatAPY, formatPrice, truncate } from '@/lib/utils';
 import ImageComponent from '@/components/image-component';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { checkBlock } from '@/lib/queries';
-import { reclaimUnsold, requestRefund, TransactionStatus } from '@/lib/submit-transaction';
+import { requestRefund, TransactionStatus } from '@/lib/submit-transaction';
 import { getCookieStorage } from '@/lib/cookie-storage';
 import { toast } from 'sonner';
 import { useNodeContext } from '@/context';
@@ -28,7 +28,7 @@ export default function OwnedPropertyCard({
   fileUrls: string[];
   details: ListingDetails;
   tokenRemaining: any;
-  metaData: IProperty;
+  metaData: IPropertyMetadata;
   price?: any;
 }) {
   const { api } = useNodeContext();
@@ -36,7 +36,7 @@ export default function OwnedPropertyCard({
 
   const [passed, setPassed] = useState<boolean>(false);
   const [status, setStatus] = useState<STATE_STATUS>(STATE_STATUS.IDLE);
-  const [trasaction, setTransaction] = useState<TransactionStatus>();
+  const [_trasaction, setTransaction] = useState<TransactionStatus>();
 
   const blockNumber = Number(details.listingExpiry.replace(/,/g, ''));
 
@@ -80,7 +80,6 @@ export default function OwnedPropertyCard({
           break;
       }
     } catch (error: any) {
-      console.error('Unexpected error:', error);
       toast.error(error?.message || 'Failed to reclaim property');
     } finally {
       setStatus(STATE_STATUS.SUCCESS);
@@ -136,15 +135,13 @@ export default function OwnedPropertyCard({
 
   return (
     <div className="relative flex w-full flex-col gap-6 rounded-lg bg-white pb-6 shadow-property-card transition-all duration-200 hover:translate-y-1">
-      {metaData.fileUrls?.length >= 1 ? (
+      {fileUrls && fileUrls.length >= 1 ? (
         <Link href={`/marketplace/${id}`} className="relative">
           <div className="aspect-square h-[255px] w-full">
             <ImageComponent
               fill={true}
               src={fileUrls[0]}
-              alt={metaData.property_name}
-              // width={320}
-              //   height={255}
+              alt={metaData.propertyName}
               className="rounded-t-lg object-cover"
             />
           </div>
@@ -165,7 +162,7 @@ export default function OwnedPropertyCard({
 
       <div className="absolute inset-4">
         <span className="items-center gap-1 rounded-lg bg-white px-2 py-[2px] text-[0.75rem] text-primary-200">
-          {metaData.property_type}
+          {metaData.propertyType}
         </span>
       </div>
       {passed && (
@@ -186,21 +183,24 @@ export default function OwnedPropertyCard({
               height={32}
               // className="pointer-events-none"
             />
-            <h3 className="text-md mt-1">
-              <span className="capitalize">{metaData.address_street}</span>
+            <h3 className="mt-1 text-base">
+              <span className="capitalize">{metaData.address.street}</span>
               {', '}
-              <span className="capitalize">{metaData.address_town_city}</span>
+              <span className="capitalize">{metaData.address.townCity}</span>
             </h3>
           </div>
           <Icons.heart className="size-8" />
         </div>
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between font-sans text-[0.875rem]/[1.5rem]">
-            <dt className=" font-bold">{truncate(metaData.property_name, 20)}</dt>
+            <dt className=" font-bold">{truncate(metaData.propertyName, 20)}</dt>
             <dd className="">
               APY{' '}
               <span className="font-bold">
-                {formatAPY(metaData.estimated_rental_income, metaData.property_price)}
+                {formatAPY(
+                  metaData.financials.estimatedRentalIncome || 0,
+                  metaData.financials.propertyPrice
+                )}
               </span>
             </dd>
           </div>
@@ -211,7 +211,7 @@ export default function OwnedPropertyCard({
             <dd className="font-sans text-[0.875rem]/[1.5rem]">
               Price{' '}
               <span className="font-bold">
-                {price ? formatPrice(price) : formatPrice(metaData.property_price)}
+                {price ? formatPrice(price) : formatPrice(metaData.financials.propertyPrice)}
               </span>
             </dd>
           </div>
