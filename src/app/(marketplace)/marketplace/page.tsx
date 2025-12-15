@@ -14,6 +14,8 @@ import {
   readFavs
 } from './utils';
 import { AnyJson } from '@polkadot/types/types';
+import Pagination from './components/pagination';
+import { ITEMS_PER_PAGE, DEFAULT_PAGE, FILTER_ALL_VALUE } from './constants';
 import { getCookieStorage } from '@/lib/cookie-storage';
 
 // This doesn't seem to be used anywhere.
@@ -29,6 +31,9 @@ export type RawListing = {
 };
 
 export default async function Marketplace({ searchParams }: MarketplaceProps) {
+  // Pagination settings
+  const currentPage = parseInt(searchParams?.page ?? String(DEFAULT_PAGE), 10);
+
   const rawListings = (await getAllOngoingListings()).filter(Boolean) as RawListing[];
   const listingData = await fetchListingMetadata(rawListings);
   const address = await getCookieStorage('accountKey');
@@ -80,18 +85,19 @@ export default async function Marketplace({ searchParams }: MarketplaceProps) {
       const propPrice = extractPropertyPrice(l, meta);
       const tokenPrice = extractTokenPrice(l, meta);
 
-      if (propertyTypeParam && propertyTypeParam !== 'all') {
+      if (propertyTypeParam && propertyTypeParam !== FILTER_ALL_VALUE) {
         const match =
           propertyType.toLowerCase().replace(/[^a-z0-9]/g, '') ===
           propertyTypeParam.toLowerCase().replace(/[^a-z0-9]/g, '');
         if (!match) return false;
       }
 
-      if (countryParam && countryParam !== 'all') {
+      if (countryParam && countryParam !== FILTER_ALL_VALUE) {
         if (countryFromMeta && !countryFromMeta.includes(countryParam)) return false;
       }
 
-      if (cityParam && cityParam !== 'all' && !city.includes(cityParam)) return false;
+      if (cityParam && cityParam !== FILTER_ALL_VALUE && !city.includes(cityParam))
+        return false;
 
       if (ppMin != null && propPrice != null && propPrice < ppMin) return false;
       if (ppMax != null && propPrice != null && propPrice > ppMax) return false;
@@ -127,6 +133,15 @@ export default async function Marketplace({ searchParams }: MarketplaceProps) {
     } catch {}
   }
 
+  // Calculate pagination
+  const totalListings = filteredListings.length;
+  const totalPages = Math.ceil(totalListings / ITEMS_PER_PAGE);
+
+  // Calculate which listings to show on current page
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedListings = filteredListings.slice(startIndex, endIndex);
+
   return (
     <Shell variant={'basic'} className="gap-10 pb-32">
       <Suspense fallback={<div>Loading filters...</div>}>
@@ -155,21 +170,27 @@ export default async function Marketplace({ searchParams }: MarketplaceProps) {
         </div>
 
         {filteredListings.length ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {filteredListings.map(listing => {
-              const data = listing.metadata ? JSON.parse(listing.metadata) : {};
-              return (
-                <MarketCard
-                  key={listing.listing.listingId}
-                  id={listing.listing.listingId}
-                  fileUrls={listing.fileUrls || []}
-                  details={listing.listing.listingDetails}
-                  tokenRemaining={listing.tokenRemaining}
-                  metaData={data}
-                />
-              );
-            })}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {paginatedListings.map(listing => {
+                const data = listing.metadata ? JSON.parse(listing.metadata) : {};
+                return (
+                  <MarketCard
+                    key={listing.listing.listingId}
+                    id={listing.listing.listingId}
+                    fileUrls={listing.fileUrls || []}
+                    details={listing.listing.listingDetails}
+                    tokenRemaining={listing.tokenRemaining}
+                    metaData={data}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="mt-6">
+              <Pagination currentPage={currentPage} totalPages={totalPages} />
+            </div>
+          </>
         ) : (
           <div />
         )}

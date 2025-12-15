@@ -23,11 +23,12 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebounce } from '@/hooks/use-debounce';
 import { norm, parseRange } from './utils';
 import { Button } from '@/components/ui/button';
+import { FILTER_ALL_VALUE } from './constants';
 
 type SelectLabelType = React.ComponentProps<'select'> & React.ComponentProps<'label'>;
 
 const PROPERTY_TYPE_OPTIONS = [
-  { name: 'All', value: 'all' },
+  { name: 'All', value: FILTER_ALL_VALUE },
   { name: 'Apartment', value: 'apartment' },
   { name: 'Flat', value: 'flat' },
   { name: 'Bungalow', value: 'bungalow' },
@@ -37,7 +38,7 @@ const PROPERTY_TYPE_OPTIONS = [
 ];
 
 const COUNTRY_OPTIONS = [
-  { name: 'All', value: 'all' },
+  { name: 'All', value: FILTER_ALL_VALUE },
   { name: 'United kingdom', value: 'united kingdom' }
 ];
 
@@ -58,7 +59,7 @@ export default function FilterTabs({
 
   const TOWN_CITY_OPTIONS = useMemo(
     () =>
-      [{ name: 'All', value: 'all' }].concat(
+      [{ name: 'All', value: FILTER_ALL_VALUE }].concat(
         townCityOptions && townCityOptions.length ? townCityOptions : []
       ),
     [townCityOptions]
