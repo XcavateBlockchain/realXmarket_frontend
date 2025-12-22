@@ -7,17 +7,17 @@ export default function Privacy() {
         <h1 className=" text-3xl font-bold">Privacy Policy</h1>
 
         <p>
-          1. This privacy policy applies to H&W Investments Limited’s application at
-          www.realxmarket.xcavate.io (the “app”). We at H&W Investments Limited take your
-          privacy seriously. This policy covers the collection, processing and other use of
-          personal data under the Data Protection Act 1998 (“DPA”) and the General Data
-          Protection Regulations (“GDPR”).
+          1. This privacy policy applies to Real Dev Labs Limited’s application at
+          www.realxmarket.xcavate.io (the “app”). We at Real Dev Labs Limited take your privacy
+          seriously. This policy covers the collection, processing and other use of personal
+          data under the Data Protection Act 1998 (“DPA”) and the General Data Protection
+          Regulations (“GDPR”).
         </p>
 
         <p>
           2. For the purpose of the DPA and GDPR we are the data controller and any enquiry
           regarding the collection or processing of your data should be addressed to Alex Ward,
-          H&W Investments Limited, 17 College Road, Waltham Cross, Hertfordshire EN8 9LS.
+          Real Dev Labs Limited, 17 College Road, Waltham Cross, Hertfordshire EN8 9LS.
         </p>
 
         <p>
@@ -89,7 +89,7 @@ export default function Privacy() {
           6. Your payment information (e.g. bank account details) provided when you make a
           purchase from our application is not received or stored by us. That information is
           processed securely and privately by third-party payment processors connected via an
-          API. H&W Investments Limited will not have access to that information at any time. We
+          API. Real Dev Labs Limited will not have access to that information at any time. We
           may share your personal data with our payment processors, but only for the purpose of
           completing the relevant KYC, KYB & AML checks. Such payment processors are banned
           from using your personal data, except to provide these necessary payment services to
@@ -191,7 +191,7 @@ export default function Privacy() {
       <p>
         17. We may disclose your personal data outside of our group: (a) in the event that we
         sell or buy any business or assets, in which case we may disclose your personal data to
-        the prospective seller or buyer of such business or assets; and (b) if H&W Investments
+        the prospective seller or buyer of such business or assets; and (b) if Real Dev Labs
         Limited’s business is bought by a third party, in which case personal data <br />{' '}
         <br />
         held by it about its customers will be one of the assets to transfer to the buyer.
@@ -284,7 +284,7 @@ export default function Privacy() {
         feedback. Please regularly review these policies to be informed of how we are
         protecting your personal data. <br /> <br /> We welcome any queries, comments or
         requests you may have regarding this Privacy Policy. Please do not hesitate to contact
-        us at H&W Investments Limited, 17 College Road, Waltham Cross, Hertfordshire EN8 9LS or
+        us at Real Dev Labs Limited, 17 College Road, Waltham Cross, Hertfordshire EN8 9LS or
         help@xcavate.io. <br /> <br /> Version: August 2025
       </p>
     </Shell>

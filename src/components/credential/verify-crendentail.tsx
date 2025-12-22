@@ -36,7 +36,7 @@ export default function VerifyCredential() {
   };
 
   return (
-    <AlertDialogContent className="size-full gap-2 rounded-lg md:h-auto md:w-[518px] md:gap-6">
+    <AlertDialogContent className="size-full gap-2 rounded-lg py-4 md:h-auto md:w-[518px] md:gap-6">
       {actions[index]}
     </AlertDialogContent>
   );
@@ -58,7 +58,7 @@ function SelectUserType({ setIndex, close }: DialogProps) {
   };
   return (
     <>
-      <header className="flex w-full flex-col items-start gap-2 px-6 pt-6">
+      <header className="flex w-full flex-col items-start gap-2 px-6">
         <div className="flex w-full items-center justify-between">
           <h1 className="font-mona text-[1.125rem]/[1.5rem] font-semibold text-primary-foreground">
             Who are you?

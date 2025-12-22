@@ -84,15 +84,17 @@ export default async function Page({ searchParams }: PageProps) {
     (item): item is ListingInfo => item !== undefined
   );
 
+  // Await async components before storing in queries object
+  const propertiesComponent = await ViewAllPropertiesOwned({ listings });
+  const claimedComponent = await ViewAllPropertiesClaimed({
+    listings: listingsClaimed,
+    tokensOwned,
+    address: address as string
+  });
+
   const queries: IComponent = {
-    properties: <ViewAllPropertiesOwned listings={listings} />,
-    claimed: (
-      <ViewAllPropertiesClaimed
-        listings={listingsClaimed}
-        tokensOwned={tokensOwned}
-        address={address as string}
-      />
-    )
+    properties: propertiesComponent,
+    claimed: claimedComponent
   };
 
   return (
@@ -123,7 +125,7 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-function ViewAllPropertiesOwned({ listings }: { listings: ListingInfo[] }) {
+async function ViewAllPropertiesOwned({ listings }: { listings: ListingInfo[] }) {
   if (listings.length <= 0) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-6 py-20">
@@ -138,35 +140,47 @@ function ViewAllPropertiesOwned({ listings }: { listings: ListingInfo[] }) {
     );
   }
 
+  // Process all listings asynchronously before rendering
+  const processedListings = await Promise.all(
+    listings.map(async listing => {
+      const data = JSON.parse(listing.metadata);
+      const filesArray = data.files || [];
+      const fileUrls = await Promise.all(
+        filesArray
+          .filter((fileKey: string) => {
+            const key = typeof fileKey === 'string' ? fileKey : String(fileKey);
+            return key.split('/')[2] === 'property_image' || key.includes('property_image');
+          })
+          .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+      );
+      const tokenRemaining = listing.tokenRemaining as TokenOwnership;
+
+      return {
+        listing,
+        data,
+        fileUrls,
+        tokenRemaining
+      };
+    })
+  );
+
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {listings.map(async listing => {
-        const data = JSON.parse(listing.metadata);
-        const fileUrls = await Promise.all(
-          data.files
-            .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
-            .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
-        );
-        // const tokenRemaining = tokensOwned[index] as TokenOwnership;
-        const tokenRemaining = listing.tokenRemaining as TokenOwnership;
-
-        return (
-          <OwnedPropertyCard
-            key={listing.listing.assetId}
-            id={listing.listing.assetId}
-            fileUrls={fileUrls}
-            details={listing.listing}
-            tokenRemaining={tokenRemaining?.tokensOwned?.tokenAmount}
-            metaData={data}
-            // price={parseInt(tokenRemaining.tokensOwned.paidFunds.replace(/,/g, ''), 10)}
-          />
-        );
-      })}
+      {processedListings.map(({ listing, data, fileUrls, tokenRemaining }) => (
+        <OwnedPropertyCard
+          key={listing.listing.assetId}
+          id={listing.listing.assetId}
+          fileUrls={fileUrls}
+          details={listing.listing}
+          tokenRemaining={tokenRemaining?.tokensOwned?.tokenAmount}
+          metaData={data}
+        />
+      ))}
     </div>
   );
 }
 
-function ViewAllPropertiesClaimed({
+async function ViewAllPropertiesClaimed({
   listings,
   address
 }: {
@@ -188,33 +202,46 @@ function ViewAllPropertiesClaimed({
     );
   }
 
+  // Process all listings asynchronously before rendering
+  const processedListings = await Promise.all(
+    listings.map(async listing => {
+      const data = JSON.parse(listing.metadata);
+      const filesArray = data.files || [];
+      const fileUrls = await Promise.all(
+        filesArray
+          .filter((fileKey: string) => {
+            const key = typeof fileKey === 'string' ? fileKey : String(fileKey);
+            return key.split('/')[2] === 'property_image' || key.includes('property_image');
+          })
+          .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
+      );
+
+      const tokenOwner = await getTokenOwnerByListingId(
+        address as string,
+        Number(listing.listing.assetId)
+      );
+
+      return {
+        listing,
+        data,
+        fileUrls,
+        tokenOwner
+      };
+    })
+  );
+
   return (
     <div className="grid w-full grid-cols-4 gap-6">
-      {listings.map(async listing => {
-        const data = JSON.parse(listing.metadata);
-        const fileUrls = await Promise.all(
-          data.files
-            .filter((fileKey: string) => fileKey.split('/')[2] == 'property_image')
-            .map(async (fileKey: string) => await generatePresignedUrl(fileKey))
-        );
-
-        const tokenOwner = await getTokenOwnerByListingId(
-          address as string,
-          Number(listing.listing.assetId)
-        );
-
-        return (
-          <OwnedPropertyCard
-            key={listing.listing.assetId}
-            id={listing.listing.assetId}
-            fileUrls={fileUrls}
-            details={listing.listing}
-            tokenRemaining={tokenOwner}
-            metaData={data}
-            // price={parseInt(tokenRemaining.tokensOwned.paidFunds.replace(/,/g, ''), 10)}
-          />
-        );
-      })}
+      {processedListings.map(({ listing, data, fileUrls, tokenOwner }) => (
+        <OwnedPropertyCard
+          key={listing.listing.assetId}
+          id={listing.listing.assetId}
+          fileUrls={fileUrls}
+          details={listing.listing}
+          tokenRemaining={tokenOwner}
+          metaData={data}
+        />
+      ))}
     </div>
   );
 }
